@@ -1,0 +1,23 @@
+:root {
+    --background-default : #ffffff;
+    --border-color-default: #eaeaea;
+    --forecolor-default: #00050a;
+
+    --font-style-default: 'Noto Sans KR', sans-serif;;
+    --font-style-nanum: 'Nanum Gothic', sans-serif;
+    --font-color-default: #212529;
+
+    /*--width-max: 70%;*/
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+    font-family: var(--font-style-default);
+}
+
+html, body{
+    font-size: 16px;
+}
