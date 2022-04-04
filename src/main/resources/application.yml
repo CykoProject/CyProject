@@ -13,6 +13,7 @@ spring:
     prefix: classpath:views/
     suffix: .html
     mode: HTML
+    cache: false
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
