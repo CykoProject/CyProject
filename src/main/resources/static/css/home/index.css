@@ -53,3 +53,58 @@
     font-size: 1.1rem;
     padding: 0.6rem 0 0 0.5rem;
 }
+
+.tab-menu > a {
+    background-color: #eee;
+    position: absolute;
+    left: 812px;
+    background-color: #127caf;
+    width: 70px;
+    height: 35px;
+    text-align: center;
+    padding-top: 7px;
+    color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.tab1 {
+    top: 107px;
+}
+
+.tab2 {
+    top: 145px;
+}
+
+.tab3 {
+    top: 183px;
+}
+
+.tab4 {
+    top: 221px;
+}
+
+.tab5 {
+    top: 259px;
+}
+
+.tab6 {
+    top: 297px;
+}
+
+.tab7 {
+    top: 335px;
+}
+
+.tab8 {
+    top: 373px;
+}
+
+.menu-checked {
+    background-color: #eee !important;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    border-left: none !important;
+    color: black !important;
+}
