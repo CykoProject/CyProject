@@ -34,3 +34,7 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+
+mybatis:
+  mapper-locations: mappers/**/*.xml
+  type-aliases-package: com.example

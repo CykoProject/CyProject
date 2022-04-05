@@ -17,7 +17,3 @@
     box-sizing: border-box;
     font-family: var(--font-style-default);
 }
-
-html, body{
-    font-size: 16px;
-}
