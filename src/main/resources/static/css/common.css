@@ -17,3 +17,13 @@
     box-sizing: border-box;
     font-family: var(--font-style-default);
 }
+
+.home-container {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 89%;
+}
+
+.home-container > div {
+    margin-bottom: 10px;
+}
