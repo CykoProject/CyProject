@@ -16,7 +16,7 @@ const makeProperties = (elem, text, name) => {
     elem.classList.add(tab_list_css[cnt]);
     elem.innerText = text;
     elem.classList.add(name);
-    elem.href = `/home/${name}?iuser=1`;
+    elem.href = `/home/${name}?iuser=${iuser}`;
     tabMenuElem.appendChild(elem);
     cnt++;
 }

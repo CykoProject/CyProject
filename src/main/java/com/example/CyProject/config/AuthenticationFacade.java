@@ -20,6 +20,12 @@ public class AuthenticationFacade {
     }
 
     public int getLoginUserPk() {
-        return getLoginUser().getIuser();
+        int loginUserPk = 0;
+        try {
+            loginUserPk = getLoginUser().getIuser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loginUserPk;
     }
 }
