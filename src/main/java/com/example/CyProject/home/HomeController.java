@@ -3,6 +3,7 @@ package com.example.CyProject.home;
 import com.example.CyProject.home.model.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
+import com.example.CyProject.home.model.profile.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     @Autowired private DiaryRepository diaryRepository;
+    @Autowired private ProfileRepository profileRepository;
 
     @GetMapping
     public String home() {
@@ -26,5 +28,10 @@ public class HomeController {
     public String diary(HomeEntity entity, Model model) {
         model.addAttribute("data", diaryRepository.findByIhostOrderByRdtDesc(entity.getIuser()));
         return "home/diary";
+    }
+
+    @GetMapping("/profile")
+    public String profile() {
+        return "home/profile";
     }
 }
