@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="home/index">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/home/visit.css}">
+    <title>Title</title>
+</head>
+<body>
+    <th:block layout:fragment="content_left">
+
+    </th:block>
+
+    <th:block layout:fragment="content_right">
+        <div class="visit_container">
+<!--      todo 로그인 되어 있는 회원이랑 ihost가 같을 때 비밀 글 나오게      -->
+            <th:block th:each="item : ${data}">
+                <div>
+                    <div>
+<!--                        todo <span></span> (글 번호) 이름 (미니홈피바로가기)-->
+                        <span th:text="${#temporals.format(item.rdt, 'yyyy-MM-dd HH:mm')}"></span>
+                    </div>
+                    <div>
+                        <span th:text="${item.ctnt}"></span>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </th:block>
+</body>
+</html>
