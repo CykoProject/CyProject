@@ -1,0 +1,232 @@
+*{
+    margin: 0;
+}
+
+.header {
+    height:100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    margin-bottom: 15px;
+}
+
+.logo-img {
+    width: 120px;
+    object-fit: contain;
+}
+
+.header-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.search {
+    margin-top: 5px;
+}
+
+.search-conditions {
+    border: solid 3px orange;
+    border-radius: 10px;
+    color: orange;
+    padding: 5px;
+}
+
+.search-text {
+    width: 500px;
+    border: solid 3px orange;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.search-select > button {
+    border: solid 3px orange;
+    border-radius: 10px;
+    padding: 3px;
+    background-color: orange;
+    color: white;
+}
+
+.header-menu {
+    display: flex;
+    justify-content: center;
+}
+
+.header-menu > p {
+    margin-left: 10px;
+}
+
+.ads-img {
+    width: 100px;
+    object-fit: contain;
+}
+
+.container {
+    display: flex;
+}
+
+.left-container {
+    margin-left: 5px;
+    flex: 0.2;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 300px;
+    border: solid 1px #b2b2b2;
+    padding: 5px;
+    justify-content: space-between;
+}
+
+.profile-top {
+    display: flex;
+    justify-content:space-between;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #b2b2b2;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info-top {
+    display: flex;
+    justify-content: space-around;
+}
+
+.profile-info-main {
+    display: flex;
+}
+
+.profile-info-img > img {
+    width: 100px;
+}
+
+.profile-info-count {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info-count-dotori {
+    display: flex;
+}
+
+.profile-info-count-dotori > img {
+    width: 15px;
+}
+
+.profile-info-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-go-to-home {
+    width: 80%;
+    height: 30px;
+    background-color: lightslategray;
+    color : white;
+    border: none;
+    border-radius: 100px;
+    margin-bottom: 10px;
+}
+
+.profile-select {
+    width: 90%;
+}
+
+.on-friends {
+    width: 250px;
+    height: 200px;
+    border: 1px solid #b2b2b2;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.service {
+    width: 250px;
+    height: 200px;
+    border: 1px solid #b2b2b2;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.main-container {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-container-img {
+    display: flex;
+    justify-content: center;
+    /*height: 200px;*/
+    width: 90%;
+    margin-top: 10px;
+    flex: 0.25;
+}
+.news-container {
+    margin-top: 10px;
+    flex: 0.25;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-top {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #b2b2b2;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.news-search {
+    width: 250px;
+    border: solid 2px orange;
+    border-radius: 10px;
+    padding: 3px;
+    margin-right: 5px;
+}
+
+.news-search-button {
+    border: solid 2px orange;
+    border-radius: 10px;
+    padding: 3px;
+    background-color: orange;
+    color: white;
+}
+
+.main-news {
+
+}
+
+.main-webtoons {
+    margin-top: 10px;
+    flex: 0.25;
+}
+
+.main-youtube {
+    margin-top: 10px;
+    flex: 0.25;
+}
+
+.footer {
+    text-align: center;
+    background-color: orange;
+    color: white;
+    bottom: 0;
+    height: 50px;
+}
