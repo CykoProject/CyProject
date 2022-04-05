@@ -35,6 +35,12 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 30MB
+      location: /Users/sua/Desktop/project
+
 mybatis:
   mapper-locations: mappers/**/*.xml
   type-aliases-package: com.example
