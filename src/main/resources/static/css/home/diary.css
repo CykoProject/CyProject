@@ -1,0 +1,43 @@
+.diary-container {
+    overflow: scroll;
+    height: 100%;
+}
+
+.diary-container > div {
+    margin-bottom: 10px;
+}
+
+.date-bar {
+    background-color: #d9e0e3;
+    padding: 10px;
+}
+
+.diary-content {
+    margin-bottom: 30px;
+}
+
+.diary-content > div {
+    padding-left: 20px;
+    padding-top: 15px;
+}
+
+.time-div {
+    margin-bottom: 20px;
+}
+
+.time-div > span {
+    background-color: #ecf1f3;
+    color: #7ba3fa;
+}
+
+.input-cmt {
+    margin-left: 5px;
+    margin-right: 5px;
+    display: flex;
+    gap: 10px;
+}
+
+.ctnt {
+    flex: 1;
+    height: 35px;
+}

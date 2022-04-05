@@ -5,6 +5,7 @@
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/home/diary.css}">
     <title>Title</title>
 </head>
 <body>
@@ -13,6 +14,33 @@
     </th:block>
 
     <th:block layout:fragment="content_right">
+        <div class="diary-container">
+            <th:block th:each="item : ${data}">
+                <div>
+                    <div class="date-bar">
+                        <span th:text="${#temporals.format(item.rdt, 'yyyy.MM.dd')}"></span>
+                    </div>
+                    <div class="diary-content">
+                        <div class="time-div">
+                            <span th:text="${#temporals.format(item.rdt, 'HH:mm')}"></span>
+                        </div>
+                        <div>
+                            <span th:text="${item.ctnt}"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--        TODO 로그인 한 회원만 작성할 수 있게       -->
+                <div class="diary-comment-container">
+                    <form action="" th:method="post">
+                        <div class="input-cmt">
+                            <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
+                            <input type="submit" th:value="댓글등록" class="ctnt-btn">
+                        </div>
+                    </form>
+                </div>
+            </th:block>
+        </div>
         <div>Diary</div>
     </th:block>
 </body>
