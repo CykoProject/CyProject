@@ -15,7 +15,7 @@
     <th:block layout:fragment="content_right">
         <div>
             <form th:method="post" th:action="@{/home/diary/write}">
-                <input type="hidden" name="ihost" th:value="${param.iuser}">
+                <input type="hidden" name="ihost" th:value="${#strings.equals(loginUser, param.iuser)} ? ${loginUser} : 0">
                 <div>
                     <textarea name="ctnt" placeholder="내용"></textarea>
                 </div>

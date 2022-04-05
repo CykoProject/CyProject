@@ -1,5 +1,6 @@
 package com.example.CyProject.home;
 
+import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
@@ -19,6 +20,7 @@ public class HomeController {
 
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private VisitRepository visitRepository;
+    @Autowired private AuthenticationFacade authenticationFacade;
 
     @GetMapping
     public String home() {
@@ -27,25 +29,31 @@ public class HomeController {
 
     @GetMapping("/diary")
     public String diary(HomeEntity entity, Model model) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        model.addAttribute("loginUser", loginUserPk);
         model.addAttribute("data", diaryRepository.findByIhostOrderByRdtDesc(entity.getIuser()));
         return "home/diary/diary";
     }
 
     @GetMapping("/diary/write")
-    public String writeDiary(int iuser) {
-        // todo 본인 미니홈피가 아닐 경우 redirect
+    public String writeDiary(int iuser, Model model) {
+        if(authenticationFacade.getLoginUserPk() != iuser) {
+            return "redirect:/home/diary?iuser="+iuser;
+        }
+        model.addAttribute("loginUser", authenticationFacade.getLoginUserPk());
         return "home/diary/writediary";
     }
     @PostMapping("/diary/write")
     public String writeDiaryProc(DiaryEntity entity) {
-        // todo write.html -> 로그인 되어 있는 사람 iuser, 로그인 되어 있는 사람 iuser랑 미니홈피 iuser 비교
-        diaryRepository.save(entity);
+        if(entity.getIhost() != 0) {
+            diaryRepository.save(entity);
+        }
         return "redirect:/home/diary?iuser=" + entity.getIhost();
     }
 
     @GetMapping("/visit")
     public String visit(int iuser, Model model) {
-        model.addAttribute("data", visitRepository.findByIhostOrderByRdtDesc(iuser));
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "home/visit/visit";
     }
 }
