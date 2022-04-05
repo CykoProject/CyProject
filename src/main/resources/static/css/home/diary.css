@@ -1,6 +1,7 @@
 .diary-container {
     overflow: scroll;
-    height: 100%;
+    overflow-x: hidden;
+    height: 89%;
 }
 
 .diary-container > div {
@@ -40,4 +41,14 @@
 .ctnt {
     flex: 1;
     height: 35px;
+}
+
+.diary-write {
+    text-align: right;
+    padding: 10px 10px;
+}
+
+.diary-write > a {
+    text-decoration: none;
+    font-size: 14px;
 }
