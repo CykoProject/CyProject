@@ -1,35 +1,39 @@
 package com.example.CyProject.main;
 
+import com.example.CyProject.main.model.MovieEntity;
+import com.example.CyProject.main.model.MovieRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.io.*;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class MainNewsApiService {
+public class MainMovieApiService {
 
+    @Autowired
+    MovieRepository movieRepository;
 
-    public static String callNewsApi(String searchTxt) throws JsonProcessingException {
+    public static MovieEntity callMovieApi(String movieNm) throws JsonProcessingException {
         String clientId = "hKGIHBgODN218BhjUUrY"; //애플리케이션 클라이언트 아이디값"
         String clientSecret = "gIOfjwRweQ"; //애플리케이션 클라이언트 시크릿값"
 
-
         String text = null;
         try {
-            text = URLEncoder.encode(searchTxt, "UTF-8");
+            text = URLEncoder.encode(movieNm, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패",e);
         }
 
-        String apiURL = "https://openapi.naver.com/v1/search/news?query=" + text;    // json 결과
+        String apiURL = "https://openapi.naver.com/v1/search/movie?query=" + text + "&display=1";    // json 결과
 
 
         Map<String, String> requestHeaders = new HashMap<>();
@@ -37,8 +41,42 @@ public class MainNewsApiService {
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseBody = get(apiURL,requestHeaders);
 
+//        System.out.println(responseBody);
 
-        return responseBody;
+        JSONObject movieInfo = new JSONObject(responseBody);
+        JSONArray naverMovieResult = movieInfo.getJSONArray("items");
+//        System.out.println(naverMovieResult);
+
+        Iterator<Object> iter = naverMovieResult.iterator();
+
+        List<String> list = new ArrayList<>();
+        while(iter.hasNext()) {
+            JSONObject naverMovie = (JSONObject) iter.next();
+            list.add((String) naverMovie.get("title"));
+            list.add((String) naverMovie.get("image"));
+            list.add((String) naverMovie.get("link"));
+            list.add(naverMovie.get("actor").toString().replaceAll("\\|$", ""));
+            list.add(naverMovie.get("director").toString().replaceAll("\\|$", ""));
+            list.add((String) naverMovie.get(("userRating")));
+        }
+        String title = list.get(0);
+        String image = list.get(1);
+        String link = list.get(2);
+        String actor = list.get(3);
+        String director = list.get(4);
+        String userRating = list.get(5);
+
+        MovieEntity entity = new MovieEntity();
+        entity.setTitle(title);
+        entity.setImage(image);
+        entity.setLink(link);
+        entity.setActor(actor);
+        entity.setDirector(director);
+        entity.setUserRating(userRating);
+
+        System.out.println(entity);
+
+        return entity;
     }
 
 
@@ -96,4 +134,10 @@ public class MainNewsApiService {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
         }
     }
+
+//    @Transactional
+//    public void movieInsert(List titleList) {
+//
+//    }
+
 }

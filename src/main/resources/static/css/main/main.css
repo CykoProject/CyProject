@@ -70,9 +70,10 @@
 
 .left-container {
     margin-left: 5px;
-    flex: 0.2;
+    flex: 0.15;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .profile {
@@ -83,6 +84,8 @@
     border: solid 1px #b2b2b2;
     padding: 5px;
     justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .profile-top {
@@ -164,7 +167,7 @@
 }
 
 .main-container {
-    flex: 0.8;
+    flex: 0.7;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -173,24 +176,34 @@
 .main-container-img {
     display: flex;
     justify-content: center;
-    /*height: 200px;*/
+    height: 300px;
     width: 90%;
     margin-top: 10px;
+    padding: 5px;
     flex: 0.25;
+    border-bottom: 1px solid #b2b2b2;
 }
 .news-container {
     margin-top: 10px;
     flex: 0.25;
     display: flex;
     flex-direction: column;
+    width: 90%;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #b2b2b2;
+
 }
 
 .news-top {
     display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #b2b2b2;
+    justify-content: space-around;
     padding-bottom: 5px;
     margin-bottom: 10px;
+}
+
+.main-news {
+    display: flex;
+    flex-direction: column;
 }
 
 .news-search {
@@ -210,17 +223,81 @@
 }
 
 .main-news {
-
+text-align: center;
 }
 
 .main-webtoons {
     margin-top: 10px;
     flex: 0.25;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #b2b2b2;
+    width: 90%;
 }
 
-.main-youtube {
+.main-movie {
     margin-top: 10px;
     flex: 0.25;
+    width: 90%;
+}
+
+.movie-top {
+    display: flex;
+    justify-content: space-around;
+}
+
+.movie-list {
+    display: flex;
+    justify-content: center;
+}
+
+.right-container {
+    margin-right: 5px;
+    flex: 0.15;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.top-visitor {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 300px;
+    border: solid 1px #b2b2b2;
+    padding: 5px;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.top-content {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 300px;
+    border: solid 1px #b2b2b2;
+    padding: 5px;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.top-friend {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 300px;
+    border: solid 1px #b2b2b2;
+    padding: 5px;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.footer-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 20vh;
 }
 
 .footer {
@@ -228,5 +305,7 @@
     background-color: orange;
     color: white;
     bottom: 0;
-    height: 50px;
+    position: absolute;
+    height: 90px;
+    width: 100%;
 }
