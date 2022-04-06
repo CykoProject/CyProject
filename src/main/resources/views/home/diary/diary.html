@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +15,12 @@
     </th:block>
 
     <th:block layout:fragment="content_right">
-        <div class="diary-container">
+        <div class="diary-write">
+            <th:block th:if="${#strings.equals(loginUser, param.iuser)}">
+                <a th:href="@{/home/diary/write(iuser=${param.iuser})}">글쓰기</a>
+            </th:block>
+        </div>
+        <div class="home-container">
             <th:block th:each="item : ${data}">
                 <div>
                     <div class="date-bar">

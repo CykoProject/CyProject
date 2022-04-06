@@ -16,7 +16,7 @@ const makeProperties = (elem, text, name) => {
     elem.classList.add(tab_list_css[cnt]);
     elem.innerText = text;
     elem.classList.add(name);
-    elem.href = `/home/${name}?iuser=1`;
+    elem.href = `/home/${name}?iuser=${iuser}`;
     tabMenuElem.appendChild(elem);
     cnt++;
 }
@@ -39,7 +39,12 @@ const addTabMenu = (data) => {
     makeProperties(createAElem(), '관리', 'setting');
     cnt = 0;
 
-    const pathName = url.pathname.substr(6);
+    let pathName = url.pathname.substr(6);
+
+    pathName = pathName.substr(0, pathName.indexOf('/') === -1 ? pathName.length : pathName.indexOf("/"));
+
+    console.log(pathName);
+
     if(pathName.length === 0) {
         document.querySelector('.home').classList.add('menu-checked');
     } else {

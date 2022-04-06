@@ -18,6 +18,12 @@
     font-family: var(--font-style-default);
 }
 
-html, body{
-    font-size: 16px;
+.home-container {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 89%;
+}
+
+.home-container > div {
+    margin-bottom: 10px;
 }
