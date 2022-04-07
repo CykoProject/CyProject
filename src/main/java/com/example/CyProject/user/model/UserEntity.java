@@ -6,14 +6,14 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Date;
 
-@Entity
-@Table(name = "user")
 @Getter
 @Setter
+@Entity
+@Table(name = "user")
 @ToString
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
 
     @Id

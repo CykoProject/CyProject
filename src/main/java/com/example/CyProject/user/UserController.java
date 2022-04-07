@@ -1,16 +1,16 @@
 package com.example.CyProject.user;
 
+import com.example.CyProject.user.model.ResultVO;
 import com.example.CyProject.user.model.UserDto;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,5 +39,15 @@ public class UserController {
         dto.setUpw(passwordEncoder.encode(dto.getUpw()));
         userRepository.save(dto.toEntity());
         return "redirect:/user/login";
+    }
+
+    @GetMapping("/idChk/{email}")
+    @ResponseBody
+    public ResultVO idChk(@PathVariable String email){
+        ResultVO result = new ResultVO();
+        UserEntity entity = new UserEntity();
+        entity.setEmail(email);
+        result.setResult(userRepository.findByEmail(entity.getEmail()) == null ? 0 : 1);
+        return result;
     }
 }
