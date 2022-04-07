@@ -33,11 +33,15 @@
                                 <span th:text="${#temporals.format(item.rdt, 'yyyy.MM.dd')}"></span>
                             </div>
                             <div class="item-bar">
-                                <a th:href="@{/home/diary/write(idiary=${item.idiary}, iuser=${item.ihost})}" class="diary-mod">수정</a>
-                                <span>|</span>
-                                <a href="#" class="diary-del" th:data-idiary="${item.idiary}">삭제</a>
-                                <span>|</span>
-                                <a href="#" class="diary-report">신고</a>
+                                <span th:if="${#strings.equals(loginUser, param.iuser)}">
+                                    <a th:href="@{/home/diary/write(idiary=${item.idiary}, iuser=${item.ihost})}" class="diary-mod">수정</a>
+                                    <span>|</span>
+                                    <a href="#" class="diary-del" th:data-idiary="${item.idiary}">삭제</a>
+                                </span>
+                                <span th:if="${!#strings.equals(loginUser, param.iuser)}">
+                                    <span th:if="${#strings.equals(loginUser, param.iuser)}">|</span>
+                                    <a href="#" class="diary-report">신고</a>
+                                </span>
                             </div>
                         </div>
                         <div class="diary-content">
@@ -45,7 +49,7 @@
                                 <span th:text="${#temporals.format(item.rdt, 'HH:mm')}"></span>
                             </div>
                             <div>
-                                <span th:text="${item.ctnt}" class="diary-ctnt"></span>
+                                <span th:utext="${item.ctnt}" class="diary-ctnt"></span>
                             </div>
                         </div>
                     </div>

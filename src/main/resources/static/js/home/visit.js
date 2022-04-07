@@ -1,6 +1,3 @@
-// todo 신고, 수정
-
-
 const visitElem = document.querySelector('.visit-top-menu');
 if(visitElem) {
     const visit_url = new URL(location.href);

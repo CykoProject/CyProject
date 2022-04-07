@@ -142,6 +142,10 @@
     margin-bottom: 10px;
 }
 
+.profile-go-to-home:hover {
+    cursor: pointer;
+}
+
 .profile-select {
     width: 90%;
 }
