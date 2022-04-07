@@ -1,17 +1,41 @@
-.join_main_page div{
+.email_input_email{display: flex; !important;}
+
+.join_main_page{
+    width: 700px;
+    margin: auto;
+}
+
+.join_main_page div ul{
     display: flex;
     flex-direction: column;
-    width: 200px;
 }
 
-#idChk {
-    width: 100px;
-}
-
-.email_input_email{
+.t_bottom {
     display: flex;
+    flex-direction: column;
 }
 
+
+.join_main_page input {width: 500px;height: 40px;font-size: 15px; border-radius: 5px; border-width: thin; border: 1px solid gray; font-family: sans-serif;}
+
+h3 {margin-top: 50px; margin-bottom: 30px;}
+
+#idChk {width: 100px; height: 45px; margin-left: 10px; margin-top: 23px;
+    background-color: white; border: 1px solid gray; border-radius: 10px;
+    border-width: thin; font-size: 16px; font-family: sans-serif; font-weight: bold; color: rgba(40, 37, 37, 0.84);
+}
+
+.t_bottom{margin-bottom: 30px;}
+.t_bottom > input {margin-top: 3px ;}
+
+label{
+    font-weight: bold; font-size: 15px; font-family: sans-serif; color: rgba(40, 37, 37, 0.76);
+}
+
+
+
+
+a{ text-decoration-line: none}
 .cinfo { color: #35C5F0; }
 .cerror { color: #FF7777; }
 .hidden { visibility: hidden; }
