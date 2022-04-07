@@ -1,17 +1,16 @@
 package com.example.CyProject.user.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import javax.persistence.*;
-
 import com.example.CyProject.config.Role;
 import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
 
+@Entity
+@Table(name = "user")
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
