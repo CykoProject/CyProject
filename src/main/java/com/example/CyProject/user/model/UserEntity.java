@@ -1,11 +1,5 @@
 package com.example.CyProject.user.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import javax.persistence.*;
-
 import com.example.CyProject.config.Role;
 import lombok.*;
 

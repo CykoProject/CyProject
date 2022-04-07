@@ -17,7 +17,8 @@
             <form th:method="post" th:action="@{/home/diary/write}">
                 <input type="hidden" name="ihost" th:value="${#strings.equals(loginUser, param.iuser)} ? ${loginUser} : 0">
                 <div>
-                    <textarea name="ctnt" placeholder="내용"></textarea>
+                    <textarea name="ctnt" placeholder="내용" th:if="${modData == null}"></textarea>
+                    <textarea name="ctnt" placeholder="내용" th:if="${modData != null}" th:text="${modData.get().getCtnt()}"></textarea>
                 </div>
                 <div>
                     <input type="submit" value="save">

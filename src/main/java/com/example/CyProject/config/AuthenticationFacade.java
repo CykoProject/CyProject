@@ -28,4 +28,12 @@ public class AuthenticationFacade {
         }
         return loginUserPk;
     }
+
+    public String loginChk(String url) {
+        int pk = getLoginUserPk();
+        if(pk > 0) {
+            return url;
+        }
+        return "redirect:/user/login";
+    }
 }

@@ -12,6 +12,9 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -22,6 +25,7 @@ public class UserController {
 
     @GetMapping("/login")
     public String login() {
+
         return "user/login";
     }
 
@@ -34,7 +38,7 @@ public class UserController {
     public String joinProc(UserDto dto) {
         dto.setUpw(passwordEncoder.encode(dto.getUpw()));
         userRepository.save(dto.toEntity());
-        return "redirect:/home?iuser=1";
+        return "redirect:/user/login";
     }
 
     @GetMapping("/idChk/{email}")
