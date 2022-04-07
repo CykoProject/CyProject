@@ -1,0 +1,17 @@
+.join_main_page div{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+
+#idChk {
+    width: 100px;
+}
+
+.email_input_email{
+    display: flex;
+}
+
+.cinfo { color: #35C5F0; }
+.cerror { color: #FF7777; }
+.hidden { visibility: hidden; }
