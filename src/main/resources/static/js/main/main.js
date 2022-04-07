@@ -1,3 +1,24 @@
+const goHome = document.querySelector('.profile-go-to-home');
+if(goHome) {
+    goHome.addEventListener('click', () => {
+        const popupWidth = 1205;
+        const popupHeight = 600;
+        const popX = (window.screen.width / 2) - (popupWidth / 2);
+        const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
+        const iuser = goHome.dataset.iuser;
+        const option = `width = ${popupWidth}px, height = ${popupHeight}px, left = ${popX}, top = ${popY}`;
+
+        if(iuser > 0) {
+            window.open(`/home?iuser=${iuser}`, 'home', option);
+        } else {
+            location.href = '/user/login';
+        }
+    });
+}
+
+
+
+
 let newsElem = document.querySelector(".main-news");
 // ../../../java/com/example/CyProject/main/MainNewsApiController
 fetch("http://localhost:8090/api/news")

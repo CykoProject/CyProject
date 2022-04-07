@@ -1,6 +1,7 @@
 package com.example.CyProject.home;
 
 import com.example.CyProject.ResultVo;
+import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
@@ -26,7 +27,7 @@ public class HomeRestController {
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private VisitRepository visitRepository;
     @Autowired private AuthenticationFacade authenticationFacade;
-    @Autowired private HomeService homeService;
+    @Autowired private Utils utils;
 
     @GetMapping
     public HomeEntity home(HomeEntity entity) {
@@ -46,12 +47,15 @@ public class HomeRestController {
     }
 
     @GetMapping("/visit")
-    public List<VisitEntity> visitList(VisitEntity entity) {
+    public List<Object> visitList(VisitEntity entity) {
         List<VisitEntity> list = visitRepository.findByIhostOrderByRdtDesc(entity.getIhost());
         for(VisitEntity item : list) {
             item.getIuser().setUpw(null);
         }
-        return list;
+        System.out.println(utils.makeStringNewLine(list));
+        List<Object> obj = utils.makeStringNewLine(list);
+
+        return obj;
     }
 
     @PostMapping("/visit/secret")
@@ -68,7 +72,7 @@ public class HomeRestController {
         ResultVo vo = new ResultVo();
         vo.setResult(0);
         int userPk = authenticationFacade.getLoginUserPk();
-        if(userPk == dto.getIuser().getIuser() || userPk == dto.getIhost()) {
+        if(userPk == dto.getIuser().getIuser() || userPk == dto.getIuser().getIuser()) {
             visitRepository.deleteById(dto.getIvisit());
             vo.setResult(1);
         }

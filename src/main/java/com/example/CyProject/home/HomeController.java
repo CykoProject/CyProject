@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
@@ -39,7 +40,10 @@ public class HomeController {
     public String diary(HomeEntity entity, Model model) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
         model.addAttribute("loginUser", loginUserPk);
-        model.addAttribute("data", diaryRepository.findByIhostOrderByRdtDesc(entity.getIuser()));
+        List<DiaryEntity> diaryList = diaryRepository.findByIhostOrderByRdtDesc(entity.getIuser());
+        List<Object> list = utils.makeStringNewLine(diaryList);
+
+        model.addAttribute("data", list);
         return "home/diary/diary";
     }
 
