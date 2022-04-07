@@ -1,6 +1,6 @@
 package com.example.CyProject.user;
 
-import com.example.CyProject.user.model.ResultVO;
+import com.example.CyProject.ResultVo;
 import com.example.CyProject.user.model.UserDto;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
@@ -43,8 +43,8 @@ public class UserController {
 
     @GetMapping("/idChk/{email}")
     @ResponseBody
-    public ResultVO idChk(@PathVariable String email){
-        ResultVO result = new ResultVO();
+    public ResultVo idChk(@PathVariable String email){
+        ResultVo result = new ResultVo();
         UserEntity entity = new UserEntity();
         entity.setEmail(email);
         result.setResult(userRepository.findByEmail(entity.getEmail()) == null ? 0 : 1);
