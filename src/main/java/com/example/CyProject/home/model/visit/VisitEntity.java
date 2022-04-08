@@ -1,7 +1,9 @@
 package com.example.CyProject.home.model.visit;
 
-import com.example.CyProject.user.model.UserEntity;
-import lombok.*;
+import lombok.Generated;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,9 +13,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class VisitEntity {
 
     @Id
@@ -24,12 +23,10 @@ public class VisitEntity {
 
     private String ctnt;
 
-    @OneToOne
-    @JoinColumn(name = "iuser")
-    private UserEntity iuser;
+    private int iuser;
 
     private boolean secret;
 
-    @Column(insertable = false, updatable = false)
+    @Column(insertable = false)
     private LocalDateTime rdt;
 }

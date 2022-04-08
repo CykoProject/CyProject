@@ -15,14 +15,12 @@
     </th:block>
 
     <th:block layout:fragment="content_right">
-
         <div class="data-pk" th:data-loginuser="${loginUserPk}"></div>
-        <div class="visit-top-menu">
-        <th:block th:if="${!#strings.equals(loginUserPk, 0)}">
-            <a th:href="@{/home/visit/write(iuser=${param.iuser})}">방명록 남기기</a>
-        </th:block>
-        </div>
         <div class="home-container">
+            <div>
+                <a th:href="@{#}">방명록 남기기</a>
+            </div>
+<!--      todo 로그인 되어 있는 회원이랑 ihost가 같을 때 비밀 글 나오게      -->
             <div class="visit-contents">
 
             </div>

@@ -1,53 +1,15 @@
-.visit-top-menu {
-    padding: 10px 10px;
-    text-align: right;
-}
-
-.visit-top-menu > a {
-    text-decoration: none;
-    font-size: 15px;
-}
-
 .visit-secret-bar {
-    padding: 10px 10px;
+    padding: 10px 0px;
     background-color: #ffeed1;
     border-top: 3px solid #eed8b5;
     font-size: 10px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.visit-secret-bar > div:nth-child(2) span {
-    color: gray;
-}
-
-.visit-del:hover {
-    cursor: pointer;
-}
-
-.visit-mod:hover {
-    cursor: pointer;
-}
-
-.visit-secret:hover {
-    cursor: pointer;
-}
-
-.visit-report:hover {
-    cursor: pointer;
 }
 
 .visit-date-bar {
-    padding: 10px 10px;
+    padding: 10px 0px;
     background-color: #aaaec0;
     border-top: 3px solid #9497a4;
     font-size: 10px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.visit-date-bar > div:nth-child(2) span {
-    color: gray;
 }
 
 .visit-ctnt {
