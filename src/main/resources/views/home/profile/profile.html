@@ -25,6 +25,18 @@
 
     <th:block layout:fragment="content_right">
         <div class="profile-container">
+            <th:block th:each="item : ${data}">
+                <div>
+                    <div class="profile-img">
+                        <img th:src="@{'/pic/profile/' + ${item.ihost} +'/' + ${item.img}}" onerror="this.onerror=null; this.src='/img/defaultProfileImg.png'">
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-content">
+                        <span th:text="${item.ctnt}"></span>
+                    </div>
+                </div>
+            </th:block>
         </div>
     </th:block>
 </body>

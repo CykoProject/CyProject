@@ -3,6 +3,7 @@ package com.example.CyProject.home;
 import com.example.CyProject.home.model.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
+import com.example.CyProject.home.model.profile.ProfileEntity;
 import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class HomeController {
 
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private ProfileRepository profileRepository;
+    @Autowired private HomeService homeService;
     @Autowired private VisitRepository visitRepository;
 
     @GetMapping
@@ -52,7 +55,26 @@ public class HomeController {
     }
 
     @GetMapping("/profile")
-    public String profile() {
-        return "home/profile";
+    public String profile(ProfileEntity entity, Model model) {
+        model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIhost()));
+        return "home/profile/profile";
+    }
+
+    @GetMapping("/profile/write")
+    public String writeProfile() {
+        return "home/profile/writeProfile";
+    }
+
+    @PostMapping("/profile/wirte")
+    public String writeProfileProc(MultipartFile img, ProfileEntity entity, Model model) {
+        ProfileEntity param = new ProfileEntity();
+        param.setCtnt(entity.getCtnt());
+
+        int result = homeService.writeProfile(img, entity);
+        if (result == 0) {
+            model.addAttribute("error", "프로필 등록에 실패하였습니다.");
+            return "home/profile/profile";
+        }
+        return "redirect:/home/profile?iuser=" + entity.getIhost();
     }
 }

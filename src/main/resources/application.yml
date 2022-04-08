@@ -16,9 +16,12 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3308/cyworld
-    username: root
-    password: koreait
+#    url: jdbc:mariadb://localhost:3308/cyworld
+#    username: root
+#    password: koreait
+    url: jdbc:mariadb://localhost:3306/cyworld
+    username: korea
+    password: zhfldk
 
   jpa:
     open-in-view: true
@@ -39,7 +42,7 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 30MB
-      location: /Users/sua/Desktop/project
+      location: /Users/sua/Desktop/project/cyworld/image
 
 mybatis:
   mapper-locations: mappers/**/*.xml
