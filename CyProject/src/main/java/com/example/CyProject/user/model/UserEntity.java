@@ -16,6 +16,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Entity
 public class UserEntity {
 
     @Id
