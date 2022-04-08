@@ -14,4 +14,6 @@ public interface VisitRepository extends JpaRepository<VisitEntity, Integer> {
     List<VisitEntity> findByIhostOrderByRdtDesc(int ihost);
 
     Page<VisitEntity> findAllByIhost(int ihost, Pageable pageable);
+
+    int countAllByIhost(int ihost);
 }
