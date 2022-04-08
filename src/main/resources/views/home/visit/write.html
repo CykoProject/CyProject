@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="home/index">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block layout:fragment="content_left">
+
+</th:block>
+
+<th:block layout:fragment="content_right">
+    <div>
+        <form th:method="post" th:action="@{/home/visit/write}">
+            <input type="hidden" name="iuser" th:value="${loginUserPk}">
+            <input type="hidden" name="ihost" th:value="${param.iuser}">
+            <input type="hidden" name="ivisit" th:if="${modData != null}" th:value="${modData.get().getIvisit()}">
+            <div>
+                <span>비밀로하기</span>
+                <input type="checkbox" name="secret" th:value="true" th:if="${modData != null}" th:checked="${modData.get().isSecret() == true}">
+                <input type="checkbox" name="secret" th:value="true" th:if="${modData == null}">
+
+            </div>
+            <div>
+                <textarea name="ctnt" placeholder="내용" th:if="${modData != null}" th:text="${modData.get().getCtnt()}"></textarea>
+                <textarea name="ctnt" placeholder="내용" th:if="${modData == null}"></textarea>
+            </div>
+            <div>
+                <input type="submit" value="save">
+            </div>
+        </form>
+    </div>
+</th:block>
+</body>
+</html>

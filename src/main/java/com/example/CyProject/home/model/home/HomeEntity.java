@@ -1,4 +1,4 @@
-package com.example.CyProject.home.model;
+package com.example.CyProject.home.model.home;
 
 import lombok.Getter;
 import lombok.Setter;

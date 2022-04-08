@@ -1,0 +1,41 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  thymeleaf:
+    check-template-location: true
+    prefix: classpath:views/
+    suffix: .html
+    mode: HTML
+    cache: false
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3308/cyworld
+    username: root
+    password: koreait
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false
+    show-sql: false
+    properties:
+      hibernate.format_sql: true
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+mybatis:
+  mapper-locations: mappers/**/*.xml
+  type-aliases-package: com.example
