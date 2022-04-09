@@ -102,25 +102,30 @@ nameInput.addEventListener('keyup', () => {
 
 
 joinForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
     if(emailTrue === false) {
         alert('중복 확인 부탁~')
+        e.preventDefault();
         return;
+
     }
 
-    if(!upwTrue === false) {
+    if(upwTrue === false) {
         alert('비밀번호 확인 부탁~');
+        e.preventDefault();
         return;
+
     }
 
-    if(!upwChkTrue || !nameTrue){
+    if(!upwChkTrue || !upwTrue){
         alert('비밀번호 서로 다름~')
+        e.preventDefault();
         return;
+
     }
 
-    if(!nameTrue === false){
-        alert('이름 2글자 이상~5글자 미만~')
+    if(nameTrue === false){
+        alert('이름 2글자 이상~5글자 미만~');
+        e.preventDefault();
         return;
     }
 });

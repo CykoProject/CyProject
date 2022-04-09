@@ -6,6 +6,9 @@
     <link rel="stylesheet" th:href="@{/css/user/join.css}">
     <script defer th:src="@{/js/user/join.js}"></script>
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
 </head>
 <header>
     <div class="header">
@@ -37,7 +40,7 @@
 <body>
     <div class="join_main_page">
         <form method="post" action="/user/join" id="joinForm">
-            <h3>회원가입</h3>
+            <h2>회원가입</h2>
             <div class="email_input_email ">
                 <div id="email" class="t_bottom">
                     <label>아이디</label>
@@ -61,12 +64,9 @@
             </div>
             <div id="name" class="t_bottom">
                 <label>이름</label>
-                <input type="text" name="nm" placeholder="name">
+                <input type="text" name="nm" placeholder="이름">
                 <div class="hidden">error</div>
             </div>
-            <button class="join_home">
-                <a href="/">메인으로</a>
-            </button>
             <button type="submit" id="joinBth" >
                 회원가입
             </button>
