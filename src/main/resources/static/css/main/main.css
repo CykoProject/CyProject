@@ -309,6 +309,28 @@ text-align: center;
     width: 90%;
 }
 
+.webtoon-top {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 10px;
+    align-items: center;
+}
+
+.webtoon-move-btn > button {
+    border: solid 2px orange;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: orange;
+    color: white;
+    font-size: 15px;
+    margin: 0px 10px;
+}
+
+.webtoon-list {
+    display: flex;
+    justify-content: space-around;
+}
+
 .main-movie {
     margin-top: 10px;
     flex: 0.25;
