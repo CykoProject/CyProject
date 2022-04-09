@@ -57,6 +57,7 @@ function getNews(searchTxt) {
     });
 }
 
+
 //영화진흥위원회 api
 
 let date = new Date().toLocaleDateString().replace(/\./g, "").replaceAll(" ", "0");
