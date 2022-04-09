@@ -71,3 +71,14 @@ if(visitElem) {
     });
     //============================ 수정 finish ===================================
 }
+
+const visitWriteElem = document.querySelector('.visit-write');
+if(visitWriteElem) {
+    const visitFrm = document.querySelector('.visitFrm');
+    visitFrm.addEventListener('submit', (e) => {
+        const ctntVal = visitFrm.querySelector('textarea').value;
+        if(ctntVal.length === 0) {
+            e.preventDefault();
+        }
+    });
+}

@@ -5,6 +5,7 @@
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
+    <script defer th:src="@{/js/home/visit.js}"></script>
     <title>Title</title>
 </head>
 <body>
@@ -13,8 +14,8 @@
 </th:block>
 
 <th:block layout:fragment="content_right">
-    <div>
-        <form th:method="post" th:action="@{/home/visit/write}">
+    <div class="visit-write">
+        <form class="visitFrm" th:method="post" th:action="@{/home/visit/write}">
             <input type="hidden" name="iuser" th:value="${loginUserPk}">
             <input type="hidden" name="ihost" th:value="${param.iuser}">
             <input type="hidden" name="ivisit" th:if="${modData != null}" th:value="${modData.get().getIvisit()}">
