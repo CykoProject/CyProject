@@ -52,27 +52,28 @@ public class HomeRestController {
         for(VisitEntity item : list) {
             item.getIuser().setUpw(null);
         }
-        System.out.println(utils.makeStringNewLine(list));
         List<Object> obj = utils.makeStringNewLine(list);
 
         return obj;
     }
 
-    @PostMapping("/visit/secret")
-    public ResultVo onVisitSecret(@RequestBody VisitDto dto) {
-        VisitEntity status = visitRepository.save(dto.toEntity());
+    @GetMapping("/visit/secret")
+    public ResultVo onVisitSecret(VisitDto dto) {
+        VisitEntity entity = visitRepository.getById(dto.getIvisit());
+        entity.setSecret(true);
+        VisitEntity status = visitRepository.save(entity);
         ResultVo vo = new ResultVo();
-        vo.setResult(dto.isSecret() == status.isSecret() ? 1 : 0);
+        vo.setResult(entity.isSecret() == status.isSecret() ? 1 : 0);
 
         return vo;
     }
 
-    @GetMapping("/visit/del")
+    @DeleteMapping("/visit/del")
     public ResultVo delVisit(VisitDto dto) {
         ResultVo vo = new ResultVo();
         vo.setResult(0);
         int userPk = authenticationFacade.getLoginUserPk();
-        if(userPk == dto.getIuser().getIuser() || userPk == dto.getIuser().getIuser()) {
+        if(userPk == dto.getIuser().getIuser() || userPk == dto.getIhost()) {
             visitRepository.deleteById(dto.getIvisit());
             vo.setResult(1);
         }

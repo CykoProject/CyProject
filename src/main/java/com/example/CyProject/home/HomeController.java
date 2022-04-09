@@ -68,16 +68,34 @@ public class HomeController {
     }
 
     @GetMapping("/visit")
-    public String visit(int iuser, Model model) {
+    public String visit(Model model, @RequestParam(required = false, defaultValue = "1", value = "page") int page
+            , @RequestParam(required = false, defaultValue = "0", value = "iuser") int iuser) {
+        int category = HomeCategory.VISIT.getCategory();
+        int rowCnt = 10;
+        Page<VisitEntity> list = homeService.visitPaging(iuser, page, rowCnt);
+
+        /*
+         * 페이징처리
+         */
+        PageEntity pageEntity = new PageEntity();
+        pageEntity.setPage(page);
+        pageEntity.setMaxPage(homeService.visitMaxPage(iuser, rowCnt));
+        pageEntity.setRowCnt(rowCnt);
+        System.out.println(pageEntity);
+
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
+        model.addAttribute("data", utils.makeStringNewLine(list));
+        model.addAttribute("pageData", pageEntity);
+
         return "home/visit/visit";
     }
 
     @GetMapping("/visit/write")
     public String writeVisit(Model model, VisitEntity entity, String tab) {
-        if(tab != null) {
+        if(tab != null && (entity.getIuser().getIuser() == entity.getIhost())) {
             model.addAttribute("modData", visitRepository.findById(entity.getIvisit()));
         }
+
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "home/visit/write";
     }
@@ -86,16 +104,5 @@ public class HomeController {
     public String writeVisitProc(VisitEntity entity) {
         visitRepository.save(entity);
         return authenticationFacade.loginChk("redirect:/home/visit?iuser=" + entity.getIhost());
-    }
-
-    @GetMapping("/test")
-    public String list(@RequestParam(required = false, defaultValue = "0", value = "page") int page, @RequestParam(required = false, defaultValue = "0", value = "iuser") int iuser) {
-        System.out.println("TEST 성공");
-        System.out.println(iuser);
-        Page<VisitEntity> listPage = homeService.visitPaging(iuser, page);
-        for(VisitEntity list : listPage) {
-            System.out.println(list);
-        }
-        return "home/index";
     }
 }
