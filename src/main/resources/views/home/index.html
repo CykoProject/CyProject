@@ -1,0 +1,42 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title></title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/home/index.css}">
+    <script defer th:src="@{/js/index.js}"></script>
+</head>
+<body>
+    <div class="wrap">
+        <div class="home-bg">
+            <div class="section left">
+                <div class="header cnt">
+                    <p>TODAY : 11 | TOTAL : 111</p>
+                </div>
+                <div class="content">
+                    <th:block layout:fragment="content_left">
+
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="section right">
+                <div class="header title">
+                    <h1>~~의 미니홈피</h1>
+                </div>
+                <div class="content">
+                    <th:block layout:fragment="content_right">
+
+                    </th:block>
+                </div>
+            </div>
+            <div class="tab-menu">
+                <a th:href="@{/home(iuser=${param.iuser})}" class="tab1 home"><div>홈</div></a>
+                <a th:href="@{/home/profile(iuser=${param.iuser})}" class="tab2 profile"><div>프로필</div></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
