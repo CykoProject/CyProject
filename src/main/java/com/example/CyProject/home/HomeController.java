@@ -36,14 +36,18 @@ public class HomeController {
         return "home/index";
     }
 
+
+// ======================= 방명록, 다이어리, 주크박스 =====================================================================================
+
+    // 다이어리 ============================================================================================
     @GetMapping("/diary")
     public String diary(HomeEntity entity, Model model) {
+        // TODO - 페이징 처리
         int loginUserPk = authenticationFacade.getLoginUserPk();
-        model.addAttribute("loginUser", loginUserPk);
         List<DiaryEntity> diaryList = diaryRepository.findByIhostOrderByRdtDesc(entity.getIuser());
-        List<Object> list = utils.makeStringNewLine(diaryList);
 
-        model.addAttribute("data", list);
+        model.addAttribute("loginUser", loginUserPk);
+        model.addAttribute("data", utils.makeStringNewLine(diaryList));
         return "home/diary/diary";
     }
 
@@ -66,22 +70,28 @@ public class HomeController {
         }
         return "redirect:/home/diary?iuser=" + entity.getIhost();
     }
+    // 다이어리 ============================================================================================
 
+    // 방명록 ============================================================================================================
     @GetMapping("/visit")
     public String visit(Model model, @RequestParam(required = false, defaultValue = "1", value = "page") int page
             , @RequestParam(required = false, defaultValue = "0", value = "iuser") int iuser) {
         int category = HomeCategory.VISIT.getCategory();
-        int rowCnt = 10;
+        // TODO - 동적 페이징
+        int rowCnt = 3;
+        int pageCnt = 3;
+        int maxPage = homeService.visitMaxPage(iuser, rowCnt);
         Page<VisitEntity> list = homeService.visitPaging(iuser, page, rowCnt);
 
         /*
          * 페이징처리
          */
-        PageEntity pageEntity = new PageEntity();
-        pageEntity.setPage(page);
-        pageEntity.setMaxPage(homeService.visitMaxPage(iuser, rowCnt));
-        pageEntity.setRowCnt(rowCnt);
-        System.out.println(pageEntity);
+        PageEntity pageEntity = new PageEntity.Builder()
+                .page(page)
+                .pageCnt(pageCnt)
+                .maxPage(maxPage)
+                .rowCnt(rowCnt)
+                .build();
 
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", utils.makeStringNewLine(list));
@@ -102,7 +112,14 @@ public class HomeController {
 
     @PostMapping("/visit/write")
     public String writeVisitProc(VisitEntity entity) {
+        if(entity.getCtnt().trim().length() == 0) {
+            return authenticationFacade.loginChk("redirect:/home/visit?iuser=" + entity.getIhost());
+        }
         visitRepository.save(entity);
         return authenticationFacade.loginChk("redirect:/home/visit?iuser=" + entity.getIhost());
     }
+    // 방명록 ============================================================================================================
+
+
+// ======================= 방명록, 다이어리, 주크박스 =====================================================================================
 }

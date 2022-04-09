@@ -71,13 +71,15 @@
             </div>
         </div>
     <div class="pagination">
-        <a th:href="@{/home/visit(iuser=${param.iuser}, page=${(pageData.pop - 1) * pageData.rowCnt})}" th:if="${pageData.getPop() != 1}" th:text="'<'"></a>
-        <th:block th:each="page : ${#numbers.sequence(1, pageData.maxPage)}">
+        <a th:href="@{/home/visit(iuser=${param.iuser}, page=${(pageData.pop - 1) * pageData.rowCnt})}" th:if="${pageData.pop != 1}" th:text="'<'"></a>
+        <th:block th:each="page : ${#numbers.sequence(pageData.startPage, pageData.lastPage)}">
             <a th:href="@{/home/visit(iuser=${param.iuser}, page=${page})}"
                th:text="${page}"
+               th:if="${(page <= pageData.maxPage) && (!#strings.equals(param.page, page))}"
                th:classappend="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))} ? 'cur-page' : ''"></a>
-
+            <span th:if="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))}" class="cur-page" th:text="${page}"></span>
         </th:block>
+        <a th:href="@{/home/visit(iuser=${param.iuser}, page=${pageData.lastPage + 1})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
     </div>
     </th:block>
 </body>
