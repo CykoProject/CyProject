@@ -142,12 +142,83 @@
     margin-bottom: 10px;
 }
 
-.profile-go-to-home:hover {
-    cursor: pointer;
-}
-
 .profile-select {
     width: 90%;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    height: 300px;
+    border: solid 1px #b2b2b2;
+    padding: 5px;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.login-img-box {
+    width: 220px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.login-img-box > img {
+    width: 200px;
+    object-fit: contain;
+}
+
+.login-section {
+    display: flex;
+    padding-top: 10px;
+    border-top: solid 1px #b2b2b2;
+    width: 100%;
+}
+
+.login-input {
+    flex: 0.7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-btn {
+    flex: 0.3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-btn > button {
+    border: solid 3px orange;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.join-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.join-section > button {
+    border: solid 3px orange;
+    border-radius: 10px;
+    padding: 3px;
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
 }
 
 .on-friends {
@@ -238,6 +309,28 @@ text-align: center;
     width: 90%;
 }
 
+.webtoon-top {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 10px;
+    align-items: center;
+}
+
+.webtoon-move-btn > button {
+    border: solid 2px orange;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: orange;
+    color: white;
+    font-size: 15px;
+    margin: 0px 10px;
+}
+
+.webtoon-list {
+    display: flex;
+    justify-content: space-around;
+}
+
 .main-movie {
     margin-top: 10px;
     flex: 0.25;
@@ -247,11 +340,28 @@ text-align: center;
 .movie-top {
     display: flex;
     justify-content: space-around;
+    padding-bottom: 10px;
+    align-items: center;
 }
 
 .movie-list {
     display: flex;
     justify-content: center;
+}
+
+.movie-move-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.movie-move-btn > button {
+    border: solid 2px orange;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: orange;
+    color: white;
+    font-size: 15px;
+    margin: 0px 10px;
 }
 
 .right-container {
