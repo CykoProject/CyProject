@@ -16,6 +16,7 @@ public class UserDto {
     private String email;
     private String nm;
     private Role role;
+    private String oldUpw;
 
     public UserEntity toEntity() {
         UserEntity user = UserEntity.builder()
