@@ -17,6 +17,7 @@ public class UserDto {
     private String nm;
     private Role role;
     private String oldUpw;
+    private String newUpw;
 
     public UserEntity toEntity() {
         UserEntity user = UserEntity.builder()

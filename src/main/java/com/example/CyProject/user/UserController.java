@@ -51,10 +51,6 @@ public class UserController {
 
     @PostMapping("/mypage")
     public String mypageProc(UserDto dto) {
-        if(passwordEncoder.matches(dto.getOldUpw(), dto.getUpw())){
-            dto.setUpw(passwordEncoder.encode(dto.getUpw()));
-        }
-        userRepository.save(dto.toEntity());
         return "redirect:/home?iuser=1";
     }
 
