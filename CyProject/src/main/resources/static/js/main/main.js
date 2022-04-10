@@ -1,3 +1,22 @@
+//미니홈피 바로가기
+const goHome = document.querySelector('.profile-go-to-home');
+if(goHome) {
+    goHome.addEventListener('click', () => {
+        const popupWidth = 1205;
+        const popupHeight = 600;
+        const popX = (window.screen.width / 2) - (popupWidth / 2);
+        const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
+        const iuser = goHome.dataset.iuser;
+        const option = `width = ${popupWidth}px, height = ${popupHeight}px, left = ${popX}, top = ${popY}`;
+
+        if(iuser > 0) {
+            window.open(`/home?iuser=${iuser}`, 'home', option);
+        } else {
+            location.href = '/user/login';
+        }
+    });
+}
+
 let newsElem = document.querySelector(".main-news");
 // ../../../java/com/example/CyProject/main/MainNewsApiController
 fetch("http://localhost:8090/api/news")
@@ -153,8 +172,19 @@ getWebtoon();
 
 //영화진흥위원회 api
 
-let date = new Date().toLocaleDateString().replace(/\./g, "").replaceAll(" ", "0");
-let yesterday = Number(date) - 1;
+function getYesterday(){
+    var loadDt = new Date();
+    var day1 = new Date(Date.parse(loadDt) - 1 * 1000 * 60 * 60 * 24); //하루전
+
+    var year = day1.getFullYear();
+    var month = ("0" + (1 + day1.getMonth())).slice(-2);
+    var day = ("0" + day1.getDate()).slice(-2);
+
+    return year + month + day;
+}
+
+let yesterday = getYesterday();
+console.log(yesterday)
 
 const movieElem = document.querySelector(".main-movie");
 const movieListElem = document.querySelector(".movie-list");

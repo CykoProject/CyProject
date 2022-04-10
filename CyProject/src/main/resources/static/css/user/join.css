@@ -1,0 +1,36 @@
+.email_input_email{display: flex; !important;}
+
+.join_main_page{ width: 700px; margin: auto; padding-left: 200px;}
+
+.join_main_page div ul{ display: flex; flex-direction: column; }
+
+.t_bottom { display: flex; flex-direction: column; }
+
+.join_main_page input {width: 400px;height: 40px;font-size: 15px; border-radius: 5px; border-width: thin; border: 1px solid gray; font-family: 'Noto Sans KR', sans-serif;}
+
+h2 {margin-top: 140px; margin-bottom: 30px; font-family: 'Noto Sans KR', sans-serif;}
+
+input {
+    padding-left: 10px;
+}
+
+#idChk {width: 100px; height: 45px; margin-left: 10px; margin-top: 23px;
+    background-color: white; border: 1px solid gray; border-radius: 7px; font-family: 'Noto Sans KR', sans-serif;
+    border-width: thin; font-size: 16px; font-weight: bold; color: rgba(40, 37, 37, 0.84);
+}
+
+#joinBth {
+    margin-left: 70px; background-color: orange; width: 250px; height: 55px; border-radius: 7px ; font-size: 18px; border-width: thin; font-family: 'Noto Sans KR', sans-serif; color: white; border: 1px solid orange;
+}
+
+.t_bottom{margin-bottom: 15px;}
+.t_bottom > input {margin-top: 3px ;}
+
+label{
+    font-weight: bold; font-size: 15px; font-family: sans-serif; color: rgba(40, 37, 37, 0.76); font-family: 'Noto Sans KR', sans-serif;
+}
+
+a{ text-decoration-line: none}
+.cinfo { color: #35C5F0; }
+.cerror { color: #FF7777; }
+.hidden { visibility: hidden; }
