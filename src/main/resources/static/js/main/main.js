@@ -1,7 +1,7 @@
 const goHome = document.querySelector('.profile-go-to-home');
 if(goHome) {
     goHome.addEventListener('click', () => {
-        const popupWidth = 1205;
+        const popupWidth = 1189;
         const popupHeight = 600;
         const popX = (window.screen.width / 2) - (popupWidth / 2);
         const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;

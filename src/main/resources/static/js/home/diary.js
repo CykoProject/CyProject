@@ -4,6 +4,8 @@ if(diaryELem) {
     const removeElem = (elem) => {
         elem.remove();
     }
+
+    // 삭제 ========================================================================================================
     const delFetch = (url, elem) => {
         fetch(url, {
             method : 'DELETE',
@@ -30,7 +32,9 @@ if(diaryELem) {
             }
         });
     });
+    // 삭제 ========================================================================================================
 
+    // 신고 ========================================================================================================
     const diaryReportBtnArr = document.querySelectorAll('.diary-report');
     diaryReportBtnArr.forEach(item => {
         item.addEventListener('click', (e) => {
@@ -40,7 +44,9 @@ if(diaryELem) {
             // TODO 신고 사유 모달창
         });
     });
+    // 신고 ========================================================================================================
 
+    // 달력 ========================================================================================================
     const diaryCalendarElem = document.querySelector('.diary-calendar');
     const today = new Date();
     const year = today.getFullYear();
@@ -50,6 +56,7 @@ if(diaryELem) {
     diaryCalendarElem.value = dateString;
 
     diaryCalendarElem.addEventListener('change', () => {
-        // TODO 페이징처리 해야함
+        // TODO href => orderby rdt
     });
+    // 달력 ========================================================================================================
 }
