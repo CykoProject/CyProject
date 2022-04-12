@@ -11,8 +11,6 @@ import org.springframework.data.domain.Page;
 @ToString
 public class PageEntity {
 
-    @Autowired private HomeService homeService;
-
     private int maxPage;
     private int rowCnt;
     private int pageCnt;
@@ -26,11 +24,7 @@ public class PageEntity {
         private int maxPage;
         private int rowCnt;
         private int pageCnt;
-        private int startPage;
-        private int lastPage;
         private int page;
-        private int pop;
-        private int ihost;
 
 
         public Builder() {
@@ -66,8 +60,9 @@ public class PageEntity {
         this.page = builder.page;
         this.pageCnt = builder.pageCnt;
         this.rowCnt = builder.rowCnt;
+        this.maxPage = builder.maxPage;
 
-        this.pop = (int) Math.ceil((double) this.page / this.rowCnt);
+        this.pop = (int) Math.ceil((double) this.page / this.pageCnt);
         this.lastPage = pageCnt * pop;
         this.startPage = lastPage - (pageCnt - 1);
     }
