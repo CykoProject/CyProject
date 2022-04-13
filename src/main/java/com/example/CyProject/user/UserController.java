@@ -18,10 +18,10 @@ public class UserController {
 
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserRepository userRepository;
+    @Autowired private UserService service;
 
-    @GetMapping("/login")
+    @RequestMapping(value = {"/login"},method = {RequestMethod.GET, RequestMethod.POST})
     public String login() {
-
         return "user/login";
     }
 

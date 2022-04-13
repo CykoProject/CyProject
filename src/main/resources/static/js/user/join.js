@@ -11,7 +11,7 @@ const upwInput = upwElem.querySelector('input');
 
 //upwChk
 const upwChkElem = document.querySelector('#upwChk');
-const upwChkInput = upwChkElem.querySelector('input')
+const upwChkInput = upwChkElem.querySelector('input');
 
 //name
 const nameElem = document.querySelector('#name');
@@ -102,6 +102,7 @@ nameInput.addEventListener('keyup', () => {
 
 
 joinForm.addEventListener('submit', (e) => {
+
     if(emailTrue === false) {
         alert('이메일 중복 확인해 주세요.')
         e.preventDefault();

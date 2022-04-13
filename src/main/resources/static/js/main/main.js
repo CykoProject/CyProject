@@ -313,3 +313,11 @@ const infowindow = new kakao.maps.InfoWindow({
 });
 // 인포윈도우를 지도에 표시한다
 infowindow.open(map, marker)
+
+
+//회원가입 페이지 이동
+const join_section = document.querySelector('.join-section');
+
+join_section.addEventListener('click' , () => {
+    location.href = `/user/join`
+});
