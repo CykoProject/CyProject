@@ -47,6 +47,16 @@
                 </div>
             </th:block>
         </div>
+        <div class="pagination">
+            <th:block th:each="page : ${#numbers.sequence(pageData.startPage, pageData.lastPage)}">
+                <a th:href="@{/home/diary(iuser=${param.iuser}, page=${page})}"
+                   th:text="${page}"
+                   th:if="${(page <= pageData.maxPage) && (!#strings.equals(param.page, page)) && (!#strings.equals(pageData.startPage, page) || !#strings.isEmpty(param.page))}"
+                   th:classappend="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))} ? 'cur-page' : ''"></a>
+                <span th:if="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))}" class="cur-page" th:text="${page}"></span>
+            </th:block>
+            <a th:href="@{/home/diary(iuser=${param.iuser}, page=${pageData.lastPage + 1})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
+        </div>
     </th:block>
 </body>
 </html>
