@@ -46,4 +46,12 @@ public class UserController {
         result.setResult(userRepository.findByEmail(entity.getEmail()) == null ? 0 : 1);
         return result;
     }
+
+    @PostMapping("/pwChk")
+    @ResponseBody
+    public ResultVo pwChk(UserEntity entity, String pw){
+        ResultVo result = new ResultVo();
+        result.setResult(passwordEncoder.matches(entity.getUpw(),pw) ? 1 : 0);
+        return result;
+    }
 }
