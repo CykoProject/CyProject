@@ -68,6 +68,7 @@
             </th:block>
         </div>
         <div class="pagination">
+            <a th:href="@{/home/visit(iuser=${param.iuser}, page=${(pageData.pop - 1) * pageData.pageCnt})}" th:if="${pageData.pop != 1}" th:text="'<'"></a>
             <th:block th:each="page : ${#numbers.sequence(pageData.startPage, pageData.lastPage)}">
                 <a th:href="@{/home/diary(iuser=${param.iuser}, page=${page})}"
                    th:text="${page}"

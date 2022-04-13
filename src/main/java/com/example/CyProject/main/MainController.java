@@ -1,6 +1,6 @@
 package com.example.CyProject.main;
 
-import com.example.CyProject.security.AuthenticationFacade;
+import com.example.CyProject.config.AuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

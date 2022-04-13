@@ -1,4 +1,4 @@
-package com.example.CyProject.security;
+package com.example.CyProject.config;
 
 import com.example.CyProject.user.model.UserEntity;
 import lombok.AllArgsConstructor;

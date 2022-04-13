@@ -1,6 +1,6 @@
 package com.example.CyProject.user.model;
 
-import com.example.CyProject.security.Role;
+import com.example.CyProject.config.Role;
 import lombok.*;
 
 import javax.persistence.*;

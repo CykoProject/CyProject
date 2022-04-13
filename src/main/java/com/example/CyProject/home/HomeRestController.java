@@ -2,7 +2,7 @@ package com.example.CyProject.home;
 
 import com.example.CyProject.ResultVo;
 import com.example.CyProject.Utils;
-import com.example.CyProject.security.AuthenticationFacade;
+import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
