@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/index">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,41 +11,16 @@
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
 </head>
 <body>
-<header>
-    <div class="header">
-        <img class="logo-img" src="https://cdn.senmoney.co.kr/news/photo/202006/1999_2098_4524.jpg" alt=""/>
 
-        <div class="header-center">
-            <div class="header-menu">
-                <p>미니홈피</p>
-                <p>인기글</p>
-                <p>쇼핑</p>
-            </div>
-            <div class="search">
-                <div class="search-select">
-                    <select class="search-conditions">
-                        <option value="0">게시글</option>
-                        <option value="1">친구</option>
-                    </select>
-                    <input type="text" class="search-text">
-                    <button>검색</button>
-                </div>
-            </div>
-        </div>
-        <img class="ads-img"
-             src="https://coinpan.com/files/attach/images/198/962/872/096/fdae5cae18bbd697d9bd9df0f674821a.jpg" alt=""/>
-
-    </div>
-</header>
-
+<th:block layout:fragment="container">
 <div class="container">
 
     <div class="left-container">
-        <div class="profile">
+        <div th:if="${loginUserPk > 0}" class="profile">
             <div class="profile-top">
-                <p>손주영</p>
-                <p>내 정보수정</p>
-                <button>로그아웃</button>
+                <p th:text="${loginUser.getNm()}"></p>
+                <button><a th:href="@{/user/mypage}">내 정보수정</a></button>
+                <button><a th:href="@{/user/logout}">로그아웃</a></button>
             </div>
 
             <div class="profile-info">
@@ -79,26 +56,26 @@
             </div>
         </div>
 
-        <div class="login">
+        <div th:unless="${loginUserPk > 0}" class="login">
             <div class="login-img-box">
                 <img class="login-img" src="https://cdn.senmoney.co.kr/news/photo/202006/1999_2098_4524.jpg" alt=""/>
             </div>
-
+            <form method="post" action="/user/login">
             <div class="login-section">
 
                 <div class="login-input">
-                    <input type="text" placeholder="아이디를 입력하세요."/>
-                    <input type="password" placeholder="비밀번호를 입력하세요."/>
+                    <input type="text" name="email" placeholder="아이디를 입력하세요."/>
+                    <input type="password" name="upw" placeholder="비밀번호를 입력하세요."/>
                 </div>
 
                 <div class="login-btn">
-                    <button>로그인</button>
+                    <button type="submit">로그인</button>
                 </div>
 
             </div>
-
+            </form>
             <div class="join-section">
-                <button>회원가입</button>
+                <button><a class="join-btn" href="/user/join">회원가입</a></button>
             </div>
         </div>
 
@@ -200,14 +177,8 @@
     </div>
 
 </div>
-<div class="footer-wrapper">
-    <footer class="footer">
-        &copy; 2022 Cyworld KoreaIt Team, Inc
-        <a th:href="@{https://github.com/CykoProject/CyProject}" target="_blank">
-        <i class="fa-brands fa-github"></i>
-        </a>
-    </footer>
-</div>
+</th:block>
+
 <script src="../../static/js/main/main.js"></script>
 </body>
 </html>

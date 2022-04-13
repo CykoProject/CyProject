@@ -34,7 +34,7 @@ public class UserController {
     public String joinProc(UserDto dto) {
         dto.setUpw(passwordEncoder.encode(dto.getUpw()));
         userRepository.save(dto.toEntity());
-        return "redirect:/user/login";
+        return "redirect:/iuser/logn";
     }
 
     @GetMapping("/idChk/{email}")

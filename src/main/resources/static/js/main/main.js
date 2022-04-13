@@ -17,6 +17,32 @@ if(goHome) {
     });
 }
 
+//게시글, 친구 검색
+
+
+const headerSearchBtn = document.querySelector(".search-btn");
+
+headerSearchBtn.addEventListener("click", () => {
+    let headerSelectVal = document.querySelector(".search-conditions").value;
+    let headerSearchVal = document.querySelector(".search-text").value;
+
+    console.log(headerSelectVal);
+    console.log(headerSearchVal);
+    fetch("http://localhost:8090/friendSearch", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "search": headerSearchVal
+        }),
+    }).then(res => {
+        console.log(res)
+        return res.json();
+    }).catch(e => console.log(e.message));
+})
+
+
 let newsElem = document.querySelector(".main-news");
 // ../../../java/com/example/CyProject/main/MainNewsApiController
 fetch("http://localhost:8090/api/news")

@@ -39,11 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/user/login")
                 .usernameParameter("email")
                 .passwordParameter("upw")
-                .defaultSuccessUrl("/home")
+                .defaultSuccessUrl("/")
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout")) // 이 주소로 들어오면 controller 에 없어도 로그아웃 시켜줌
                 .invalidateHttpSession(true)
-                .logoutSuccessUrl("/user/login"); // 로그아웃 성공 후
+                .logoutSuccessUrl("/"); // 로그아웃 성공 후
     }
 }
