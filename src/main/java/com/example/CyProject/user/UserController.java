@@ -1,3 +1,5 @@
+
+
 package com.example.CyProject.user;
 
 import com.example.CyProject.ResultVo;
@@ -16,10 +18,10 @@ public class UserController {
 
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserRepository userRepository;
+    @Autowired private UserService service;
 
-    @GetMapping("/login")
+    @RequestMapping(value = {"/login"},method = {RequestMethod.GET, RequestMethod.POST})
     public String login() {
-
         return "user/login";
     }
 
@@ -32,7 +34,7 @@ public class UserController {
     public String joinProc(UserDto dto) {
         dto.setUpw(passwordEncoder.encode(dto.getUpw()));
         userRepository.save(dto.toEntity());
-        return "redirect:/user/login";
+        return "redirect:/iuser/logn";
     }
 
     @GetMapping("/idChk/{email}")

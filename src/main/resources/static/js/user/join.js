@@ -11,7 +11,7 @@ const upwInput = upwElem.querySelector('input');
 
 //upwChk
 const upwChkElem = document.querySelector('#upwChk');
-const upwChkInput = upwChkElem.querySelector('input')
+const upwChkInput = upwChkElem.querySelector('input');
 
 //name
 const nameElem = document.querySelector('#name');
@@ -70,13 +70,13 @@ emailChk.addEventListener('click', (e) => {
 
 upwInput.addEventListener('keyup',  (e)=> {
     e.preventDefault();
-   if(!upwRegex.test(upwInput.value)){
-       errorMsg(upwElem,'숫자,영문 조합 7자리 특문 각 1회 이상');
-       upwTrue = false;
-   } else {
-       infoMsg(upwElem,'사용 가능한 비밀번호입니다.');
-       upwTrue = true;
-   }
+    if(!upwRegex.test(upwInput.value)){
+        errorMsg(upwElem,'숫자,영문 조합 7자리 특문 각 1회 이상');
+        upwTrue = false;
+    } else {
+        infoMsg(upwElem,'사용 가능한 비밀번호입니다.');
+        upwTrue = true;
+    }
 });
 
 upwChkInput.addEventListener('keyup', (e) => {
@@ -102,6 +102,7 @@ nameInput.addEventListener('keyup', () => {
 
 
 joinForm.addEventListener('submit', (e) => {
+
     if(emailTrue === false) {
         alert('이메일 중복 확인해 주세요.')
         e.preventDefault();
@@ -129,7 +130,3 @@ joinForm.addEventListener('submit', (e) => {
         return;
     }
 });
-
-
-
-

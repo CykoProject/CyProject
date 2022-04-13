@@ -1,7 +1,8 @@
+//미니홈피 바로가기
 const goHome = document.querySelector('.profile-go-to-home');
 if(goHome) {
     goHome.addEventListener('click', () => {
-        const popupWidth = 1189;
+        const popupWidth = 1205;
         const popupHeight = 600;
         const popX = (window.screen.width / 2) - (popupWidth / 2);
         const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
@@ -15,6 +16,31 @@ if(goHome) {
         }
     });
 }
+
+//게시글, 친구 검색
+
+
+const headerSearchBtn = document.querySelector(".search-btn");
+
+headerSearchBtn.addEventListener("click", () => {
+    let headerSelectVal = document.querySelector(".search-conditions").value;
+    let headerSearchVal = document.querySelector(".search-text").value;
+
+    console.log(headerSelectVal);
+    console.log(headerSearchVal);
+    fetch("http://localhost:8090/friendSearch", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "search": headerSearchVal
+        }),
+    }).then(res => {
+        console.log(res)
+        return res.json();
+    }).catch(e => console.log(e.message));
+})
 
 
 let newsElem = document.querySelector(".main-news");
@@ -61,7 +87,7 @@ function newsSearch(searchTxt) {
 
 
 function getNews(searchTxt) {
-    fetch("http://localhost:8090/api/news/search?searchTxt=" + `${searchTxt}`)
+    fetch("http://localhost:8090/api/news/search?searchTxt="+`${searchTxt}`)
         .then(res => res.json())
         .then(data => {
             console.log(data.items);
@@ -80,121 +106,89 @@ function getNews(searchTxt) {
 
 const webtoonElem = document.querySelector(".webtoon-list");
 
-let day = new Date();
-let getDay = day.getDay();
-let today = "";
-
-switch (getDay) {
-    case 0:
-        today = "일요일";
-        break;
-    case 1:
-        today = "월요일";
-        break;
-    case 2:
-        today = "화요일";
-        break;
-    case 3:
-        today = "수요일";
-        break;
-    case 4:
-        today = "목요일";
-        break;
-    case 5:
-        today = "금요일";
-        break;
-    case 6:
-        today = "토요일";
-        break;
-}
-
-console.log(today)
-
-const webtoonToday = document.querySelector(".webtoon-top > h5")
-
 function getWebtoon() {
     fetch("http://localhost:8090/api/webtoon")
         .then(res => res.json())
         .then(data => {
             console.log(data);
             webtoonElem.innerHTML = null;
-            webtoonToday.innerHTML = today + "의 웹툰";
-            console.log(data.length);
-            for (let i = 0; i < data.length; i++) {
+            for (let i = 0; i <= data.length; i++) {
                 const title = data[i].title;
                 const image = data[i].image;
                 const link = data[i].link;
                 const writer = data[i].writer;
                 const userRating = data[i].userRating;
                 webtoonElem.innerHTML += `
-                    <div class="eachWebtoon" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 100px; height: 120px; border: solid 1px #b2b2b2; padding: 5px;">
-                        <a href="${link}" style = "text-decoration: none; color: black;" target='_blank'>
-                        <img src="${image}" style="width:100px; height:120px;" alt="">
-                        <p style="margin: 5px; font-weight: bold;">${title}</p>
-                        <p style="margin: 5px; font-size: small;">작가 : ${writer}</p>
-                        <p style="margin: 5px; font-size: small;">평점 : ${userRating}</p>
-                        </a>
-                    </div>
-                `;
+                <div class="eachWebtoon" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 100px; height: 120px; border: solid 1px #b2b2b2; padding: 5px;">
+                <a href="${link}" style = "text-decoration: none; color: black;" target='_blank'>
+                <img src="${image}" style="width:100px; height:120px;" >
+                <p style="margin: 5px; font-weight: bold;">${title}</p>
+                <p style="margin: 5px; font-size: small;">작가 : ${writer}</p>
+                <p style="margin: 5px; font-size: small;">평점 : ${userRating}</p>
+                </a>
+</div>
+`;
+
+                const eachWebtoonElem = document.querySelectorAll(".eachWebtoon");
+
+                let webtoonVisible = [];
+                let webtoonInvisible =[];
+
+                for (let i = 0; i < eachWebtoonElem.length; i++) {
+                    if (i < 5) {
+                        eachWebtoonElem[i].style = "display: flex";
+                        webtoonVisible.push(eachWebtoonElem[i]);
+                    } else {
+                        eachWebtoonElem[i].style = "display: none";
+                        webtoonInvisible.push(eachWebtoonElem[i]);
+                    }
+                }
+                // console.log("init : " + webtoonVisible)
+                // console.log("init : " + webtoonInvisible)
+
+                const prevBtn = document.querySelector(".webtoon-prev-btn");
+                const nextBtn = document.querySelector(".webtoon-next-btn");
+
+                prevBtn.addEventListener("click", () => {
+                    for (let i = 0; i < eachWebtoonElem.length; i++) {
+                        if (eachWebtoonElem[i].style = "display: flex") {
+                            eachWebtoonElem[i].style = "display: none";
+                            webtoonInvisible.push(eachWebtoonElem[i]);
+                            webtoonVisible.splice(0, 5)
+                        }
+                    }
+                    // console.log("prev : " + webtoonVisible)
+                    // console.log("prev : " + webtoonInvisible)
+                    for (let i=10; i < 15; i++) {
+                        webtoonInvisible[i].style = "display: flex"
+                        webtoonVisible.push(webtoonInvisible[i]);
+                    }
+                    webtoonInvisible.splice(10,5)
+                    // console.log("prev : " + webtoonVisible)
+                    // console.log("prev : " + webtoonInvisible)
+
+                })
+
+                nextBtn.addEventListener("click", () => {
+
+                    for (let i = 0; i < eachWebtoonElem.length; i++) {
+                        if (eachWebtoonElem[i].style = "display: flex") {
+                            eachWebtoonElem[i].style = "display: none";
+                            webtoonVisible.splice(0,5)
+                            webtoonInvisible.push(eachWebtoonElem[i]);
+                        }
+                    }
+                    // console.log("next : " + webtoonVisible)
+                    // console.log("next : " + webtoonInvisible)
+                    for (let i=0; i < 5; i++) {
+                        webtoonInvisible[i].style = "display: flex"
+                        webtoonVisible.push(webtoonInvisible[i]);
+                    }
+                    webtoonInvisible.splice(0,5)
+                    // console.log("next : " + webtoonVisible)
+                    // console.log("next : " + webtoonInvisible)
+                })
             }
-
-            const eachWebtoonElem = document.querySelectorAll(".eachWebtoon");
-            let webtoonVisible = [];
-            let webtoonInvisible = [];
-
-
-            for (let i = 0; i < eachWebtoonElem.length; i++) {
-                if (i < 5) {
-                    eachWebtoonElem[i].style = "display: flex";
-                    webtoonVisible.push(eachWebtoonElem[i]);
-                } else {
-                    eachWebtoonElem[i].style = "display: none";
-                    webtoonInvisible.push(eachWebtoonElem[i]);
-                }
-            }
-            console.log("init : " + webtoonVisible)
-            console.log("init : " + webtoonInvisible)
-
-            const prevBtn = document.querySelector(".webtoon-prev-btn");
-            const nextBtn = document.querySelector(".webtoon-next-btn");
-
-            prevBtn.addEventListener("click", () => {
-                console.log("되나")
-                for (let i = 4; i >= 0; i--) {
-                    console.log( webtoonVisible[i]);
-                    webtoonVisible[i].style = "display: none";
-                    webtoonInvisible.unshift(webtoonVisible[i]);
-                }
-                webtoonVisible.splice(0)
-                // console.log("prev : " + webtoonVisible)
-                // console.log("prev : " + webtoonInvisible)
-                for (let i = 15; i < 20; i++) {
-                    webtoonInvisible[i].style = "display: flex";
-                    webtoonVisible.push(webtoonInvisible[i]);
-                }
-                webtoonInvisible.splice(15)
-                // console.log("prev : " + webtoonVisible)
-                // console.log("prev : " + webtoonInvisible)
-
-            })
-
-            nextBtn.addEventListener("click", () => {
-
-                for (let i = 0; i < 5; i++) {
-                    webtoonVisible[i].style = "display: none";
-                    webtoonInvisible.push(webtoonVisible[i]);
-                }
-                webtoonVisible.splice(0)
-                // console.log("next : " + webtoonVisible)
-                // console.log("next : " + webtoonInvisible)
-                for (let i = 0; i < 5; i++) {
-                    webtoonInvisible[i].style = "display: flex"
-                    webtoonVisible.push(webtoonInvisible[i]);
-                }
-                webtoonInvisible.splice(0, 5)
-                // console.log("next : " + webtoonVisible)
-                // console.log("next : " + webtoonInvisible)
-            })
         }).catch(e => {
         console.log(e.message);
     })
@@ -204,8 +198,19 @@ getWebtoon();
 
 //영화진흥위원회 api
 
-let date = new Date().toLocaleDateString().replace(/\./g, "").replaceAll(" ", "0");
-let yesterday = Number(date) - 1;
+function getYesterday(){
+    var loadDt = new Date();
+    var day1 = new Date(Date.parse(loadDt) - 1 * 1000 * 60 * 60 * 24); //하루전
+
+    var year = day1.getFullYear();
+    var month = ("0" + (1 + day1.getMonth())).slice(-2);
+    var day = ("0" + day1.getDate()).slice(-2);
+
+    return year + month + day;
+}
+
+let yesterday = getYesterday();
+console.log(yesterday)
 
 const movieElem = document.querySelector(".main-movie");
 const movieListElem = document.querySelector(".movie-list");
@@ -334,3 +339,11 @@ const infowindow = new kakao.maps.InfoWindow({
 });
 // 인포윈도우를 지도에 표시한다
 infowindow.open(map, marker)
+
+
+//회원가입 페이지 이동
+const join_section = document.querySelector('.join-section');
+
+join_section.addEventListener('click' , () => {
+    location.href = `/user/join`
+});
