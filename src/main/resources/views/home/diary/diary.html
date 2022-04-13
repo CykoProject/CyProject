@@ -20,6 +20,7 @@
             <div>
                 <input type="date" class="diary-calendar">
                 <button class="date-search-btn">검색</button>
+                <a th:href="@{/home/diary(iuser=${param.iuser})}"><button class="date-search-reset">전체검색</button></a>
             </div>
             <th:block th:if="${#strings.equals(loginUser, param.iuser)}">
                 <a th:href="@{/home/diary/write(iuser=${param.iuser})}">글쓰기</a>
@@ -68,15 +69,15 @@
             </th:block>
         </div>
         <div class="pagination">
-            <a th:href="@{/home/visit(iuser=${param.iuser}, page=${(pageData.pop - 1) * pageData.pageCnt})}" th:if="${pageData.pop != 1}" th:text="'<'"></a>
+            <a th:href="@{/home/diary(iuser=${param.iuser}, page=${(pageData.pop - 1) * pageData.pageCnt}, searchRdt=${param.searchRdt})}" th:if="${pageData.pop != 1}" th:text="'<'"></a>
             <th:block th:each="page : ${#numbers.sequence(pageData.startPage, pageData.lastPage)}">
-                <a th:href="@{/home/diary(iuser=${param.iuser}, page=${page})}"
+                <a th:href="@{/home/diary(iuser=${param.iuser}, page=${page}, searchRdt=${param.searchRdt})}"
                    th:text="${page}"
                    th:if="${(page <= pageData.maxPage) && (!#strings.equals(param.page, page)) && (!#strings.equals(pageData.startPage, page) || !#strings.isEmpty(param.page))}"
                    th:classappend="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))} ? 'cur-page' : ''"></a>
                 <span th:if="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))}" class="cur-page" th:text="${page}"></span>
             </th:block>
-            <a th:href="@{/home/diary(iuser=${param.iuser}, page=${pageData.lastPage + 1})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
+            <a th:href="@{/home/diary(iuser=${param.iuser}, page=${pageData.lastPage + 1}, searchRdt=${param.searchRdt})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
         </div>
     </th:block>
 </body>

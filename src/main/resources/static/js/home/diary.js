@@ -54,7 +54,14 @@ if(diaryELem) {
     const day = ('0' + today.getDate()).slice(-2);
     const dateString = year + '-' + month + '-' + day;
     const dateSearchBtn = document.querySelector('.date-search-btn');
+    const dateUrl = new URL(window.document.location.href);
+    const dateUrlParams = dateUrl.searchParams;
+    const rdt = dateUrlParams.get('searchRdt');
+
     diaryCalendarElem.value = dateString;
+    if(rdt != null) {
+        diaryCalendarElem.value = rdt;
+    }
 
     dateSearchBtn.addEventListener('click', () => {
         location.href = `/home/diary?iuser=${iuser}&searchRdt=${diaryCalendarElem.value}`;

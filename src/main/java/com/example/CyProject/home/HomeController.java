@@ -43,7 +43,7 @@ public class HomeController {
 
         int maxPage = pageService.diaryMaxPage(entity.getIuser(), rowCnt, rdt);
         int loginUserPk = authenticationFacade.getLoginUserPk();
-        Page<DiaryEntity> list = pageService.diaryPaging(entity.getIuser(), page, rowCnt);
+        Page<DiaryEntity> list = pageService.diaryPaging(entity.getIuser(), page, rowCnt, rdt);
 
         PageEntity pageEntity = new PageEntity.Builder()
                 .page(page)
