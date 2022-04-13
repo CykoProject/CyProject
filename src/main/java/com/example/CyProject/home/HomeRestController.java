@@ -2,7 +2,7 @@ package com.example.CyProject.home;
 
 import com.example.CyProject.ResultVo;
 import com.example.CyProject.Utils;
-import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.security.AuthenticationFacade;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
@@ -10,14 +10,10 @@ import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.home.model.visit.VisitDto;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/ajax/home")

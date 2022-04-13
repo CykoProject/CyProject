@@ -19,6 +19,7 @@
         <div class="diary-write">
             <div>
                 <input type="date" class="diary-calendar">
+                <button class="date-search-btn">검색</button>
             </div>
             <th:block th:if="${#strings.equals(loginUser, param.iuser)}">
                 <a th:href="@{/home/diary/write(iuser=${param.iuser})}">글쓰기</a>

@@ -1,4 +1,4 @@
-package com.example.CyProject.config;
+package com.example.CyProject.security;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.CyProject.config;
+package com.example.CyProject.security;
 
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
