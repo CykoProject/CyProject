@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")
                 .failureUrl("/user/login?error=true")
                 .failureHandler(failureHandler())
-                .defaultSuccessUrl("/home")
+                .defaultSuccessUrl("/")
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout")) // 이 주소로 들어오면 controller 에 없어도 로그아웃 시켜줌

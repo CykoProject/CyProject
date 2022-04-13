@@ -10,7 +10,6 @@ import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.home.model.visit.VisitDto;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
