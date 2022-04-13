@@ -14,8 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/home")
@@ -38,14 +36,13 @@ public class HomeController {
     // 다이어리 ============================================================================================
     @GetMapping("/diary")
     public String diary(HomeEntity entity, Model model,
-                        @RequestParam(required = false, defaultValue = "1", value = "page") int page) {
+                        @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+                        @RequestParam(required = false, defaultValue = "", value = "searchRdt") String rdt) {
         int rowCnt = 10;
         int pageCnt = 10;
-        // TODO orderby 삽입
-        int maxPage = pageService.diaryMaxPage(entity.getIuser(), rowCnt);
-        int loginUserPk = authenticationFacade.getLoginUserPk();
 
-        // TODO orderby 삽입
+        int maxPage = pageService.diaryMaxPage(entity.getIuser(), rowCnt, rdt);
+        int loginUserPk = authenticationFacade.getLoginUserPk();
         Page<DiaryEntity> list = pageService.diaryPaging(entity.getIuser(), page, rowCnt);
 
         PageEntity pageEntity = new PageEntity.Builder()
@@ -54,6 +51,8 @@ public class HomeController {
                 .maxPage(maxPage)
                 .rowCnt(rowCnt)
                 .build();
+
+        System.out.println(maxPage);
 
         model.addAttribute("loginUser", loginUserPk);
         model.addAttribute("data", utils.makeStringNewLine(list));
