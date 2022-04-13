@@ -3,6 +3,9 @@
 package com.example.CyProject.user;
 
 import com.example.CyProject.ResultVo;
+import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.home.HomeEntity;
+import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.user.model.UserDto;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
@@ -19,6 +22,8 @@ public class UserController {
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserRepository userRepository;
     @Autowired private UserService service;
+    @Autowired private HomeRepository homeRepository;
+    @Autowired private AuthenticationFacade auth;
 
     @RequestMapping(value = {"/login"},method = {RequestMethod.GET, RequestMethod.POST})
     public String login() {
@@ -33,8 +38,13 @@ public class UserController {
     @PostMapping("/join")
     public String joinProc(UserDto dto) {
         dto.setUpw(passwordEncoder.encode(dto.getUpw()));
-        userRepository.save(dto.toEntity());
-        return "redirect:/iuser/logn";
+        int iuser = userRepository.save(dto.toEntity()).getIuser();
+        HomeEntity entity = new HomeEntity();
+        entity.setIuser(iuser);
+        if(iuser != 0){
+            homeRepository.save(entity);
+        }
+        return "redirect:/user/login";
     }
 
     @GetMapping("/idChk/{email}")
