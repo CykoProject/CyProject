@@ -1,7 +1,7 @@
 package com.example.CyProject.home;
 
-import com.example.CyProject.home.model.HomeEntity;
-import com.example.CyProject.home.model.HomeRepository;
+import com.example.CyProject.home.model.home.HomeEntity;
+import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
