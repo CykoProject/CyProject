@@ -11,14 +11,6 @@
 .date-bar {
     background-color: #d9e0e3;
     padding: 10px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.item-bar a, .item-bar span {
-    font-size: 10px;
-    color: gray;
-    text-decoration: none;
 }
 
 .diary-content {
@@ -54,11 +46,9 @@
 .diary-write {
     text-align: right;
     padding: 10px 10px;
-    display: flex;
-    justify-content: space-between;
 }
 
 .diary-write > a {
     text-decoration: none;
-    font-size: 15px;
+    font-size: 14px;
 }

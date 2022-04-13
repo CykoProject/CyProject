@@ -70,13 +70,13 @@ emailChk.addEventListener('click', (e) => {
 
 upwInput.addEventListener('keyup',  (e)=> {
     e.preventDefault();
-   if(!upwRegex.test(upwInput.value)){
-       errorMsg(upwElem,'숫자,영문 조합 7자리 특문 각 1회 이상');
-       upwTrue = false;
-   } else {
-       infoMsg(upwElem,'사용 가능한 비밀번호입니다.');
-       upwTrue = true;
-   }
+    if(!upwRegex.test(upwInput.value)){
+        errorMsg(upwElem,'숫자,영문 조합 7자리 특문 각 1회 이상');
+        upwTrue = false;
+    } else {
+        infoMsg(upwElem,'사용 가능한 비밀번호입니다.');
+        upwTrue = true;
+    }
 });
 
 upwChkInput.addEventListener('keyup', (e) => {
@@ -129,7 +129,3 @@ joinForm.addEventListener('submit', (e) => {
         return;
     }
 });
-
-
-
-
