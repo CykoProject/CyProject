@@ -82,13 +82,16 @@
             <artifactId>json</artifactId>
             <version>20200518</version>
         </dependency>
-
+    
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 			<version>1.14.3</version>
 		</dependency>
+    
     </dependencies>
+
+	</dependencies>
 
 	<build>
 		<plugins>
