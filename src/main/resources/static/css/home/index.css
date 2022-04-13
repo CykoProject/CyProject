@@ -1,4 +1,11 @@
+html {
+    overflow: hidden;
+}
 
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
 
 .wrap {
     width: 1189px;

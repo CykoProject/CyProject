@@ -2,12 +2,17 @@
 const goHome = document.querySelector('.profile-go-to-home');
 if(goHome) {
     goHome.addEventListener('click', () => {
-        const popupWidth = 1205;
+        const popupWidth = 1189;
         const popupHeight = 600;
         const popX = (window.screen.width / 2) - (popupWidth / 2);
         const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
         const iuser = goHome.dataset.iuser;
-        const option = `width = ${popupWidth}px, height = ${popupHeight}px, left = ${popX}, top = ${popY}`;
+        const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+        `;
 
         if(iuser > 0) {
             window.open(`/home?iuser=${iuser}`, 'home', option);
