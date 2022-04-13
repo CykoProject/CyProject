@@ -415,11 +415,21 @@ text-align: center;
 }
 
 .footer {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: orange;
     color: white;
     bottom: 0;
     position: absolute;
     height: 90px;
     width: 100%;
+}
+
+.footer > a {
+    font-size: larger;
+    font-weight: bold;
+    margin-left: 30px;
+    text-decoration: none;
+    color: white;
 }

@@ -1,6 +1,5 @@
 package com.example.CyProject.config;
 
-import com.example.CyProject.user.model.UserRepository;
 import groovyjarjarantlr4.v4.codegen.model.ExceptionClause;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +16,13 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired private UserRepository userRepository;
-    @Autowired private HttpSession session;
+    @Autowired private UserDetailsService userDetailsService;
 
     @Bean
     public BCryptPasswordEncoder Encoder() {
@@ -49,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")
                 .failureUrl("/user/login?error=true")
                 .failureHandler(failureHandler())
+                .defaultSuccessUrl("/home")
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout")) // 이 주소로 들어오면 controller 에 없어도 로그아웃 시켜줌

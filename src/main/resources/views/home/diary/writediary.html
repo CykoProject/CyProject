@@ -5,7 +5,6 @@
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
-    <script defer th:src="@{/js/home/diary.js}"></script>
     <title>Title</title>
 </head>
 <body>
@@ -17,10 +16,8 @@
         <div>
             <form th:method="post" th:action="@{/home/diary/write}">
                 <input type="hidden" name="ihost" th:value="${#strings.equals(loginUser, param.iuser)} ? ${loginUser} : 0">
-                <input type="hidden" name="idiary" th:if="${param.idiary != null}" th:value="${param.idiary}">
                 <div>
-                    <textarea class="diary-write-textarea" name="ctnt" placeholder="내용" th:if="${modData == null}"></textarea>
-                    <textarea class="diary-write-textarea" name="ctnt" placeholder="내용" th:if="${modData != null}" th:text="${modData.get().getCtnt()}"></textarea>
+                    <textarea name="ctnt" placeholder="내용"></textarea>
                 </div>
                 <div>
                     <input type="submit" value="save">
