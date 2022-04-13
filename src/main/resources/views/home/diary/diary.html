@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/home/diary.css}">
+    <script defer th:src="@{/js/home/diary.js}"></script>
     <title>Title</title>
 </head>
 <body>
@@ -16,46 +17,67 @@
 
     <th:block layout:fragment="content_right">
         <div class="diary-write">
+            <div>
+                <input type="date" class="diary-calendar">
+                <button class="date-search-btn">검색</button>
+                <a th:href="@{/home/diary(iuser=${param.iuser})}"><button class="date-search-reset">전체검색</button></a>
+            </div>
             <th:block th:if="${#strings.equals(loginUser, param.iuser)}">
                 <a th:href="@{/home/diary/write(iuser=${param.iuser})}">글쓰기</a>
             </th:block>
         </div>
         <div class="home-container">
             <th:block th:each="item : ${data}">
-                <div>
-                    <div class="date-bar">
-                        <span th:text="${#temporals.format(item.rdt, 'yyyy.MM.dd')}"></span>
-                    </div>
-                    <div class="diary-content">
-                        <div class="time-div">
-                            <span th:text="${#temporals.format(item.rdt, 'HH:mm')}"></span>
+                <div class="diary-data">
+                    <div>
+                        <div class="date-bar">
+                            <div>
+                                <span th:text="${#temporals.format(item.rdt, 'yyyy.MM.dd')}"></span>
+                            </div>
+                            <div class="item-bar">
+                                <span th:if="${#strings.equals(loginUser, param.iuser)}">
+                                    <a th:href="@{/home/diary/write(idiary=${item.idiary}, iuser=${item.ihost})}" class="diary-mod">수정</a>
+                                    <span>|</span>
+                                    <a href="#" class="diary-del" th:data-idiary="${item.idiary}">삭제</a>
+                                </span>
+                                <span th:if="${!#strings.equals(loginUser, param.iuser)}">
+                                    <span th:if="${#strings.equals(loginUser, param.iuser)}">|</span>
+                                    <a href="#" class="diary-report">신고</a>
+                                </span>
+                            </div>
                         </div>
-                        <div>
-                            <span th:text="${item.ctnt}"></span>
+                        <div class="diary-content">
+                            <div class="time-div">
+                                <span th:text="${#temporals.format(item.rdt, 'HH:mm')}"></span>
+                            </div>
+                            <div>
+                                <span th:utext="${item.ctnt}" class="diary-ctnt"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!--        TODO 로그인 한 회원만 작성할 수 있게       -->
-                <div class="diary-comment-container">
-                    <form action="" th:method="post">
-                        <div class="input-cmt">
-                            <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
-                            <input type="submit" th:value="댓글등록" class="ctnt-btn">
-                        </div>
-                    </form>
+                    <!--        TODO 로그인 한 회원만 작성할 수 있게       -->
+                    <div class="diary-comment-container">
+                        <form action="" th:method="post">
+                            <div class="input-cmt">
+                                <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
+                                <input type="submit" th:value="댓글등록" class="ctnt-btn">
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </th:block>
         </div>
         <div class="pagination">
+            <a th:href="@{/home/diary(iuser=${param.iuser}, page=${(pageData.pop - 1) * pageData.pageCnt}, searchRdt=${param.searchRdt})}" th:if="${pageData.pop != 1}" th:text="'<'"></a>
             <th:block th:each="page : ${#numbers.sequence(pageData.startPage, pageData.lastPage)}">
-                <a th:href="@{/home/diary(iuser=${param.iuser}, page=${page})}"
+                <a th:href="@{/home/diary(iuser=${param.iuser}, page=${page}, searchRdt=${param.searchRdt})}"
                    th:text="${page}"
                    th:if="${(page <= pageData.maxPage) && (!#strings.equals(param.page, page)) && (!#strings.equals(pageData.startPage, page) || !#strings.isEmpty(param.page))}"
                    th:classappend="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))} ? 'cur-page' : ''"></a>
                 <span th:if="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))}" class="cur-page" th:text="${page}"></span>
             </th:block>
-            <a th:href="@{/home/diary(iuser=${param.iuser}, page=${pageData.lastPage + 1})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
+            <a th:href="@{/home/diary(iuser=${param.iuser}, page=${pageData.lastPage + 1}, searchRdt=${param.searchRdt})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
         </div>
     </th:block>
 </body>

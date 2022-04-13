@@ -1,4 +1,4 @@
-const diaryELem = document.querySelector('.diary-content');
+const diaryELem = document.querySelector('.home-container');
 if(diaryELem) {
     const diaryDelBtnArr = document.querySelectorAll('.diary-del');
     const removeElem = (elem) => {
@@ -53,10 +53,18 @@ if(diaryELem) {
     const month = ('0' + (today.getMonth() + 1)).slice(-2);
     const day = ('0' + today.getDate()).slice(-2);
     const dateString = year + '-' + month + '-' + day;
-    diaryCalendarElem.value = dateString;
+    const dateSearchBtn = document.querySelector('.date-search-btn');
+    const dateUrl = new URL(window.document.location.href);
+    const dateUrlParams = dateUrl.searchParams;
+    const rdt = dateUrlParams.get('searchRdt');
 
-    diaryCalendarElem.addEventListener('change', () => {
-        // TODO href => orderby rdt
+    diaryCalendarElem.value = dateString;
+    if(rdt != null) {
+        diaryCalendarElem.value = rdt;
+    }
+
+    dateSearchBtn.addEventListener('click', () => {
+        location.href = `/home/diary?iuser=${iuser}&searchRdt=${diaryCalendarElem.value}`;
     });
     // 달력 ========================================================================================================
 }

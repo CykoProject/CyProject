@@ -2,12 +2,17 @@
 const goHome = document.querySelector('.profile-go-to-home');
 if(goHome) {
     goHome.addEventListener('click', () => {
-        const popupWidth = 1205;
+        const popupWidth = 1189;
         const popupHeight = 600;
         const popX = (window.screen.width / 2) - (popupWidth / 2);
         const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
         const iuser = goHome.dataset.iuser;
-        const option = `width = ${popupWidth}px, height = ${popupHeight}px, left = ${popX}, top = ${popY}`;
+        const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+        `;
 
         if(iuser > 0) {
             window.open(`/home?iuser=${iuser}`, 'home', option);
@@ -16,6 +21,32 @@ if(goHome) {
         }
     });
 }
+
+//게시글, 친구 검색
+
+
+const headerSearchBtn = document.querySelector(".search-btn");
+
+headerSearchBtn.addEventListener("click", () => {
+    let headerSelectVal = document.querySelector(".search-conditions").value;
+    let headerSearchVal = document.querySelector(".search-text").value;
+
+    console.log(headerSelectVal);
+    console.log(headerSearchVal);
+    fetch("http://localhost:8090/friendSearch", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "search": headerSearchVal
+        }),
+    }).then(res => {
+        console.log(res)
+        return res.json();
+    }).catch(e => console.log(e.message));
+})
+
 
 let newsElem = document.querySelector(".main-news");
 // ../../../java/com/example/CyProject/main/MainNewsApiController

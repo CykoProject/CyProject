@@ -21,6 +21,6 @@ public class DiaryEntity {
     private int ihost;
     private String ctnt;
 
-    @Column(insertable = false)
+    @Column(insertable = false, updatable = false)
     private LocalDateTime rdt;
 }

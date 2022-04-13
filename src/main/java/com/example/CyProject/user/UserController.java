@@ -44,8 +44,6 @@ public class UserController {
         if(iuser != 0){
             homeRepository.save(entity);
         }
-
-
         return "redirect:/user/login";
     }
 
