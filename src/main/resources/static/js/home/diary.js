@@ -1,9 +1,11 @@
-const diaryELem = document.querySelector('.diary-content');
+const diaryELem = document.querySelector('.home-container');
 if(diaryELem) {
     const diaryDelBtnArr = document.querySelectorAll('.diary-del');
     const removeElem = (elem) => {
         elem.remove();
     }
+
+    // 삭제 ========================================================================================================
     const delFetch = (url, elem) => {
         fetch(url, {
             method : 'DELETE',
@@ -30,7 +32,9 @@ if(diaryELem) {
             }
         });
     });
+    // 삭제 ========================================================================================================
 
+    // 신고 ========================================================================================================
     const diaryReportBtnArr = document.querySelectorAll('.diary-report');
     diaryReportBtnArr.forEach(item => {
         item.addEventListener('click', (e) => {
@@ -40,16 +44,27 @@ if(diaryELem) {
             // TODO 신고 사유 모달창
         });
     });
+    // 신고 ========================================================================================================
 
+    // 달력 ========================================================================================================
     const diaryCalendarElem = document.querySelector('.diary-calendar');
     const today = new Date();
     const year = today.getFullYear();
     const month = ('0' + (today.getMonth() + 1)).slice(-2);
     const day = ('0' + today.getDate()).slice(-2);
     const dateString = year + '-' + month + '-' + day;
-    diaryCalendarElem.value = dateString;
+    const dateSearchBtn = document.querySelector('.date-search-btn');
+    const dateUrl = new URL(window.document.location.href);
+    const dateUrlParams = dateUrl.searchParams;
+    const rdt = dateUrlParams.get('searchRdt');
 
-    diaryCalendarElem.addEventListener('change', () => {
-        // TODO 페이징처리 해야함
+    diaryCalendarElem.value = dateString;
+    if(rdt != null) {
+        diaryCalendarElem.value = rdt;
+    }
+
+    dateSearchBtn.addEventListener('click', () => {
+        location.href = `/home/diary?iuser=${iuser}&searchRdt=${diaryCalendarElem.value}`;
     });
+    // 달력 ========================================================================================================
 }

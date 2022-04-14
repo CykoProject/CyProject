@@ -15,6 +15,9 @@
 
 <th:block layout:fragment="content_right">
     <div class="visit-write">
+        <div>
+            <a href="javascript:history.back();">이전 페이지로 이동</a>
+        </div>
         <form class="visitFrm" th:method="post" th:action="@{/home/visit/write}">
             <input type="hidden" name="iuser" th:value="${loginUserPk}">
             <input type="hidden" name="ihost" th:value="${param.iuser}">

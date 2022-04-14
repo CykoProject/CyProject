@@ -1,48 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/index">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>추억의 싸이월드</title>
+    <script defer src="https://use.fontawesome.com/releases/v6.1.1/js/all.js" integrity="sha384-xBXmu0dk1bEoiwd71wOonQLyH+VpgR1XcDH3rtxrLww5ajNTuMvBdL5SOiFZnNdp" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
 </head>
 <body>
-<header>
-    <div class="header">
-        <img class="logo-img" src="https://cdn.senmoney.co.kr/news/photo/202006/1999_2098_4524.jpg" alt=""/>
 
-        <div class="header-center">
-            <div class="header-menu">
-                <p>미니홈피</p>
-                <p>인기글</p>
-                <p>쇼핑</p>
-            </div>
-            <div class="search">
-                <div class="search-select">
-                    <select class="search-conditions">
-                        <option value="0">게시글</option>
-                        <option value="1">친구</option>
-                    </select>
-                    <input type="text" class="search-text">
-                    <button>검색</button>
-                </div>
-            </div>
-        </div>
-        <img class="ads-img"
-             src="https://coinpan.com/files/attach/images/198/962/872/096/fdae5cae18bbd697d9bd9df0f674821a.jpg" alt=""/>
-
-    </div>
-</header>
-
+<th:block layout:fragment="container">
 <div class="container">
 
     <div class="left-container">
-        <div class="profile">
+        <div th:if="${loginUserPk > 0}" class="profile">
             <div class="profile-top">
-                <p>손주영</p>
-                <p th:if="${session.loginUserPk != null}"><a href="/user/mypage">비밀번호 수정</a></p>
-                <button><a href="/user/logout">로그아웃</a></button>
+                <p th:text="${loginUser.getNm()}"></p>
+                <button><a th:href="@{/user/mypage}">내 정보수정</a></button>
+                <button><a th:href="@{/user/logout}">로그아웃</a></button>
             </div>
 
             <div class="profile-info">
@@ -52,7 +30,7 @@
                 </div>
                 <div class="profile-info-main">
                     <div class="profile-info-img">
-                        <img src="https://w.namu.la/s/cfdb7644478e28c31fc1a36bf3bb7d567c50369071414650bc8b54bd38bb8f828f83d6c825ece60af02d993d9f9ea6bdb3049734f704ec3395895ca7b920f224a1279014e93caa64db0e54a75dfef6fc1180734916d6f7a1dfc0df2ef0428e1048fb5b2b0e0f547791863aec66de529d"
+                        <img src="https://w.namu.la/s/cfdb7644478e28c31fc1a36bf3bb7d567c50369071414650bc8b54bd38bb8f828f83d6c825ece60af02d993d9f9ea6bdb3049734f704ec3395895ca7b920f224fe3df152cc46617fff3703c199b01f24e3c05ead187e1495bbe822dbda0fa5a7b4fc0e646bd7be633b2fac67608f09e6"
                              alt=""/>
                     </div>
                     <div class="profile-info-count">
@@ -69,7 +47,7 @@
                 </div>
             </div>
             <div class="profile-info-bottom">
-                <button class="profile-go-to-home">내 미니홈피 가기</button>
+                <button class="profile-go-to-home" th:data-iuser="${loginUserPk}">내 미니홈피 가기</button>
                 <select class="profile-select">
                     <option value="0">친구1</option>
                     <option value="1">친구2</option>
@@ -78,26 +56,26 @@
             </div>
         </div>
 
-        <div class="login">
+        <div th:unless="${loginUserPk > 0}" class="login">
             <div class="login-img-box">
                 <img class="login-img" src="https://cdn.senmoney.co.kr/news/photo/202006/1999_2098_4524.jpg" alt=""/>
             </div>
-
+            <form method="post" action="/user/login">
             <div class="login-section">
 
                 <div class="login-input">
-                    <input type="text" placeholder="아이디를 입력하세요."/>
-                    <input type="password" placeholder="비밀번호를 입력하세요."/>
+                    <input type="text" name="email" placeholder="아이디를 입력하세요."/>
+                    <input type="password" name="upw" placeholder="비밀번호를 입력하세요."/>
                 </div>
 
                 <div class="login-btn">
-                    <button>로그인</button>
+                    <button type="submit">로그인</button>
                 </div>
 
             </div>
-
+            </form>
             <div class="join-section">
-                <button>회원가입</button>
+                <button><a class="join-btn" href="/user/join">회원가입</a></button>
             </div>
         </div>
 
@@ -141,7 +119,7 @@
         </div>
         <div class="main-webtoons">
             <div class="webtoon-top">
-                <h5></h5>
+                <h5>웹툰</h5>
                 <div class="webtoon-move-btn">
                     <button class="webtoon-prev-btn">이전</button>
                     <button class="webtoon-next-btn">다음</button>
@@ -199,11 +177,8 @@
     </div>
 
 </div>
-<div class="footer-wrapper">
-    <footer class="footer">
-        footer
-    </footer>
-</div>
+</th:block>
+
 <script src="../../static/js/main/main.js"></script>
 </body>
 </html>

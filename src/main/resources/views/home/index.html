@@ -6,9 +6,10 @@
     <title></title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/home/index.css}">
-    <script defer th:src="@{/js/index.js}"></script>
+    <script defer th:src="@{/js/home/common.js}"></script>
 </head>
 <body>
+<div class="home-common-pk" th:data-pk="${loginUserPk}"></div>
     <div class="wrap">
         <div class="home-bg">
             <div class="section left">

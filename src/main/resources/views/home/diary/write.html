@@ -15,8 +15,12 @@
 
     <th:block layout:fragment="content_right">
         <div>
+            <div>
+                <a href="javascript:history.back();">이전 페이지로 이동</a>
+            </div>
             <form th:method="post" th:action="@{/home/diary/write}">
-                <input type="hidden" name="ihost" th:value="${#strings.equals(loginUser, param.iuser)} ? ${loginUser} : 0">
+                <input type="hidden" name="ihost" th:value="${#strings.equals(loginUserPk
+                , param.iuser)} ? ${loginUserPk} : 0">
                 <input type="hidden" name="idiary" th:if="${param.idiary != null}" th:value="${param.idiary}">
                 <div>
                     <textarea class="diary-write-textarea" name="ctnt" placeholder="내용" th:if="${modData == null}"></textarea>

@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
+
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
@@ -17,8 +18,6 @@ public class UserDto {
     private String email;
     private String nm;
     private Role role;
-    private String oldUpw;
-    private String newUpw;
 
     public UserEntity toEntity() {
         UserEntity user = UserEntity.builder()
@@ -29,5 +28,4 @@ public class UserDto {
                 .build();
         return user;
     }
-
 }
