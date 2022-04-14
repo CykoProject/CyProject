@@ -1,6 +1,7 @@
 package com.example.CyProject.user;
 
 import com.example.CyProject.ResultVo;
+import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.config.MyUserDetailsService;
 import com.example.CyProject.user.model.UserDto;
 import com.example.CyProject.user.model.UserEntity;
@@ -22,7 +23,7 @@ public class UserController {
 
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserRepository userRepository;
-    @Autowired private UserDetailsService service;
+    @Autowired private AuthenticationFacade authenticationFacade;
 
     @GetMapping("/login")
     public String login() {
@@ -43,14 +44,14 @@ public class UserController {
     }
 
     @GetMapping("/mypage")
-    public String mypage(Model model, UserDto dto) {
-        String userName = dto.getNm();
-        model.addAttribute("user", userName);
+    public String mypage(Model model) {
+        model.addAttribute("loginUser", authenticationFacade.getLoginUser());
         return "user/mypage";
     }
 
     @PostMapping("/mypage")
-    public String mypageProc(UserDto dto) {
+    public String mypageProc(@RequestBody UserDto dto, HttpSession session) {
+
         return "redirect:/home?iuser=1";
     }
 
@@ -62,5 +63,14 @@ public class UserController {
         entity.setEmail(email);
         result.setResult(userRepository.findByEmail(entity.getEmail()) == null ? 0 : 1);
         return result;
+    }
+
+    @GetMapping("/pwChk/{oldUpw}")
+    @ResponseBody
+    public ResultVo pwChk(@PathVariable String oldUpw) {
+        ResultVo vo = new ResultVo();
+        String upw = authenticationFacade.getLoginUser().getUpw();
+        vo.setResult(passwordEncoder.matches(oldUpw, upw) ? 1 : 0);
+        return vo;
     }
 }

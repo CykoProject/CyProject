@@ -11,9 +11,12 @@
 <div class="mypage">
     <form method="post" action="/user/mypage" id="mypageForm">
         <h3>내 정보 수정</h3>
+        <div th:text="${loginUser.nm}"></div>
         <div id="oldUpw">
             <label for="oldUpw">현재 비밀번호 </label>
             <input type="password" name="oldUpw" placeholder="현재 비밀번호">
+            <button id="pwChk">확인</button>
+            <div class="hidden">error</div>
         </div>
         <div id="newUpw">
             <label for="newUpw">변경할 비밀번호 </label>
