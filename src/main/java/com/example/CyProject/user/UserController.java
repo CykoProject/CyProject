@@ -2,18 +2,18 @@ package com.example.CyProject.user;
 
 import com.example.CyProject.ResultVo;
 import com.example.CyProject.config.AuthenticationFacade;
-import com.example.CyProject.config.MyUserDetailsService;
 import com.example.CyProject.user.model.UserDto;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 
 @Controller
@@ -50,9 +50,14 @@ public class UserController {
     }
 
     @PostMapping("/mypage")
-    public String mypageProc(@RequestBody UserDto dto, HttpSession session) {
-
-        return "redirect:/home?iuser=1";
+    public String update(UserDto dto, String newUpw) {
+        String secureUpw = passwordEncoder.encode(newUpw);
+        Optional<UserEntity> user = userRepository.findById(authenticationFacade.getLoginUserPk());
+        user.ifPresent(selectUser -> {
+            selectUser.setUpw(secureUpw);
+            userRepository.save(selectUser);
+        });
+        return "redirect:/";
     }
 
     @GetMapping("/idChk/{email}")

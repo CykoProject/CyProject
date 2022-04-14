@@ -84,7 +84,7 @@ mypageForm.addEventListener('submit', (e) => {
     }
 
     if(upwTrue === false) {
-        alert('비밀번호 확인해 주세요.');
+        alert('비밀번호를 확인해 주세요.');
         e.preventDefault();
         return;
     }
