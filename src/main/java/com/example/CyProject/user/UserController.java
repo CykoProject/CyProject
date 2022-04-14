@@ -12,7 +12,11 @@ import com.example.CyProject.user.model.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/user")
@@ -47,6 +51,23 @@ public class UserController {
         return "redirect:/user/login";
     }
 
+    @GetMapping("/mypage")
+    public String mypage(Model model) {
+        model.addAttribute("loginUser", auth.getLoginUser());
+        return "user/mypage";
+    }
+
+    @PostMapping("/mypage")
+    public String update(String newUpw) {
+        String secureUpw = passwordEncoder.encode(newUpw);
+        Optional<UserEntity> user = userRepository.findById(auth.getLoginUserPk());
+        user.ifPresent(selectUser -> {
+            selectUser.setUpw(secureUpw);
+            userRepository.save(selectUser);
+        });
+        return "redirect:/";
+    }
+
     @GetMapping("/idChk/{email}")
     @ResponseBody
     public ResultVo idChk(@PathVariable String email){
@@ -55,5 +76,14 @@ public class UserController {
         entity.setEmail(email);
         result.setResult(userRepository.findByEmail(entity.getEmail()) == null ? 0 : 1);
         return result;
+    }
+
+    @GetMapping("/pwChk/{oldUpw}")
+    @ResponseBody
+    public ResultVo pwChk(@PathVariable String oldUpw) {
+        ResultVo vo = new ResultVo();
+        String upw = auth.getLoginUser().getUpw();
+        vo.setResult(passwordEncoder.matches(oldUpw, upw) ? 1 : 0);
+        return vo;
     }
 }

@@ -2,6 +2,7 @@ package com.example.CyProject.user.model;
 
 import com.example.CyProject.config.Role;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -14,6 +15,7 @@ import java.sql.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicUpdate
 public class UserEntity {
 
     @Id
