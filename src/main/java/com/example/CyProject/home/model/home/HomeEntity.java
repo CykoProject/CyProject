@@ -27,5 +27,7 @@ public class HomeEntity {
     private int scrap_cnt;
     private int daily_visit;
     private int total_visit;
+
+    @Column(insertable = false, updatable = false)
     private LocalDateTime rdt;
 }

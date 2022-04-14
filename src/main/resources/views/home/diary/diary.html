@@ -22,11 +22,12 @@
                 <button class="date-search-btn">검색</button>
                 <a th:href="@{/home/diary(iuser=${param.iuser})}"><button class="date-search-reset">전체검색</button></a>
             </div>
-            <th:block th:if="${#strings.equals(loginUser, param.iuser)}">
+            <th:block th:if="${#strings.equals(loginUserPk, param.iuser)}">
                 <a th:href="@{/home/diary/write(iuser=${param.iuser})}">글쓰기</a>
             </th:block>
         </div>
         <div class="home-container">
+            <span class="empty-data" th:if="${data.size() == 0}" th:text="'다이어리 글이 없습니다'"></span>
             <th:block th:each="item : ${data}">
                 <div class="diary-data">
                     <div>
@@ -35,13 +36,13 @@
                                 <span th:text="${#temporals.format(item.rdt, 'yyyy.MM.dd')}"></span>
                             </div>
                             <div class="item-bar">
-                                <span th:if="${#strings.equals(loginUser, param.iuser)}">
+                                <span th:if="${#strings.equals(loginUserPk, param.iuser)}">
                                     <a th:href="@{/home/diary/write(idiary=${item.idiary}, iuser=${item.ihost})}" class="diary-mod">수정</a>
                                     <span>|</span>
                                     <a href="#" class="diary-del" th:data-idiary="${item.idiary}">삭제</a>
                                 </span>
-                                <span th:if="${!#strings.equals(loginUser, param.iuser)}">
-                                    <span th:if="${#strings.equals(loginUser, param.iuser)}">|</span>
+                                <span th:if="${!#strings.equals(loginUserPk, param.iuser)}">
+                                    <span th:if="${#strings.equals(loginUserPk, param.iuser)}">|</span>
                                     <a href="#" class="diary-report">신고</a>
                                 </span>
                             </div>
