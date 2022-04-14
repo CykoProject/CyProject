@@ -17,12 +17,43 @@
     <th:block layout:fragment="content_right">
 
         <div class="data-pk" th:data-loginuser="${loginUserPk}"></div>
-        <div class="visit-top-menu">
-        <th:block th:if="${!#strings.equals(loginUserPk, 0)}">
-            <a th:href="@{/home/visit/write(iuser=${param.iuser})}">방명록 남기기</a>
-        </th:block>
-        </div>
         <div class="home-container">
+            <div class="visit-write" th:if="${loginUserPk > 0}">
+                <div class="frow bc-gray">
+                    <div class="f1">
+                        <div>
+                            <img>
+                        </div>
+                        <div class="w100p">
+                            <span>미니미</span>
+                            <span>설정</span>
+                        </div>
+                    </div>
+                    <div class="f2">
+                        <div class="w100p">
+                            <form class="visitFrm" th:method="post" th:action="@{/home/visit/write}">
+                                <input type="hidden" name="iuser" th:value="${loginUserPk}">
+                                <input type="hidden" name="ihost" th:value="${param.iuser}">
+                                <input type="hidden" name="ivisit" th:if="${modData != null}" th:value="${modData.get().getIvisit()}">
+                                <div>
+                                    <span>비밀로하기</span>
+                                    <input type="checkbox" name="secret" th:value="true" th:if="${modData != null}" th:checked="${modData.get().isSecret() == true}">
+                                    <input type="checkbox" name="secret" th:value="true" th:if="${modData == null}">
+
+                                </div>
+                                <div>
+                                    <textarea name="ctnt" class="visit-textarea" placeholder="내용" th:if="${modData != null}" th:text="${modData.get().getCtnt()}"></textarea>
+                                    <textarea name="ctnt" class="visit-textarea" placeholder="내용" th:if="${modData == null}"></textarea>
+                                </div>
+                                <div>
+                                    <input type="submit" value="save">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="visit-contents">
                 <th:block th:each="item : ${data}">
                     <div class="visit-elem" th:data-ivisit="${item.ivisit}">
@@ -53,7 +84,7 @@
                         <div class="visit-ctnt">
                             <th:block th:if="${item.secret}">
                                 <th:block th:if="${(#strings.equals(loginUserPk, param.iuser) || #strings.equals(loginUserPk, item.iuser.iuser))}">
-                                    <div th:utext="${item.ctnt}"></div>
+                                    <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
                                 </th:block>
 
                                 <th:block th:if="${(!#strings.equals(loginUserPk, param.iuser) && !#strings.equals(loginUserPk, item.iuser.iuser))}">
@@ -63,7 +94,7 @@
 
 
                             <th:block th:if="${!item.secret}">
-                                <div th:utext="${item.ctnt}"></div>
+                                <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
                             </th:block>
                         </div>
                     </div>

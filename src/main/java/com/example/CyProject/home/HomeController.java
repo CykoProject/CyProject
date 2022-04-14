@@ -26,7 +26,8 @@ public class HomeController {
     @Autowired private PageService pageService;
 
     @GetMapping
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "home/index";
     }
 
@@ -52,9 +53,7 @@ public class HomeController {
                 .rowCnt(rowCnt)
                 .build();
 
-        System.out.println(maxPage);
-
-        model.addAttribute("loginUser", loginUserPk);
+        model.addAttribute("loginUserPk", loginUserPk);
         model.addAttribute("data", utils.makeStringNewLine(list));
         model.addAttribute("pageData", pageEntity);
         return "home/diary/diary";
@@ -69,7 +68,7 @@ public class HomeController {
         if(authenticationFacade.getLoginUserPk() != iuser) {
             return "redirect:/home/diary?iuser="+iuser;
         }
-        model.addAttribute("loginUser", authenticationFacade.getLoginUserPk());
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "home/diary/write";
     }
     @PostMapping("/diary/write")
@@ -107,16 +106,6 @@ public class HomeController {
         model.addAttribute("pageData", pageEntity);
 
         return "home/visit/visit";
-    }
-
-    @GetMapping("/visit/write")
-    public String writeVisit(Model model, VisitEntity entity, String tab) {
-        if(tab != null && (entity.getIuser().getIuser() == entity.getIhost())) {
-            model.addAttribute("modData", visitRepository.findById(entity.getIvisit()));
-        }
-
-        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
-        return "home/visit/write";
     }
 
     @PostMapping("/visit/write")

@@ -13,6 +13,7 @@ import com.example.CyProject.home.model.visit.VisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.transform.Result;
 import java.util.List;
 
 @RestController
@@ -51,6 +52,24 @@ public class HomeRestController {
         List<Object> obj = utils.makeStringNewLine(list);
 
         return obj;
+    }
+
+    @GetMapping("/visit/mod")
+    public VisitEntity visitMod(@RequestParam int ivisit) {
+        VisitEntity entity = visitRepository.findByIvisit(ivisit);
+        return entity;
+    }
+    @PostMapping("/visit/mod")
+    public ResultVo visitModProc(@RequestBody VisitEntity entity) {
+        ResultVo vo = new ResultVo();
+        String preCtnt = visitRepository.findByIvisit(entity.getIvisit()).getCtnt();
+        VisitEntity result = visitRepository.save(entity);
+        System.out.println(preCtnt);
+        System.out.println(result);
+        if(!preCtnt.equals(result.getCtnt())) {
+            vo.setResult(1);
+        }
+        return vo;
     }
 
     @GetMapping("/visit/secret")

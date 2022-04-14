@@ -48,3 +48,10 @@
     color: #e7a02f;
     font-size: 15px;
 }
+
+.visit-textarea {
+    width: 308px;
+    height: 102px;
+    border: 1px solid black;
+    resize: none;
+}
