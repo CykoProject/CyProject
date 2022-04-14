@@ -10,10 +10,7 @@
 <body>
 <div class="mypage">
     <form method="post" action="/user/mypage" id="mypageForm">
-        <h3>내 정보 수정</h3>
-        <div th:text="${loginUser.nm}"></div>
-        <input type="hidden" name="email" id="email" th:value="${loginUser.email}">
-        <input type="hidden" name="nm" th:value="${loginUser.nm}">
+        <h3>비밀번호 수정</h3>
         <div id="oldUpw">
             <label for="oldUpw">현재 비밀번호 </label>
             <input type="password" name="oldUpw" placeholder="현재 비밀번호">

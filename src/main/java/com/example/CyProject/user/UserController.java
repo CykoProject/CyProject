@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/mypage")
-    public String update(UserDto dto, String newUpw) {
+    public String update(String newUpw) {
         String secureUpw = passwordEncoder.encode(newUpw);
         Optional<UserEntity> user = userRepository.findById(authenticationFacade.getLoginUserPk());
         user.ifPresent(selectUser -> {

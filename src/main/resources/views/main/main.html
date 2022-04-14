@@ -41,8 +41,8 @@
         <div class="profile">
             <div class="profile-top">
                 <p>손주영</p>
-                <p th:if="${session.loginUserPk != null}"><a href="/user/mypage">내 정보수정</a></p>
-                <button>로그아웃</button>
+                <p th:if="${session.loginUserPk != null}"><a href="/user/mypage">비밀번호 수정</a></p>
+                <button><a href="/user/logout">로그아웃</a></button>
             </div>
 
             <div class="profile-info">
