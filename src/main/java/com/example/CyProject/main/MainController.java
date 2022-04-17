@@ -31,4 +31,8 @@ public class MainController {
         mainService.searchUsers(search);
         return "main/search";
     }
+    @RequestMapping(value = {"main"},method = {RequestMethod.POST})
+    public String login(){
+        return "main/main";
+    }
 }

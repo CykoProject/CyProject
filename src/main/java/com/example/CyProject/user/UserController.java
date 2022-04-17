@@ -25,14 +25,8 @@ public class UserController {
 
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserRepository userRepository;
-    @Autowired private UserService service;
     @Autowired private HomeRepository homeRepository;
     @Autowired private AuthenticationFacade auth;
-
-    @RequestMapping(value = {"/login"},method = {RequestMethod.GET, RequestMethod.POST})
-    public String login() {
-        return "user/login";
-    }
 
     @GetMapping("/join")
     public String join() {

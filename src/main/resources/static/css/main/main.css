@@ -485,3 +485,9 @@ text-align: center;
     text-decoration: none;
     color: white;
 }
+
+.login_error_teg{
+    color: #FF7777;
+    font-size: 11px;
+    margin-top: 5px;
+}

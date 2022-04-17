@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class CustomAuthFailureHandler  implements AuthenticationFailureHandler {
-    private final String DEFAULT_FAILURE_URL = "/user/login?error=true";
+    private final String DEFAULT_FAILURE_URL = "main/?error=true";
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
@@ -21,7 +21,7 @@ public class CustomAuthFailureHandler  implements AuthenticationFailureHandler {
         String errorMessage = null;
 
         if(exception instanceof BadCredentialsException || exception instanceof InternalAuthenticationServiceException){
-            errorMessage = "아이디나 비밀번호가 맞지 않습니다. 확인 요망";
+            errorMessage = "아이디 또는 비밀번호를 다시 확인하세요.";
         }
 
         request.setAttribute("errorMessage", errorMessage);
