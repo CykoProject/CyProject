@@ -1,47 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/index">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>추억의 싸이월드</title>
+    <script defer src="https://use.fontawesome.com/releases/v6.1.1/js/all.js" integrity="sha384-xBXmu0dk1bEoiwd71wOonQLyH+VpgR1XcDH3rtxrLww5ajNTuMvBdL5SOiFZnNdp" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
 </head>
 <body>
-<header>
-    <div class="header">
-        <img class="logo-img" src="https://cdn.senmoney.co.kr/news/photo/202006/1999_2098_4524.jpg" alt=""/>
 
-        <div class="header-center">
-            <div class="header-menu">
-                <p>미니홈피</p>
-                <p>인기글</p>
-                <p>쇼핑</p>
-            </div>
-            <div class="search">
-                <div class="search-select">
-                    <select class="search-conditions">
-                        <option value="0">게시글</option>
-                        <option value="1">친구</option>
-                    </select>
-                    <input type="text" class="search-text">
-                    <button>검색</button>
-                </div>
-            </div>
-        </div>
-        <img class="ads-img"
-             src="https://coinpan.com/files/attach/images/198/962/872/096/fdae5cae18bbd697d9bd9df0f674821a.jpg" alt=""/>
-    </div>
-</header>
-
+<th:block layout:fragment="container">
 <div class="container">
 
     <div class="left-container">
-        <div class="profile">
+        <div th:if="${loginUserPk > 0}" class="profile">
             <div class="profile-top">
-                <p>손주영</p>
-                <p>내 정보수정</p>
-                <button>로그아웃</button>
+                <p th:text="${loginUser.getNm()}"></p>
+                <button><a th:href="@{/user/mypage}">내 정보수정</a></button>
+                <button><a th:href="@{/user/logout}">로그아웃</a></button>
             </div>
 
             <div class="profile-info">
@@ -76,6 +55,30 @@
                 </select>
             </div>
         </div>
+
+        <div th:unless="${loginUserPk > 0}" class="login">
+            <div class="login-img-box">
+                <img class="login-img" src="https://cdn.senmoney.co.kr/news/photo/202006/1999_2098_4524.jpg" alt=""/>
+            </div>
+            <form method="post" action="/user/login">
+            <div class="login-section">
+
+                <div class="login-input">
+                    <input type="text" name="email" placeholder="아이디를 입력하세요."/>
+                    <input type="password" name="upw" placeholder="비밀번호를 입력하세요."/>
+                </div>
+
+                <div class="login-btn">
+                    <button type="submit">로그인</button>
+                </div>
+
+            </div>
+            </form>
+            <div class="join-section">
+                <button><a class="join-btn" href="/user/join">회원가입</a></button>
+            </div>
+        </div>
+
         <div class="on-friends">
             <h3>접속 중인 친구</h3>
             <p>주영</p>
@@ -106,7 +109,7 @@
             <div class="news-top">
                 <h5>뉴스</h5>
                 <div>
-                    <input type="text" class="news-search">
+                    <input type="text" class="news-search" placeholder="뉴스를 검색하세요.">
                     <button class="news-search-button">검색</button>
                 </div>
             </div>
@@ -115,13 +118,22 @@
             </div>
         </div>
         <div class="main-webtoons">
-            <h1>재미있는 웹툰</h1>
+            <div class="webtoon-top">
+                <h5>웹툰</h5>
+                <div class="webtoon-move-btn">
+                    <button class="webtoon-prev-btn">이전</button>
+                    <button class="webtoon-next-btn">다음</button>
+                </div>
+            </div>
+            <div class="webtoon-list">
+
+            </div>
         </div>
 
         <div class="main-movie">
             <div class="movie-top">
                 <h5>영화</h5>
-                <div>
+                <div class="movie-move-btn">
                     <button class="movie-prev-btn">이전</button>
                     <button class="movie-next-btn">다음</button>
                 </div>
@@ -165,11 +177,8 @@
     </div>
 
 </div>
-<div class="footer-wrapper">
-    <footer class="footer">
-        footer
-    </footer>
-</div>
+</th:block>
+
 <script src="../../static/js/main/main.js"></script>
 </body>
 </html>

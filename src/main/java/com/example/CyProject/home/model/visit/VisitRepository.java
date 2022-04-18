@@ -11,7 +11,11 @@ import java.util.List;
 @Repository
 public interface VisitRepository extends JpaRepository<VisitEntity, Integer> {
 
+    VisitEntity findByIvisit(int ivisit);
+
     List<VisitEntity> findByIhostOrderByRdtDesc(int ihost);
 
     Page<VisitEntity> findAllByIhost(int ihost, Pageable pageable);
+
+    int countAllByIhost(int ihost);
 }

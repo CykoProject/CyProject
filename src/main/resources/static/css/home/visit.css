@@ -21,20 +21,9 @@
     color: gray;
 }
 
-.visit-del:hover {
+.visit-del:hover, .visit-mod:hover, .visit-secret:hover, .visit-report:hover {
     cursor: pointer;
-}
-
-.visit-mod:hover {
-    cursor: pointer;
-}
-
-.visit-secret:hover {
-    cursor: pointer;
-}
-
-.visit-report:hover {
-    cursor: pointer;
+    color: red !important;
 }
 
 .visit-date-bar {
@@ -58,4 +47,11 @@
 .secret-ctnt {
     color: #e7a02f;
     font-size: 15px;
+}
+
+.visit-textarea {
+    width: 308px;
+    height: 102px;
+    border: 1px solid black;
+    resize: none;
 }

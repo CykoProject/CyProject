@@ -1,4 +1,11 @@
+html {
+    overflow: hidden;
+}
 
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
 
 .wrap {
     width: 1189px;
@@ -117,4 +124,33 @@
     border-bottom-left-radius: 0px !important;
     border-left: none !important;
     color: black !important;
+}
+
+.home-container {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 89%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.home-container > div {
+    margin-bottom: 10px;
+}
+
+.pagination {
+    text-align: center;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: black;
+}
+
+.cur-page {
+    color: red !important;
+}
+
+.empty-data {
+
 }

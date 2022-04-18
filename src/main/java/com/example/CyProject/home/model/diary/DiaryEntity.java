@@ -18,9 +18,7 @@ public class DiaryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idiary;
 
-    @Column(updatable = false)
     private int ihost;
-    
     private String ctnt;
 
     @Column(insertable = false, updatable = false)

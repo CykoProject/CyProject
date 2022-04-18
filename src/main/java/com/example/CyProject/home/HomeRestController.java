@@ -10,14 +10,11 @@ import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.home.model.visit.VisitDto;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
+import javax.xml.transform.Result;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/ajax/home")
@@ -52,27 +49,46 @@ public class HomeRestController {
         for(VisitEntity item : list) {
             item.getIuser().setUpw(null);
         }
-        System.out.println(utils.makeStringNewLine(list));
         List<Object> obj = utils.makeStringNewLine(list);
 
         return obj;
     }
 
-    @PostMapping("/visit/secret")
-    public ResultVo onVisitSecret(@RequestBody VisitDto dto) {
-        VisitEntity status = visitRepository.save(dto.toEntity());
+    @GetMapping("/visit/mod")
+    public VisitEntity visitMod(@RequestParam int ivisit) {
+        VisitEntity entity = visitRepository.findByIvisit(ivisit);
+        return entity;
+    }
+    @PostMapping("/visit/mod")
+    public ResultVo visitModProc(@RequestBody VisitEntity entity) {
         ResultVo vo = new ResultVo();
-        vo.setResult(dto.isSecret() == status.isSecret() ? 1 : 0);
+        String preCtnt = visitRepository.findByIvisit(entity.getIvisit()).getCtnt();
+        VisitEntity result = visitRepository.save(entity);
+        System.out.println(preCtnt);
+        System.out.println(result);
+        if(!preCtnt.equals(result.getCtnt())) {
+            vo.setResult(1);
+        }
+        return vo;
+    }
+
+    @GetMapping("/visit/secret")
+    public ResultVo onVisitSecret(VisitDto dto) {
+        VisitEntity entity = visitRepository.getById(dto.getIvisit());
+        entity.setSecret(true);
+        VisitEntity status = visitRepository.save(entity);
+        ResultVo vo = new ResultVo();
+        vo.setResult(entity.isSecret() == status.isSecret() ? 1 : 0);
 
         return vo;
     }
 
-    @GetMapping("/visit/del")
+    @DeleteMapping("/visit/del")
     public ResultVo delVisit(VisitDto dto) {
         ResultVo vo = new ResultVo();
         vo.setResult(0);
         int userPk = authenticationFacade.getLoginUserPk();
-        if(userPk == dto.getIuser().getIuser() || userPk == dto.getIuser().getIuser()) {
+        if(userPk == dto.getIuser().getIuser() || userPk == dto.getIhost()) {
             visitRepository.deleteById(dto.getIvisit());
             vo.setResult(1);
         }

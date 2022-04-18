@@ -11,7 +11,7 @@ const upwInput = upwElem.querySelector('input');
 
 //upwChk
 const upwChkElem = document.querySelector('#upwChk');
-const upwChkInput = upwChkElem.querySelector('input')
+const upwChkInput = upwChkElem.querySelector('input');
 
 //name
 const nameElem = document.querySelector('#name');
@@ -51,17 +51,17 @@ const infoMsg  = (elem, msg) => {
 emailChk.addEventListener('click', (e) => {
     e.preventDefault();
     if(!emailRegex.test(emailInput.value)){
-        errorMsg(emailElem, '이메일 형식에 맞게 사용 부탁');
+        errorMsg(emailElem, '이메일 형식에 맞게 작성해주세요.');
         emailTrue = false;
     } else {
         fetch(`/user/idChk/${emailInput.value}`)
             .then(res => res.json())
             .then(data => {
                 if(data.result === 1){
-                    errorMsg(emailElem, '이미 등록되어 있는아이디');
+                    errorMsg(emailElem, '이미 등록되어 있는 아이디입니다.');
                     emailTrue = false;
                 } else {
-                    infoMsg(emailElem, '1단계 통과 다음 관문으로');
+                    infoMsg(emailElem, '사용 가능한 아이디입니다.');
                     emailTrue = true;
                 }
             });
@@ -70,61 +70,63 @@ emailChk.addEventListener('click', (e) => {
 
 upwInput.addEventListener('keyup',  (e)=> {
     e.preventDefault();
-   if(!upwRegex.test(upwInput.value)){
-       errorMsg(upwElem,'숫자,영문 조합 7자리 특문 각 1회 이상');
-       upwTrue = false;
-   } else {
-       infoMsg(upwElem,'2단계 통과 다음 관문으로');
-       upwTrue = true;
-   }
+    if(!upwRegex.test(upwInput.value)){
+        errorMsg(upwElem,'숫자,영문 조합 7자리 특문 각 1회 이상');
+        upwTrue = false;
+    } else {
+        infoMsg(upwElem,'사용 가능한 비밀번호입니다.');
+        upwTrue = true;
+    }
 });
 
 upwChkInput.addEventListener('keyup', (e) => {
     e.preventDefault();
     if(upwInput.value !== upwChkInput.value){
-        errorMsg(upwChkElem, '비슷하지만 같지않음');
+        errorMsg(upwChkElem, '비밀번호가 일치하지 않습니다.');
         upwChkTrue = false;
     } else {
-        infoMsg(upwChkElem, '3단계 통과 다음 관문으로');
+        infoMsg(upwChkElem, '비밀번호가 일치합니다.');
         upwChkTrue = true;
     }
 });
 
 nameInput.addEventListener('keyup', () => {
     if(!nameRegex.test(nameInput.value)){
-        errorMsg(nameElem,'두글자 이상 다섯글자 까지 사용 삽가능');
+        errorMsg(nameElem,'이름은 2~5 작성해 주세요.');
         nameTrue = false;
     } else {
-        infoMsg(nameElem,'4단계 관문 통과 회원가입 과능');
+        infoMsg(nameElem,'사용 가능한 이름입니다.');
         nameTrue = true;
     }
 });
 
 
 joinForm.addEventListener('submit', (e) => {
-    e.preventDefault();
 
     if(emailTrue === false) {
-        alert('중복 확인 부탁~')
+        alert('이메일 중복 확인해 주세요.')
+        e.preventDefault();
         return;
+
     }
 
-    if(!upwTrue === false) {
-        alert('비밀번호 확인 부탁~');
+    if(upwTrue === false) {
+        alert('비밀번호 확인해 주세요.');
+        e.preventDefault();
         return;
+
     }
 
-    if(!upwChkTrue || !nameTrue){
-        alert('비밀번호 서로 다름~')
+    if(!upwChkTrue || !upwTrue){
+        alert('비밀번호가 일치하지 않습니다.')
+        e.preventDefault();
         return;
+
     }
 
-    if(!nameTrue === false){
-        alert('이름 2글자 이상~5글자 미만~')
+    if(nameTrue === false){
+        alert('이름은 2~5글자 사용해 주세요');
+        e.preventDefault();
         return;
     }
 });
-
-
-
-
