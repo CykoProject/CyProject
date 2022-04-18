@@ -9,6 +9,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     UserEntity findByEmail(String email);
+    UserEntity findByIuser(int iuser);
 
     List<UserEntity> findByNm(String search);
 }
