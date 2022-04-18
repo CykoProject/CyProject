@@ -40,7 +40,6 @@ public class HomeController {
     @Autowired private ProfileRepository profileRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private HomeService homeService;
-    @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스\
 
     @GetMapping
     public String home(HomeEntity entity, Model model) {
