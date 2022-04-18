@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -5,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/home/profile.css}">
+    <script th:src="@{/js/home/profile.js}" defer></script>
     <title>Title</title>
 </head>
 <body>
@@ -25,15 +27,20 @@
 
     <th:block layout:fragment="content_right">
         <div class="profile-container">
-            <th:block th:each="item : ${data}">
+            <th:block th:if="${#strings.equals(loginUser, param.iuser)}">
+                <div class="write-btn">
+                    <a th:href="@{/home/profile/write(iuser=${param.iuser})}">프로필 등록</a>
+                </div>
+            </th:block>
+            <th:block>
                 <div>
                     <div class="profile-img">
-                        <img th:src="@{'/pic/profile/' + ${item.ihost} +'/' + ${item.img}}" onerror="this.onerror=null; this.src='/img/defaultProfileImg.png'">
+                        <img th:src="@{'/pic/profile/' + ${data.ihost} +'/' + ${data.img}}" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'">
                     </div>
                 </div>
                 <div>
                     <div class="profile-content">
-                        <span th:text="${item.ctnt}"></span>
+                        <span th:text="${data.ctnt}"></span>
                     </div>
                 </div>
             </th:block>

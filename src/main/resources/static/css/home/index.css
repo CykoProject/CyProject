@@ -15,7 +15,7 @@
     background: url("/static/img/home_blue.png") no-repeat center / 100% 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly;
     padding: 2rem;
 }
 
@@ -33,6 +33,14 @@
     width: 70%;
 }
 
+.section.left .content {
+    padding: 1rem;
+}
+
+.section.right .content {
+    padding: 2rem;
+}
+
 .section .header {
     height: 5%;
 }
@@ -41,6 +49,7 @@
     height: 90%;
     border: 0.0625rem solid #b2b2b2;
     border-radius: 0.5rem;
+    font-size: 0.9rem;
 }
 
 .header.cnt p {

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ProfileRepository extends JpaRepository<ProfileEntity, Integer> {
 
-    List<ProfileEntity> findTop1ByIhostOrderByRdtDesc(int ihost);
+    ProfileEntity findTop1ByIhostOrderByRdtDesc(int iuser);
 }

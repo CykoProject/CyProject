@@ -5,10 +5,12 @@ import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
+import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
 import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
+import com.example.CyProject.user.model.UserRepository;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +35,19 @@ public class HomeController {
 
     @Autowired private Utils utils;
     @Autowired private DiaryRepository diaryRepository;
-    @Autowired private ProfileRepository profileRepository;
-    @Autowired private HomeService homeService;
     @Autowired private VisitRepository visitRepository;
-    @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스
+    @Autowired private ProfileRepository profileRepository;
+    @Autowired private UserRepository userRepository;
     @Autowired private HomeService homeService;
+    @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스\
 
     @GetMapping
-    public String home() {
-        return "home/index";
+    public String home(HomeEntity entity, Model model) {
+        int loginUser = authenticationFacade.getLoginUserPk();
+        model.addAttribute("loginUser", loginUser);
+        model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
+        model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
+        return "home/home";
     }
 
     @GetMapping("/diary")
@@ -108,22 +114,25 @@ public class HomeController {
     }
 
     @GetMapping("/profile")
-    public String profile(ProfileEntity entity, Model model) {
-        model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIhost()));
+    public String profile(HomeEntity entity, Model model) {
+        int loginUser = authenticationFacade.getLoginUserPk();
+        model.addAttribute("loginUser", loginUser);
+        model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
         return "home/profile/profile";
     }
 
     @GetMapping("/profile/write")
     public String writeProfile() {
-        return "home/profile/writeProfile";
+        return "home/profile/write";
     }
 
-    @PostMapping("/profile/wirte")
-    public String writeProfileProc(MultipartFile img, ProfileEntity entity, Model model) {
+    @PostMapping("/profile/write")
+    public String writeProfileProc(MultipartFile profileImg, ProfileEntity entity, Model model) {
         ProfileEntity param = new ProfileEntity();
+        param.setIhost(entity.getIhost());
         param.setCtnt(entity.getCtnt());
 
-        int result = homeService.writeProfile(img, entity);
+        int result = homeService.writeProfile(profileImg, entity);
         if (result == 0) {
             model.addAttribute("error", "프로필 등록에 실패하였습니다.");
             return "home/profile/profile";

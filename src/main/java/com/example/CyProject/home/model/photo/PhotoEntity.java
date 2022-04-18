@@ -1,4 +1,4 @@
-package com.example.CyProject.home.model.profile;
+package com.example.CyProject.home.model.photo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,21 +8,23 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "home_profile")
+@Table(name = "home_photos")
 @Getter
 @Setter
 @ToString
-public class ProfileEntity {
+public class PhotoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int iprofile;
+    private int iphoto;
 
     private int ihost;
+    private String title;
     private String ctnt;
 
-    private String img;
-
-    @Column(insertable = false)    // default 값 있는 컬럼에 있어야 함
+    @Column(insertable = false)
     private LocalDateTime rdt;
+
+    @Column(insertable = false)
+    private int scrap;
 }

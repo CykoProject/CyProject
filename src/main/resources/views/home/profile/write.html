@@ -5,6 +5,8 @@
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/home/profile.css}">
+    <script th:src="@{/js/home/profile.js}"></script>
     <title>Title</title>
 </head>
 <body>
@@ -14,11 +16,15 @@
 
 <th:block layout:fragment="content_right">
     <div>
-        <form th:method="post" th:action="@{/home/profile/write}">
+        <form id="profile-form" th:method="post" th:action="@{/home/profile/write}" enctype="multipart/form-data">
             <input type="hidden" name="ihost" th:value="${param.iuser}">
             <div>
-                <textarea name="ctnt" placeholder="내용"></textarea>
-                <input type="file" name="img" multiple>
+                <label>
+                    <textarea name="ctnt" placeholder="내용"></textarea>
+                </label>
+                <label>
+                    <input type="file" name="profileImg" accept="image/*" multiple>
+                </label>
             </div>
             <div>
                 <input type="submit" value="save">
