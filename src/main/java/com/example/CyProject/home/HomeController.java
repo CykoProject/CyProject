@@ -132,7 +132,6 @@ public class HomeController {
         if(iuser != loginIuser) {
             return "redirect:/manage?iuser=" + loginIuser;
         }
-        System.out.println(hs.getAttribute("error"));
         model.addAttribute("data", homeRepository.findByIuser(iuser));
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("error", hs.getAttribute("error"));
@@ -155,8 +154,6 @@ public class HomeController {
         hs.setAttribute("error", "성공");
         return "redirect:/home/manage?iuser=" + entity.getIuser();
     }
-
-
     // 관리 ============================================================================================================
 
 // ======================= 방명록, 다이어리, 주크박스, 관리 =====================================================================================

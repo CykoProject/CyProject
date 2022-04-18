@@ -19,24 +19,74 @@ if(visitElem) {
 
 
     //============================ 비밀로하기(on) start ==========================
-    const visitSecretArr = document.querySelectorAll('.visit-secret');
-    visitSecretArr.forEach(item => {
-        item.addEventListener('click', (e) => {
-            const ivisit = e.target.closest('.visit-elem').dataset.ivisit;
-            fetch(`/ajax/home/visit/secret?ivisit=${ivisit}`)
-                .then(res => res.json())
-                .then(data => {
-                    if(data.result) {
-                        e.target.closest('#status-bar').className = 'visit-secret-bar';
-                        e.target.closest('.secret-elem').remove();
-                    }
-                })
-                .catch(e => {
-                    console.error(e);
-                });
+    const visitSecret = () => {
+        const visitSecretArr = document.querySelectorAll('.visit-secret');
+        visitSecretArr.forEach(item => {
+            item.addEventListener('click', (e) => {
+                const ivisit = e.target.closest('.visit-elem').dataset.ivisit;
+                fetch(`/ajax/home/visit/secret?ivisit=${ivisit}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.result) {
+                            e.target.closest('#status-bar').className = 'visit-secret-bar';
+
+                            const superElem = e.target.closest('.secret-elem');
+                            superElem.innerHTML = '';
+                            const openSpan = document.createElement('span');
+                            openSpan.classList.add('visit-open');
+                            openSpan.innerText = '공개하기 ';
+                            const span = document.createElement('span');
+                            span.innerText = '|';
+                            superElem.className = 'open-elem';
+
+                            superElem.appendChild(openSpan);
+                            superElem.appendChild(span);
+                            visitOpen();
+                        }
+                    })
+                    .catch(e => {
+                        console.error(e);
+                    });
+            });
         });
-    });
+    }
+    visitSecret();
     //============================ 비밀로하기(on) finish ==========================
+
+    //============================ 공개하기 start =================================
+    const visitOpen = () => {
+        const visitOpenArr = document.querySelectorAll('.visit-open');
+        visitOpenArr.forEach(item => {
+            item.addEventListener('click', (e) => {
+                const ivisit = e.target.closest('.visit-elem').dataset.ivisit;
+                fetch(`/ajax/home/visit/secret?ivisit=${ivisit}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.result) {
+                            e.target.closest('#status-bar').className = 'visit-date-bar';
+
+                            const superElem = e.target.closest('.open-elem');
+                            superElem.innerHTML = '';
+                            const openSpan = document.createElement('span');
+                            openSpan.classList.add('visit-secret');
+                            openSpan.innerText = '비밀로하기 ';
+                            const span = document.createElement('span');
+                            span.innerText = '|';
+                            superElem.className = 'secret-elem';
+
+                            superElem.appendChild(openSpan);
+                            superElem.appendChild(span);
+                            visitSecret();
+                        }
+                    })
+                    .catch(e => {
+                        console.error(e);
+                    });
+            })
+        });
+    }
+    visitOpen();
+    //============================ 공개하기 start =================================
 
 
 

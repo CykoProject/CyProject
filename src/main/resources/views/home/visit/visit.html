@@ -75,6 +75,14 @@
                                         <span>|</span>
                                     </span>
                                 </th:block>
+                                <th:block th:if="${(#strings.equals(loginUserPk, param.iuser)
+                                || #strings.equals(loginUserPk, item.iuser.iuser))
+                                && item.secret}">
+                                    <span class="open-elem">
+                                        <span class="visit-open">공개하기</span>
+                                        <span>|</span>
+                                    </span>
+                                </th:block>
                                 <th:block th:if="${#strings.equals(loginUserPk, param.iuser) || #strings.equals(loginUserPk, item.iuser.iuser)}">
                                     <span class="visit-del" th:data-iuser="${item.iuser.iuser}">삭제</span>
                                     <span>|</span>

@@ -64,8 +64,6 @@ public class HomeRestController {
         ResultVo vo = new ResultVo();
         String preCtnt = visitRepository.findByIvisit(entity.getIvisit()).getCtnt();
         VisitEntity result = visitRepository.save(entity);
-        System.out.println(preCtnt);
-        System.out.println(result);
         if(!preCtnt.equals(result.getCtnt())) {
             vo.setResult(1);
         }
@@ -75,7 +73,11 @@ public class HomeRestController {
     @GetMapping("/visit/secret")
     public ResultVo onVisitSecret(VisitDto dto) {
         VisitEntity entity = visitRepository.getById(dto.getIvisit());
-        entity.setSecret(true);
+        if(entity.isSecret()) {
+            entity.setSecret(false);
+        } else {
+            entity.setSecret(true);
+        }
         VisitEntity status = visitRepository.save(entity);
         ResultVo vo = new ResultVo();
         vo.setResult(entity.isSecret() == status.isSecret() ? 1 : 0);
