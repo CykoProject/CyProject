@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="home/index">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/home/manage.css}">
+    <script defer th:src="@{/js/home/manage.js}"></script>
+    <title>Title</title>
+</head>
+<body>
+    <th:block layout:fragment="content_left">
+
+    </th:block>
+
+    <th:block layout:fragment="content_right">
+        <div class="manage_container">
+            <div class="line">
+                <strong>미니홈피 탭 관리</strong>
+            </div>
+
+            <div class="">
+                <form th:action="@{/home/manage/tab}" method="post">
+                    <input type="hidden" name="iuser" th:value="${param.iuser}">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>탭</th>
+                            <th>
+                                <input type="checkbox" class="tab-check">
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td>다이어리</td>
+                            <td>
+                                <input type="checkbox" name="diary" th:checked="${data.diary}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>사진첩</td>
+                            <td>
+                                <input type="checkbox" name="photo" th:checked="${data.photo}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>방명록</td>
+                            <td>
+                                <input type="checkbox" name="visit" th:checked="${data.visit}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>주크박스</td>
+                            <td>
+                                <input type="checkbox" name="jukebox" th:checked="${data.jukebox}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>미니룸</td>
+                            <td>
+                                <input type="checkbox" name="mini_room" th:checked="${data.mini_room}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button class="tab-submit-btn">적용</button>
+                </form>
+            </div>
+        </div>
+        <div class="tab-issue" th:data-err="${error}"></div>
+    </th:block>
+</body>
+</html>

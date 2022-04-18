@@ -1,9 +1,22 @@
-const visitElem = document.querySelector('.home-container');
+const visitElem = document.querySelector('.visit-container');
 if(visitElem) {
     const visit_url = new URL(location.href);
     const visit_urlParams = visit_url.searchParams;
     const ihost = parseInt(visit_urlParams.get("iuser"));
     const loginUserPk = parseInt(document.querySelector('.data-pk').dataset.loginuser);
+
+    //============================ 방명록 작성 start ==========================
+    const insVisitBtn = document.querySelector('.ins-visit');
+    insVisitBtn.addEventListener('click', (e) => {
+        const visitFrmElem = document.querySelector('.visitFrm');
+        const textareaCtnt = visitFrmElem.querySelector('textarea').value;
+        if(textareaCtnt.length === 0) {
+            e.preventDefault();
+            alert('1자 이상 작성해 주세요.');
+        }
+    });
+    //============================ 방명록 작성 finish ==========================
+
 
     //============================ 비밀로하기(on) start ==========================
     const visitSecretArr = document.querySelectorAll('.visit-secret');
@@ -77,7 +90,6 @@ if(visitElem) {
             cnt = 1;
             const ivisit = superElem.dataset.ivisit;
             const visitCtntElem = superElem.querySelector('.visit-ctnt');
-            const visitModData = superElem.querySelector('.visit-mod-data').innerText;
 
             const insertVisit = (data) => {
                 const visitData = {
@@ -119,6 +131,7 @@ if(visitElem) {
                 div.appendChild(btnDiv);
                 visitCtntElem.appendChild(div);
                 visitModBtn.addEventListener('click', () => {
+                    console.log(data.ctnt)
                     data.ctnt = textArea.value;
                     if(data.ctnt.length === 0) {
                         alert('1자 이상 작성해 주세요');
