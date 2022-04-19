@@ -7,6 +7,8 @@ import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.home.HomeRepository;
+import com.example.CyProject.home.model.report.ReportEntity;
+import com.example.CyProject.home.model.report.ReportRepository;
 import com.example.CyProject.home.model.visit.VisitDto;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
@@ -23,6 +25,7 @@ public class HomeRestController {
     @Autowired private HomeRepository homeRepository;
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private VisitRepository visitRepository;
+    @Autowired private ReportRepository reportRepository;
     @Autowired private AuthenticationFacade authenticationFacade;
     @Autowired private Utils utils;
 
@@ -39,6 +42,29 @@ public class HomeRestController {
         if(dbData.getIhost() == authenticationFacade.getLoginUserPk()) {
             diaryRepository.deleteById(entity.getIdiary());
             vo.setResult(1);
+        }
+        return vo;
+    }
+
+    @PostMapping("/diary/report")
+    public ResultVo reportDiary(@RequestBody ReportEntity reportEntity) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(0);
+
+        int icategory = HomeCategory.DIARY.getCategory();
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        if(loginUserPk == 0) {
+            vo.setResult(0);
+            return vo;
+        }
+        reportEntity.setIcategory(icategory);
+        reportEntity.setReporter(loginUserPk);
+
+        try {
+            reportRepository.save(reportEntity);
+            vo.setResult(1);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return vo;
     }

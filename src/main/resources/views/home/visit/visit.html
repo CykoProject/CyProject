@@ -15,18 +15,16 @@
     </th:block>
 
     <th:block layout:fragment="content_right">
-
         <div class="data-pk" th:data-loginuser="${loginUserPk}"></div>
         <div class="visit-container">
             <div class="visit-write" th:if="${loginUserPk > 0}">
                 <div class="frow bc-gray p10-10">
                     <div class="f1">
                         <div>
-                            <img>
+                            <img src="/static/img/defaultProfile.jpeg">
                         </div>
                         <div class="w100p">
-                            <span>미니미</span>
-                            <span>설정</span>
+                            <span>미니미 설정</span>
                         </div>
                     </div>
                     <div class="f2">

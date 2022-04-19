@@ -107,7 +107,6 @@ public class HomeController {
     @GetMapping("/visit")
     public String visit(Model model, @RequestParam(required = false, defaultValue = "1", value = "page") int page
             , @RequestParam(required = false, defaultValue = "0", value = "iuser") int iuser) {
-        int category = HomeCategory.VISIT.getCategory();
         // TODO - 동적 페이징
         int rowCnt = 10;
         int pageCnt = 10;
@@ -125,6 +124,7 @@ public class HomeController {
                 .build();
 
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
+
         model.addAttribute("data", utils.makeStringNewLine(list));
         model.addAttribute("pageData", pageEntity);
 
@@ -140,6 +140,13 @@ public class HomeController {
         return authenticationFacade.loginChk("redirect:/home/visit?iuser=" + entity.getIhost());
     }
     // 방명록 ============================================================================================================
+
+    // 주크박스 ============================================================================================================
+    @GetMapping("/jukebox")
+    public String jukeBox() {
+        return "home/jukebox/jukebox";
+    }
+    // 주크박스 ============================================================================================================
 
     // 관리 ============================================================================================================
     @GetMapping("/manage")
@@ -172,10 +179,16 @@ public class HomeController {
         hs.setAttribute("error", "성공");
         return "redirect:/home/manage?iuser=" + entity.getIuser();
     }
-    // 관리 ============================================================================================================
 
+    @PostMapping("/manage/scope")
+    public String manageScopeProc(HomeEntity entity) {
+        homeRepository.updateScope(entity.getScope(), entity.getIuser());
+
+        return "redirect:/home/manage?iuser=" + entity.getIuser();
+    }
+    // 관리 ============================================================================================================
 // ======================= 방명록, 다이어리, 주크박스, 관리 =====================================================================================
-=======
+
 // ======================= 방명록, 다이어리, 주크박스 =====================================================================================
 
 

@@ -40,7 +40,7 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 30MB
-      location: /Users/sua/Desktop/project/cyworld/image
+      location: D:\files
 
 mybatis:
   mapper-locations: mappers/**/*.xml

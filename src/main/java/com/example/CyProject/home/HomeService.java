@@ -26,12 +26,6 @@ public class HomeService {
     private final MyFileUtils myFileUtils;
     private final ProfileRepository profileRepository;
 
-    @Autowired private VisitRepository visitRepository;
-
-    public Page<VisitEntity> visitPaging(int ihost, int page) {
-        return visitRepository.findAllByIhost(ihost, PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "rdt")));
-    }
-
     public int writeProfile(MultipartFile profileImg, ProfileEntity entity) {
         // TODO : profile 사진 없이 글 썼을 때 체크
 
