@@ -56,3 +56,15 @@ a {
 .w100p {
     width: 100%;
 }
+
+.p10-10 {
+    padding: 10px 10px;
+}
+
+.g30 {
+    gap: 30px;
+}
+
+.just-center {
+    justify-content: center;
+}

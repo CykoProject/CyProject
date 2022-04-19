@@ -18,6 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class HomeController {
 
     @Autowired private Utils utils;
+    @Autowired private HomeRepository homeRepository;
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private VisitRepository visitRepository;
     @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스
@@ -137,7 +141,41 @@ public class HomeController {
     }
     // 방명록 ============================================================================================================
 
+    // 관리 ============================================================================================================
+    @GetMapping("/manage")
+    public String manage(@RequestParam int iuser, Model model, HttpSession hs) {
+        int loginIuser = authenticationFacade.getLoginUserPk();
 
+
+        if(iuser != loginIuser) {
+            return "redirect:/manage?iuser=" + loginIuser;
+        }
+        model.addAttribute("data", homeRepository.findByIuser(iuser));
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
+        model.addAttribute("error", hs.getAttribute("error"));
+        hs.removeAttribute("error");
+        return "home/manage/manage";
+    }
+
+    @PostMapping("/manage/tab")
+    public String manageTabProc(HomeEntity entity, HttpSession hs) {
+        int ihome = homeRepository.findByIuser(entity.getIuser()).getIhome();
+        entity.setIhome(ihome);
+        try{
+            if(entity.getIuser() == authenticationFacade.getLoginUserPk()) {
+                homeRepository.save(entity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            hs.setAttribute("error", "실패");
+        }
+        hs.setAttribute("error", "성공");
+        return "redirect:/home/manage?iuser=" + entity.getIuser();
+    }
+    // 관리 ============================================================================================================
+
+// ======================= 방명록, 다이어리, 주크박스, 관리 =====================================================================================
+=======
 // ======================= 방명록, 다이어리, 주크박스 =====================================================================================
 
 

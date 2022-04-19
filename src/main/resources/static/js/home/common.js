@@ -38,7 +38,7 @@ const addTabMenu = (data) => {
         makeProperties(createAElem(), '미니룸', 'miniroom')
     }
     if(loginUserPk === iuser) {
-        makeProperties(createAElem(), '관리', 'setting');
+        makeProperties(createAElem(), '관리', 'manage');
     }
     cnt = 0;
 

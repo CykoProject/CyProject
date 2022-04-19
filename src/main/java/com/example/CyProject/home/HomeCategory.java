@@ -1,7 +1,5 @@
 package com.example.CyProject.home;
 
-import org.springframework.context.annotation.Bean;
-
 public enum HomeCategory {
     PROFILE(1),
     DIARY(2),
