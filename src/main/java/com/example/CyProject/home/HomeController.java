@@ -7,7 +7,10 @@ import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.home.model.visit.VisitEntity;
+import com.example.CyProject.home.model.profile.ProfileEntity;
+import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
+import com.example.CyProject.user.model.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.text.html.Option;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,11 +41,17 @@ public class HomeController {
     @Autowired private VisitRepository visitRepository;
     @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스
     @Autowired private PageService pageService;
+    @Autowired private ProfileRepository profileRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private HomeService homeService;
 
     @GetMapping
-    public String home(Model model) {
+    public String home(HomeEntity entity, Model model) {
+        int loginUser = authenticationFacade.getLoginUserPk();
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
-        return "home/index";
+        model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
+        model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
+        return "home/home";
     }
 
 
@@ -129,6 +146,7 @@ public class HomeController {
     public String manage(@RequestParam int iuser, Model model, HttpSession hs) {
         int loginIuser = authenticationFacade.getLoginUserPk();
 
+
         if(iuser != loginIuser) {
             return "redirect:/manage?iuser=" + loginIuser;
         }
@@ -157,4 +175,34 @@ public class HomeController {
     // 관리 ============================================================================================================
 
 // ======================= 방명록, 다이어리, 주크박스, 관리 =====================================================================================
+=======
+// ======================= 방명록, 다이어리, 주크박스 =====================================================================================
+
+
+    @GetMapping("/profile")
+    public String profile(HomeEntity entity, Model model) {
+        int loginUser = authenticationFacade.getLoginUserPk();
+        model.addAttribute("loginUser", loginUser);
+        model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
+        return "home/profile/profile";
+    }
+
+    @GetMapping("/profile/write")
+    public String writeProfile() {
+        return "home/profile/write";
+    }
+
+    @PostMapping("/profile/write")
+    public String writeProfileProc(MultipartFile profileImg, ProfileEntity entity, Model model) {
+        ProfileEntity param = new ProfileEntity();
+        param.setIhost(entity.getIhost());
+        param.setCtnt(entity.getCtnt());
+
+        int result = homeService.writeProfile(profileImg, entity);
+        if (result == 0) {
+            model.addAttribute("error", "프로필 등록에 실패하였습니다.");
+            return "home/profile/profile";
+        }
+        return "redirect:/home/profile?iuser=" + entity.getIhost();
+    }
 }
