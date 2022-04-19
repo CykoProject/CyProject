@@ -40,26 +40,25 @@
                     <thead>
                     <tr>
                         <th>
-                            <input type="checkbox" id="jukebox-check">
+                            <input type="checkbox" id="jukebox-all-check">
                         </th>
-                        <th>
-                            번호
-                        </th>
-                        <th>
-                            곡명
-                        </th>
-                        <th>
-                            아티스트
-                        </th>
+                        <th>번호</th>
+                        <th>곡명</th>
+                        <th>아티스트</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    <tr>
-                        <td>
-
-                        </td>
-                    </tr>
+                    <th:block th:each="item : ${data}">
+                        <tr>
+                            <td>
+                                <input type="checkbox" th:id="jukebox-check">
+                            </td>
+                            <td th:text="${item.ijukebox}"></td>
+                            <td th:text="${item.imusic.nm}"></td>
+                            <td th:text="${item.imusic.artist}"></td>
+                        </tr>
+                    </th:block>
                     </tbody>
                 </table>
             </div>

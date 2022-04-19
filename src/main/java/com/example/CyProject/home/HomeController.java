@@ -6,6 +6,7 @@ import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeRepository;
+import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
 import com.example.CyProject.home.model.profile.ProfileRepository;
@@ -39,6 +40,7 @@ public class HomeController {
     @Autowired private HomeRepository homeRepository;
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private VisitRepository visitRepository;
+    @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스
     @Autowired private PageService pageService;
     @Autowired private ProfileRepository profileRepository;
@@ -143,7 +145,8 @@ public class HomeController {
 
     // 주크박스 ============================================================================================================
     @GetMapping("/jukebox")
-    public String jukeBox() {
+    public String jukeBox(@RequestParam(value = "iuser") int iuser, Model model) {
+        model.addAttribute("data", jukeBoxRepository.findAllByIhost(iuser));
         return "home/jukebox/jukebox";
     }
     // 주크박스 ============================================================================================================
