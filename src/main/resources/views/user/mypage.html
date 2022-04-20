@@ -12,25 +12,29 @@
 <th:block layout:fragment="container">
     <div class="mypage">
         <form method="post" action="/user/mypage" id="mypageForm">
-            <h3>비밀번호 수정</h3>
-            <div id="oldUpw">
-                <label for="oldUpw">현재 비밀번호 </label>
-                <input type="password" name="oldUpw" placeholder="현재 비밀번호">
-                <button id="pwChk">확인</button>
-                <div class="hidden">error</div>
+            <h3>내 정보 수정</h3>
+            <div class="row-wrap">
+                <div class="row" id="oldUpw">
+                    <label for="oldUpw">현재 비밀번호 </label>
+                    <input type="password" name="oldUpw" placeholder="현재 비밀번호">
+                    <button class="mypage-btn-pwCheck" id="pwChk">확인</button>
+                    <div class="hidden">error</div>
+                </div>
+                <div class="row" id="newUpw">
+                    <label for="newUpw">변경할 비밀번호 </label>
+                    <input type="password" name="newUpw" placeholder="변경할 비밀번호">
+                    <div class="hidden">error</div>
+                </div>
+                <div class="row" id="newUpwChk">
+                    <label for="newUpwChk">비밀번호 확인 </label>
+                    <input type="password" name="newUpwChk" placeholder="비밀번호 확인">
+                    <div class="hidden">error</div>
+                </div>
             </div>
-            <div id="newUpw">
-                <label for="newUpw">변경할 비밀번호 </label>
-                <input type="password" name="newUpw" placeholder="변경할 비밀번호">
-                <div class="hidden">error</div>
+            <div class="btn">
+                <button type="submit" class="mypage-btn" id="changeBtn">저장</button>
+                <button type="reset" class="mypage-btn">취소</button>
             </div>
-            <div id="newUpwChk">
-                <label for="newUpwChk">비밀번호 확인 </label>
-                <input type="password" name="newUpwChk" placeholder="비밀번호 확인">
-                <div class="hidden">error</div>
-            </div>
-            <button type="submit" id="changeBtn">저장</button>
-            <button type="reset">취소</button>
         </form>
     </div>
 </th:block>
