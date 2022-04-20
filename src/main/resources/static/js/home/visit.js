@@ -110,6 +110,9 @@ if(visitElem) {
                     console.log(data);
                     if(data.result === 1) {
                         e.target.closest('.visit-elem').remove();
+                        alert('삭제에 성공했습니다 !');
+                    }else {
+                        alert('삭제에 실패했습니다.');
                     }
                 })
                 .catch(e => {

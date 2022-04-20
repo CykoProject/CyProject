@@ -31,6 +31,10 @@ a {
     height: 89%;
 }
 
+.text-align-right {
+    text-align: right;
+}
+
 .frow {
     display: flex;
     flex-direction: row;
@@ -67,4 +71,8 @@ a {
 
 .just-center {
     justify-content: center;
+}
+
+.justify-space {
+    justify-content: space-between;
 }

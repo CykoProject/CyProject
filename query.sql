@@ -1,3 +1,5 @@
+-- TODO 쇼핑 DB 수정해야함
+
 CREATE OR replace TABLE home_profile(
 	iprofile INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	ihost INT UNSIGNED NOT NULL,

@@ -6,6 +6,7 @@ import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeRepository;
+import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
 import com.example.CyProject.home.model.profile.ProfileRepository;
@@ -39,6 +40,7 @@ public class HomeController {
     @Autowired private HomeRepository homeRepository;
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private VisitRepository visitRepository;
+    @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스
     @Autowired private PageService pageService;
     @Autowired private ProfileRepository profileRepository;
@@ -107,7 +109,6 @@ public class HomeController {
     @GetMapping("/visit")
     public String visit(Model model, @RequestParam(required = false, defaultValue = "1", value = "page") int page
             , @RequestParam(required = false, defaultValue = "0", value = "iuser") int iuser) {
-        int category = HomeCategory.VISIT.getCategory();
         // TODO - 동적 페이징
         int rowCnt = 10;
         int pageCnt = 10;
@@ -125,6 +126,7 @@ public class HomeController {
                 .build();
 
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
+
         model.addAttribute("data", utils.makeStringNewLine(list));
         model.addAttribute("pageData", pageEntity);
 
@@ -140,6 +142,14 @@ public class HomeController {
         return authenticationFacade.loginChk("redirect:/home/visit?iuser=" + entity.getIhost());
     }
     // 방명록 ============================================================================================================
+
+    // 주크박스 ============================================================================================================
+    @GetMapping("/jukebox")
+    public String jukeBox(@RequestParam(value = "iuser") int iuser, Model model) {
+        model.addAttribute("data", jukeBoxRepository.findAllByIhost(iuser));
+        return "home/jukebox/jukebox";
+    }
+    // 주크박스 ============================================================================================================
 
     // 관리 ============================================================================================================
     @GetMapping("/manage")
@@ -172,9 +182,14 @@ public class HomeController {
         hs.setAttribute("error", "성공");
         return "redirect:/home/manage?iuser=" + entity.getIuser();
     }
-    // 관리 ============================================================================================================
+    @PostMapping("/manage/scope")
+    public String manageScopeProc(HomeEntity entity) {
+        homeRepository.updateScope(entity.getScope(), entity.getIuser());
 
-// ======================= 방명록, 다이어리, 주크박스, 관리 =================================================================
+        return "redirect:/home/manage?iuser=" + entity.getIuser();
+    }
+    // 관리 ============================================================================================================
+// ======================= 방명록, 다이어리, 주크박스, 관리 =====================================================================================
 
 
     @GetMapping("/profile")
