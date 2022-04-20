@@ -182,7 +182,6 @@ public class HomeController {
         hs.setAttribute("error", "성공");
         return "redirect:/home/manage?iuser=" + entity.getIuser();
     }
-
     @PostMapping("/manage/scope")
     public String manageScopeProc(HomeEntity entity) {
         homeRepository.updateScope(entity.getScope(), entity.getIuser());
@@ -191,8 +190,6 @@ public class HomeController {
     }
     // 관리 ============================================================================================================
 // ======================= 방명록, 다이어리, 주크박스, 관리 =====================================================================================
-
-// ======================= 방명록, 다이어리, 주크박스 =====================================================================================
 
 
     @GetMapping("/profile")
