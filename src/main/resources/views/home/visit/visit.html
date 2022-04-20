@@ -17,9 +17,9 @@
     <th:block layout:fragment="content_right">
 
         <div class="data-pk" th:data-loginuser="${loginUserPk}"></div>
-        <div class="home-container">
+        <div class="visit-container">
             <div class="visit-write" th:if="${loginUserPk > 0}">
-                <div class="frow bc-gray">
+                <div class="frow bc-gray p10-10">
                     <div class="f1">
                         <div>
                             <img>
@@ -39,6 +39,9 @@
                                     <span>비밀로하기</span>
                                     <input type="checkbox" name="secret" th:value="true" th:if="${modData != null}" th:checked="${modData.get().isSecret() == true}">
                                     <input type="checkbox" name="secret" th:value="true" th:if="${modData == null}">
+                                    <select>
+                                        <option>글꼴</option>
+                                    </select>
 
                                 </div>
                                 <div>
@@ -46,7 +49,7 @@
                                     <textarea name="ctnt" class="visit-textarea" placeholder="내용" th:if="${modData == null}"></textarea>
                                 </div>
                                 <div>
-                                    <input type="submit" value="save">
+                                    <input type="submit" value="save" class="ins-visit">
                                 </div>
                             </form>
                         </div>
@@ -69,6 +72,14 @@
                                 && !item.secret}">
                                     <span class="secret-elem">
                                         <span class="visit-secret">비밀로하기</span>
+                                        <span>|</span>
+                                    </span>
+                                </th:block>
+                                <th:block th:if="${(#strings.equals(loginUserPk, param.iuser)
+                                || #strings.equals(loginUserPk, item.iuser.iuser))
+                                && item.secret}">
+                                    <span class="open-elem">
+                                        <span class="visit-open">공개하기</span>
                                         <span>|</span>
                                     </span>
                                 </th:block>

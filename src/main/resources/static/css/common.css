@@ -7,6 +7,8 @@
     --font-style-nanum: 'Nanum Gothic', sans-serif;
     --font-color-default: #212529;
 
+    --main-color-default: #e66f27;  /* 주황색 */
+
     /*--width-max: 70%;*/
 }
 
@@ -18,9 +20,24 @@
     font-family: var(--font-style-default);
 }
 
+a {
+    color: var(--font-color-default);
+    text-decoration: none;
+}
+
+.home-container {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 89%;
+}
+
 .frow {
     display: flex;
     flex-direction: row;
+}
+
+.home-container > div {
+    margin-bottom: 10px;
 }
 
 .f1 {
@@ -38,4 +55,16 @@
 
 .w100p {
     width: 100%;
+}
+
+.p10-10 {
+    padding: 10px 10px;
+}
+
+.g30 {
+    gap: 30px;
+}
+
+.just-center {
+    justify-content: center;
 }

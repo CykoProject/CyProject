@@ -1,3 +1,11 @@
+.visit-container {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 99%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .visit-top-menu {
     padding: 10px 10px;
     text-align: right;
@@ -21,7 +29,7 @@
     color: gray;
 }
 
-.visit-del:hover, .visit-mod:hover, .visit-secret:hover, .visit-report:hover {
+.visit-del:hover, .visit-mod:hover, .visit-secret:hover, .visit-report:hover, .visit-open:hover {
     cursor: pointer;
     color: red !important;
 }

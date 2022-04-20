@@ -1,0 +1,35 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="home/index">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/home/home.css}">
+    <script th:src="@{/js/home/home.js}" defer></script>
+    <title>Title</title>
+</head>
+<body>
+    <th:block layout:fragment="content_left">
+        <div class="profile-container">
+            <div class="profile-img">
+                <img th:src="@{'/pic/profile/' + ${data.ihost} + '/' + ${data.img}}" onerror="this.onerror=null; this.src='/img/defaultProfile.jpeg'">
+            </div>
+            <div class="profile-ctnt">
+                <span th:text="${data.ctnt}"></span>
+            </div>
+            <div class="profile-history">
+                <a href="#">
+                    <p><span>&#9654;</span> HISTORY</p>
+                </a>
+            </div>
+            <div class="profile-name">
+                <span th:text="${user.nm}"></span>
+            </div>
+        </div>
+    </th:block>
+    <th:block layout:fragment="content_right">
+        <div class="home-container">
+        </div>
+    </th:block>
+</body>
+</html>
