@@ -14,7 +14,7 @@
 
 <th:block layout:fragment="container">
 <div class="container">
-
+    <div id="loginUserPk" th:data-iuser="${loginUserPk}"></div>
     <div class="left-container">
         <div th:if="${loginUserPk > 0}" class="profile">
             <div class="profile-top">
@@ -25,7 +25,10 @@
 
             <div class="profile-info">
                 <div class="profile-info-top">
-                    <p>일촌 ON</p>
+                    <div>
+                        <span>일촌 ON</span>
+                        <span id="online-friends-cnt"></span>
+                    </div>
                     <p>쪽지</p>
                 </div>
                 <div class="profile-info-main">

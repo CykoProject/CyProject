@@ -22,6 +22,40 @@ if(goHome) {
     });
 }
 
+// WebSocket with Stomp ==================================
+const loginUserPk = parseInt(document.querySelector('#loginUserPk').dataset.iuser);
+if(loginUserPk > 0) {
+    var sock = new SockJS('/ws');
+    var ws = Stomp.over(sock);
+
+    const msgNotice = (friendCnt) => {
+        const onlineFriendCntElem = document.querySelector('#online-friends-cnt');
+        onlineFriendCntElem.innerText = friendCnt;
+    }
+    ws.connect({}, function () {
+        console.log('STOMP Connection !!');
+        login();
+
+        ws.subscribe('/sub/user', function (res) {
+            const data = JSON.parse(res.body);
+            const result = data.result;
+            const keys = Object.keys(result);
+            keys.forEach(item => {
+                if(parseInt(item) === loginUserPk) {
+                    msgNotice(result[item]);
+                }
+            });
+        });
+    });
+
+    function login() {
+        ws.send("/pub/user", {}, JSON.stringify(loginUserPk));
+    }
+
+
+}
+
+
 //게시글, 친구 검색
 
 
