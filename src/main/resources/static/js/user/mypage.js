@@ -1,5 +1,5 @@
 const mypageForm = document.querySelector('#mypageForm');
-
+const changeBtn = document.querySelector('#changeBtn');
 //oldUpw
 const oldUpwElem = document.querySelector('#oldUpw');
 const oldUpwInput = oldUpwElem.querySelector('input');
@@ -44,11 +44,11 @@ oldUpwChk.addEventListener('click', (e) => {
         .then(res => res.json())
         .then(data => {
             if(data.result === 1){
-                errorMsg(oldUpwElem, '비밀번호가 맞습니다.');
+                infoMsg(oldUpwElem, '비밀번호가 맞습니다.');
                 oldUpwTrue = true;
             } else {
                 console.log(oldUpwInput.value)
-                infoMsg(oldUpwElem, '비밀번호가 틀립니다.');
+                errorMsg(oldUpwElem, '비밀번호가 틀립니다.');
                 oldUpwTrue = false;
             }
         });
@@ -60,7 +60,7 @@ newUpwInput.addEventListener('keyup',  (e)=> {
         errorMsg(newUpwElem,'숫자,영문 조합 7자리 특문 각 1회 이상');
         upwTrue = false;
     } else {
-        infoMsg(newUpwElem,'사용 가능한 비밀번호입니다.');
+        infoMsg(newUpwElem, '사용 가능한 비밀번호입니다.');
         upwTrue = true;
     }
 });
@@ -84,12 +84,12 @@ mypageForm.addEventListener('submit', (e) => {
     }
 
     if(upwTrue === false) {
-        alert('비밀번호를 확인해 주세요.');
+        alert('변경할 비밀번호를 확인해 주세요.');
         e.preventDefault();
         return;
     }
 
-    if(!upwChkTrue || !upwTrue){
+    if(!upwChkTrue || !upwTrue || newUpwInput.value !== newUpwChkInput.value){
         alert('비밀번호가 일치하지 않습니다.')
         e.preventDefault();
         return;

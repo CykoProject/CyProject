@@ -29,5 +29,8 @@ public class HomeEntity {
     private int total_visit;
 
     @Column(insertable = false, updatable = false)
+    private int scope;
+
+    @Column(insertable = false, updatable = false)
     private LocalDateTime rdt;
 }

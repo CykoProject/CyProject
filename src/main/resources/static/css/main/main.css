@@ -124,6 +124,10 @@
     color: white;
 }
 
+.profile-go-to-home:hover {
+    cursor: pointer;
+}
+
 .profile-info {
     display: flex;
     flex-direction: column;
