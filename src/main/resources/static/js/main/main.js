@@ -25,37 +25,37 @@ if(goHome) {
 // WebSocket with Stomp ==================================
 const loginUserPk = parseInt(document.querySelector('#loginUserPk').dataset.iuser);
 if(loginUserPk > 0) {
-    var sock = new SockJS('/ws');
-    var ws = Stomp.over(sock);
-
-    const msgNotice = (friendCnt) => {
-        const onlineFriendCntElem = document.querySelector('#online-friends-cnt');
-        onlineFriendCntElem.innerText = friendCnt;
+    const makeCnt = (iuser, cnt) => {
+        const onlineCnt = document.querySelector('#online-friends-cnt');
+        if(loginUserPk === iuser) {
+            onlineCnt.innerText = cnt;
+        }
     }
-    ws.connect({}, function () {
-        console.log('STOMP Connection !!');
-        login();
+    const ws = new WebSocket("ws://localhost:8090/ws");
+    ws.onopen = onOpen;
+    ws.onclose = onClose;
+    ws.onmessage = onMessage;
 
-        ws.subscribe('/sub/user', function (res) {
-            const data = JSON.parse(res.body);
-            const result = data.result;
-            const keys = Object.keys(result);
-            keys.forEach(item => {
-                if(parseInt(item) === loginUserPk) {
-                    msgNotice(result[item]);
-                }
-            });
-        });
-    });
-
-    function login() {
-        ws.send("/pub/user", {}, JSON.stringify(loginUserPk));
+    function onOpen(evt) {
+        var str = "open:"+loginUserPk;
+        ws.send(str);
     }
 
+    function onClose(evt) {
+        var str = "logout:"+loginUserPk;
+        ws.send(str);
+    }
 
+    function onMessage(msg) {
+        const data = JSON.parse(msg.data);
+        console.log(data);
+        for(let i in data) {
+            const iuser = parseInt(i);
+            const cnt = data[i];
+            makeCnt(iuser, cnt);
+        }
+    }
 }
-
-
 //게시글, 친구 검색
 
 

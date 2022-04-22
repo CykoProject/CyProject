@@ -489,3 +489,7 @@ text-align: center;
     text-decoration: none;
     color: white;
 }
+
+#online-friends-cnt {
+    color: #ffa500;
+}

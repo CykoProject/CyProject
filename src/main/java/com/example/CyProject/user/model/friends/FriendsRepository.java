@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface FriendsRepository extends JpaRepository<FriendsEntity, Integer> {
     
-    // 본인이 로그인했을때 친구들
+    // 팔로잉
     @Query("SELECT f.fuser FROM FriendsEntity f WHERE f.iuser = ?1 AND f.status = 1")
     List<Integer> selectFriendsList(int iuser);
 
-    // 친구가 로그인 했을때 친구의 친구들
+    // 팔로워
     @Query("SELECT f.iuser FROM FriendsEntity f WHERE f.fuser = ?1 AND f.status = 1")
     List<Integer> selectIuserFromFuser(int fuser);
 }
