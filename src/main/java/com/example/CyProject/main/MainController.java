@@ -17,10 +17,12 @@ public class MainController {
     @Autowired
     MainService mainService;
 
-    @GetMapping()
-    public String main(Model model) {
-        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
-        model.addAttribute("loginUser", authenticationFacade.getLoginUser());
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
+    public String main(Model model, @RequestParam(required = false) String error) {
+        if(!"true".equals(error) || error == null) {
+            model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
+            model.addAttribute("loginUser", authenticationFacade.getLoginUser());
+        }
 
         return "main/main";
     }
