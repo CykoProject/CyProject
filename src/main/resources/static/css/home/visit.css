@@ -16,6 +16,12 @@
     font-size: 15px;
 }
 
+.visit-minime {
+    width: 115px;
+    height: auto;
+    object-fit: cover;
+}
+
 .visit-secret-bar {
     padding: 10px 10px;
     background-color: #ffeed1;
@@ -58,7 +64,7 @@
 }
 
 .visit-textarea {
-    width: 308px;
+    width: 265px;
     height: 102px;
     border: 1px solid black;
     resize: none;

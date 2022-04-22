@@ -32,11 +32,13 @@ CREATE OR replace TABLE home_photos(
 	scrap INT UNSIGNED DEFAULT 0
 );
 
+-- *** 2022-04-21 수정 ( iminime 추가 ) ***
 CREATE OR replace TABLE home_visit(
 	ivisit INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	ihost INT UNSIGNED NOT NULL,
 	ctnt TEXT NOT NULL,
 	iuser INT UNSIGNED NOT NULL,
+	iminime INT UNSIGNED DEFAULT 0,
 	secret BOOLEAN DEFAULT FALSE,
 	rdt DATETIME DEFAULT CURRENT_TIMESTAMP()
 );
@@ -48,11 +50,11 @@ CREATE OR replace TABLE home_mini_room(
 	repre BOOLEAN DEFAULT FALSE
 );
 
+-- *** 2022-04-21 mini_room, skin, music, font, mini_me 수정 ( cnt 뺌 )
 CREATE OR replace TABLE mini_room(
 	iroom INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	nm TEXT NOT NULL,
 	img TEXT NOT NULL,
-	cnt INT UNSIGNED DEFAULT 0,
 	price INT UNSIGNED NOT null
 );
 
@@ -60,7 +62,6 @@ CREATE OR replace TABLE skin(
 	iskin INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	nm TEXT NOT NULL,
 	img TEXT NOT NULL,
-	cnt INT UNSIGNED DEFAULT 0,
 	price INT UNSIGNED NOT NULL
 );
 
@@ -68,7 +69,6 @@ CREATE OR replace TABLE mini_me(
 	imini_me INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	nm TEXT NOT NULL,
 	img TEXT NOT NULL,
-	cnt INT UNSIGNED DEFAULT 0,
 	price INT UNSIGNED NOT NULL
 );
 
@@ -76,9 +76,9 @@ CREATE OR replace TABLE font(
 	ifont INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	nm TEXT NOT NULL,
 	img TEXT NOT NULL,
-	cnt INT UNSIGNED DEFAULT 0,
 	price INT UNSIGNED NOT NULL
 );
+-- *** 2022-04-21 mini_room, skin, music, font, mini_me 수정 ( cnt 뺌 )
 
 CREATE OR REPLACE TABLE home( # 미니홈피
    ihome INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,

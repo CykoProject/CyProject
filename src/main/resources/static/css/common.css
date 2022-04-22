@@ -53,12 +53,20 @@ a {
     flex: 2;
 }
 
+.bc-white {
+    background-color: white;
+}
+
 .bc-gray {
     background-color: #e3e3e3;
 }
 
 .w100p {
     width: 100%;
+}
+
+.mb10 {
+    margin-bottom: 10px;
 }
 
 .p10-10 {
@@ -75,4 +83,8 @@ a {
 
 .justify-space {
     justify-content: space-between;
+}
+
+.fc {
+    flex-direction: column;
 }

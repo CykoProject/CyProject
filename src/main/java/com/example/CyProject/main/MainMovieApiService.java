@@ -74,7 +74,7 @@ public class MainMovieApiService {
         entity.setDirector(director);
         entity.setUserRating(userRating);
 
-        System.out.println(entity);
+//        System.out.println(entity);
 
         return entity;
     }
