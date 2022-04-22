@@ -45,6 +45,24 @@ public class UserController {
         return "redirect:/user/login";
     }
 
+    @GetMapping("/find_email")
+    public String find_email(){
+        return "/user/find_email";
+    }
+
+    @GetMapping("/find_email_result")
+    public void find_email_result(){}
+
+    @GetMapping("/find_upw")
+    public String find_upw(){
+        return "/user/find_upw";
+    }
+
+    @GetMapping("/find_upw_update")
+    public void find_upw_update(){
+
+    }
+
     @GetMapping("/mypage")
     public String mypage(Model model) {
         model.addAttribute("loginUser", auth.getLoginUser());

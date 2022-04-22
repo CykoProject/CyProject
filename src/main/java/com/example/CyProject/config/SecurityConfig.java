@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .passwordParameter("upw")
                 .defaultSuccessUrl("/")
-                .failureUrl("/main/?error=true")
+                .failureUrl("/?error=true")
                 .failureHandler(failureHandler())
                 .defaultSuccessUrl("/")
                 .and()

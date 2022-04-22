@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class CustomAuthFailureHandler  implements AuthenticationFailureHandler {
-    private final String DEFAULT_FAILURE_URL = "main/?error=true";
+    private final String DEFAULT_FAILURE_URL = "/?error=true";
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
