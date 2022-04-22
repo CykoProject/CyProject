@@ -25,14 +25,8 @@ public class UserController {
 
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserRepository userRepository;
-    @Autowired private UserService service;
     @Autowired private HomeRepository homeRepository;
     @Autowired private AuthenticationFacade auth;
-
-    @RequestMapping(value = {"/login"},method = {RequestMethod.GET, RequestMethod.POST})
-    public String login() {
-        return "user/login";
-    }
 
     @GetMapping("/join")
     public String join() {
@@ -49,6 +43,24 @@ public class UserController {
             homeRepository.save(entity);
         }
         return "redirect:/user/login";
+    }
+
+    @GetMapping("/find_email")
+    public String find_email(){
+        return "/user/find_email";
+    }
+
+    @GetMapping("/find_email_result")
+    public void find_email_result(){}
+
+    @GetMapping("/find_upw")
+    public String find_upw(){
+        return "/user/find_upw";
+    }
+
+    @GetMapping("/find_upw_update")
+    public void find_upw_update(){
+
     }
 
     @GetMapping("/mypage")

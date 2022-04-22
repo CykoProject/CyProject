@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/index">
 <head>
     <link rel="stylesheet" th:href="@{/css/user/join.css}">
     <script defer th:src="@{/js/user/join.js}"></script>
@@ -10,69 +11,46 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <title>회원가입</title>
 </head>
-<header>
-    <div class="header">
-        <img class="logo-img" src="https://cdn.senmoney.co.kr/news/photo/202006/1999_2098_4524.jpg" alt=""/>
-
-        <div class="header-center">
-            <div class="header-menu">
-                <p>미니홈피</p>
-                <p>인기글</p>
-                <p>쇼핑</p>
-            </div>
-            <div class="search">
-                <div class="search-select">
-                    <select class="search-conditions">
-                        <option value="0">게시글</option>
-                        <option value="1">친구</option>
-                    </select>
-                    <input type="text" class="search-text">
-                    <button>검색</button>
-                </div>
-            </div>
-        </div>
-        <img class="ads-img"
-             src="https://coinpan.com/files/attach/images/198/962/872/096/fdae5cae18bbd697d9bd9df0f674821a.jpg" alt=""/>
-
-    </div>
-</header>
-<title>회원가입</title>
 <body>
-<div class="join_main_page">
-    <form method="post" action="/user/join" id="joinForm">
-        <h2>회원가입</h2>
-        <div class="email_input_email ">
-            <div id="email" class="t_bottom">
-                <label>아이디</label>
-                <input type="text" name="email" placeholder="Email" >
-                <div class="hidden">error</div>
-            </div>
-            <div class="email_Chk">
-                <button id="idChk">중복확인</button>
-            </div>
+    <th:block layout:fragment="container">
+        <div class="join_main_page">
+            <form method="post" action="/user/join" id="joinForm">
+                <h2>회원가입</h2>
+                <div class="email_input_email ">
+                    <div id="email" class="t_bottom">
+                        <label>아이디</label>
+                        <input type="text" name="email" placeholder="Email" >
+                        <div class="hidden">error</div>
+                    </div>
+                    <div class="email_Chk">
+                        <button id="idChk">중복확인</button>
+                    </div>
 
-        </div>
-        <div id="upw" class="t_bottom" >
-            <label>비밀번호</label>
-            <input type="password" name="upw" placeholder="password">
-            <div class="hidden">error</div>
-        </div>
-        <div id="upwChk" class="t_bottom">
-            <label>비밀번호 확인 </label>
-            <input type="password" name="upwChk" placeholder="password">
-            <div class="hidden">error</div>
-        </div>
-        <div id="name" class="t_bottom">
-            <label>이름</label>
-            <input type="text" name="nm" placeholder="이름">
-            <div class="hidden">error</div>
-        </div>
-        <button type="submit" id="joinBth" >
-            회원가입
-        </button>
+                </div>
+                <div id="upw" class="t_bottom" >
+                    <label>비밀번호</label>
+                    <input type="password" name="upw" placeholder="password">
+                    <div class="hidden">error</div>
+                </div>
+                <div id="upwChk" class="t_bottom">
+                    <label>비밀번호 확인 </label>
+                    <input type="password" name="upwChk" placeholder="password">
+                    <div class="hidden">error</div>
+                </div>
+                <div id="name" class="t_bottom">
+                    <label>이름</label>
+                    <input type="text" name="nm" placeholder="이름">
+                    <div class="hidden">error</div>
+                </div>
+                <button type="submit" id="joinBth" >
+                    회원가입
+                </button>
 
-    </form>
-</div>
+            </form>
+        </div>
+    </th:block>
+
 </body>
 </html>
