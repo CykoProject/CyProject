@@ -25,10 +25,16 @@ a {
     text-decoration: none;
 }
 
+.hidden { visibility: hidden; }
+
 .home-container {
     overflow: scroll;
     overflow-x: hidden;
     height: 89%;
+}
+
+.text-align-center {
+    text-align: center;
 }
 
 .text-align-right {
@@ -67,6 +73,10 @@ a {
 
 .mb10 {
     margin-bottom: 10px;
+}
+
+.cur-pointer:hover {
+    cursor: pointer;
 }
 
 .p10-10 {

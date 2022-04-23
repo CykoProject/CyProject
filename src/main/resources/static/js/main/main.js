@@ -25,10 +25,24 @@ if(goHome) {
 // WebSocket with Stomp ==================================
 const loginUserPk = parseInt(document.querySelector('#loginUserPk').dataset.iuser);
 if(loginUserPk > 0) {
+
     const makeCnt = (iuser, cnt) => {
         const onlineCnt = document.querySelector('#online-friends-cnt');
         if(loginUserPk === iuser) {
             onlineCnt.innerText = cnt;
+        }
+    }
+
+    const makeMsgCnt = (data) => {
+        const msgNoticeElem = document.querySelector('#msg-notice');
+        if(msgNoticeElem) {
+            const keys = Object.keys(data);
+            keys.forEach(item => {
+                console.log('keys : ' + item);
+                if(loginUserPk === parseInt(item)) {
+                    msgNoticeElem.innerText = data[item];
+                }
+            });
         }
     }
     const ws = new WebSocket("ws://localhost:8090/ws");
@@ -37,23 +51,41 @@ if(loginUserPk > 0) {
     ws.onmessage = onMessage;
 
     function onOpen(evt) {
-        var str = "open:"+loginUserPk;
+        var str = "open="+loginUserPk;
         ws.send(str);
     }
 
     function onClose(evt) {
-        var str = "logout:"+loginUserPk;
+        var str = "logout="+loginUserPk;
         ws.send(str);
     }
 
     function onMessage(msg) {
         const data = JSON.parse(msg.data);
-        console.log(data);
-        for(let i in data) {
-            const iuser = parseInt(i);
-            const cnt = data[i];
-            makeCnt(iuser, cnt);
+        const status = Object.keys(data);
+        if(status.includes('msgCnt')) {
+            makeMsgCnt(data['msgCnt']);
+        } else {
+            for (let i in data) {
+                const iuser = parseInt(i);
+                const cnt = data[i];
+                makeCnt(iuser, cnt);
+            }
         }
+    }
+    const msgBtn = document.querySelector('.msg-submit-btn');
+    if(msgBtn) {
+        msgBtn.addEventListener('click', () => {
+            const ctnt = document.querySelector('.cus-textarea').value;
+            const chkArr = document.querySelectorAll('.friends-chk');
+            const receiverArr = [];
+            chkArr.forEach(item => {
+                if(item.checked) {
+                    receiverArr.push(item.closest('.friends-data').dataset.receiver);
+                }
+            });
+            ws.send(`msg={"receiver" : "${receiverArr}", "iuser":${loginUserPk}, "ctnt":"${ctnt}"}`);
+        });
     }
 }
 //게시글, 친구 검색

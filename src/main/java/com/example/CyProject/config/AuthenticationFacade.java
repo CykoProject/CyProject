@@ -40,6 +40,6 @@ public class AuthenticationFacade {
         if(pk > 0) {
             return url;
         }
-        return "redirect:/user/login";
+        return "redirect:/";
     }
 }

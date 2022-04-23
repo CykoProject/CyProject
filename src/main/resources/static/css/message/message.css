@@ -1,0 +1,26 @@
+table {
+    border-collapse: collapse;
+    width: 300px;
+}
+
+td, th {
+    text-align: center;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.cus-textarea {
+    width: 500px;
+    height: 400px;
+    border: 1px solid black;
+    resize: none;
+}
+
+.friend-container {
+    margin-right: 200px;
+    margin-left: 100px;
+}
+
+.friend-list {
+    padding-bottom: 15px;
+}
