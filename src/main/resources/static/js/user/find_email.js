@@ -3,7 +3,7 @@ const phoneRegex = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 const find_emailElem = document.querySelector('#find_email');
 const findInput = find_emailElem.querySelector('input');
 const findBth = document.querySelector('#find_email_Bth');
-const findNull = document.querySelector('.find_email_result');
+const findNull = document.querySelector('.t_bottom');
 
 
 const errorMsg = (elem, msg) => {
@@ -26,9 +26,6 @@ findBth.addEventListener('click', (e)=> {
            .then(res => res.json())
            .then(data => {
                location.href = `/user/find_email_result?email=${data.resultString}`;
-               if(data.resultString === null){
-                   errorMsg(findNull, '등록되어 있지 않습니다.');
-               }
            }).catch(e => {
                 console.log(e);
        }) ;

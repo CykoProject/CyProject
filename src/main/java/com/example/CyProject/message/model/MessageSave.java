@@ -17,13 +17,15 @@ public class MessageSave {
     private String ctnt;
     private int iuser;
 
-    public int toEntity(int iuser) {
+    public List<MessageEntity> toListEntity(int iuser) {
+        List<MessageEntity> list = new ArrayList<>();
         for(Integer item : receiver) {
             MessageEntity entity = new MessageEntity();
             entity.setReceiver(item);
             entity.setCtnt(this.ctnt);
             entity.setIuser(iuser);
+            list.add(entity);
         }
-        return 1;
+        return list;
     }
 }

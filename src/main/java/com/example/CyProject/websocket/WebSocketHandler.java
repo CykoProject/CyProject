@@ -68,27 +68,30 @@ public class WebSocketHandler extends TextWebSocketHandler {
         } else if("msg".equals(status)) {
             ObjectMapper mapper = new ObjectMapper();
             Map<String, String> JSONData = mapper.readValue(payloadArr[1], Map.class);
-            int receiver = Integer.parseInt(JSONData.get("receiver"));
-//            int iuser = Integer.parseInt(JSONData.get("iuser"));
-//            String ctnt = JSONData.get("ctnt");
-            int msgCnt = messageRepository.beforeReadMsgCnt(receiver);
+            String recStr = JSONData.get("receiver");
+            String[] receivers = recStr.split(",");
+//            int receiver = Integer.parseInt(JSONData.get("receiver"));
+//            System.out.println(receiver);
+////            int iuser = Integer.parseInt(JSONData.get("iuser"));
+////            String ctnt = JSONData.get("ctnt");
+//            int msgCnt = messageRepository.beforeReadMsgCnt(receiver);
+//
+//            String sessionId = null;
+//            for(String key : mappingId.keySet()) {
+//                if(mappingId.get(key) == receiver) {
+//                    sessionId = key;
+//                }
+//            }
 
-            String sessionId = null;
-            for(String key : mappingId.keySet()) {
-                if(mappingId.get(key) == receiver) {
-                    sessionId = key;
-                }
-            }
-
-            Map<String, Integer> msgMap = new HashMap<>();
-            msgMap.put("msgCnt", msgCnt);
-            JSONObject msg = new JSONObject(msgMap);
-            TextMessage tm = new TextMessage(msg.toString());
-            for(WebSocketSession sess : list) {
-                if(sess.getId().equals(sessionId)) {
-                    sess.sendMessage(tm);
-                }
-            }
+//            Map<String, Integer> msgMap = new HashMap<>();
+//            msgMap.put("msgCnt", msgCnt);
+//            JSONObject msg = new JSONObject(msgMap);
+//            TextMessage tm = new TextMessage(msg.toString());
+//            for(WebSocketSession sess : list) {
+//                if(sess.getId().equals(sessionId)) {
+//                    sess.sendMessage(tm);
+//                }
+//            }
 
         } else {
 
