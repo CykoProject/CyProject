@@ -1,5 +1,14 @@
 .email_input_email{display: flex; !important;}
 
+.cellphone-input{display: flex; !important;}
+
+.in1{ display: flex; flex-direction: row;}
+.in1 > .in2 { width: 100px; }
+.in3 { margin-left: 10px;}
+#cellphone > label {
+    margin-bottom: 5px;
+}
+
 .join_main_page{ width: 700px; margin: auto; padding-left: 200px;}
 
 .join_main_page div ul{ display: flex; flex-direction: column; }
@@ -19,6 +28,10 @@ input {
     border-width: thin; font-size: 16px; font-weight: bold; color: rgba(40, 37, 37, 0.84);
 }
 
+#phoneChk {width: 100px; height: 45px; margin-left: 10px; margin-top: 23px;
+    background-color: white; border: 1px solid gray; border-radius: 7px; font-family: 'Noto Sans KR', sans-serif;
+    border-width: thin; font-size: 16px; font-weight: bold; color: rgba(40, 37, 37, 0.84);
+}
 #joinBth {
     margin-left: 70px; background-color: orange; width: 250px; height: 55px; border-radius: 7px ; font-size: 18px; border-width: thin; font-family: 'Noto Sans KR', sans-serif; color: white; border: 1px solid orange;
 }

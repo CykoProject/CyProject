@@ -1,6 +1,6 @@
 .find_eamil_page{ width: 700px; height: 400px; margin: auto; padding-left: 200px;}
 
-.find_email_input input {width: 400px;height: 40px;font-size: 15px; border-radius: 5px; border-width: thin; border: 1px solid gray; font-family: 'Noto Sans KR', sans-serif;}
+.find_email_result input {width: 400px;height: 40px;font-size: 15px; border-radius: 5px; border-width: thin; border: 1px solid gray; font-family: 'Noto Sans KR', sans-serif;}
 
 h2 { margin-top: 200px; margin-bottom: 30px; font-family: 'Noto Sans KR', sans-serif;}
 

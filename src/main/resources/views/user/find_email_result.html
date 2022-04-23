@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
     <link rel="stylesheet" th:href="@{/css/user/find_email_result.css}">
+    <script defer th:src="@{/js/user/find_email.js}"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
@@ -16,24 +17,21 @@
 <body>
     <th:block layout:fragment="container">
         <div class="find_eamil_page">
-            <form method="post" action="/user/find_email">
-                <h2>아이디 찾기</h2>
-                <div class="find_email_input">
-                    <div class="t_bottom">
-                        <div class="m4">회원님의 아이디는 입니다. </div>
-                        <div class="m5"></div>
-                    </div>
+            <h2>아이디 찾기</h2>
+            <div class="find_email_result">
+                <div class="t_bottom">
+                    <div class="m4">회원님의 아이디는<strong th:text="${param.email}"></strong> 입니다. </div>
+                    <div hidden>error</div>
                 </div>
-                <div class="m1">
-                    <button class="m2" >
-                        <a href="/" style="color: white">로그인</a>
-                    </button>
-                    <button class="m3" >
-                        <a href="/user/find_upw" style="color: white">비밀번호 찾기</a>
-                    </button>
-                </div>
-
-            </form>
+            </div>
+            <div class="m1">
+                <button class="m2" >
+                    <a href="/" style="color: white">로그인</a>
+                </button>
+                <button class="m3" >
+                    <a href="/user/find_upw" style="color: white">비밀번호 찾기</a>
+                </button>
+            </div>
         </div>
     </th:block>
 </body>
