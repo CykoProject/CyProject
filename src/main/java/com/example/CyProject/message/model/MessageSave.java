@@ -1,6 +1,7 @@
 package com.example.CyProject.message.model;
 
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.user.model.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,7 +24,9 @@ public class MessageSave {
             MessageEntity entity = new MessageEntity();
             entity.setReceiver(item);
             entity.setCtnt(this.ctnt);
-            entity.setIuser(iuser);
+            UserEntity ue = new UserEntity();
+            ue.setIuser(iuser);
+            entity.setIuser(ue);
             list.add(entity);
         }
         return list;

@@ -1,5 +1,6 @@
 package com.example.CyProject.message.model;
 
+import com.example.CyProject.user.model.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,7 +19,9 @@ public class MessageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int imsg;
 
-    private int iuser;
+    @OneToOne
+    @JoinColumn(name = "iuser")
+    private UserEntity iuser;
     private int receiver;
 
     @Column(insertable = false, updatable = false)

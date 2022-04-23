@@ -4,11 +4,69 @@
       layout:decorate="main/index">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/message/message.css}">
+    <script defer th:src="@{/js/message/message.js}"></script>
     <title>Title</title>
 </head>
 <body>
     <th:block layout:fragment="container">
-        <a th:href="@{/msg/write}"><button id="test-btn">쪽지쓰기</button></a>
+        <div class="msgbox"></div>
+        <div class="frow">
+            <div class="f1 msg-menu">
+                <div>
+                    <a th:href="@{#}">받은쪽지함</a>
+                </div>
+                <div>
+                    <a th:href="@{#}">보낸쪽지함</a>
+                </div>
+            </div>
+            <div class="message-container f2">
+                <div>
+                    <div class="text-align-right">
+                        <a th:href="@{/msg/write}"><button id="test-btn">쪽지쓰기</button></a>
+                    </div>
+                    <div class="message-box">
+                        <table class="msg-table">
+                            <colgroup>
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="60%">
+                                <col width="20%">
+                            </colgroup>
+
+                            <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox">
+                                </th>
+                                <th>보낸사람</th>
+                                <th>내용</th>
+                                <th>날짜</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="item : ${msgList}">
+                                <tr class="msg-data" th:data-imsg="${item.imsg}" th:classappend="${item.recv_read} ? 'read-msg' : 'unread-msg'">
+                                    <td>
+                                        <input type="checkbox">
+                                    </td>
+                                    <td class="msg-tr">
+                                        <span th:text="${item.iuser.nm}"></span>
+                                    </td>
+                                    <td class="msg-tr">
+                                        <span th:text="${item.ctnt}"></span>
+                                    </td>
+                                    <td class="msg-tr">
+                                        <span th:text="${#temporals.format(item.rdt, 'yyyy-MM-dd HH:mm')}"></span>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </th:block>
 </body>
 </html>
