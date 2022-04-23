@@ -16,12 +16,12 @@ import javax.servlet.http.HttpSession;
 public class MyUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
+    private final HttpSession hs;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity entity = userRepository.findByEmail(email);
         if(entity == null) throw new UsernameNotFoundException("해당 사용자가 존재하지 않습니다.");
-
+        hs.setAttribute("loginUserPkSession", entity.getIuser());
         return new MyUserDetails(entity);
     }
 }
