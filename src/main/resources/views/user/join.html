@@ -20,29 +20,43 @@
                 <h2>회원가입</h2>
                 <div class="email_input_email ">
                     <div id="email" class="t_bottom">
-                        <label>아이디</label>
+                        <label>이메일</label>
                         <input type="text" name="email" placeholder="Email" >
-                        <div class="hidden">error</div>
+                        <span class="hidden">error</span>
                     </div>
                     <div class="email_Chk">
                         <button id="idChk">중복확인</button>
                     </div>
-
+                </div>
+                <div class="cellphone-input">
+                    <div id="cellphone" class="t_bottom">
+                        <label>휴대번호 확인 </label>
+                        <div class="in1">
+                            <input id="cell-1" class="in2" type="text" name="cellPhone1" value="010" width="100px;">
+                            <input id="cell-2" class="in2 in3" type="text" name="cellPhone2">
+                            <input id="cell-3" class="in2 in3" type="text" name="cellPhone3">
+                            <input type="hidden" name="cellphone" id="result-cell-phone">
+                        </div>
+                        <span  class="hidden">error</span>
+                    </div>
+                    <div class="cellPhone_Chk">
+                        <button id="phoneChk">중복확인</button>
+                    </div>
                 </div>
                 <div id="upw" class="t_bottom" >
                     <label>비밀번호</label>
                     <input type="password" name="upw" placeholder="password">
-                    <div class="hidden">error</div>
+                    <span class="hidden">error</span>
                 </div>
                 <div id="upwChk" class="t_bottom">
                     <label>비밀번호 확인 </label>
                     <input type="password" name="upwChk" placeholder="password">
-                    <div class="hidden">error</div>
+                    <span class="hidden">error</span>
                 </div>
                 <div id="name" class="t_bottom">
                     <label>이름</label>
                     <input type="text" name="nm" placeholder="이름">
-                    <div class="hidden">error</div>
+                    <span class="hidden">error</span>
                 </div>
                 <button type="submit" id="joinBth" >
                     회원가입

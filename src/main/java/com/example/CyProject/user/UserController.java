@@ -9,6 +9,7 @@ import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.user.model.UserDto;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -34,20 +35,40 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String joinProc(UserDto dto) {
-        dto.setUpw(passwordEncoder.encode(dto.getUpw()));
-        int iuser = userRepository.save(dto.toEntity()).getIuser();
+    public String joinProc(UserEntity ent) {
+        ent.setUpw(passwordEncoder.encode(ent.getUpw()));
+        userRepository.save(ent);
         HomeEntity entity = new HomeEntity();
+        int iuser = ent.getIuser();
         entity.setIuser(iuser);
         if(iuser != 0){
             homeRepository.save(entity);
         }
-        return "redirect:/user/login";
+        return "redirect:/";
+    }
+
+    @GetMapping("/idChk/{email}")
+    @ResponseBody
+    public ResultVo idChk(@PathVariable String email){
+        ResultVo result = new ResultVo();
+        UserEntity entity = new UserEntity();
+        entity.setEmail(email);
+        result.setResult(userRepository.findByEmail(entity.getEmail()) == null ? 0 : 1);
+        return result;
     }
 
     @GetMapping("/find_email")
-    public String find_email(){
-        return "/user/find_email";
+    public void find_email(){}
+
+    @GetMapping("/find_email/{cellphone}")
+    @ResponseBody
+    public ResultVo find_email(@PathVariable String cellphone){
+        UserEntity entity = new UserEntity();
+        ResultVo resultVo = new ResultVo();
+        entity.setCellphone(cellphone);
+        UserEntity userEmail = userRepository.findByCellphone(entity.getCellphone());
+        resultVo.setResultString(userEmail != null ? userEmail.getEmail() : null);
+        return resultVo;
     }
 
     @GetMapping("/find_email_result")
@@ -80,16 +101,16 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/idChk/{email}")
+    @GetMapping("/phoneChk/{cellphone}")
     @ResponseBody
-    public ResultVo idChk(@PathVariable String email){
+    public ResultVo phoneChk(@PathVariable String cellphone){
         ResultVo result = new ResultVo();
         UserEntity entity = new UserEntity();
-        entity.setEmail(email);
-        result.setResult(userRepository.findByEmail(entity.getEmail()) == null ? 0 : 1);
+        entity.setCellphone(cellphone);
+        result.setResult(userRepository.findByCellphone(entity.getCellphone()) == null ? 0 :1);
         return result;
-    }
 
+    }
     @GetMapping("/pwChk/{oldUpw}")
     @ResponseBody
     public ResultVo pwChk(@PathVariable String oldUpw) {

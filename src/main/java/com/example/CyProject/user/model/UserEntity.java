@@ -25,6 +25,7 @@ public class UserEntity {
     private String email;
     private String nm;
     private String upw;
+    private String cellphone;
 
     @Column(insertable = false)
     private String provider;
