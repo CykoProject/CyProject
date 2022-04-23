@@ -1,6 +1,8 @@
 package com.example.CyProject.websocket;
 
+import com.example.CyProject.message.model.MessageRepository;
 import com.example.CyProject.user.model.friends.FriendsRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
     @Autowired private FriendsRepository friendsRepository;
+    @Autowired private MessageRepository messageRepository;
 
     private static List<WebSocketSession> list = new ArrayList<>();
     private static List<Integer> onlineUser = new ArrayList<>();
@@ -24,19 +27,20 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
-
-        String payloadArr[] = payload.split(":");
+        System.out.println("payload : " + payload);
+        String payloadArr[] = payload.split("=");
         String status = payloadArr[0];
-        int iuser = Integer.parseInt(payloadArr[1]);
-        String sessionId = session.getId();
-        mappingId.put(sessionId, iuser);
 
         // 로그인
         if("open".equals(status)) {
+            int iuser = Integer.parseInt(payloadArr[1]);
+            String sessionId = session.getId();
+            mappingId.put(sessionId, iuser);
             if (onlineUser.indexOf(iuser) == -1) {
                 onlineUser.add(iuser);
 
-                List<Integer> result = selFriendList(iuser);
+//                List<Integer> result = selFriendList(iuser);
+                List<Integer> result = friendsRepository.selectFriendsPkList(iuser);
                 Collections.sort(onlineUser);
                 List<Integer> list1 = result;
                 List<Integer> list2 = onlineUser;
@@ -61,7 +65,33 @@ public class WebSocketHandler extends TextWebSocketHandler {
                 sess.sendMessage(msg);
             }
 
+        } else if("msg".equals(status)) {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, String> JSONData = mapper.readValue(payloadArr[1], Map.class);
+            int receiver = Integer.parseInt(JSONData.get("receiver"));
+//            int iuser = Integer.parseInt(JSONData.get("iuser"));
+//            String ctnt = JSONData.get("ctnt");
+            int msgCnt = messageRepository.beforeReadMsgCnt(receiver);
+
+            String sessionId = null;
+            for(String key : mappingId.keySet()) {
+                if(mappingId.get(key) == receiver) {
+                    sessionId = key;
+                }
+            }
+
+            Map<String, Integer> msgMap = new HashMap<>();
+            msgMap.put("msgCnt", msgCnt);
+            JSONObject msg = new JSONObject(msgMap);
+            TextMessage tm = new TextMessage(msg.toString());
+            for(WebSocketSession sess : list) {
+                if(sess.getId().equals(sessionId)) {
+                    sess.sendMessage(tm);
+                }
+            }
+
         } else {
+
             for (WebSocketSession sess : list) {
                 sess.sendMessage(message);
             }
@@ -76,11 +106,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus ct) throws Exception {
         list.remove(session);
+        System.out.println("연결종료");
         String sessionId = session.getId();
         int logoutIuser = mappingId.get(sessionId);
 
         if(onlineUser.contains(logoutIuser)) {
-            List<Integer> result = selFriendList(logoutIuser);
+//            List<Integer> result = selFriendList(logoutIuser);
+            List<Integer> result = friendsRepository.selectFriendsPkList(logoutIuser);
             for (Integer item : result) {
                 int cnt = 0;
                 try {
@@ -102,17 +134,5 @@ public class WebSocketHandler extends TextWebSocketHandler {
         for(WebSocketSession sess : list) {
             sess.sendMessage(msg);
         }
-    }
-
-    public List<Integer> selFriendList(int iuser) {
-        List<Integer> follower = friendsRepository.selectIuserFromFuser(iuser);
-        List<Integer> following = friendsRepository.selectFriendsList(iuser);
-        for(Integer item : follower) {
-            following.add(item);
-        }
-        List<Integer> result =following.stream().distinct().collect(Collectors.toList());
-        Collections.sort(result);
-
-        return result;
     }
 }

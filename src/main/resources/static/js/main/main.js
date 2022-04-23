@@ -25,10 +25,18 @@ if(goHome) {
 // WebSocket with Stomp ==================================
 const loginUserPk = parseInt(document.querySelector('#loginUserPk').dataset.iuser);
 if(loginUserPk > 0) {
+
     const makeCnt = (iuser, cnt) => {
         const onlineCnt = document.querySelector('#online-friends-cnt');
         if(loginUserPk === iuser) {
             onlineCnt.innerText = cnt;
+        }
+    }
+
+    const makeMsgCnt = (data) => {
+        const msgNoticeElem = document.querySelector('#msg-notice');
+        if(msgNoticeElem) {
+            msgNoticeElem.innerText = data;
         }
     }
     const ws = new WebSocket("ws://localhost:8090/ws");
@@ -37,23 +45,33 @@ if(loginUserPk > 0) {
     ws.onmessage = onMessage;
 
     function onOpen(evt) {
-        var str = "open:"+loginUserPk;
+        var str = "open="+loginUserPk;
         ws.send(str);
     }
 
     function onClose(evt) {
-        var str = "logout:"+loginUserPk;
+        var str = "logout="+loginUserPk;
         ws.send(str);
     }
 
     function onMessage(msg) {
         const data = JSON.parse(msg.data);
-        console.log(data);
-        for(let i in data) {
-            const iuser = parseInt(i);
-            const cnt = data[i];
-            makeCnt(iuser, cnt);
+        const status = Object.keys(data);
+        if(status.includes('msgCnt')) {
+            makeMsgCnt(data[status]);
+        } else {
+            for (let i in data) {
+                const iuser = parseInt(i);
+                const cnt = data[i];
+                makeCnt(iuser, cnt);
+            }
         }
+    }
+    const testBtn = document.querySelector('#test-btn');
+    if(testBtn) {
+        testBtn.addEventListener('click', () => {
+            ws.send('msg={"receiver" : "1", "iuser":"2", "ctnt":"asdasd"}');
+        });
     }
 }
 //게시글, 친구 검색
