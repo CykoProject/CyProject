@@ -18,18 +18,21 @@
         <div class="data-pk" th:data-loginuser="${loginUserPk}"></div>
         <div class="visit-container">
             <div class="visit-write" th:if="${loginUserPk > 0}">
-                <div class="frow bc-gray p10-10">
-                    <div class="f1">
-                        <div>
-                            <img src="/static/img/defaultProfile.jpeg">
+                <form class="visitFrm" th:method="post" th:action="@{/home/visit/write}">
+                    <div class="frow bc-gray p10-10">
+                        <div class="f1 fc">
+                            <div>
+                                <img class="visit-minime" th:src="@{/static/img/defaultProfileImg.jpeg}">
+                            </div>
+                            <div class="w100p">
+                                <select>
+                                    <option>미니미 설정</option>
+                                    <option></option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="w100p">
-                            <span>미니미 설정</span>
-                        </div>
-                    </div>
-                    <div class="f2">
-                        <div class="w100p">
-                            <form class="visitFrm" th:method="post" th:action="@{/home/visit/write}">
+                        <div class="f2">
+                            <div class="w100p">
                                 <input type="hidden" name="iuser" th:value="${loginUserPk}">
                                 <input type="hidden" name="ihost" th:value="${param.iuser}">
                                 <input type="hidden" name="ivisit" th:if="${modData != null}" th:value="${modData.get().getIvisit()}">
@@ -49,15 +52,18 @@
                                 <div>
                                     <input type="submit" value="save" class="ins-visit">
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
 
             <div class="visit-contents">
+                <th:block th:if="${data.size() == 0}">
+                    <strong>방명록이 없습니다.</strong>
+                </th:block>
                 <th:block th:each="item : ${data}">
-                    <div class="visit-elem" th:data-ivisit="${item.ivisit}">
+                    <div class="visit-elem mb10" th:data-ivisit="${item.ivisit}">
                         <div th:classappend="${item.secret} ? 'visit-secret-bar' : 'visit-date-bar'" id="status-bar">
                             <div>
                                 <span th:text="|no.${item.ivisit}|"></span>
@@ -90,7 +96,8 @@
                                 <span class="visit-report">신고</span>
                             </div>
                         </div>
-                        <div class="visit-ctnt">
+
+                        <div class="visit-ctnt bc-white">
                             <th:block th:if="${item.secret}">
                                 <th:block th:if="${(#strings.equals(loginUserPk, param.iuser) || #strings.equals(loginUserPk, item.iuser.iuser))}">
                                     <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
@@ -103,7 +110,11 @@
 
 
                             <th:block th:if="${!item.secret}">
-                                <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                <div class="frow g30">
+                                    <img class="visit-minime" th:if="${item.iminime == 0}" th:src="@{/static/img/defaultProfileImg.jpeg}">
+                                    <img class="visit-minime" th:if="${item.iminime != 0}" th:src="@{/pic/minime/{iminime}.jpg (iminime=${item.iminime})}">
+                                    <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                </div>
                             </th:block>
                         </div>
                     </div>

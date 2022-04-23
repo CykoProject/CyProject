@@ -22,14 +22,14 @@ public class MainNewsApiController {
 
     @GetMapping("/search")
     public String mainSearchedNewsApi (String searchTxt) throws JsonProcessingException {
-        System.out.println(searchTxt);
-        System.out.println("GetMapping(\"/search\") : " + mainNewsApiService.callNewsApi(searchTxt));
+//        System.out.println(searchTxt);
+//        System.out.println("GetMapping(\"/search\") : " + mainNewsApiService.callNewsApi(searchTxt));
         return  mainNewsApiService.callNewsApi(searchTxt);
     }
 
     @PostMapping
     public void mainNewsInputApi(@RequestBody Map<String, String> searchTxt) throws JsonProcessingException {
-        System.out.println(searchTxt.get("searchTxt"));
+//        System.out.println(searchTxt.get("searchTxt"));
         mainSearchedNewsApi(searchTxt.get("searchTxt"));
     }
 }
