@@ -19,9 +19,14 @@ public class MessageRestController {
     @PostMapping("/write")
     public int msgWriteProc(@RequestBody MessageSave save) {
         List<MessageEntity> list = save.toListEntity(authenticationFacade.getLoginUserPk());
+
+        int cnt = 0;
+        int result = 0;
         for(MessageEntity item : list) {
-            messageRepository.save(item);
+            MessageEntity me = messageRepository.save(item);
+            if(me != null) { cnt++; }
         }
-        return 0;
+        if(cnt == list.size()) { ++result; }
+        return result;
     }
 }
