@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
     <link rel="stylesheet" th:href="@{/css/user/find_email.css}">
+    <script defer th:src="@{/js/user/find_email.js}"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
@@ -16,10 +17,9 @@
 <body>
     <th:block layout:fragment="container">
         <div class="find_eamil_page">
-            <form method="post" action="/user/find_email">
                 <h2>아이디 찾기</h2>
                 <div class="find_email_input">
-                    <div id="email" class="t_bottom">
+                    <div id="find_email" class="t_bottom">
                         <label>휴대폰 번호를 입력해 주세요</label>
                         <input type="text" name="email" placeholder="휴대폰 번호" >
                     </div>
@@ -27,7 +27,6 @@
                 <button type="submit" id="find_email_Bth" >
                     확인
                 </button>
-            </form>
         </div>
     </th:block>
 </body>
