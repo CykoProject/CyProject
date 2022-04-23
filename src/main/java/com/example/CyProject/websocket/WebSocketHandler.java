@@ -70,31 +70,39 @@ public class WebSocketHandler extends TextWebSocketHandler {
             Map<String, String> JSONData = mapper.readValue(payloadArr[1], Map.class);
             String recStr = JSONData.get("receiver");
             String[] receivers = recStr.split(",");
-//            int receiver = Integer.parseInt(JSONData.get("receiver"));
-//            System.out.println(receiver);
-////            int iuser = Integer.parseInt(JSONData.get("iuser"));
-////            String ctnt = JSONData.get("ctnt");
-//            int msgCnt = messageRepository.beforeReadMsgCnt(receiver);
-//
-//            String sessionId = null;
-//            for(String key : mappingId.keySet()) {
-//                if(mappingId.get(key) == receiver) {
-//                    sessionId = key;
-//                }
-//            }
 
-//            Map<String, Integer> msgMap = new HashMap<>();
-//            msgMap.put("msgCnt", msgCnt);
-//            JSONObject msg = new JSONObject(msgMap);
-//            TextMessage tm = new TextMessage(msg.toString());
-//            for(WebSocketSession sess : list) {
-//                if(sess.getId().equals(sessionId)) {
-//                    sess.sendMessage(tm);
-//                }
-//            }
+            List<Integer> receiverList = new ArrayList<>();
+            for(int i=0; i< receivers.length; i++) {
+                receiverList.add(Integer.parseInt(receivers[i]));
+            }
 
+            List<String> sessionToSend = new ArrayList<>();
+            for(String key : mappingId.keySet()) {
+                for(Integer item : receiverList) {
+                    if(mappingId.get(key) == item) {
+                        sessionToSend.add(key);
+                    }
+                }
+            }
+
+            Map<Integer, Integer> msgCnt = new HashMap<>();
+            for(Integer item : receiverList) {
+                msgCnt.put(item, messageRepository.beforeReadMsgCnt(item) + 1);
+            }
+
+            Map<String, Map<Integer, Integer>> sendData = new HashMap<>();
+            sendData.put("msgCnt", msgCnt);
+
+            JSONObject json = new JSONObject(sendData);
+            TextMessage data = new TextMessage(json.toString());
+            for(WebSocketSession sess : list) {
+                for(String item : sessionToSend) {
+                    if(sess.getId().equals(item)) {
+                        sess.sendMessage(data);
+                    }
+                }
+            }
         } else {
-
             for (WebSocketSession sess : list) {
                 sess.sendMessage(message);
             }

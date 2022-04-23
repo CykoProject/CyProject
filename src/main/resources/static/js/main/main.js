@@ -36,7 +36,13 @@ if(loginUserPk > 0) {
     const makeMsgCnt = (data) => {
         const msgNoticeElem = document.querySelector('#msg-notice');
         if(msgNoticeElem) {
-            msgNoticeElem.innerText = data;
+            const keys = Object.keys(data);
+            keys.forEach(item => {
+                console.log('keys : ' + item);
+                if(loginUserPk === parseInt(item)) {
+                    msgNoticeElem.innerText = data[item];
+                }
+            });
         }
     }
     const ws = new WebSocket("ws://localhost:8090/ws");
@@ -58,7 +64,7 @@ if(loginUserPk > 0) {
         const data = JSON.parse(msg.data);
         const status = Object.keys(data);
         if(status.includes('msgCnt')) {
-            makeMsgCnt(data[status]);
+            makeMsgCnt(data['msgCnt']);
         } else {
             for (let i in data) {
                 const iuser = parseInt(i);
