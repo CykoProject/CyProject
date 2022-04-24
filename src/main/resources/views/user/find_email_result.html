@@ -20,8 +20,19 @@
             <h2>아이디 찾기</h2>
             <div class="find_email_result">
                 <div class="t_bottom">
-                    <div class="m4">회원님의 아이디는<strong th:text="${param.email}"></strong> 입니다. </div>
+                    <th:block th:if="${!#strings.equals(param.email, 'null')}">
+                    <div class="m4">회원님의 아이디는
+                        <strong th:text="${param.email}"></strong>
+                        입니다. </div>
                     <div hidden>error</div>
+                    </th:block>
+
+                    <th:block th:if="${#strings.equals(param.email, 'null')}">
+                        <div class="m4">
+                            <strong th:text="'등록되어있지않은번호입니다'"></strong>
+                        </div>
+                        <div hidden>error</div>
+                    </th:block>
                 </div>
             </div>
             <div class="m1">

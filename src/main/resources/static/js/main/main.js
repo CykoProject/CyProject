@@ -67,10 +67,18 @@ if(loginUserPk > 0) {
             }
         }
     }
-    const testBtn = document.querySelector('#test-btn');
-    if(testBtn) {
-        testBtn.addEventListener('click', () => {
-            ws.send('msg={"receiver" : "1", "iuser":"2", "ctnt":"asdasd"}');
+    const msgBtn = document.querySelector('.msg-submit-btn');
+    if(msgBtn) {
+        msgBtn.addEventListener('click', () => {
+            const ctnt = document.querySelector('.cus-textarea').value;
+            const chkArr = document.querySelectorAll('.friends-chk');
+            const receiverArr = [];
+            chkArr.forEach(item => {
+                if(item.checked) {
+                    receiverArr.push(item.closest('.friends-data').dataset.receiver);
+                }
+            });
+            ws.send(`msg={"receiver" : "${receiverArr}", "iuser":${loginUserPk}, "ctnt":"${ctnt}"}`);
         });
     }
 }
