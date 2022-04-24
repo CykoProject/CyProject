@@ -57,6 +57,16 @@ public class UserController {
         return result;
     }
 
+    @GetMapping("/phoneChk/{cellphone}")
+    @ResponseBody
+    public ResultVo phoneChk(@PathVariable String cellphone){
+        ResultVo result = new ResultVo();
+        UserEntity entity = new UserEntity();
+        entity.setCellphone(cellphone);
+        result.setResult(userRepository.findByCellphone(entity.getCellphone()) == null ? 0 :1);
+        return result;
+    }
+
     @GetMapping("/find_email")
     public void find_email(){}
 
@@ -101,16 +111,6 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/phoneChk/{cellphone}")
-    @ResponseBody
-    public ResultVo phoneChk(@PathVariable String cellphone){
-        ResultVo result = new ResultVo();
-        UserEntity entity = new UserEntity();
-        entity.setCellphone(cellphone);
-        result.setResult(userRepository.findByCellphone(entity.getCellphone()) == null ? 0 :1);
-        return result;
-
-    }
     @GetMapping("/pwChk/{oldUpw}")
     @ResponseBody
     public ResultVo pwChk(@PathVariable String oldUpw) {

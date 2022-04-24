@@ -42,6 +42,22 @@ spring:
       max-request-size: 30MB
       location: D:\files
 
+  mail:
+    host: smtp.gmail.com
+    prot: 587
+    username: cywordproject
+    password: cywordprojcet22
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
 mybatis:
   mapper-locations: mappers/**/*.xml
   type-aliases-package: com.example
