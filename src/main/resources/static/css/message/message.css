@@ -7,6 +7,22 @@ td, th {
     text-align: center;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
+    padding: 10px 0px;
+}
+
+tr:hover {
+    cursor: pointer;
+    background-color: gray;
+}
+
+.msg-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.msg-menu > div {
+    text-align: center;
+    margin-top: 22px;
 }
 
 .cus-textarea {
@@ -23,4 +39,25 @@ td, th {
 
 .friend-list {
     padding-bottom: 15px;
+}
+
+.read-msg {
+    color: #d3d3d3;
+}
+
+.unread-msg {
+    color: black;
+}
+
+.message-container {
+    display: flex;
+}
+
+.message-box {
+    display: flex;
+    justify-content: center;
+}
+
+.msg-table {
+    width: 874px;
 }
