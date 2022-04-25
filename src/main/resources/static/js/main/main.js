@@ -2,12 +2,17 @@
 const goHome = document.querySelector('.profile-go-to-home');
 if(goHome) {
     goHome.addEventListener('click', () => {
-        const popupWidth = 1205;
+        const popupWidth = 1189;
         const popupHeight = 600;
         const popX = (window.screen.width / 2) - (popupWidth / 2);
         const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
         const iuser = goHome.dataset.iuser;
-        const option = `width = ${popupWidth}px, height = ${popupHeight}px, left = ${popX}, top = ${popY}`;
+        const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+        `;
 
         if(iuser > 0) {
             window.open(`/home?iuser=${iuser}`, 'home', option);
@@ -16,6 +21,98 @@ if(goHome) {
         }
     });
 }
+
+// WebSocket with Stomp ==================================
+const loginUserPk = parseInt(document.querySelector('#loginUserPk').dataset.iuser);
+if(loginUserPk > 0) {
+
+    const makeCnt = (iuser, cnt) => {
+        const onlineCnt = document.querySelector('#online-friends-cnt');
+        if(loginUserPk === iuser) {
+            onlineCnt.innerText = cnt;
+        }
+    }
+
+    const makeMsgCnt = (data) => {
+        const msgNoticeElem = document.querySelector('#msg-notice');
+        if(msgNoticeElem) {
+            const keys = Object.keys(data);
+            keys.forEach(item => {
+                console.log('keys : ' + item);
+                if(loginUserPk === parseInt(item)) {
+                    msgNoticeElem.innerText = data[item];
+                }
+            });
+        }
+    }
+    const ws = new WebSocket("ws://localhost:8090/ws");
+    ws.onopen = onOpen;
+    ws.onclose = onClose;
+    ws.onmessage = onMessage;
+
+    function onOpen(evt) {
+        var str = "open="+loginUserPk;
+        ws.send(str);
+    }
+
+    function onClose(evt) {
+        var str = "logout="+loginUserPk;
+        ws.send(str);
+    }
+
+    function onMessage(msg) {
+        const data = JSON.parse(msg.data);
+        const status = Object.keys(data);
+        if(status.includes('msgCnt')) {
+            makeMsgCnt(data['msgCnt']);
+        } else {
+            for (let i in data) {
+                const iuser = parseInt(i);
+                const cnt = data[i];
+                makeCnt(iuser, cnt);
+            }
+        }
+    }
+    const msgBtn = document.querySelector('.msg-submit-btn');
+    if(msgBtn) {
+        msgBtn.addEventListener('click', () => {
+            const ctnt = document.querySelector('.cus-textarea').value;
+            const chkArr = document.querySelectorAll('.friends-chk');
+            const receiverArr = [];
+            chkArr.forEach(item => {
+                if(item.checked) {
+                    receiverArr.push(item.closest('.friends-data').dataset.receiver);
+                }
+            });
+            ws.send(`msg={"receiver" : "${receiverArr}", "iuser":${loginUserPk}, "ctnt":"${ctnt}"}`);
+        });
+    }
+}
+//게시글, 친구 검색
+
+
+const headerSearchBtn = document.querySelector(".search-btn");
+
+headerSearchBtn.addEventListener("click", () => {
+    let headerSelectVal = document.querySelector(".search-conditions").value;
+    let headerSearchVal = document.querySelector(".search-text").value;
+
+    console.log(headerSelectVal);
+    console.log(headerSearchVal);
+    fetch("http://localhost:8090/friendSearch", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "search": headerSearchVal
+        }),
+    }).then(res => {
+        console.log(res)
+        return res.json();
+    }).catch(e => console.log(e.message));
+})
+
 
 let newsElem = document.querySelector(".main-news");
 // ../../../java/com/example/CyProject/main/MainNewsApiController
@@ -313,3 +410,11 @@ const infowindow = new kakao.maps.InfoWindow({
 });
 // 인포윈도우를 지도에 표시한다
 infowindow.open(map, marker)
+
+
+//회원가입 페이지 이동
+const join_section = document.querySelector('.join-section');
+
+join_section.addEventListener('click' , () => {
+    location.href = `/user/join`
+});

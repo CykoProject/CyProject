@@ -1,4 +1,4 @@
-const diaryELem = document.querySelector('.diary-content');
+const diaryELem = document.querySelector('.home-container');
 if(diaryELem) {
     const diaryDelBtnArr = document.querySelectorAll('.diary-del');
     const removeElem = (elem) => {
@@ -36,13 +36,59 @@ if(diaryELem) {
 
     // 신고 ========================================================================================================
     const diaryReportBtnArr = document.querySelectorAll('.diary-report');
+    const diaryReportModal = document.querySelector('.diary-report-modal');
+    const diaryReportModalSaveBtn = document.querySelector('#report-submit-btn');
+    diaryReportModalSaveBtn.addEventListener('click', () => {
+        const iboard = document.querySelector('#report-iboard').innerText;
+        const ihost = document.querySelector('#diary-ihost').value;
+        const reason = document.querySelector('.diary-report-textarea').value;
+        if(reason.length === 0) {
+            alert('1자 이상 작성해 주세요.');
+            return;
+        }
+        const reportData = {
+            'iboard' : iboard,
+            'iuser' : ihost,
+            'reason' : reason
+        }
+        fetch(`/ajax/home/diary/report`, {
+            method : 'POST',
+            headers : {'Content-Type' : 'application/json'},
+            body : JSON.stringify(reportData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if(data.result === 1) {
+                    diaryReportCloseBtn.click();
+                } else {
+                    alert('실패');
+                }
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    });
+
     diaryReportBtnArr.forEach(item => {
         item.addEventListener('click', (e) => {
             const targetElem = e.target.closest('.diary-data');
-            const ctnt = targetElem.querySelector('.diary-ctnt').innerText;
-            // TODO 신고 카테고리 정해야함
-            // TODO 신고 사유 모달창
+            const iboardElem = document.querySelector('#report-iboard');
+            const ihostElem = document.querySelector('#diary-ihost');
+
+            const iboard = targetElem.querySelector('#data-idiary').dataset.iboard;
+            const ihost = targetElem.querySelector('#data-ihost').dataset.ihost;
+
+            iboardElem.innerText = iboard;
+            ihostElem.value = ihost;
+            diaryReportModal.style.display = 'flex';
         });
+    });
+
+    const diaryReportCloseBtn = document.querySelector('.diary-report-close');
+    diaryReportCloseBtn.addEventListener('click', () => {
+        const reportCtnt = document.querySelector('.diary-report-textarea');
+        reportCtnt.value = '';
+        diaryReportModal.style.display = 'none';
     });
     // 신고 ========================================================================================================
 
@@ -53,10 +99,18 @@ if(diaryELem) {
     const month = ('0' + (today.getMonth() + 1)).slice(-2);
     const day = ('0' + today.getDate()).slice(-2);
     const dateString = year + '-' + month + '-' + day;
-    diaryCalendarElem.value = dateString;
+    const dateSearchBtn = document.querySelector('.date-search-btn');
+    const dateUrl = new URL(window.document.location.href);
+    const dateUrlParams = dateUrl.searchParams;
+    const rdt = dateUrlParams.get('searchRdt');
 
-    diaryCalendarElem.addEventListener('change', () => {
-        // TODO href => orderby rdt
+    diaryCalendarElem.value = dateString;
+    if(rdt != null) {
+        diaryCalendarElem.value = rdt;
+    }
+
+    dateSearchBtn.addEventListener('click', () => {
+        location.href = `/home/diary?iuser=${iuser}&searchRdt=${diaryCalendarElem.value}`;
     });
     // 달력 ========================================================================================================
 }

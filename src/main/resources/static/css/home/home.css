@@ -1,0 +1,33 @@
+.profile-img {
+    width: 100%;
+    height: 10rem;
+    margin-bottom: 1rem;
+}
+
+.profile-img img {
+    width: 100%;
+}
+
+.profile-ctnt {
+    width: 100%;
+    height: 10rem;
+    margin-bottom: 0.5rem;
+    overflow: scroll;
+}
+
+.profile-history {
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile-history p span {
+    color: var(--main-color-default);
+    font-size: 0.6rem;
+}
+
+.profile-name span {
+    color: #0a1056;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 800;
+}

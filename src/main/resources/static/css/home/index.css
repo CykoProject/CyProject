@@ -1,4 +1,11 @@
+html {
+    overflow: hidden;
+}
 
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
 
 .wrap {
     width: 1189px;
@@ -15,7 +22,7 @@
     background: url("/static/img/home_blue.png") no-repeat center / 100% 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly;
     padding: 2rem;
 }
 
@@ -33,6 +40,14 @@
     width: 70%;
 }
 
+.section.left .content {
+    padding: 1rem;
+}
+
+.section.right .content {
+    padding: 2rem;
+}
+
 .section .header {
     height: 5%;
 }
@@ -41,6 +56,7 @@
     height: 90%;
     border: 0.0625rem solid #b2b2b2;
     border-radius: 0.5rem;
+    font-size: 0.9rem;
 }
 
 .header.cnt p {
@@ -108,4 +124,33 @@
     border-bottom-left-radius: 0px !important;
     border-left: none !important;
     color: black !important;
+}
+
+.home-container {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 89%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.home-container > div {
+    margin-bottom: 10px;
+}
+
+.pagination {
+    text-align: center;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: black;
+}
+
+.cur-page {
+    color: red !important;
+}
+
+.empty-data {
+
 }

@@ -11,6 +11,14 @@
 .date-bar {
     background-color: #d9e0e3;
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.item-bar a, .item-bar span {
+    font-size: 10px;
+    color: gray;
+    text-decoration: none;
 }
 
 .diary-content {
@@ -46,9 +54,44 @@
 .diary-write {
     text-align: right;
     padding: 10px 10px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .diary-write > a {
     text-decoration: none;
-    font-size: 14px;
+    font-size: 15px;
+}
+
+.diary-report-modal {
+    position: absolute;
+    top: calc(50vh - 100px); left: calc(50vw - 200px);
+    background-color: white;
+    display: none; justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    width: 400px;
+    height: 200px;
+    border: 1px solid black;
+}
+
+.diary-report-textarea {
+    width: 308px;
+    height: 102px;
+    border: 1px solid black;
+    resize: none;
+}
+
+.diary-report-ctnt {
+    display: flex;
+    flex-direction: column;
+}
+
+.diary-report-close {
+    position: absolute;
+    right: 14px;
+    top: 4px;
+}
+.diary-report-close:hover {
+    cursor: pointer;
 }

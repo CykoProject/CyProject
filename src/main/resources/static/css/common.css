@@ -7,6 +7,8 @@
     --font-style-nanum: 'Nanum Gothic', sans-serif;
     --font-color-default: #212529;
 
+    --main-color-default: #e66f27;  /* 주황색 */
+
     /*--width-max: 70%;*/
 }
 
@@ -18,25 +20,81 @@
     font-family: var(--font-style-default);
 }
 
+a {
+    color: var(--font-color-default);
+    text-decoration: none;
+}
+
+.hidden { visibility: hidden; }
+
 .home-container {
     overflow: scroll;
     overflow-x: hidden;
     height: 89%;
 }
 
+.text-align-center {
+    text-align: center;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.frow {
+    display: flex;
+    flex-direction: row;
+}
+
 .home-container > div {
     margin-bottom: 10px;
 }
 
-.pagination {
-    text-align: center;
+.f1 {
+    display: flex;
+    flex: 1;
+}
+.f2 {
+    display: flex;
+    flex: 2;
 }
 
-.pagination a {
-    text-decoration: none;
-    color: black;
+.bc-white {
+    background-color: white;
 }
 
-.cur-page {
-    color: red !important;
+.bc-gray {
+    background-color: #e3e3e3;
+}
+
+.w100p {
+    width: 100%;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.cur-pointer:hover {
+    cursor: pointer;
+}
+
+.p10-10 {
+    padding: 10px 10px;
+}
+
+.g30 {
+    gap: 30px;
+}
+
+.just-center {
+    justify-content: center;
+}
+
+.justify-space {
+    justify-content: space-between;
+}
+
+.fc {
+    flex-direction: column;
 }

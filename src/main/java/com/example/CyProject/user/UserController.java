@@ -3,13 +3,21 @@
 package com.example.CyProject.user;
 
 import com.example.CyProject.ResultVo;
+import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.home.HomeEntity;
+import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.user.model.UserDto;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/user")
@@ -18,12 +26,8 @@ public class UserController {
 
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserRepository userRepository;
-
-    @GetMapping("/login")
-    public String login() {
-
-        return "user/login";
-    }
+    @Autowired private HomeRepository homeRepository;
+    @Autowired private AuthenticationFacade auth;
 
     @GetMapping("/join")
     public String join() {
@@ -31,10 +35,16 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String joinProc(UserDto dto) {
-        dto.setUpw(passwordEncoder.encode(dto.getUpw()));
-        userRepository.save(dto.toEntity());
-        return "redirect:/user/login";
+    public String joinProc(UserEntity ent) {
+        ent.setUpw(passwordEncoder.encode(ent.getUpw()));
+        userRepository.save(ent);
+        HomeEntity entity = new HomeEntity();
+        int iuser = ent.getIuser();
+        entity.setIuser(iuser);
+        if(iuser != 0){
+            homeRepository.save(entity);
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/idChk/{email}")
@@ -47,11 +57,66 @@ public class UserController {
         return result;
     }
 
-    @PostMapping("/pwChk")
+    @GetMapping("/find_email")
+    public void find_email(){}
+
+    @GetMapping("/find_email/{cellphone}")
     @ResponseBody
-    public ResultVo pwChk(UserEntity entity, String pw){
+    public ResultVo find_email(@PathVariable String cellphone){
+        UserEntity entity = new UserEntity();
+        ResultVo resultVo = new ResultVo();
+        entity.setCellphone(cellphone);
+        UserEntity userEmail = userRepository.findByCellphone(entity.getCellphone());
+        resultVo.setResultString(userEmail != null ? userEmail.getEmail() : null);
+        return resultVo;
+    }
+
+    @GetMapping("/find_email_result")
+    public void find_email_result(){}
+
+    @GetMapping("/find_upw")
+    public String find_upw(){
+        return "/user/find_upw";
+    }
+
+    @GetMapping("/find_upw_update")
+    public void find_upw_update(){
+
+    }
+
+    @GetMapping("/mypage")
+    public String mypage(Model model) {
+        model.addAttribute("loginUser", auth.getLoginUser());
+        return "user/mypage";
+    }
+
+    @PostMapping("/mypage")
+    public String update(String newUpw) {
+        String secureUpw = passwordEncoder.encode(newUpw);
+        Optional<UserEntity> user = userRepository.findById(auth.getLoginUserPk());
+        user.ifPresent(selectUser -> {
+            selectUser.setUpw(secureUpw);
+            userRepository.save(selectUser);
+        });
+        return "redirect:/";
+    }
+
+    @GetMapping("/phoneChk/{cellphone}")
+    @ResponseBody
+    public ResultVo phoneChk(@PathVariable String cellphone){
         ResultVo result = new ResultVo();
-        result.setResult(passwordEncoder.matches(entity.getUpw(),pw) ? 1 : 0);
+        UserEntity entity = new UserEntity();
+        entity.setCellphone(cellphone);
+        result.setResult(userRepository.findByCellphone(entity.getCellphone()) == null ? 0 :1);
         return result;
+
+    }
+    @GetMapping("/pwChk/{oldUpw}")
+    @ResponseBody
+    public ResultVo pwChk(@PathVariable String oldUpw) {
+        ResultVo vo = new ResultVo();
+        String upw = auth.getLoginUser().getUpw();
+        vo.setResult(passwordEncoder.matches(oldUpw, upw) ? 1 : 0);
+        return vo;
     }
 }

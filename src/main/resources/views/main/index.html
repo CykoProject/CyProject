@@ -1,0 +1,56 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/main/main.css}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js" integrity="sha512-ksHM9XpigYGeRdXZfI4GddPsUjmLj6zd1MCNXL4fsfDwp1G+u6hC73uwDjlpjdX4tbEtj/N1AWkLo6WjDwQkyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer th:src="@{/js/main/main.js}"></script>
+</head>
+<body>
+<header>
+    <div class="header">
+        <div th:id="loginUserPk" th:if="${session.loginUserPkSession != null}" th:data-iuser="${#session.getAttribute('loginUserPkSession')}"></div>
+        <a th:href="@{/}"><img class="logo-img" src="https://cdn.senmoney.co.kr/news/photo/202006/1999_2098_4524.jpg" alt=""/></a>
+
+        <div class="header-center">
+            <div class="header-menu">
+                <p>미니홈피</p>
+                <p>인기글</p>
+                <p>쇼핑</p>
+            </div>
+            <div class="search">
+                <div class="search-select">
+                    <select class="search-conditions">
+                        <option value="0">게시글</option>
+                        <option value="1">친구</option>
+                    </select>
+                    <input type="text" class="search-text">
+                    <button class="search-btn">검색</button>
+                </div>
+            </div>
+        </div>
+        <img class="ads-img"
+             src="https://coinpan.com/files/attach/images/198/962/872/096/fdae5cae18bbd697d9bd9df0f674821a.jpg" alt=""/>
+
+    </div>
+</header>
+
+<th:block layout:fragment="container">
+
+    </th:block>
+
+<div class="footer-wrapper">
+    <footer class="footer">
+        &copy; 2022 Cyworld KoreaIt Team, Inc
+        <a th:href="@{https://github.com/CykoProject/CyProject}" target="_blank">
+            <i class="fa-brands fa-github"></i>
+        </a>
+    </footer>
+</div>
+</body>
+</html>

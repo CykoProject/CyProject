@@ -7,6 +7,9 @@ import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @ToString
 public class PageEntity {
@@ -18,6 +21,9 @@ public class PageEntity {
     private int lastPage;
     private int page;
     private int pop;
+
+    private LocalDateTime startDate;
+    private LocalDateTime tomorrow;
 
     public static class Builder {
 
@@ -54,6 +60,40 @@ public class PageEntity {
         public PageEntity build() {
             return new PageEntity(this);
         }
+    }
+
+    public static class DateBuilder {
+        private LocalDateTime startDate;
+        private LocalDateTime tomorrow;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        public DateBuilder() {
+
+        }
+
+        public DateBuilder startDate(String startDate) {
+            String strStartDate = startDate + " 00:00:00";
+            LocalDateTime result = LocalDateTime.parse(strStartDate, formatter);
+            this.startDate = result;
+            return this;
+        }
+
+        public DateBuilder tomorrow(String tomorrow) {
+            String strTomorrow = tomorrow + " 00:00:01";
+            LocalDateTime result = LocalDateTime.parse(strTomorrow, formatter);
+            result = result.plusDays(1);
+            this.tomorrow = result;
+            return this;
+        }
+
+        public PageEntity build() {
+            return new PageEntity(this);
+        }
+    }
+
+    public PageEntity(DateBuilder builder) {
+        this.startDate = builder.startDate;
+        this.tomorrow = builder.tomorrow;
     }
 
     public PageEntity(Builder builder) {

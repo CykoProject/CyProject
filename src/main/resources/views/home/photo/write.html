@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="home/index">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/photo/write.css}">
+    <title></title>
+</head>
+<body>
+    <th:block layout:fragment="content_right">
+
+    </th:block>
+    <th:block layout:fragment="content_left">
+        <div>
+            <form id="photo-form" th:method="post" th:action="@{/home/photo/write}" enctype="multipart/form-data">
+                <input type="hidden" name="ihost" th:value="${param.iuser}">
+                <div>
+                    <label>
+                        <input type="text" name="title" placeholder="제목">
+                    </label>
+                    <label>
+                        <textarea name="ctnt" placeholder="내용" cols="30" rows="10">
+
+                        </textarea>
+                    </label>
+                    <label>
+                        <input type="file" name="imgs" accept="image/*" multiple>
+                    </label>
+                </div>
+                <div>
+                    <input type="submit" name="save">
+                </div>
+            </form>
+        </div>
+    </th:block>
+</body>
+</html>

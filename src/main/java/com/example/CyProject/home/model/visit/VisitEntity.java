@@ -28,6 +28,8 @@ public class VisitEntity {
     @JoinColumn(name = "iuser")
     private UserEntity iuser;
 
+    private int iminime;
+
     private boolean secret;
 
     @Column(insertable = false, updatable = false)
