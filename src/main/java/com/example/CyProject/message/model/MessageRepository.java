@@ -9,10 +9,13 @@ import java.util.List;
 
 public interface MessageRepository extends JpaRepository<MessageEntity, Integer> {
 
-    @Query("SELECT COUNT (m) FROM MessageEntity m WHERE m.receiver = ?1 AND m.recv_read = false")
+    @Query("SELECT COUNT (m) FROM MessageEntity m WHERE m.receiver.iuser = ?1 AND m.recv_read = false")
     int beforeReadMsgCnt(int receiver);
 
-    @Query("SELECT m FROM MessageEntity m WHERE m.receiver = ?1 ORDER BY m.rdt DESC")
+    @Query("SELECT m FROM MessageEntity m WHERE m.iuser.iuser = ?1 ORDER BY m.rdt DESC ")
+    List<MessageEntity> getSendMsgList(int iuser);;
+
+    @Query("SELECT m FROM MessageEntity m WHERE m.receiver.iuser = ?1 ORDER BY m.rdt DESC")
     List<MessageEntity> getMsgList(int receiver);
 
     @Modifying

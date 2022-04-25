@@ -115,6 +115,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus ct) throws Exception {
         list.remove(session);
+
         String sessionId = session.getId();
         int logoutIuser = mappingId.get(sessionId);
 

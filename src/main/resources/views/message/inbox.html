@@ -14,10 +14,10 @@
         <div class="frow">
             <div class="f1 msg-menu">
                 <div>
-                    <a th:href="@{#}">받은쪽지함</a>
+                    <a th:classappend="${#strings.equals(box, 'inbox')} ? 'selected' : ''" th:href="@{/msg/inbox}">받은쪽지함</a>
                 </div>
                 <div>
-                    <a th:href="@{#}">보낸쪽지함</a>
+                    <a th:classappend="${#strings.equals(box, 'outbox')} ? 'selected' : ''" th:href="@{/msg/outbox}">보낸쪽지함</a>
                 </div>
             </div>
             <div class="message-container f2">
