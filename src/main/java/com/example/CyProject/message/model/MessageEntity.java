@@ -22,12 +22,21 @@ public class MessageEntity {
     @OneToOne
     @JoinColumn(name = "iuser")
     private UserEntity iuser;
-    private int receiver;
+
+    @OneToOne
+    @JoinColumn(name = "receiver")
+    private UserEntity receiver;
 
     @Column(insertable = false, updatable = false)
     private boolean recv_read;
 
     private String ctnt;
+
+    @Column(insertable = false, updatable = false)
+    private boolean remove_iuser;
+
+    @Column(insertable = false, updatable = false)
+    private boolean remove_receiver;
 
     @Column(insertable = false, updatable = false)
     private LocalDateTime rdt;

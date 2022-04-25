@@ -22,11 +22,16 @@ public class MessageSave {
         List<MessageEntity> list = new ArrayList<>();
         for(Integer item : receiver) {
             MessageEntity entity = new MessageEntity();
-            entity.setReceiver(item);
+            UserEntity iuserEnt = new UserEntity();
+            iuserEnt.setIuser(iuser);
+            entity.setIuser(iuserEnt);
+
+            UserEntity recEnt = new UserEntity();
+            recEnt.setIuser(item);
+            entity.setReceiver(recEnt);
+
             entity.setCtnt(this.ctnt);
-            UserEntity ue = new UserEntity();
-            ue.setIuser(iuser);
-            entity.setIuser(ue);
+
             list.add(entity);
         }
         return list;

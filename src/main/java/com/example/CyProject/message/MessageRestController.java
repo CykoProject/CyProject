@@ -4,6 +4,7 @@ import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.message.model.MessageEntity;
 import com.example.CyProject.message.model.MessageRepository;
 import com.example.CyProject.message.model.MessageSave;
+import com.example.CyProject.user.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +24,18 @@ public class MessageRestController {
         int cnt = 0;
         int result = 0;
         for(MessageEntity item : list) {
+            UserEntity entity = new UserEntity();
+
             MessageEntity me = messageRepository.save(item);
             if(me != null) { cnt++; }
         }
         if(cnt == list.size()) { ++result; }
         return result;
+    }
+
+    @GetMapping("/del")
+    public int msgDelProc(int imsg) {
+
+        return 1;
     }
 }
