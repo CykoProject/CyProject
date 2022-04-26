@@ -51,10 +51,10 @@ public class MessageRestController {
             } else if(receiver == loginUserPk) {
                 resultCnt = messageRepository.delMsg(false, true, item) == 1 ? --resultCnt : ++resultCnt;
             }
+            messageRepository.updRecvRead(item);
         }
 
         vo.setResult(resultCnt == 0 ? 1 : 0);
-
         return vo;
     }
 }
