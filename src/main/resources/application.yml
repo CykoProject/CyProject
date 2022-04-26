@@ -44,9 +44,9 @@ spring:
 
   mail:
     host: smtp.gmail.com
-    prot: 587
-    username: cywordproject
-    password: cywordprojcet22
+    port: 587
+    username: cywordproject@gmail.com
+    password: cywordproject22
     properties:
       mail:
         smtp:
