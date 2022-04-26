@@ -9,14 +9,22 @@ import java.util.List;
 
 public interface MessageRepository extends JpaRepository<MessageEntity, Integer> {
 
-    @Query("SELECT COUNT (m) FROM MessageEntity m WHERE m.receiver = ?1 AND m.recv_read = false")
+    @Query("SELECT COUNT (m) FROM MessageEntity m WHERE m.receiver.iuser = ?1 AND m.recv_read = false")
     int beforeReadMsgCnt(int receiver);
 
-    @Query("SELECT m FROM MessageEntity m WHERE m.receiver = ?1 ORDER BY m.rdt DESC")
-    List<MessageEntity> getMsgList(int receiver);
+    @Query("SELECT m FROM MessageEntity m WHERE m.iuser.iuser = ?1 AND m.remove_iuser = false ORDER BY m.rdt DESC ")
+    List<MessageEntity> getSendMsgList(int iuser);
+
+    @Query("SELECT m FROM MessageEntity m WHERE m.receiver.iuser = ?1 AND m.remove_receiver = false ORDER BY m.rdt DESC")
+    List<MessageEntity> getReceiveMsgList(int receiver);
 
     @Modifying
     @Transactional
     @Query("UPDATE MessageEntity SET recv_read = true WHERE imsg = ?1")
     int updRecvRead(int imsg);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE MessageEntity SET remove_iuser = ?1, remove_receiver = ?2 WHERE imsg = ?3 ")
+    int delMsg(boolean iuser, boolean receiver, int imsg);
 }
