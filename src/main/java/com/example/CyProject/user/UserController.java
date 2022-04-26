@@ -57,6 +57,16 @@ public class UserController {
         return result;
     }
 
+    @GetMapping("/phoneChk/{cellphone}")
+    @ResponseBody
+    public ResultVo phoneChk(@PathVariable String cellphone){
+        ResultVo result = new ResultVo();
+        UserEntity entity = new UserEntity();
+        entity.setCellphone(cellphone);
+        result.setResult(userRepository.findByCellphone(entity.getCellphone()) == null ? 0 :1);
+        return result;
+    }
+
     @GetMapping("/find_email")
     public void find_email(){}
 
@@ -79,9 +89,23 @@ public class UserController {
         return "/user/find_upw";
     }
 
-    @GetMapping("/find_upw_update")
-    public void find_upw_update(){
+//    @ResponseBody
+//    @PostMapping("/find_upw")
+//    public ResultVo ajaxFindUpw(@RequestBody String email) {
+//        ResultVo vo = new ResultVo();
+//        vo.setResultString(email);
+//
+//        return vo;
+//    }
 
+    @ResponseBody
+    @PostMapping("/find_upw")
+    public ResultVo changeUpw(@RequestBody UserEntity entity) {
+        ResultVo vo = new ResultVo();
+        String secureUpw = passwordEncoder.encode(entity.getUpw());
+        int status = userRepository.updUserUpw(secureUpw, entity.getEmail());
+        vo.setResult(status);
+        return vo;
     }
 
     @GetMapping("/mypage")
@@ -101,16 +125,6 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/phoneChk/{cellphone}")
-    @ResponseBody
-    public ResultVo phoneChk(@PathVariable String cellphone){
-        ResultVo result = new ResultVo();
-        UserEntity entity = new UserEntity();
-        entity.setCellphone(cellphone);
-        result.setResult(userRepository.findByCellphone(entity.getCellphone()) == null ? 0 :1);
-        return result;
-
-    }
     @GetMapping("/pwChk/{oldUpw}")
     @ResponseBody
     public ResultVo pwChk(@PathVariable String oldUpw) {

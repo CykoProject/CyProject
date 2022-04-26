@@ -3,17 +3,7 @@ const phoneRegex = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 const find_emailElem = document.querySelector('#find_email');
 const findInput = find_emailElem.querySelector('input');
 const findBth = document.querySelector('#find_email_Bth');
-const findNull = document.querySelector('.t_bottom');
 
-
-const errorMsg = (elem, msg) => {
-    elem.classList.add('error');
-    elem.classList.remove('info');
-    elem.querySelector('div').classList.remove('hidden');
-    elem.querySelector('div').classList.remove('cinfo');
-    elem.querySelector('div').classList.add('cerror');
-    elem.querySelector('div').innerText = msg;
-}
 
 
 findBth.addEventListener('click', (e)=> {

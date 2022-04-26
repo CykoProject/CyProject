@@ -19,6 +19,28 @@ if(messageContainer) {
             window.open(`/msg/detail?imsg=${imsg}`, 'msg', option);
         });
     });
+
+    // 체크박스 관련
+    const msgAllChkBtn = document.querySelector('.msg-all-chk');
+    const chkArr = document.querySelectorAll('.msg-chk');
+    msgAllChkBtn.addEventListener('click', () => {
+        const status = msgAllChkBtn.checked;
+        chkArr.forEach(item => {
+            item.checked = status;
+        });
+    });
+    let cnt = 0;
+    chkArr.forEach(item => {
+        item.addEventListener('click', () => {
+            let chkCnt = chkArr.length;
+            let status = item.checked;
+
+            cnt = status === true ? ++cnt : --cnt;
+            console.log(status);
+            console.log(cnt, chkCnt);
+            msgAllChkBtn.checked = cnt === chkCnt ? true : false;
+        });
+    });
 }
 
 
