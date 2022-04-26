@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="loginUserPk" th:data-iuser="${loginUserPk}"></div>
-    <div class="msg-detail-container" th:data-iuser="${loginUserPk}" th:with="item = ${msgDetail.get()}">
+    <div class="msg-detail-container" th:data-iuser="${loginUserPk}" th:with="item = ${msgDetail}">
         <div class="msg-detail-bg">
             <div class="msg-detail-in">
                 <div class="friendly-msg">
@@ -28,7 +28,7 @@
                         <span class="msg-color" th:text="|(${#temporals.format(item.rdt, 'yyyy-MM-dd HH:mm:ss')})|"></span>
                 </div>
                 <div class="msg-ctnt-container">
-                    <span th:text="${item.ctnt}"></span>
+                    <span th:utext="${item.ctnt}"></span>
                 </div>
                 <div class="msg-tool">
                     <button id="msg-reply-btn" th:if="${loginUserPk == item.receiver.iuser}">답장쓰기</button>

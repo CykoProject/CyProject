@@ -1,6 +1,8 @@
-const messageContainer = document.querySelector('.msgbox');
-if(messageContainer) {
+const msgBox = document.querySelector('.msgbox');
+if(msgBox) {
     // detail 이동
+    const msgContainer = document.querySelector('.messgae-container');
+    const iuser = loginUserPk.dataset.iuser;
     const msgTrArr = document.querySelectorAll('.msg-tr');
     msgTrArr.forEach(item => {
         item.addEventListener('click', () => {
@@ -41,20 +43,61 @@ if(messageContainer) {
             msgAllChkBtn.checked = cnt === chkCnt ? true : false;
         });
     });
+
+    const msgDelBtn = document.querySelector('.msg-del');
+    msgDelBtn.addEventListener('click', () => {
+        if(!confirm("선택한 쪽지를 삭제하시겠습니까?")) return;
+        const chkBoxArr = document.querySelectorAll('.msg-chk');
+        const imsgArr = [];
+        chkBoxArr.forEach(item => {
+            if(item.checked) {
+                imsgArr.push(item.closest('.msg-data').dataset.imsg);
+            }
+        });
+
+        fetch(`/ajax/msg/del`, {
+            method : 'post',
+            headers : {'Content-Type' : 'application/json'},
+            body : JSON.stringify(imsgArr)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if(data.result === 1) {
+                    location.reload();
+                } else {
+                    alert('삭제에 실패했습니다.');
+                }
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    });
+
 }
 
 
 const msgWrite = document.querySelector('.msg-write');
 if(msgWrite) {
-    const friendListElem = document.querySelector('.friend-list');
-    const friendTableElem = document.querySelector('.friend-table');
+    const friendsAllChk = document.querySelector('.friends-all-chk');
+    const friendsChkArr = document.querySelectorAll('.friends-chk');
+    const cntLength = friendsChkArr.length;
 
-    friendListElem.addEventListener('click', () => {
-        if(friendTableElem.classList.contains('hidden')) {
-            friendTableElem.classList.remove('hidden');
-        } else {
-            friendTableElem.classList.add('hidden');
-        }
+    let chkCnt = 0;
+    friendsAllChk.addEventListener('click', () => {
+        const chkStatus = friendsAllChk.checked;
+        friendsChkArr.forEach(item => {
+            item.checked = chkStatus;
+            chkCnt = chkStatus === true ? cntLength : 0;
+        });
+    });
+
+    friendsChkArr.forEach(item => {
+        item.addEventListener('click', () => {
+            chkCnt = item.checked === true ? ++chkCnt : --chkCnt;
+            console.log(cntLength);
+            console.log(chkCnt);
+            friendsAllChk.checked = cntLength === chkCnt ? true : false;
+        });
     });
 
     const msgSubmitBtn = document.querySelector('.msg-submit-btn');

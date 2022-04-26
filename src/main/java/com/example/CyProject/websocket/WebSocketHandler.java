@@ -100,19 +100,45 @@ public class WebSocketHandler extends TextWebSocketHandler {
                     }
                 }
             }
-        } else {
+        } else { // logout
+            int iuser = Integer.parseInt(payloadArr[1]);
+            List<Integer> friendsPkList = friendsRepository.selectFriendsPkList(iuser);
+            List<String> friendsSessionIdList = new ArrayList<>();
+            for(String keys : mappingId.keySet()) {
+                for(Integer item : friendsPkList) {
+                    if(mappingId.get(keys) == item) {
+                        friendsSessionIdList.add(keys);
+                    }
+                }
+            }
+
+            Map<String, Map<Integer, Integer>> sendData = new HashMap<>();
+            Map<Integer, Integer> data = new HashMap<>();
+
+            for(Integer item : friendsPkList) {
+                data.put(item, -1);
+            }
+            sendData.put("logout", data);
+            JSONObject json = new JSONObject(sendData);
+            TextMessage send = new TextMessage(json.toString());
             for (WebSocketSession sess : list) {
-                sess.sendMessage(message);
+                for(String id : friendsSessionIdList) {
+                    if(sess.getId().equals(id)) {
+                        sess.sendMessage(send);
+                    }
+                }
             }
         }
     }
 
-    @Override
+    @Override // onOpen
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         list.add(session);
     }
 
-    @Override
+
+
+    @Override // onClose
     public void afterConnectionClosed(WebSocketSession session, CloseStatus ct) throws Exception {
         list.remove(session);
 
@@ -140,7 +166,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
         JSONObject json = new JSONObject(cntMap);
         TextMessage msg = new TextMessage(json.toString());
         for(WebSocketSession sess : list) {
-            sess.sendMessage(msg);
+            if(logoutIuser == 0) {
+                sess.sendMessage(msg);
+            }
         }
     }
 }
