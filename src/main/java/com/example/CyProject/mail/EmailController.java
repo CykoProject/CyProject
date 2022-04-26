@@ -1,0 +1,28 @@
+package com.example.CyProject.mail;
+
+import com.example.CyProject.ResultVo;
+import com.example.CyProject.mail.model.EmailEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+public class EmailController {
+
+    @Autowired
+    private EmailService service;
+
+    @PostMapping("/email")
+    public ResultVo find_upw_sendEmail(@RequestBody EmailEntity email){
+        ResultVo vo = new ResultVo();
+        vo.setResultString(service.find_upw_sendEmail(email.getEmail()));
+        System.out.println(vo);
+        return vo;
+    }
+
+    @PostMapping("/upw_update")
+    public void update(){
+
+    }
+
+}

@@ -6,13 +6,19 @@ h2 { margin-top: 200px; margin-bottom: 30px; font-family: 'Noto Sans KR', sans-s
 
 input { padding-left: 10px; }
 
-#find_email_Bth{
+#find_upw_Bth{
     margin-left: 100px; background-color: orange; width: 200px; height: 50px; border-radius: 7px ; font-size: 19px; border-width: thin; font-family: 'Noto Sans KR', sans-serif; color: white; border: 1px solid orange;
 }
-
+#result_Bth{
+    margin-left: 100px; background-color: orange; width: 200px; height: 50px; border-radius: 7px ; font-size: 19px; border-width: thin; font-family: 'Noto Sans KR', sans-serif; color: white; border: 1px solid orange;
+}
 .t_bottom{ margin-bottom: 25px;}
 .t_bottom > input {margin-top: 6px ;}
+.t_bottom { display: flex; flex-direction: column; }
 
 label{ font-weight: bold; font-size: 15px; font-family: sans-serif; color: rgba(40, 37, 37, 0.76); font-family: 'Noto Sans KR', sans-serif; }
 
 a{ text-decoration-line: none}
+.cinfo { color: #35C5F0; }
+.cerror { color: #FF7777; }
+.hidden { visibility: hidden; }

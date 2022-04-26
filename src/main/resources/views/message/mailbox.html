@@ -37,7 +37,7 @@
                             <thead>
                             <tr>
                                 <th>
-                                    <input type="checkbox">
+                                    <input type="checkbox" class="msg-all-chk">
                                 </th>
                                 <th>보낸사람</th>
                                 <th>내용</th>
@@ -48,7 +48,7 @@
                             <th:block th:each="item : ${msgList}">
                                 <tr class="msg-data" th:data-imsg="${item.imsg}" th:classappend="${item.recv_read} ? 'read-msg' : 'unread-msg'">
                                     <td>
-                                        <input type="checkbox">
+                                        <input type="checkbox" class="msg-chk">
                                     </td>
                                     <td class="msg-tr">
                                         <span th:text="${item.iuser.nm}"></span>

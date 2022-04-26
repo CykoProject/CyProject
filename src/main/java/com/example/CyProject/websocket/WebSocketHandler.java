@@ -27,7 +27,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
-        System.out.println("payload : " + payload);
         String payloadArr[] = payload.split("=");
         String status = payloadArr[0];
 
@@ -39,7 +38,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
             if (onlineUser.indexOf(iuser) == -1) {
                 onlineUser.add(iuser);
 
-//                List<Integer> result = selFriendList(iuser);
                 List<Integer> result = friendsRepository.selectFriendsPkList(iuser);
                 Collections.sort(onlineUser);
                 List<Integer> list1 = result;
@@ -116,13 +114,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus ct) throws Exception {
+
         list.remove(session);
-        System.out.println("연결종료");
         String sessionId = session.getId();
         int logoutIuser = mappingId.get(sessionId);
 
         if(onlineUser.contains(logoutIuser)) {
-//            List<Integer> result = selFriendList(logoutIuser);
             List<Integer> result = friendsRepository.selectFriendsPkList(logoutIuser);
             for (Integer item : result) {
                 int cnt = 0;
