@@ -28,11 +28,19 @@ if(loginUserElem) {
     const loginUserPk = parseInt(loginUserElem.dataset.iuser);
     if (loginUserPk > 0) {
 
-        const makeCnt = (iuser, cnt) => {
+        const makeCnt = (iuser, cnt, logout) => {
             const onlineCnt = document.querySelector('#online-friends-cnt');
             if(onlineCnt) {
-                if (loginUserPk === iuser) {
-                    onlineCnt.innerText = cnt;
+                if (logout != null && logout != undefined && logout != '') {
+                    if (loginUserPk === parseInt(iuser)) {
+                        const preCnt = parseInt(onlineCnt.innerText);
+                        const result = preCnt + cnt;
+                        onlineCnt.innerText = result;
+                    }
+                } else {
+                    if (loginUserPk === iuser) {
+                        onlineCnt.innerText = cnt;
+                    }
                 }
             }
         }
@@ -71,6 +79,12 @@ if(loginUserElem) {
         ws.onopen = onOpen;
         ws.onclose = onClose;
         ws.onmessage = onMessage;
+        const logoutBtnElem = document.querySelector('.logout-btn');
+        if(logoutBtnElem) {
+            logoutBtnElem.addEventListener('click', () => {
+                onClose();
+            });
+        }
 
         function onOpen(evt) {
             var str = "open=" + loginUserPk;
@@ -83,12 +97,21 @@ if(loginUserElem) {
         }
 
         function onMessage(msg) {
+            console.log(msg.data);
             const data = JSON.parse(msg.data);
             const status = Object.keys(data);
             if (status.includes('msgCnt')) {
                 makeMsgCnt(data['msgCnt']);
                 msgAlarm();
                 console.log('쪽지가 도착했습니다.');
+            } else if(status.includes('logout')) {
+                const logoutData = data['logout'];
+                for (let i in logoutData) {
+                    const iuser = parseInt(i);
+                    console.log(iuser);
+                    const cnt = logoutData[i];
+                    makeCnt(iuser, cnt, 'logout');
+                }
             } else {
                 for (let i in data) {
                     const iuser = parseInt(i);
