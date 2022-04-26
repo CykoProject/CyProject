@@ -89,9 +89,23 @@ public class UserController {
         return "/user/find_upw";
     }
 
-    @GetMapping("/find_upw_update")
-    public void find_upw_update(){
+//    @ResponseBody
+//    @PostMapping("/find_upw")
+//    public ResultVo ajaxFindUpw(@RequestBody String email) {
+//        ResultVo vo = new ResultVo();
+//        vo.setResultString(email);
+//
+//        return vo;
+//    }
 
+    @ResponseBody
+    @PostMapping("/find_upw")
+    public ResultVo changeUpw(@RequestBody UserEntity entity) {
+        ResultVo vo = new ResultVo();
+        String secureUpw = passwordEncoder.encode(entity.getUpw());
+        int status = userRepository.updUserUpw(secureUpw, entity.getEmail());
+        vo.setResult(status);
+        return vo;
     }
 
     @GetMapping("/mypage")
