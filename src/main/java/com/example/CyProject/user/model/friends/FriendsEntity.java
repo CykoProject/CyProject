@@ -24,6 +24,7 @@ public class FriendsEntity {
     @OneToOne
     @JoinColumn(name = "fuser")
     private UserEntity fuser;
+
     private int status;
     private String nickname;
 

@@ -25,35 +25,6 @@ public class Utils {
         return idx;
     }
 
-    public VisitEntity makeStringNewLine(VisitEntity entity) {
-        /*
-         * 리턴 값 List<Object>
-         */
-        VisitEntity data = null;
-            try {
-                data = new VisitEntity();
-                for (Field field : entity.getClass().getDeclaredFields()) {
-                    field.setAccessible(true);
-                    System.out.println(field.getName());
-                    String nm = field.getName();
-                    Object value = field.get(entity);
-                    if("ctnt".equals(nm)) {
-                        value = value.toString().replaceAll("\r\n", "<br>");
-                        data.setCtnt((String) value);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-//         =============== 작동 테스트 용 =============
-//        for(Object list : objList) {
-//            System.out.println(list.toString());
-//        }
-//         ==========================================
-
-        return data;
-    }
-
     public List<Object> makeStringNewLine(List<?> entity) {
         /*
          * 리턴 값 List<Object>

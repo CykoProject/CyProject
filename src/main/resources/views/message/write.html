@@ -13,8 +13,8 @@
         <div class="msg-write"></div>
         <div class="frow justify-space">
             <div class="text-align-center friend-container">
-                <div class="cur-pointer friend-list"><strong>친구목록</strong></div>
-                <div class="hidden friend-table">
+                <div class="friend-list"><strong>친구목록</strong></div>
+                <div class="friend-table">
                     <table>
                         <thead>
                         <tr>
@@ -45,6 +45,11 @@
             <div class="f2">
                 <div class="msg-send-data">
                     <input type="hidden" name="iuser" th:value="${loginUserPk}">
+                    <div>
+                        <select>
+                            <option>글꼴</option>
+                        </select>
+                    </div>
                     <textarea class="cus-textarea" placeholder="내용"></textarea>
                     <div>
                         <button class="msg-submit-btn">전송</button>

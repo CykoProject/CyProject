@@ -19,7 +19,7 @@
             <div class="profile-top">
                 <p th:text="${loginUser.getNm()}"></p>
                 <button><a th:href="@{/user/mypage}">내 정보수정</a></button>
-                <button><a th:href="@{/user/logout}">로그아웃</a></button>
+                <button><a class="logout-btn" th:href="@{/user/logout}">로그아웃</a></button>
             </div>
 
             <div class="profile-info">
@@ -73,7 +73,7 @@
                     </div>
                 </div>
 
-                <div hidden class="login_error_teg" th:text="${#request.getAttribute('errorMessage')}"></div>
+                <div class="login_error_teg" th:text="${#request.getAttribute('errorMessage')}">error</div>
                 <div class="login-find">
                     <div class="email-save">
                         <input type="checkbox" name="emailSave">
