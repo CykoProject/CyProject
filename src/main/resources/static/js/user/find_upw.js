@@ -53,7 +53,6 @@ const upwUpdate = (elem) => {
 }
 
 let emailcode = '';
-let findEmail = '';
 sendEmail.addEventListener('click', ()=> {
    fetch(`/user/idChk/${emailInput.value}`)
        .then(res => res.json())
@@ -65,14 +64,12 @@ sendEmail.addEventListener('click', ()=> {
               headers: {'Content-Type': 'application/json'}
           }).then(res => res.json())
               .then(data => {
-                  console.log(data.result,'1번');
                   emailCodeElem(upwPage);
                   emailcode = data.resultString;
                   document.querySelector('#result_Bth').addEventListener('click', () => {
                       const code = document.querySelector('#emailcode').value;
                       if(code === emailcode){
                           upwUpdate(upwPage);
-                          console.log(data.result,'2번');
                           const upw_update = document.querySelector('#upw_update');
                           const upw_update_input = upw_update.querySelector('input');
                           const upw_update_chk = document.querySelector('#upw_update_chk');
