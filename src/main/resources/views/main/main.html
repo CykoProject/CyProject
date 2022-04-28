@@ -29,7 +29,7 @@
                         <strong id="online-friends-cnt"></strong>
                     </div>
                     <div>
-                        <strong><a th:href="@{/msg/inbox}">쪽지</a></strong>
+                        <strong><a th:href="@{/msg}">쪽지</a></strong>
                         <strong id="msg-notice" th:text="${msgCnt}"></strong>
                     </div>
                 </div>
@@ -62,26 +62,26 @@
         </div>
 
         <div th:unless="${loginUserPk > 0}" class="login">
-            <form method="post" action="/">
+            <form id="loginFrm" method="post" action="/">
                 <div class="login-section">
                     <div class="login-input">
                         <input type="text" name="email" placeholder="이메일를 입력하세요."/>
                         <input type="password" name="upw" placeholder="비밀번호를 입력하세요."/>
                     </div>
                     <div class="login-btn">
-                        <button type="submit">로그인</button>
+                        <button id="login_bth">로그인</button>
                     </div>
                 </div>
 
-                <div class="login_error_teg" th:text="${#request.getAttribute('errorMessage')}"></div>
+                <div class="login_error_teg" th:text="${#request.getAttribute('errorMessage')}">error</div>
                 <div class="login-find">
                     <div class="email-save">
-                        <input type="checkbox" name="emailSave">
-                        <label>아이디 저장</label>
+                        <input type="checkbox" id="saveIdChk" name="">
+                        <label for="saveIdChk">아이디 저장</label>
                     </div>
                     <div class="login-save">
-                        <input type="checkbox" name="loginSave">
-                        <label>자동 로그인</label>
+                        <input type="checkbox" id="keepLoginChk" name="remember-me">
+                        <label for="keepLoginChk">자동 로그인</label>
                     </div>
                 </div>
                 <div class="join-section">
