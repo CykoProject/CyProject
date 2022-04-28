@@ -16,7 +16,7 @@ td, th {
     padding: 10px 0px;
 }
 
-tbody tr:hover {
+tbody .msg-data:hover {
     cursor: pointer;
     background-color: gray;
 }

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/index">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/message/message.css}">
+    <script defer th:src="@{/js/message/message.js}"></script>
+    <title>Title</title>
+</head>
+<body>
+<th:block layout:fragment="container">
+    <div class="frow msg-savebox">
+        <div class="f1 msg-menu">
+            <div>
+                <a th:classappend="${#strings.equals(box, 'inbox')} ? 'selected' : ''" th:href="@{/msg/inbox}">받은쪽지함</a>
+            </div>
+            <div>
+                <a th:classappend="${#strings.equals(box, 'outbox')} ? 'selected' : ''" th:href="@{/msg/outbox}">보낸쪽지함</a>
+            </div>
+            <div>
+                <a th:classappend="${#strings.equals(box, 'savebox')} ? 'selected' : ''" th:href="@{/msg/savebox}">보관함</a>
+            </div>
+        </div>
+        <div class="message-container f3">
+            <div>
+                <div class="frow justify-space mb10">
+                    <div>
+                        <button class="msg-save-del">삭제</button>
+                    </div>
+                    <div>
+                        <a th:href="@{/msg/write}"><button id="test-btn">쪽지쓰기</button></a>
+                    </div>
+                </div>
+                <div class="message-box">
+                    <table class="msg-table">
+                        <colgroup>
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="60%">
+                            <col width="20%">
+                        </colgroup>
+
+                        <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" class="msg-all-chk">
+                            </th>
+                            <th>받은사람</th>
+                            <th>내용</th>
+                            <th>날짜</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${msgList.size() == 0}">
+                            <td colspan="4">
+                                <strong>쪽지가 없습니다.</strong>
+                            </td>
+                        </tr>
+                        <th:block th:each="item : ${msgList}">
+                            <tr class="msg-data" th:data-imsg="${item.imsg.imsg}">
+                                <td>
+                                    <input type="checkbox" class="msg-chk">
+                                </td>
+                                <td class="msg-tr">
+                                    <span th:text="${item.imsg.receiver.nm}"></span>
+                                </td>
+                                <td class="msg-tr">
+                                    <span th:text="${item.imsg.ctnt}"></span>
+                                </td>
+                                <td class="msg-tr">
+                                    <span th:text="${#temporals.format(item.imsg.rdt, 'yyyy-MM-dd HH:mm')}"></span>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

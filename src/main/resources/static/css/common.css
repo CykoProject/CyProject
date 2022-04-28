@@ -58,6 +58,10 @@ a {
     display: flex;
     flex: 2;
 }
+.f3 {
+    display: flex;
+    flex: 3;
+}
 
 .bc-white {
     background-color: white;

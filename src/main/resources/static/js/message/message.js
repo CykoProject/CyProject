@@ -1,8 +1,27 @@
+const msgAllChkBtn = document.querySelector('.msg-all-chk');
+const chkArr = document.querySelectorAll('.msg-chk');
+let cnt = 0;
+
+msgAllChkBtn.addEventListener('click', () => {
+    const status = msgAllChkBtn.checked;
+    chkArr.forEach(item => {
+        item.checked = status;
+        cnt = status === true ? chkArr.length : 0;
+    });
+});
+chkArr.forEach(item => {
+    item.addEventListener('click', () => {
+        let chkCnt = chkArr.length;
+        let status = item.checked;
+
+        cnt = status === true ? ++cnt : --cnt;
+        msgAllChkBtn.checked = cnt === chkCnt ? true : false;
+    });
+});
+
 const msgBox = document.querySelector('.msgbox');
 if(msgBox) {
     // detail 이동
-    const msgContainer = document.querySelector('.messgae-container');
-    const iuser = loginUserPk.dataset.iuser;
     const msgTrArr = document.querySelectorAll('.msg-tr');
     msgTrArr.forEach(item => {
         item.addEventListener('click', () => {
@@ -23,30 +42,10 @@ if(msgBox) {
     });
 
     // 체크박스 관련
-    const msgAllChkBtn = document.querySelector('.msg-all-chk');
-    const chkArr = document.querySelectorAll('.msg-chk');
-    let cnt = 0;
 
-    msgAllChkBtn.addEventListener('click', () => {
-        const status = msgAllChkBtn.checked;
-        chkArr.forEach(item => {
-            item.checked = status;
-            cnt = status === true ? chkArr.length : 0;
-        });
-    });
-    chkArr.forEach(item => {
-        item.addEventListener('click', () => {
-            let chkCnt = chkArr.length;
-            let status = item.checked;
-
-            cnt = status === true ? ++cnt : --cnt;
-            msgAllChkBtn.checked = cnt === chkCnt ? true : false;
-        });
-    });
-
+    // 삭제
     const msgDelBtn = document.querySelector('.msg-del');
     msgDelBtn.addEventListener('click', () => {
-        if(!confirm("선택한 쪽지를 삭제하시겠습니까?")) return;
         const chkBoxArr = document.querySelectorAll('.msg-chk');
         const imsgArr = [];
         chkBoxArr.forEach(item => {
@@ -54,6 +53,8 @@ if(msgBox) {
                 imsgArr.push(item.closest('.msg-data').dataset.imsg);
             }
         });
+        if(imsgArr.length === 0) return;
+        if(!confirm("선택한 쪽지를 삭제하시겠습니까?")) return;
 
         fetch(`/ajax/msg/del`, {
             method : 'post',
@@ -72,7 +73,32 @@ if(msgBox) {
                 console.error(e);
             });
     });
+    const msgCheckElem = document.querySelector('.msg-check');
+    msgCheckElem.addEventListener('click', () => {
+        const chkBoxArr = document.querySelectorAll('.msg-chk');
+        const imsgArr = [];
+        chkBoxArr.forEach(item => {
+            if(item.checked) {
+                imsgArr.push(item.closest('.msg-data').dataset.imsg);
+            }
+        });
+        if(imsgArr.length === 0) return;
 
+        fetch('/ajax/msg/check', {
+            method : 'POST',
+            headers : {'Content-Type' : 'application/json'},
+            body : JSON.stringify(imsgArr)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if(data.result === 1) {
+                    location.reload();
+                }
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    });
 }
 
 
@@ -159,7 +185,10 @@ if(msgDetailContainer) {
             fetch(`/ajax/msg/del?imsg=${imsg}`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    if(data.result === 1) {
+                        opener.location.reload();
+                        window.close();
+                    }
                 })
                 .catch(e => {
                     console.error(e);
@@ -204,4 +233,33 @@ if(msgDetailContainer) {
                 console.error(e);
             });
     });
+
+    const msgSaveBox = document.querySelector('.msg-savebox');
+    if(msgSaveBox) {
+        msgSaveBox.addEventListener('click', () => {
+            const imsg = parseInt(msgSaveBox.dataset.imsg);
+            const iuser = parseInt(loginUserPk.dataset.iuser);
+            const data = {
+                "imsg" : imsg,
+                "iuser" : iuser
+            }
+
+            fetch('/ajax/msg/savebox', {
+                method : 'POST',
+                headers : {'Content-Type' : 'application/json'},
+                body : JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.result === 1) {
+                        alert("보관되었습니다 !");
+                    } else {
+                        alert("이미 보관 되어있습니다");
+                    }
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        });
+    }
 }
