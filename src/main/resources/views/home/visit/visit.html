@@ -97,7 +97,7 @@
                             </div>
                         </div>
 
-                        <div class="visit-ctnt bc-white frow g30">
+                        <div class="visit-ctnt frow g30">
                             <th:block th:if="${item.secret}">
                                 <th:block th:if="${(#strings.equals(loginUserPk, param.iuser) || #strings.equals(loginUserPk, item.iuser.iuser))}">
                                     <img class="visit-minime" th:if="${item.iminime == 0}" th:src="@{/static/img/defaultProfileImg.jpeg}">

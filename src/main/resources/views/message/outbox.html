@@ -19,12 +19,15 @@
                 <div>
                     <a th:classappend="${#strings.equals(box, 'outbox')} ? 'selected' : ''" th:href="@{/msg/outbox}">보낸쪽지함</a>
                 </div>
+                <div>
+                    <a th:classappend="${#strings.equals(box, 'savebox')} ? 'selected' : ''" th:href="@{/msg/savebox}">보관함</a>
+                </div>
             </div>
-            <div class="message-container f2">
+            <div class="message-container f3">
                 <div>
                     <div class="frow justify-space mb10">
                         <div>
-                            <button>삭제</button>
+                            <button class="msg-del">삭제</button>
                         </div>
                         <div>
                             <a th:href="@{/msg/write}"><button id="test-btn">쪽지쓰기</button></a>
@@ -50,6 +53,11 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <tr th:if="${msgList.size() == 0}">
+                                <td colspan="4">
+                                    <strong>쪽지가 없습니다.</strong>
+                                </td>
+                            </tr>
                             <th:block th:each="item : ${msgList}">
                                 <tr class="msg-data" th:data-imsg="${item.imsg}">
                                     <td>

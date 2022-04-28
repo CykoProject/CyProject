@@ -32,7 +32,7 @@
                 </div>
                 <div class="msg-tool">
                     <button id="msg-reply-btn" th:if="${loginUserPk == item.receiver.iuser}">답장쓰기</button>
-                    <button th:unless="${loginUserPk == item.receiver.iuser}">보관하기</button>
+                    <button th:data-imsg="${item.imsg}" th:unless="${loginUserPk == item.receiver.iuser}" class="msg-savebox">보관하기</button>
                     <button id="msg-close">확인</button>
                     <button id="msg-del-btn" th:data-imsg="${item.imsg}">삭제</button>
                 </div>
