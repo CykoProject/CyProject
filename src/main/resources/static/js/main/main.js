@@ -103,7 +103,6 @@ if(loginUserElem) {
             if (status.includes('msgCnt')) {
                 makeMsgCnt(data['msgCnt']);
                 msgAlarm();
-                console.log('쪽지가 도착했습니다.');
             } else if(status.includes('logout')) {
                 const logoutData = data['logout'];
                 for (let i in logoutData) {
@@ -466,55 +465,55 @@ if(mainContainerElem) {
 
 //회원가입 페이지 이동
     const join_section = document.querySelector('.join-section');
+    if(join_section) {
+        join_section.addEventListener('click', () => {
+            location.href = `/user/join`
+        });
+    }
+    //아이디 저장
+    const login_save_Bth = document.querySelector('#login_bth');
+    const frm = document.querySelector('#loginFrm');
+    const loginSave = frm.querySelector('#saveIdChk');
 
-    join_section.addEventListener('click', () => {
-        location.href = `/user/join`
-    });
-}
 
-//아이디 저장
-const login_save_Bth = document.querySelector('#login_bth');
-const frm = document.querySelector('#loginFrm');
-const loginSave = frm.querySelector('#saveIdChk');
+    const setCookie = (cookie_name, value, days) => {
+        let exdate = new Date();
+        exdate.setDate(exdate.getDate() + days);
+        const cookieValue = escape(value) + ((days == null) ? '' : '; expires=' + exdate.toUTCString());
+        document.cookie = cookie_name + '=' + cookieValue;
+    }
 
+    const getCookie = cookie_name => {
+        let x, y;
+        const val = document.cookie.split(';');
 
-const setCookie = (cookie_name, value, days) => {
-    let exdate = new Date();
-    exdate.setDate(exdate.getDate() + days);
-    const cookieValue = escape(value) + ((days == null) ? '' : '; expires=' + exdate.toUTCString());
-    document.cookie = cookie_name + '=' + cookieValue;
-}
-
-const getCookie = cookie_name => {
-    let x, y;
-    const val = document.cookie.split(';');
-
-    for (let i = 0; i < val.length; i++) {
-        x = val[i].substr(0, val[i].indexOf('='));
-        y = val[i].substr(val[i].indexOf('=') + 1);
-        x = x.replace(/^\s+|\s+$/g, '');
-        if (x === cookie_name) {
-            return unescape(y);
+        for (let i = 0; i < val.length; i++) {
+            x = val[i].substr(0, val[i].indexOf('='));
+            y = val[i].substr(val[i].indexOf('=') + 1);
+            x = x.replace(/^\s+|\s+$/g, '');
+            if (x === cookie_name) {
+                return unescape(y);
+            }
         }
     }
-}
 
-const chk = () => {
-    if(loginSave.checked) {
-        setCookie('c_userid', frm.email.value, '100');
-    } else {
-        setCookie('c_userid', '', '100');
+    const chk = () => {
+        if(loginSave.checked) {
+            setCookie('c_userid', frm.email.value, '100');
+        } else {
+            setCookie('c_userid', '', '100');
+        }
     }
-}
 
-login_save_Bth.addEventListener('click', ()=> {
-    chk();
-});
+    login_save_Bth.addEventListener('click', ()=> {
+        chk();
+    });
 
-let id = getCookie('c_userid');
-if(id === null || typeof id === 'undefined' || id === ''){
-    id = '';
-} else {
-    frm.email.value = id;
-    loginSave.checked = true;
+    let id = getCookie('c_userid');
+    if(id === null || typeof id === 'undefined' || id === ''){
+        id = '';
+    } else {
+        frm.email.value = id;
+        loginSave.checked = true;
+    }
 }

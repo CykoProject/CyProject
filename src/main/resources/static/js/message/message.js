@@ -2,22 +2,24 @@ const msgAllChkBtn = document.querySelector('.msg-all-chk');
 const chkArr = document.querySelectorAll('.msg-chk');
 let cnt = 0;
 
-msgAllChkBtn.addEventListener('click', () => {
-    const status = msgAllChkBtn.checked;
+if(msgAllChkBtn) {
+    msgAllChkBtn.addEventListener('click', () => {
+        const status = msgAllChkBtn.checked;
+        chkArr.forEach(item => {
+            item.checked = status;
+            cnt = status === true ? chkArr.length : 0;
+        });
+    });
     chkArr.forEach(item => {
-        item.checked = status;
-        cnt = status === true ? chkArr.length : 0;
-    });
-});
-chkArr.forEach(item => {
-    item.addEventListener('click', () => {
-        let chkCnt = chkArr.length;
-        let status = item.checked;
+        item.addEventListener('click', () => {
+            let chkCnt = chkArr.length;
+            let status = item.checked;
 
-        cnt = status === true ? ++cnt : --cnt;
-        msgAllChkBtn.checked = cnt === chkCnt ? true : false;
+            cnt = status === true ? ++cnt : --cnt;
+            msgAllChkBtn.checked = cnt === chkCnt ? true : false;
+        });
     });
-});
+}
 
 const msgBox = document.querySelector('.msgbox');
 if(msgBox) {
@@ -26,6 +28,7 @@ if(msgBox) {
     msgTrArr.forEach(item => {
         item.addEventListener('click', () => {
             const imsg = item.closest('.msg-data').dataset.imsg;
+            const box = document.querySelector('.msgbox').dataset.box;
             const popupWidth = 400;
             const popupHeight = 500;
             const popX = (window.screen.width / 2) - (popupWidth / 2);
@@ -37,68 +40,74 @@ if(msgBox) {
                 , scrollbars = no
             `;
             item.closest('.msg-data').classList.replace('unread-msg', 'read-msg');
-            window.open(`/msg/detail?imsg=${imsg}`, 'msg', option);
+            if(box === 'savebox') {
+                window.open(`/msg/detail?imsg=${imsg}&box=save`, 'msg', option);
+            } else {
+                window.open(`/msg/detail?imsg=${imsg}`, 'msg', option);
+            }
         });
     });
-
-    // 체크박스 관련
 
     // 삭제
     const msgDelBtn = document.querySelector('.msg-del');
-    msgDelBtn.addEventListener('click', () => {
-        const chkBoxArr = document.querySelectorAll('.msg-chk');
-        const imsgArr = [];
-        chkBoxArr.forEach(item => {
-            if(item.checked) {
-                imsgArr.push(item.closest('.msg-data').dataset.imsg);
-            }
-        });
-        if(imsgArr.length === 0) return;
-        if(!confirm("선택한 쪽지를 삭제하시겠습니까?")) return;
-
-        fetch(`/ajax/msg/del`, {
-            method : 'post',
-            headers : {'Content-Type' : 'application/json'},
-            body : JSON.stringify(imsgArr)
-        })
-            .then(res => res.json())
-            .then(data => {
-                if(data.result === 1) {
-                    location.reload();
-                } else {
-                    alert('삭제에 실패했습니다.');
+    if(msgDelBtn) {
+        msgDelBtn.addEventListener('click', () => {
+            const chkBoxArr = document.querySelectorAll('.msg-chk');
+            const imsgArr = [];
+            chkBoxArr.forEach(item => {
+                if (item.checked) {
+                    imsgArr.push(item.closest('.msg-data').dataset.imsg);
                 }
-            })
-            .catch(e => {
-                console.error(e);
             });
-    });
+            if (imsgArr.length === 0) return;
+            if (!confirm("선택한 쪽지를 삭제하시겠습니까?")) return;
+
+            fetch(`/ajax/msg/del`, {
+                method: 'post',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(imsgArr)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.result === 1) {
+                        location.reload();
+                    } else {
+                        alert('삭제에 실패했습니다.');
+                    }
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        });
+    }
     const msgCheckElem = document.querySelector('.msg-check');
-    msgCheckElem.addEventListener('click', () => {
-        const chkBoxArr = document.querySelectorAll('.msg-chk');
-        const imsgArr = [];
-        chkBoxArr.forEach(item => {
-            if(item.checked) {
-                imsgArr.push(item.closest('.msg-data').dataset.imsg);
-            }
-        });
-        if(imsgArr.length === 0) return;
-
-        fetch('/ajax/msg/check', {
-            method : 'POST',
-            headers : {'Content-Type' : 'application/json'},
-            body : JSON.stringify(imsgArr)
-        })
-            .then(res => res.json())
-            .then(data => {
-                if(data.result === 1) {
-                    location.reload();
+    if(msgCheckElem) {
+        msgCheckElem.addEventListener('click', () => {
+            const chkBoxArr = document.querySelectorAll('.msg-chk');
+            const imsgArr = [];
+            chkBoxArr.forEach(item => {
+                if (item.checked) {
+                    imsgArr.push(item.closest('.msg-data').dataset.imsg);
                 }
-            })
-            .catch(e => {
-                console.error(e);
             });
-    });
+            if (imsgArr.length === 0) return;
+
+            fetch('/ajax/msg/check', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(imsgArr)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.result === 1) {
+                        location.reload();
+                    }
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        });
+    }
 }
 
 
@@ -120,8 +129,6 @@ if(msgWrite) {
     friendsChkArr.forEach(item => {
         item.addEventListener('click', () => {
             chkCnt = item.checked === true ? ++chkCnt : --chkCnt;
-            console.log(cntLength);
-            console.log(chkCnt);
             friendsAllChk.checked = cntLength === chkCnt ? true : false;
         });
     });
@@ -140,6 +147,8 @@ if(msgWrite) {
             'ctnt' : document.querySelector('.cus-textarea').value,
             'receiver' : checkedFriend
         }
+        if(checkedFriend.length === 0)  { alert('친구를 선택해주세요 !'); return; }
+
         fetch('/ajax/msg/write', {
             method : "POST",
             headers : {'Content-Type' : 'application/json'},
@@ -163,11 +172,45 @@ if(msgDetailContainer) {
     const msgReplyContainerElem = msgDetailContainer.querySelector('.msg-reply-container');
     const msgCloseBtnElem = msgDetailContainer.querySelector('#msg-close');
     const msgDelBtnElem = msgDetailContainer.querySelector('#msg-del-btn');
-    const msgSendSuccess = () => {
+    const imsg = msgDelBtnElem.dataset.imsg;
+    const iuser = loginUserPk.dataset.iuser;
+
+
+    const ws = new WebSocket("ws://localhost:8090/ws");
+    console.log('연결성공');
+    ws.onopen = onOpen;
+    ws.onmessage = onMessage;
+
+    function onOpen(evt) {
+        var str = "open=" + iuser;
+        ws.send(str);
+    }
+
+    function onMessage(msg) {
+
+    }
+
+
+    const msgBtn = document.querySelector('#msg-reply-submit');
+    if (msgBtn) {
+        msgBtn.addEventListener('click', () => {
+            console.log('asd');
+            const ctnt = document.querySelector('.msg-reply-text').value;
+            const receiverArr = [];
+            receiverArr.push(document.querySelector('#sender').dataset.sender);
+
+            ws.send(`msg={"receiver" : "${receiverArr}", "iuser":${iuser}, "ctnt":"${ctnt}"}`);
+        });
+    }
+
+    const msgUrl = new URL(window.location.href);
+    const box = msgUrl.searchParams.get("box");
+
+    const msgSendSuccess = (msg) => {
         const div = document.createElement('div');
         div.classList.add('msg-send-success');
         div.innerHTML = `
-            <span>답장을 성공적으로 보냈습니다 !</span>
+            <span>${msg}</span>
         `;
         window.document.body.appendChild(div);
         setTimeout(() => {
@@ -179,22 +222,39 @@ if(msgDetailContainer) {
         window.close();
     });
 
-    msgDelBtnElem.addEventListener('click', () => {
-        const imsg = msgDelBtnElem.dataset.imsg;
-        if(confirm('정말로 삭제하시겠습니까?')) {
-            fetch(`/ajax/msg/del?imsg=${imsg}`)
-                .then(res => res.json())
-                .then(data => {
-                    if(data.result === 1) {
-                        opener.location.reload();
-                        window.close();
-                    }
-                })
-                .catch(e => {
-                    console.error(e);
-                });
-        }
-    });
+    if(box !== 'save') {
+        msgDelBtnElem.addEventListener('click', () => {
+            if (confirm('정말로 삭제하시겠습니까?')) {
+                fetch(`/ajax/msg/del?imsg=${imsg}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.result === 1) {
+                            opener.location.reload();
+                            window.close();
+                        }
+                    })
+                    .catch(e => {
+                        console.error(e);
+                    });
+            }
+        });
+    } else {
+        msgDelBtnElem.addEventListener('click', () => {
+            if(confirm(`보관함에서만 삭제됩니다.\n정말로 삭제하시겠습니까?`)) {
+                fetch(`/ajax/msg/savebox/del?imsg=${imsg}&iuser=${iuser}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.result === 1) {
+                            opener.location.reload();
+                            window.close();
+                        }
+                    })
+                    .catch(e => {
+                        console.error(e);
+                    });
+            }
+        });
+    }
 
     if(msgReplyBtnElem) {
         msgReplyBtnElem.addEventListener('click', () => {
@@ -215,7 +275,7 @@ if(msgDetailContainer) {
         const data = {
             "iuser" : iuser,
             "receiver" : receiverArr,
-            "ctnt" : ctnt
+            "ctnt" : '[답장] ' + ctnt
         }
         fetch('/ajax/msg/write', {
             method : "POST",
@@ -225,7 +285,7 @@ if(msgDetailContainer) {
             .then(res => res.json())
             .then(data => {
                 if(data === 1) {
-                    msgSendSuccess();
+                    msgSendSuccess('답장을 성공적으로 보냈습니다 !');
                     msgReplyContainerElem.style.visibility = 'hidden';
                 }
             })
@@ -252,9 +312,9 @@ if(msgDetailContainer) {
                 .then(res => res.json())
                 .then(data => {
                     if(data.result === 1) {
-                        alert("보관되었습니다 !");
+                        msgSendSuccess('보관되었습니다 !');
                     } else {
-                        alert("이미 보관 되어있습니다");
+                        msgSendSuccess('이미 보관되어있습니다.');
                     }
                 })
                 .catch(e => {
@@ -262,4 +322,37 @@ if(msgDetailContainer) {
                 });
         });
     }
+}
+
+const msgSaveDelBtnElem = document.querySelector('.msg-save-del');
+if(msgSaveDelBtnElem) {
+    msgSaveDelBtnElem.addEventListener('click', () => {
+        const imsgArr = [];
+        chkArr.forEach(item => {
+            if(item.checked) {
+                const imsg = item.closest('.msg-data').dataset.imsg;
+                imsgArr.push(imsg);
+            }
+        });
+        if(imsgArr.length === 0) return;
+        if(!confirm('정말로 삭제하시겠습니까?')) return;
+        const data = {
+            iuser : loginUserPk.dataset.iuser,
+            imsg : imsgArr
+        };
+        fetch('/ajax/msg/savebox/del', {
+            method : 'POST',
+            headers : {'Content-Type' : 'application/json'},
+            body : JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if(data.result === 1) {
+                    window.location.reload();
+                }
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    });
 }
