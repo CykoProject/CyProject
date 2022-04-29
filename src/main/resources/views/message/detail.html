@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/message/message.css}">
     <script defer th:src="@{/js/message/message.js}"></script>
-    <script defer th:src="@{/js/main/main.js}"></script>
+    <script defer th:src="@{/js/message/detail.js}"></script>
     <title>Title</title>
 </head>
 <body>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="msg-tool">
                     <button id="msg-reply-btn" th:if="${loginUserPk == item.receiver.iuser}">답장쓰기</button>
-                    <button th:data-imsg="${item.imsg}" th:unless="${loginUserPk == item.receiver.iuser}" class="msg-savebox">보관하기</button>
+                    <button th:data-imsg="${item.imsg}" th:if="${loginUserPk == item.iuser.iuser && !#strings.equals(param.box, 'save')}" class="msg-savebox">보관하기</button>
                     <button id="msg-close">확인</button>
                     <button id="msg-del-btn" th:data-imsg="${item.imsg}">삭제</button>
                 </div>
