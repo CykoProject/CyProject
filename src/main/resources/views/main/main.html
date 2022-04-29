@@ -21,7 +21,7 @@
         <div th:if="${loginUserPk > 0}" class="profile">
             <div class="profile-top">
                 <p th:text="|${loginUser.getNm()}님|"></p>
-                <button class="b-1"><a th:href="@{/user/mypage}">마의페이지</a></button>
+                <button class="b-1"><a th:href="@{/user/mypage}">마이페이지</a></button>
                 <button class="b-2"><a class="logout-btn" th:href="@{/user/logout}">로그아웃</a></button>
             </div>
 
@@ -35,6 +35,11 @@
                         <strong><a th:href="@{/msg/inbox}">쪽지</a></strong>
                         <strong id="msg-notice" th:text="${msgCnt}"></strong>
                     </div>
+                    <div class="profile-info-count-dotori">
+                        <img src="https://littledeep.com/wp-content/uploads/2020/12/xAcorn-illustration-png-1024x853.png.pagespeed.ic._h4grUYJsp.webp" alt="">
+                        <p>0개</p>
+                        <p class="p-1"><a>충전</a></p>
+                    </div>
                 </div>
                 <div class="profile-info-main">
                     <div class="profile-info-img">
@@ -46,11 +51,6 @@
                         <p>새 게시물</p>
                         <p>일촌 신청</p>
                         <p>초대</p>
-                        <div class="profile-info-count-dotori"><img
-                                src="https://previews.123rf.com/images/fayethequeen/fayethequeen1611/fayethequeen161100005/68882734-acorn-kawaii-niedliche-cartoon-icon-acorn-charakter-kawaii-flach-getrennt-design-vector-abbildung-st.jpg"
-                                alt=""> 0개
-                            <button>충전</button>
-                        </div>
                     </div>
                 </div>
             </div>
