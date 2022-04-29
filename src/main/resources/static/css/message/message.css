@@ -4,16 +4,29 @@
     box-sizing: border-box;
 }
 
+body {
+    -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 table {
     border-collapse: collapse;
-    width: 300px;
+    border-top: 3px solid orange;
+    width: 400px;
 }
 
 td, th {
     text-align: center;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    padding: 10px 0px;
+    border-top: 1px solid orange;
+    border-bottom: 1px solid #ffecd9;
+    padding: 10px 10px;
+}
+
+th {
+    background-color: #ffecd9;
 }
 
 tbody .msg-data:hover {
@@ -34,13 +47,13 @@ tbody .msg-data:hover {
 .cus-textarea {
     width: 500px;
     height: 400px;
-    border: 1px solid black;
+    border: none;
+    border: 1px solid #ffecd9;
     resize: none;
 }
 
 .friend-container {
-    margin-right: 200px;
-    margin-left: 100px;
+    padding-right: 10px;
 }
 
 .friend-list {
@@ -144,4 +157,32 @@ tbody .msg-data:hover {
     margin-right: 10px;
     margin-top: 10px;
     transition: all 0.2s;
+}
+
+button {
+    background: inherit;
+    border:none;
+    box-shadow:none;
+    border-radius:10px;
+    padding:5px;
+    overflow:visible;
+    cursor:pointer;
+    background-color: orange;
+    color: white;
+}
+
+.write-tool-section {
+    background-color: #ffecd9;
+    padding: 10px 10px;
+    border-top: 4px solid orange;
+}
+
+.friend-table {
+    overflow-y: scroll;
+    min-height: 444.6px;
+    border: 1px solid #ffecd9;
+}
+
+.ins-btn {
+    text-align: right;
 }

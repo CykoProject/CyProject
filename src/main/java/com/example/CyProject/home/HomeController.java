@@ -36,16 +36,16 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/home")
 public class HomeController {
 
-    @Autowired private Utils utils;
-    @Autowired private HomeRepository homeRepository;
-    @Autowired private DiaryRepository diaryRepository;
-    @Autowired private VisitRepository visitRepository;
-    @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스
-    @Autowired private PageService pageService;
+    @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private ProfileRepository profileRepository;
+    @Autowired private VisitRepository visitRepository;
+    @Autowired private DiaryRepository diaryRepository;
+    @Autowired private HomeRepository homeRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private PageService pageService;
     @Autowired private HomeService homeService;
+    @Autowired private Utils utils;
 
     @GetMapping
     public String home(HomeEntity entity, Model model) {
@@ -146,6 +146,7 @@ public class HomeController {
     // 주크박스 ============================================================================================================
     @GetMapping("/jukebox")
     public String jukeBox(@RequestParam(value = "iuser") int iuser, Model model) {
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", jukeBoxRepository.findAllByIhost(iuser));
         return "home/jukebox/jukebox";
     }

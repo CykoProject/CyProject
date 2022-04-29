@@ -68,7 +68,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
             Map<String, String> JSONData = mapper.readValue(payloadArr[1], Map.class);
             String recStr = JSONData.get("receiver");
             String[] receivers = recStr.split(",");
-
             List<Integer> receiverList = new ArrayList<>();
             for(int i=0; i< receivers.length; i++) {
                 receiverList.add(Integer.parseInt(receivers[i]));

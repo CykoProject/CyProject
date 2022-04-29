@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class MessageRestController {
         return result;
     }
 
-    @GetMapping("/del")
+    @GetMapping("/del") // 디테일 삭제
     public ResultVo delMsgDetailProc(int imsg) {
         ResultVo vo = new ResultVo();
         Optional<MessageEntity> dbData = messageRepository.findById(imsg);
@@ -51,7 +52,7 @@ public class MessageRestController {
         return vo;
     }
 
-    @PostMapping("/del")
+    @PostMapping("/del") // 리스트 삭제
     public ResultVo msgDelProc(@RequestBody List<Integer> imsg) {
         ResultVo vo = new ResultVo();
 
@@ -116,6 +117,38 @@ public class MessageRestController {
         if(resultEnt != null) {
             vo.setResult(1);
         }
+        return vo;
+    }
+
+    @GetMapping("/savebox/del")
+    public ResultVo delSaveBoxDel(MessageSaveBoxEntity entity) {
+        ResultVo vo = new ResultVo();
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        int iuser = entity.getIuser().getIuser();
+        int imsg = entity.getImsg().getImsg();
+
+        if(loginUserPk != iuser) { return vo; }
+
+        int success = messageSaveBoxRepository.delMsgSaveBoxDetail(imsg,iuser);
+
+        vo.setResult(success == 1 ? 1 : 0);
+
+        return vo;
+    }
+
+    @PostMapping("/savebox/del")
+    public ResultVo delSaveBoxList(@RequestBody String list) {
+        ResultVo vo = new ResultVo();
+        JSONObject json = new JSONObject(list);
+        int iuser = Integer.parseInt(json.get("iuser").toString());
+        String str1 = json.get("imsg").toString();
+        String str2 = str1.replaceAll("\\[", "").replaceAll("]", "").replaceAll("\"", "");
+        String[] strArr = str2.split(",");
+        int arrCnt = strArr.length;
+        for(String item : strArr) { arrCnt = messageSaveBoxRepository.delMsgSaveBoxDetail(Integer.parseInt(item), iuser) == 1 ? --arrCnt : ++arrCnt; }
+
+        if(arrCnt == 0) { vo.setResult(1); }
+
         return vo;
     }
 }
