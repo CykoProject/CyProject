@@ -80,7 +80,7 @@
     display: flex;
     flex-direction: column;
     width: 250px;
-    height: 300px;
+    height: 280px;
     border: solid 1px #b2b2b2;
     padding: 5px;
     justify-content: space-between;
@@ -90,7 +90,6 @@
 
 .profile-top {
     display: flex;
-    justify-content:space-between;
     padding-bottom: 5px;
     border-bottom: 1px solid #b2b2b2;
     align-items: center;
@@ -99,10 +98,10 @@
 .profile-top > button {
     border: solid 3px orange;
     border-radius: 10px;
-    padding: 5px;
+    padding: 2px;
     background-color: orange;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .profile-top > button > a {
@@ -110,19 +109,24 @@
     color: black;
 }
 
-.profile-top > button {
-    border: solid 3px orange;
-    border-radius: 10px;
-    padding: 5px;
-    background-color: orange;
-    font-weight: bold;
-    font-size: 15px;
-}
 
 .profile-top > button > a {
     text-decoration: none;
     color: white;
 }
+
+.profile-top > p{
+    margin-left: 20px;
+}
+
+.profile-top > .b-1{
+    margin-left: 25px;
+}
+
+.profile-top > .b-2{
+    margin-left: 6px;
+}
+
 
 .profile-go-to-home:hover {
     cursor: pointer;
@@ -131,31 +135,58 @@
 .profile-info {
     display: flex;
     flex-direction: column;
+    height: 170px;
 }
 
 .profile-info-top {
     display: flex;
-    justify-content: space-around;
+    margin-left: 13px;
+}
+
+.profile-info-top {
+    font-size: 15px;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.profile-info-top > .t-1{
+
+    font-size: 14px;
+}
+
+.profile-info-top > .t-2{
+    margin-left: 25px;
+    font-size: 14px;
 }
 
 .profile-info-main {
     display: flex;
+
 }
 
-.profile-info-img > img {
-    width: 100px;
+.profile-info-img{
+    padding-top: 10px;
 }
+
 
 .profile-info-count {
     display: flex;
     flex-direction: column;
     width: 90%;
+    margin-top: 15px;
+    margin-left: 10px;
+
 }
+.profile-info-count > p{
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
 
 .profile-info-count-dotori {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    margin-top: 10px;
 }
 
 .profile-info-count-dotori > img {
@@ -185,7 +216,7 @@
     color : white;
     border: none;
     border-radius: 100px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .profile-select {

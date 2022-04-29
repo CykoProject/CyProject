@@ -7,6 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>추억의 싸이월드</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v6.1.1/js/all.js" integrity="sha384-xBXmu0dk1bEoiwd71wOonQLyH+VpgR1XcDH3rtxrLww5ajNTuMvBdL5SOiFZnNdp" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
 </head>
@@ -17,26 +20,26 @@
     <div class="left-container">
         <div th:if="${loginUserPk > 0}" class="profile">
             <div class="profile-top">
-                <p th:text="${loginUser.getNm()}"></p>
-                <button><a th:href="@{/user/mypage}">내 정보수정</a></button>
-                <button><a class="logout-btn" th:href="@{/user/logout}">로그아웃</a></button>
+                <p th:text="|${loginUser.getNm()}님|"></p>
+                <button class="b-1"><a th:href="@{/user/mypage}">마의페이지</a></button>
+                <button class="b-2"><a class="logout-btn" th:href="@{/user/logout}">로그아웃</a></button>
             </div>
 
             <div class="profile-info">
                 <div class="profile-info-top">
-                    <div>
+                    <div class="t-1">
                         <strong>일촌ON</strong>
                         <strong id="online-friends-cnt"></strong>
                     </div>
-                    <div>
+                    <div class="t-2">
                         <strong><a th:href="@{/msg}">쪽지</a></strong>
                         <strong id="msg-notice" th:text="${msgCnt}"></strong>
                     </div>
                 </div>
                 <div class="profile-info-main">
                     <div class="profile-info-img">
-                        <img src="https://w.namu.la/s/cfdb7644478e28c31fc1a36bf3bb7d567c50369071414650bc8b54bd38bb8f828f83d6c825ece60af02d993d9f9ea6bdb3049734f704ec3395895ca7b920f224fe3df152cc46617fff3703c199b01f24e3c05ead187e1495bbe822dbda0fa5a7b4fc0e646bd7be633b2fac67608f09e6"
-                             alt=""/>
+                        <img width="120px" height="140px" th:if="${#strings.isEmpty(userData.img)}" th:src="@{/pic/user/default/defaultProfileImg.jpeg}">
+                        <img width="120px" height="140px" th:unless="${#strings.isEmpty(userData.img)}" th:src="@{/pic/user/{iuser}/{img} (iuser=${userData.iuser}, img=${userData.img})}">
                     </div>
                     <div class="profile-info-count">
                         <p>오늘 방문자</p>
@@ -53,11 +56,6 @@
             </div>
             <div class="profile-info-bottom">
                 <button class="profile-go-to-home" th:data-iuser="${loginUserPk}">내 미니홈피 가기</button>
-                <select class="profile-select">
-                    <option value="0">친구1</option>
-                    <option value="1">친구2</option>
-                    <option value="2">친구3</option>
-                </select>
             </div>
         </div>
 

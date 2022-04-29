@@ -28,7 +28,13 @@ public class MainController {
             model.addAttribute("loginUser", authenticationFacade.getLoginUser());
         }
         model.addAttribute("msgCnt", messageRepository.beforeReadMsgCnt(authenticationFacade.getLoginUserPk()));
+        model.addAttribute("userData", mainService.userRepository.findByIuser(authenticationFacade.getLoginUserPk()));
         return "main/main";
+    }
+
+    @PostMapping("/profile")
+    public int profile(){
+        return 0;
     }
 
     @PostMapping("friendSearch")
