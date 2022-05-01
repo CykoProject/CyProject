@@ -7,6 +7,9 @@ import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.home.HomeRepository;
+import com.example.CyProject.home.model.jukebox.JukeBoxDto;
+import com.example.CyProject.home.model.jukebox.JukeBoxEntity;
+import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
 import com.example.CyProject.home.model.report.ReportEntity;
 import com.example.CyProject.home.model.report.ReportRepository;
 import com.example.CyProject.home.model.visit.VisitDto;
@@ -26,6 +29,7 @@ public class HomeRestController {
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private VisitRepository visitRepository;
     @Autowired private ReportRepository reportRepository;
+    @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private AuthenticationFacade authenticationFacade;
     @Autowired private Utils utils;
 
@@ -120,6 +124,19 @@ public class HomeRestController {
             visitRepository.deleteById(dto.getIvisit());
             vo.setResult(1);
         }
+        return vo;
+    }
+
+    @PostMapping("/jukebox/repre")
+    public ResultVo updRepreStatus(@RequestBody JukeBoxDto dto) {
+        ResultVo vo = new ResultVo();
+        int cnt = 0;
+        for(JukeBoxEntity item : dto.getJukeBoxList()) {
+            cnt += jukeBoxRepository.updRepreStatus(item.isRepre(), item.getIhost(), item.getIjukebox());
+        }
+
+        vo.setResult(cnt == dto.getJukeBoxList().size() ? 1 : 0);
+
         return vo;
     }
 }

@@ -64,3 +64,16 @@ fetch(`/ajax/home?iuser=${iuser}`)
     .catch(e => {
         console.error(e);
     });
+
+
+const msgSendSuccess = (msg) => {
+    const div = document.createElement('div');
+    div.classList.add('msg-send-success');
+    div.innerHTML = `
+            <span>${msg}</span>
+        `;
+    window.document.body.appendChild(div);
+    setTimeout(() => {
+        div.remove();
+    }, 3000);
+}

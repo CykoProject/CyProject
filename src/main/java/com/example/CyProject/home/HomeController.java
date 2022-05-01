@@ -7,6 +7,7 @@ import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeRepository;
+import com.example.CyProject.home.model.jukebox.JukeBoxEntity;
 import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -142,9 +145,18 @@ public class HomeController {
     // 주크박스 ============================================================================================================
     @GetMapping("/jukebox")
     public String jukeBox(@RequestParam(value = "iuser") int iuser, Model model) {
+        model.addAttribute("folder", "jukebox");
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", jukeBoxRepository.findAllByIhost(iuser));
         return "home/jukebox/jukebox";
+    }
+
+    @GetMapping("/jukebox/repre")
+    public String jukeBoxRepreFolder(@RequestParam(value = "iuser") int iuser, Model model) {
+        model.addAttribute("folder", "repre");
+        model.addAttribute("data", jukeBoxRepository.selRepreList(iuser));
+
+        return "home/jukebox/repre";
     }
     // 주크박스 ============================================================================================================
 
