@@ -1,7 +1,11 @@
 package com.example.CyProject;
 
 import com.example.CyProject.home.model.diary.DiaryEntity;
+import com.example.CyProject.home.model.home.HomeEntity;
+import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.home.model.visit.VisitEntity;
+import com.example.CyProject.user.model.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -14,6 +18,13 @@ import java.util.Map;
 
 @Component
 public class Utils {
+
+    @Autowired private HomeRepository homeRepository;
+
+    public int findHomePk(int iuser) {
+        return homeRepository.findByIuser(iuser).getIhome();
+    }
+
     public int getParseIntParameter(String param) {
         int idx = 0;
         try {
