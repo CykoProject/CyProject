@@ -3,6 +3,7 @@ package com.example.CyProject.home;
 import com.example.CyProject.PageEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
+import com.example.CyProject.home.model.jukebox.JukeBoxEntity;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,4 +62,6 @@ public class PageService {
         int maxPage = (int) Math.ceil((double) visitRepository.countAllByIhost(ihost) / rowCnt);
         return maxPage;
     }
+
+
 }
