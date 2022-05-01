@@ -53,7 +53,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:if="${msgList.size() == 0}">
+                            <tr th:if="${msgList.getTotalPages == 0}">
                                 <td colspan="4">
                                     <strong>쪽지가 없습니다.</strong>
                                 </td>
@@ -76,6 +76,18 @@
                             </th:block>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="pagination">
+                        <a th:href="@{/msg/outbox(page=${(pageData.pop - 1) * pageData.pageCnt})}" th:if="${pageData.pop != 1}" th:text="'<'"></a>
+
+                        <th:block th:each="page : ${#numbers.sequence(pageData.startPage, pageData.lastPage)}">
+                            <a th:href="@{/msg/outbox(page=${page})}"
+                               th:text="${page}"
+                               th:if="${(page <= pageData.maxPage) && (!#strings.equals(param.page, page)) && (!#strings.equals(pageData.startPage, page) || !#strings.isEmpty(param.page))}"
+                               th:classappend="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))} ? 'cur-page' : ''"></a>
+                            <span th:if="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))}" class="cur-page" th:text="${page}"></span>
+                        </th:block>
+                        <a th:href="@{/msg/outbox(page=${pageData.lastPage + 1})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
                     </div>
                 </div>
             </div>

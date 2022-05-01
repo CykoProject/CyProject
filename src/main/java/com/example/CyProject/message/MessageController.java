@@ -1,5 +1,6 @@
 package com.example.CyProject.message;
 
+import com.example.CyProject.PageEntity;
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.message.model.MessageEntity;
@@ -8,12 +9,13 @@ import com.example.CyProject.message.model.MessageSaveBoxEntity;
 import com.example.CyProject.message.model.MessageSaveBoxRepository;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,12 +27,25 @@ public class MessageController {
     @Autowired private AuthenticationFacade authenticationFacade;
     @Autowired private MessageRepository messageRepository;
     @Autowired private FriendsRepository friendsRepository;
+    @Autowired private MsgPageService pageService;
     @Autowired private Utils utils;
 
     @GetMapping("/inbox")
-    public String inBox(Model model) {
+    public String inBox(Model model,
+                        @RequestParam(required = false, defaultValue = "1", value = "page")int page) {
         int receiver = authenticationFacade.getLoginUserPk();
-        List<MessageEntity> list = messageRepository.getReceiveMsgList(receiver);
+        int rowCnt = 10;
+        int pageCnt = 10;
+
+        Page<MessageEntity> list = pageService.msgInBoxPaging(receiver, page, rowCnt);
+
+        PageEntity pageEntity = new PageEntity.Builder()
+                .page(page)
+                .pageCnt(pageCnt)
+                .maxPage(list.getTotalPages())
+                .rowCnt(rowCnt)
+                .build();
+
         for(MessageEntity item : list) {
             int ctntCnt = item.getCtnt().length();
             if(ctntCnt > 50) {
@@ -39,13 +54,26 @@ public class MessageController {
         }
         model.addAttribute("msgList", list);
         model.addAttribute("box", "inbox");
+        model.addAttribute("pageData", pageEntity);
         return authenticationFacade.loginChk("message/inbox");
     }
 
     @GetMapping("/outbox")
-    public String outBox(Model model) {
+    public String outBox(Model model,
+                         @RequestParam(required = false, defaultValue = "1", value = "page") int page) {
         int iuser = authenticationFacade.getLoginUserPk();
-        List<MessageEntity> list = messageRepository.getSendMsgList(iuser);
+        int rowCnt = 10;
+        int pageCnt = 10;
+
+        Page<MessageEntity> list = pageService.msgOutBoxPaging(iuser, page, rowCnt);
+
+        PageEntity pageEntity = new PageEntity.Builder()
+                .page(page)
+                .pageCnt(pageCnt)
+                .maxPage(list.getTotalPages())
+                .rowCnt(rowCnt)
+                .build();
+
         for(MessageEntity item : list) {
             int ctntCnt = item.getCtnt().length();
             if(ctntCnt > 50) {
@@ -54,16 +82,36 @@ public class MessageController {
         }
         model.addAttribute("msgList", list);
         model.addAttribute("box", "outbox");
+        model.addAttribute("pageData", pageEntity);
         return authenticationFacade.loginChk("message/outbox");
     }
 
     @GetMapping("/savebox")
-    public String saveBox(Model model) {
+    public String saveBox(Model model,
+                          @RequestParam(required = false, defaultValue = "1", value = "page") int page) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
-        List<MessageSaveBoxEntity> list = messageSaveBoxRepository.selMsgSaveBoxList(loginUserPk);
+        int rowCnt = 10;
+        int pageCnt = 10;
+
+        Page<MessageSaveBoxEntity> list = pageService.msgSaveBoxPaging(loginUserPk, page, rowCnt);
+
+        PageEntity pageEntity = new PageEntity.Builder()
+                .page(page)
+                .pageCnt(pageCnt)
+                .maxPage(list.getTotalPages())
+                .rowCnt(rowCnt)
+                .build();
+
+        for(MessageSaveBoxEntity item : list) {
+            int ctntCnt = item.getImsg().getCtnt().length();
+            if(ctntCnt > 50) {
+                item.getImsg().setCtnt(item.getImsg().getCtnt().substring(0, 40) + "...");
+            }
+        }
 
         model.addAttribute("msgList", list);
         model.addAttribute("box", "savebox");
+        model.addAttribute("pageData", pageEntity);
         return authenticationFacade.loginChk("message/savebox");
     }
 
