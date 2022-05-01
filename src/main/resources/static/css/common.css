@@ -119,3 +119,13 @@ a {
 .msg-alarm:hover {
     cursor: pointer;
 }
+
+
+.cur-page {
+    color: red !important;
+    text-decoration: underline;
+}
+
+.pagination {
+    text-align: center;
+}

@@ -1,5 +1,7 @@
 package com.example.CyProject.message.model;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,10 +15,10 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Integer>
     int beforeReadMsgCnt(int receiver);
 
     @Query("SELECT m FROM MessageEntity m WHERE m.iuser.iuser = ?1 AND m.remove_iuser = false ORDER BY m.rdt DESC ")
-    List<MessageEntity> getSendMsgList(int iuser);
+    Page<MessageEntity> getSendMsgList(int iuser, Pageable pageable);
 
     @Query("SELECT m FROM MessageEntity m WHERE m.receiver.iuser = ?1 AND m.remove_receiver = false ORDER BY m.rdt DESC")
-    List<MessageEntity> getReceiveMsgList(int receiver);
+    Page<MessageEntity> getReceiveMsgList(int receiver, Pageable pageable);
 
     @Modifying
     @Transactional
