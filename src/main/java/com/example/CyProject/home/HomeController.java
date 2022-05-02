@@ -13,6 +13,7 @@ import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
 import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
+import com.example.CyProject.home.model.visit.VisitorEntity;
 import com.example.CyProject.user.model.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,8 @@ public class HomeController {
     @GetMapping
     public String home(HomeEntity entity, Model model) {
         int loginUser = authenticationFacade.getLoginUserPk();
+        int ihomePk = utils.findHomePk(entity.getIuser());
+
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
         model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));

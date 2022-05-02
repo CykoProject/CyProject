@@ -26,5 +26,4 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     List<UserEntity> findByNm(String search);
 
 
-
 }

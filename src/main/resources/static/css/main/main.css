@@ -91,7 +91,6 @@
 .profile-top {
     display: flex;
     padding-bottom: 5px;
-    border-bottom: 1px solid #b2b2b2;
     align-items: center;
 }
 
@@ -176,7 +175,16 @@
     margin-left: 10px;
 
 }
-.profile-info-count > p{
+.profile-info-count > div {
+    display: flex;
+    font-size: 13px;
+}
+
+.profile-info-count > div > div {
+    margin-left: 10px;
+}
+
+.profile-info-count > div > p{
     font-size: 13px;
     margin-bottom: 11px;
 }
@@ -368,6 +376,11 @@
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 5px;
+}
+
+.on-friends > .f-1{
+    border-bottom: 1px solid #b2b2b2;
+    padding-bottom: 7px;
 }
 
 .service {

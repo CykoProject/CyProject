@@ -1,24 +1,31 @@
 //미니홈피 바로가기
 const goHome = document.querySelector('.profile-go-to-home');
-if(goHome) {
-    goHome.addEventListener('click', () => {
-        const popupWidth = 1189;
-        const popupHeight = 600;
-        const popX = (window.screen.width / 2) - (popupWidth / 2);
-        const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
-        const iuser = goHome.dataset.iuser;
-        const option = `width = ${popupWidth}px
+const goFriendHome = document.querySelector('.profile-go-to-friend-home');
+const openUp = (iuser) => {
+    const popupWidth = 1189;
+    const popupHeight = 600;
+    const popX = (window.screen.width / 2) - (popupWidth / 2);
+    const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
+    const option = `width = ${popupWidth}px
         , height = ${popupHeight}px
         , left = ${popX}
         , top = ${popY}
         , scrollbars = no
         `;
 
-        if(iuser > 0) {
-            window.open(`/home?iuser=${iuser}`, 'home', option);
-        } else {
-            location.href = '/user/login';
-        }
+    if(iuser > 0) {
+        window.open(`/home?iuser=${iuser}`, 'home', option);
+    } else {
+        location.href = '/user/login';
+    }
+}
+if(goHome) {
+    goHome.addEventListener('click', () => {
+        openUp(goHome.dataset.iuser);
+    });
+
+    goFriendHome.addEventListener('click', (e) => {
+        openUp(e.target.dataset.iuser);
     });
 }
 
@@ -516,4 +523,5 @@ if(mainContainerElem) {
         frm.email.value = id;
         loginSave.checked = true;
     }
+
 }
