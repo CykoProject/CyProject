@@ -1,3 +1,18 @@
+const popupWidth = 330;
+const popupHeight = 300;
+const popX = 1195;
+const popY = (window.screen.height / 2) - (popupHeight / 2) - 250;
+const aurl = new URL(location.href);
+const aparams = aurl.searchParams;
+const pk = aparams.get("iuser");
+const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+`;
+const audioPopup = window.open(`/home/audio?iuser=${pk}`, 'audio', option);
+
 const tab_list_css = [
     'tab3','tab4', 'tab5', 'tab6', 'tab7', 'tab8'
 ]
@@ -46,8 +61,6 @@ const addTabMenu = (data) => {
 
     pathName = pathName.substr(0, pathName.indexOf('/') === -1 ? pathName.length : pathName.indexOf("/"));
 
-    console.log(pathName);
-
     if(pathName.length === 0) {
         document.querySelector('.home').classList.add('menu-checked');
     } else {
@@ -73,7 +86,17 @@ const msgSendSuccess = (msg) => {
             <span>${msg}</span>
         `;
     window.document.body.appendChild(div);
-    setTimeout(() => {
+    let setTimeOut = setTimeout(() => {
         div.remove();
     }, 3000);
+
+    div.addEventListener('mouseover', () => {
+        clearTimeout(setTimeOut);
+    });
+
+    div.addEventListener('mouseout', () => {
+        setTimeOut = setTimeout(() => {
+            div.remove();
+        }, 3000);
+    });
 }

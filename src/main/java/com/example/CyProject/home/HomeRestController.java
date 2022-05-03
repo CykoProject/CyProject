@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.Result;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -138,5 +139,11 @@ public class HomeRestController {
         vo.setResult(cnt == dto.getJukeBoxList().size() ? 1 : 0);
 
         return vo;
+    }
+
+    @GetMapping("/repre/audio")
+    public List<JukeBoxEntity> getRepreMusicList(int iuser) {
+        List<JukeBoxEntity> list = jukeBoxRepository.selRepreList(iuser);
+        return list;
     }
 }
