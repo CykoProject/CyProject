@@ -155,3 +155,9 @@ body {
     font-weight: bold;
     text-decoration: underline;
 }
+
+.idx-audio {
+    position: absolute;
+    width: 200px;
+    right: 70px;
+}

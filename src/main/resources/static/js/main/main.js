@@ -1,10 +1,12 @@
 //미니홈피 바로가기
 const goHome = document.querySelector('.profile-go-to-home');
 const goFriendHome = document.querySelector('.profile-go-to-friend-home');
+let popup;
+
 const openUp = (iuser) => {
     const popupWidth = 1189;
     const popupHeight = 600;
-    const popX = (window.screen.width / 2) - (popupWidth / 2);
+    const popX = 0;
     const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
     const option = `width = ${popupWidth}px
         , height = ${popupHeight}px
@@ -14,7 +16,7 @@ const openUp = (iuser) => {
         `;
 
     if(iuser > 0) {
-        window.open(`/home?iuser=${iuser}`, 'home', option);
+        popup = window.open(`/home?iuser=${iuser}`, 'home', option);
     } else {
         location.href = '/user/login';
     }
@@ -76,9 +78,20 @@ if(loginUserElem) {
                 location.href = '/msg/inbox';
             });
             header.appendChild(divElem);
-            setTimeout(() => {
+
+            let setTimeOut = setTimeout(() => {
                 divElem.remove();
             }, 3000);
+
+            divElem.addEventListener('mouseover', () => {
+                clearTimeout(setTimeOut);
+            });
+
+            divElem.addEventListener('mouseout', () => {
+                setTimeOut = setTimeout(() => {
+                    divElem.remove();
+                }, 3000);
+            });
         }
 
         const ws = new WebSocket("ws://localhost:8090/ws");

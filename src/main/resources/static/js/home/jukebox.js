@@ -68,7 +68,6 @@ if(jukebox) {
     });
 
     audioPlayer.addEventListener('ended', () => {
-        console.log(playList);
         if(cnt < playList.length) {
             audioPlayer.src = '/pic/bgm/' + playList[cnt].url;
             playerNmElem.innerText = playList[cnt].nm + ' - ' + playList[cnt].artist;
@@ -117,6 +116,7 @@ if(jukebox) {
                                 item.remove();
                             });
                         }
+                        audioPopup.location.reload();
                     }
                 })
                 .catch(e => {
