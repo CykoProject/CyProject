@@ -25,7 +25,9 @@ if(goHome) {
     goHome.addEventListener('click', () => {
         openUp(goHome.dataset.iuser);
     });
+}
 
+if(goFriendHome) {
     goFriendHome.addEventListener('click', (e) => {
         openUp(e.target.dataset.iuser);
     });
