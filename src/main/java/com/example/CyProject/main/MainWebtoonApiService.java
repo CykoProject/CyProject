@@ -118,7 +118,7 @@ public class MainWebtoonApiService {
                 wtInfoList.add(webtoonEntity);
 
             }
-            System.out.println(wtInfoList);
+//            System.out.println(wtInfoList);
 
         } catch (IOException e) {
             e.printStackTrace();

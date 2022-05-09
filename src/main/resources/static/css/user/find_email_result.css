@@ -1,0 +1,32 @@
+.find_eamil_page{ width: 700px; height: 400px; margin: auto; padding-left: 200px;}
+
+.find_email_result input {width: 400px;height: 40px;font-size: 15px; border-radius: 5px; border-width: thin; border: 1px solid gray; font-family: 'Noto Sans KR', sans-serif;}
+
+h2 { margin-top: 200px; margin-bottom: 30px; font-family: 'Noto Sans KR', sans-serif;}
+
+input { padding-left: 10px; }
+
+.m1{
+    display: flex;
+}
+
+.m2{
+    margin-left: 40px; background-color: orange; width: 150px; height: 50px; border-radius: 7px ; font-size: 19px; border-width: thin; font-family: 'Noto Sans KR', sans-serif; color: white; border: 1px solid orange;
+}
+.m3{
+    margin-left:10px; background-color: orange; width: 150px; height: 50px; border-radius: 7px ; font-size: 19px; border-width: thin; font-family: 'Noto Sans KR', sans-serif; color: white; border: 1px solid orange;
+}
+
+.m4{ padding-bottom: 40px; padding-left: 40px;}
+.m5{ border-bottom: 1px solid black; width: 400px;}
+
+.m6{
+    margin-left: 120px; background-color: orange; width: 150px; height: 50px; border-radius: 7px ; font-size: 19px; border-width: thin; font-family: 'Noto Sans KR', sans-serif; color: white; border: 1px solid orange;
+}
+
+.t_bottom{ margin-bottom: 25px;}
+.t_bottom > input {margin-top: 6px ;}
+
+label{ font-weight: bold; font-size: 15px; font-family: sans-serif; color: rgba(40, 37, 37, 0.76); font-family: 'Noto Sans KR', sans-serif; }
+
+a{ text-decoration-line: none}

@@ -22,27 +22,30 @@
                 <button class="date-search-btn">검색</button>
                 <a th:href="@{/home/diary(iuser=${param.iuser})}"><button class="date-search-reset">전체검색</button></a>
             </div>
-            <th:block th:if="${#strings.equals(loginUser, param.iuser)}">
+            <th:block th:if="${#strings.equals(loginUserPk, param.iuser)}">
                 <a th:href="@{/home/diary/write(iuser=${param.iuser})}">글쓰기</a>
             </th:block>
         </div>
         <div class="home-container">
+            <span class="empty-data" th:if="${data.size() == 0}" th:text="'다이어리 글이 없습니다'"></span>
             <th:block th:each="item : ${data}">
                 <div class="diary-data">
+                    <div id="data-idiary" th:data-iboard="${item.idiary}"></div>
+                    <div id="data-ihost" th:data-ihost="${item.ihost}"></div>
                     <div>
                         <div class="date-bar">
                             <div>
                                 <span th:text="${#temporals.format(item.rdt, 'yyyy.MM.dd')}"></span>
                             </div>
                             <div class="item-bar">
-                                <span th:if="${#strings.equals(loginUser, param.iuser)}">
+                                <span th:if="${#strings.equals(loginUserPk, param.iuser)}">
                                     <a th:href="@{/home/diary/write(idiary=${item.idiary}, iuser=${item.ihost})}" class="diary-mod">수정</a>
                                     <span>|</span>
                                     <a href="#" class="diary-del" th:data-idiary="${item.idiary}">삭제</a>
                                 </span>
-                                <span th:if="${!#strings.equals(loginUser, param.iuser)}">
-                                    <span th:if="${#strings.equals(loginUser, param.iuser)}">|</span>
-                                    <a href="#" class="diary-report">신고</a>
+                                <span th:if="${!#strings.equals(loginUserPk, param.iuser)}">
+                                    <span th:if="${#strings.equals(loginUserPk, param.iuser)}">|</span>
+                                    <a href="#" th:if="${!#strings.equals(param.iuser, loginUserPk) && !#strings.equals(loginUserPk, '0')}" class="diary-report">신고</a>
                                 </span>
                             </div>
                         </div>
@@ -78,6 +81,25 @@
                 <span th:if="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))}" class="cur-page" th:text="${page}"></span>
             </th:block>
             <a th:href="@{/home/diary(iuser=${param.iuser}, page=${pageData.lastPage + 1}, searchRdt=${param.searchRdt})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
+        </div>
+
+        <div class="diary-report-modal">
+            <div class="diary-report-ctnt">
+                <div>
+                    <span>글 번호 : </span>
+                    <span id="report-iboard"></span>
+                    <input type="hidden" id="diary-ihost">
+                </div>
+                <div>
+                    <textarea class="diary-report-textarea" placeholder="신고사유"></textarea>
+                </div>
+                <div>
+                    <button id="report-submit-btn">제출</button>
+                </div>
+            </div>
+            <div class="diary-report-close">
+                x
+            </div>
         </div>
     </th:block>
 </body>

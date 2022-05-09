@@ -8,10 +8,5 @@ const upw = document.querySelector('#upw');
 const upwInput = upw.querySelector('input');
 
 
-loginFrm.addEventListener('sumbit', () => {
-
-    fetch(`/user/login`)
-})
-
 
 
