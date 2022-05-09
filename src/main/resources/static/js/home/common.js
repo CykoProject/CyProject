@@ -15,7 +15,7 @@ const audioPopup = window.open(`/home/audio?iuser=${pk}`, 'audio', option);
 
 const tab_list_css = [
     'tab3','tab4', 'tab5', 'tab6', 'tab7', 'tab8'
-]
+];
 
 const tabMenuElem = document.querySelector('.tab-menu');
 
