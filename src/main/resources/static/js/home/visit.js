@@ -142,7 +142,7 @@ if(visitElem) {
             }
             cnt = 1;
             const ivisit = superElem.dataset.ivisit;
-            const visitCtntElem = superElem.querySelector('.visit-ctnt');
+            const visitCtntElem = superElem.querySelector('.visit-mod-wrap');
 
             const insertVisit = (data) => {
                 const visitData = {

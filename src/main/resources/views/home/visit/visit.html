@@ -22,6 +22,7 @@
                     <div class="frow bc-gray p10-10">
                         <div class="f1 fc">
                             <div>
+<!--                                todo 미니미 설정-->
                                 <img class="visit-minime" th:src="@{/static/img/defaultProfileImg.jpeg}">
                             </div>
                             <div class="w100p">
@@ -115,7 +116,10 @@
                                 <div class="frow g30">
                                     <img class="visit-minime" th:if="${item.iminime == 0}" th:src="@{/static/img/defaultProfileImg.jpeg}">
                                     <img class="visit-minime" th:if="${item.iminime != 0}" th:src="@{/pic/minime/{iminime}.jpg (iminime=${item.iminime})}">
-                                    <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                    <div>
+                                        <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                        <div class="visit-mod-wrap"></div>
+                                    </div>
                                 </div>
                             </th:block>
                         </div>

@@ -1,5 +1,6 @@
 package com.example.CyProject;
 
+import com.example.CyProject.home.HomeCategory;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.home.HomeRepository;
@@ -20,6 +21,20 @@ import java.util.Map;
 public class Utils {
 
     @Autowired private HomeRepository homeRepository;
+
+    public int getCommentCategory(String category) {
+        int result = 0;
+        switch (category) {
+            case "diary":
+                result = HomeCategory.DIARY.getCategory();
+                break;
+            case "visit":
+                result = HomeCategory.VISIT.getCategory();
+                break;
+        }
+
+        return result;
+    }
 
     public int findHomePk(int iuser) {
         return homeRepository.findByIuser(iuser).getIhome();
