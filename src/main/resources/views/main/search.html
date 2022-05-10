@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/index">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/main/search.css}">
 </head>
-<body>
-<h1 th:text=""></h1>
-</body>
+
+<th:block layout:fragment="container">
+    <div class="search-container">
+        <div class="search-options">
+            <div class="search-option1">
+                <h2>프로필</h2><h2>다이어리</h2><h2>사진첩</h2>
+            </div>
+            <div class="search-option2">
+                <select>
+                    <option>출시일</option>
+                    <option>높은 가격 순</option>
+                    <option>낮은 가격 순</option>
+                    <option>댓글</option>
+                    <option>출시일</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="search-results">
+            <ul>
+                <li>어쩌구</li>
+                <li>저쩌구</li>
+                <li>왱알왱알</li>
+            </ul>
+        </div>
+        <div class="pagination">
+            <p>1 2 3 4 5</p>
+        </div>
+
+    </div>
+</th:block>
+
 </html>

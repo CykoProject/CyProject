@@ -1,0 +1,17 @@
+.search-options {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0px;
+}
+
+.search-option1 {
+    display: flex;
+}
+
+.search-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    text-decoration: none;
+}

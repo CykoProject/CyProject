@@ -52,9 +52,9 @@ public class MainController {
         return 0;
     }
 
-    @PostMapping("friendSearch")
-    public String search(@RequestBody String search) {
-        mainService.searchUsers(search);
+    @GetMapping("/search")
+    public String search(@RequestParam String type, String search, Model model) {
+        mainService.search(search);
         return "main/search";
     }
 }
