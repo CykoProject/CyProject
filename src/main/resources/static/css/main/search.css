@@ -29,6 +29,7 @@
     font-size: large;
     text-decoration: none;
     width: 80%;
+    margin: auto;
 }
 
 .results-photo {
@@ -38,6 +39,39 @@
     border : 1px solid lightsteelblue;
     border-radius: 3px;
     margin: auto;
+}
+
+.photo-img > img{
+    width: 100px;
+    height: 150px;
+}
+
+.results-profile {
+    display: flex;
+    width: 500px;
+    height: 300px;
+    border : 1px solid lightsteelblue;
+    border-radius: 3px;
+    margin: auto;
+}
+
+.profile-img > img{
+    width: 100px;
+    height: 150px;
+}
+
+.results-diary {
+    display: flex;
+    width: 500px;
+    height: 300px;
+    border : 1px solid lightsteelblue;
+    border-radius: 3px;
+    margin: auto;
+}
+
+.diary-img > img{
+    width: 100px;
+    height: 150px;
 }
 
 .pagination {

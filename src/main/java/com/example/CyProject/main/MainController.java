@@ -57,7 +57,7 @@ public class MainController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam int type, String search, Model model,Pageable pageable) {
+    public String search(@RequestParam int type, String search, Model model, Pageable pageable) {
         if (type == 0) {
             model.addAttribute("searchProfile", mainService.search(search, pageable).getProfile());
             model.addAttribute("searchPhoto", mainService.search(search, pageable).getPhoto());
@@ -66,6 +66,8 @@ public class MainController {
             model.addAttribute("searchUser", mainService.searchUsers(search));
         }
         System.out.println(mainService.search(search, pageable).getDiary());
+        System.out.println(mainService.search(search, pageable).getPhoto());
+        System.out.println(mainService.search(search, pageable).getProfile());
         return "main/search";
     }
 }
