@@ -9,30 +9,50 @@
 
 <th:block layout:fragment="container">
     <div class="search-container">
-        <div class="search-options">
-            <div class="search-option1">
-                <h2>프로필</h2><h2>다이어리</h2><h2>사진첩</h2>
+        <div class="search-header">
+            <div class="search-option">
+                <h2>전체 보기</h2>
+                <h2>프로필</h2>
+                <h2>다이어리</h2>
+                <h2>사진첩</h2>
             </div>
-            <div class="search-option2">
-                <select>
-                    <option>출시일</option>
-                    <option>높은 가격 순</option>
-                    <option>낮은 가격 순</option>
-                    <option>댓글</option>
-                    <option>출시일</option>
-                </select>
+
+            <div class="search-count">
+                검색결과 : <p
+                    th:text="${#lists.size(searchProfile) + #lists.size(searchPhoto) + #lists.size(searchDiary)}"></th:text></p>
+                개
             </div>
 
         </div>
         <div class="search-results">
-            <ul>
-                <li>어쩌구</li>
-                <li>저쩌구</li>
-                <li>왱알왱알</li>
-            </ul>
+            <th:block th:each="data : ${searchPhoto}">
+                <div class="results-photo">
+                    <div class="photo-img">
+                        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fm.cafe.daum.net%2Fsongkangofficial&psig=AOvVaw0SyxkE9Ky5WCgS3vhkdT8F&ust=1652345376005000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCPCmnq2I1_cCFQAAAAAdAAAAABAD"
+                             alt="">
+                    </div>
+                    <div class="photo-title" th:text="${data.title}"></div>
+                </div>
+            </th:block>
+            <th:block th:each="data : ${searchProfile}">
+                <div class="results-profile">
+                    <div class="profile-img">
+                        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.hankyung.com%2Fentertainment%2Farticle%2F202012118117I&psig=AOvVaw15zWsspREFX1yQHjERY1dM&ust=1652345508314000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCIjui_CI1_cCFQAAAAAdAAAAABAJ" alt="">
+                    </div>
+                    <div class="profile-ctnt" th:text="${data.ctnt}"></div>
+                </div>
+            </th:block>
+            <th:block th:each="data : ${searchDiary}">
+                <div class="results-diary">
+                    <div class="diary-img">
+                        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.mhnse.com%2Fnews%2FarticleView.html%3Fidxno%3D105045&psig=AOvVaw1mEIQyhGgCuw78nW4Boh-z&ust=1652345651923000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCKDB7LWJ1_cCFQAAAAAdAAAAABAJ" alt="">
+                    </div>
+                    <div class="diary-ctnt" th:text="${data.ctnt}"></div>
+                </div>
+            </th:block>
         </div>
-        <div class="pagination">
-            <p>1 2 3 4 5</p>
+        <div class="pagination" style="display:none">
+
         </div>
 
     </div>

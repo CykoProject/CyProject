@@ -1,5 +1,6 @@
 package com.example.CyProject.home.model.diary;
 
+import com.example.CyProject.home.model.profile.ProfileEntity;
 import org.apache.tomcat.jni.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,4 +19,7 @@ public interface DiaryRepository extends JpaRepository<DiaryEntity, Integer> {
     @Query("SELECT COUNT(d) FROM DiaryEntity d WHERE d.ihost = ?1 AND (d.rdt >= ?2 AND d.rdt < ?3)")
     int countAllByIhostAndRdt(int ihost, LocalDateTime startDate, LocalDateTime tomorrow);
     int countAllByIhost(int ihost);
+
+    @Query("select d from DiaryEntity as d where d.ctnt like CONCAT ('%',:search,'%')")
+    List<DiaryEntity> searchDiary(String search, Pageable pageable);
 }

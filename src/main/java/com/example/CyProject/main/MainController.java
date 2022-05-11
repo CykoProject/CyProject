@@ -1,5 +1,6 @@
 package com.example.CyProject.main;
 
+import com.example.CyProject.PageEntity;
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.home.HomeEntity;
@@ -10,6 +11,9 @@ import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.friends.FriendsEntity;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,8 +57,15 @@ public class MainController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam String type, String search, Model model) {
-        mainService.search(search);
+    public String search(@RequestParam int type, String search, Model model,Pageable pageable) {
+        if (type == 0) {
+            model.addAttribute("searchProfile", mainService.search(search, pageable).getProfile());
+            model.addAttribute("searchPhoto", mainService.search(search, pageable).getPhoto());
+            model.addAttribute("searchDiary", mainService.search(search, pageable).getDiary());
+        } else {
+            model.addAttribute("searchUser", mainService.searchUsers(search));
+        }
+        System.out.println(mainService.search(search, pageable).getDiary());
         return "main/search";
     }
 }
