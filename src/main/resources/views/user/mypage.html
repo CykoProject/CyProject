@@ -14,6 +14,16 @@
         <form method="post" action="/user/mypage" id="mypageForm">
             <h3>내 정보 수정</h3>
             <div class="row-wrap">
+                <div class="row" id="profileImg">
+                    <label for="profileImg">프로필 사진 변경</label>
+                    <div th:if="${loginUser.img == null}">
+                        <img src="/static/img/defaultProfileImg.jpeg">
+                    </div>
+                    <div th:unless="${loginUser.img == null}">
+                        <img th:src="${loginUser.getImg()}">
+                    </div>
+                    <input type="file" name="file1" id="file1">
+                </div>
                 <div class="row" id="oldUpw">
                     <label for="oldUpw">현재 비밀번호 </label>
                     <input type="password" name="oldUpw" placeholder="현재 비밀번호">

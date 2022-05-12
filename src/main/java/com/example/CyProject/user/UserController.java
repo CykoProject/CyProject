@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ public class UserController {
     @Autowired private UserRepository userRepository;
     @Autowired private HomeRepository homeRepository;
     @Autowired private AuthenticationFacade auth;
+    @Autowired private UserService service;
 
     @GetMapping("/join")
     public String join() {
@@ -91,13 +93,14 @@ public class UserController {
     }
 
     @PostMapping("/mypage")
-    public String update(String newUpw) {
+    public String update(String newUpw, MultipartFile mf) {
         String secureUpw = passwordEncoder.encode(newUpw);
         Optional<UserEntity> user = userRepository.findById(auth.getLoginUserPk());
         user.ifPresent(selectUser -> {
             selectUser.setUpw(secureUpw);
             userRepository.save(selectUser);
         });
+        service.uploadProfileImg(mf);
         return "redirect:/";
     }
 
