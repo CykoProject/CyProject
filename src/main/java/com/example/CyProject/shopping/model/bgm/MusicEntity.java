@@ -1,4 +1,4 @@
-package com.example.CyProject.home.model.music;
+package com.example.CyProject.shopping.model.bgm;
 
 import lombok.Getter;
 import lombok.Setter;

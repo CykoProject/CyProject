@@ -1,6 +1,6 @@
 package com.example.CyProject.home.model.jukebox;
 
-import com.example.CyProject.home.model.music.MusicEntity;
+import com.example.CyProject.shopping.model.bgm.MusicEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
