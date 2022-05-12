@@ -1,24 +1,15 @@
 package com.example.CyProject.main;
 
-import com.example.CyProject.PageEntity;
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
-import com.example.CyProject.home.model.home.HomeEntity;
-import com.example.CyProject.home.model.home.HomeRepository;
-import com.example.CyProject.home.model.visit.VisitorEntity;
 import com.example.CyProject.message.model.MessageRepository;
-import com.example.CyProject.user.model.UserEntity;
-import com.example.CyProject.user.model.friends.FriendsEntity;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -57,17 +48,18 @@ public class MainController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam int type, String search, Model model, Pageable pageable) {
+    public String search(@RequestParam int type, String search, Model model, @PageableDefault(size=5) Pageable pageable) {
         if (type == 0) {
-            model.addAttribute("searchProfile", mainService.search(search, pageable).getProfile());
-            model.addAttribute("searchPhoto", mainService.search(search, pageable).getPhoto());
-            model.addAttribute("searchDiary", mainService.search(search, pageable).getDiary());
+            model.addAttribute("searchProfile", mainService.search(search).getProfile());
+            model.addAttribute("searchPhoto", mainService.search(search).getPhoto());
+            model.addAttribute("searchDiary", mainService.search(search).getDiary());
+            return "main/search";
         } else {
-            model.addAttribute("searchUser", mainService.searchUsers(search));
+            model.addAttribute("searchUser", mainService.searchUsers(search, pageable));
+            model.addAttribute("searchUserCount", mainService.searchUsersCount(search));
+            System.out.println(mainService.searchUsers(search, pageable));
+            System.out.println(mainService.searchUsersCount(search));
+            return "main/searchUser";
         }
-        System.out.println(mainService.search(search, pageable).getDiary());
-        System.out.println(mainService.search(search, pageable).getPhoto());
-        System.out.println(mainService.search(search, pageable).getProfile());
-        return "main/search";
     }
 }

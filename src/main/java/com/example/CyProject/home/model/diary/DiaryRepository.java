@@ -21,5 +21,5 @@ public interface DiaryRepository extends JpaRepository<DiaryEntity, Integer> {
     int countAllByIhost(int ihost);
 
     @Query("select d from DiaryEntity as d where d.ctnt like CONCAT ('%',:search,'%')")
-    List<DiaryEntity> searchDiary(String search, Pageable pageable);
+    List<DiaryEntity> searchDiary(String search);
 }

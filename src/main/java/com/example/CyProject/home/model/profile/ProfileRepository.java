@@ -11,6 +11,6 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, Integer>
     ProfileEntity findTop1ByIhostOrderByRdtDesc(int iuser);
 
     @Query("select p from ProfileEntity as p where p.ctnt like CONCAT ('%',:search,'%') order by p.rdt")
-    List<ProfileEntity> searchProfile(String search, Pageable pageable);
+    List<ProfileEntity> searchProfile(String search);
 }
 

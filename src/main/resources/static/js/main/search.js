@@ -1,3 +1,8 @@
+let searchTypeValue = document.querySelector(".search-conditions > option").value;
+
+
+
+
 let searchAllBtn = document.querySelector(".see-all");
 let searchProfileBtn = document.querySelector(".see-profile");
 let searchDiaryBtn = document.querySelector(".see-diary");
@@ -14,7 +19,7 @@ let allList = document.querySelectorAll(".results-data");
 
 const changeElemBlock = (elem) => {
     for(let i=0; i<elem.children.length; i++) {
-        elem.children[i].style.display = 'block';
+        elem.children[i].style.display = 'flex';
     }
 }
 
@@ -56,7 +61,7 @@ let cnt = 10;
 const showResult10 = () => {
     for (let i = 0; i <allList.length; i++) {
         if(i<cnt) {
-            allList[i].style.display = "block";
+            allList[i].style.display = "flex";
         } else {
             allList[i].style.display = "none";
         }
@@ -71,3 +76,17 @@ window.onscroll = function(e) {
         showResult10();
     }
 }
+
+//파라미터 받아와서 입력한 검색어, 타입 그대로 유지하기
+
+let searchTxt = decodeURI(decodeURIComponent(location.search.split("&")[1].split("=")[1]));
+let searchType = location.search.split("&")[0].slice(1).split("=")[1];
+
+let searchTxtElem = document.querySelector(".search-text");
+let searchTypeElem = document.querySelector(".search-conditions");
+
+searchTxtElem.value = searchTxt;
+searchTypeElem.value = searchType;
+
+console.log(searchTxt);
+console.log(searchType);
