@@ -219,3 +219,32 @@ CREATE OR REPLACE TABLE home_message( # 일촌평
 	ctnt TEXT NOT NULL,
 	writer INT UNSIGNED NOT NULL
 );
+
+# -2022-05-13-
+CREATE OR REPLACE TABLE item (
+                                 item_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                                 nm VARCHAR(50) NOT NULL,
+                                 artist VARCHAR(50), # null 가능
+                                 price INT UNSIGNED NOT NULL,
+                                 icategory INT UNSIGNED,
+                                 `file` VARCHAR(200),
+                                 rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
+                                 CHECK(icategory <= 4)
+);
+
+CREATE OR REPLACE TABLE item_like (
+                                      ilike INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                                      iuser INT UNSIGNED NOT null,
+                                      item_id INT UNSIGNED NOT null,
+                                      FOREIGN KEY (iuser) REFERENCES user(iuser),
+                                      FOREIGN KEY (item_id) REFERENCES item(item_id)
+);
+
+CREATE OR REPLACE TABLE sell_history (
+                                         ihistory INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                                         iuser INT UNSIGNED NOT null,
+                                         item_id INT UNSIGNED NOT null,
+                                         rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
+                                         FOREIGN KEY (iuser) REFERENCES user(iuser),
+                                         FOREIGN KEY (item_id) REFERENCES item(item_id)
+);
