@@ -20,15 +20,15 @@
 
         <div class="header-center">
             <div class="search">
-                <form method="get" action="/search" class="search-select">
-                    <select class="shopping-search-conditions" name="type">
-                        <option value="0">전체</option>
-                        <option value="1">BGM</option>
-                        <option value="1">폰트</option>
-                        <option value="1">스킨</option>
-                        <option value="1">미니미</option>
+                <form method="get" action="/shopping/search" class="search-select">
+                    <select class="shopping-search-conditions" name="category">
+                        <option th:selected="${#strings.equals(param.category, '0')}" value="0">전체</option>
+                        <option th:selected="${#strings.equals(param.category, '1')}" value="1">BGM</option>
+                        <option th:selected="${#strings.equals(param.category, '2')}" value="2">폰트</option>
+                        <option th:selected="${#strings.equals(param.category, '3')}" value="3">스킨</option>
+                        <option th:selected="${#strings.equals(param.category, '4')}" value="4">미니미</option>
                     </select>
-                    <input type="text" class="shopping-search-text" name="search">
+                    <input th:value="${param.search}" type="text" class="shopping-search-text" name="search">
                     <button class="shopping-search-btn">
                         찾기
                     </button>

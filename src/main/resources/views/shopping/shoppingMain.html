@@ -29,8 +29,8 @@ layout:decorate="shopping/shoppingIndex">
             </div>
 
             <div class="shopping-items">
-                <th:block th:each="num : ${#numbers.sequence(1,5)}">
-                    <div th:text="${num}"></div>
+                <th:block th:each="item : ${items}">
+                    <div th:text="${item.nm}"></div>
                 </th:block>
             </div>
         </div>
