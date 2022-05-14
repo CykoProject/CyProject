@@ -92,15 +92,21 @@ public class UserController {
         return "user/mypage";
     }
 
-    @PostMapping("/mypage")
-    public String update(String newUpw, MultipartFile mf) {
+
+    @GetMapping("/change_upw")
+    public String change_upw(Model model) {
+        model.addAttribute("loginUser", auth.getLoginUser());
+        return "user/change_upw";
+    }
+
+    @PostMapping("/change_upw")
+    public String change_upw(String newUpw) {
         String secureUpw = passwordEncoder.encode(newUpw);
         Optional<UserEntity> user = userRepository.findById(auth.getLoginUserPk());
         user.ifPresent(selectUser -> {
             selectUser.setUpw(secureUpw);
             userRepository.save(selectUser);
         });
-        service.uploadProfileImg(mf);
         return "redirect:/";
     }
 

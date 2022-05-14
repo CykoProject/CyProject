@@ -51,27 +51,4 @@ public class MyFileUtils {
             return null;
         }
     }
-
-    //파일 저장 > 저장된 파일명 리턴
-    public String saveFile(String path, MultipartFile mf){
-        makeFolders(path); //폴더 만들고
-        String randomFileNm = getRandomFileNm(mf.getOriginalFilename()); //랜덤파일 불러와
-
-        File targetFile = new File(path, randomFileNm);
-        try{
-            mf.transferTo(targetFile); //폴더가 없으면 폴더를 만들어준다?????
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-        return randomFileNm;
-    }
-
-    //파일 존재하면 삭제
-    public void delFile(String path){
-        File f = new File(path);
-        if(f.exists()){
-            f.delete();
-        }
-    }
 }
