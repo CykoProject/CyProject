@@ -17,5 +17,4 @@ public class MainService {
 
         return userRepository.findByNm(search);
     }
-
 }

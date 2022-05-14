@@ -95,3 +95,8 @@
 .diary-report-close:hover {
     cursor: pointer;
 }
+
+.hidden-ctnt {
+    display: none;
+    flex-direction: column;
+}
