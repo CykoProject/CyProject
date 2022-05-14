@@ -2,6 +2,7 @@ package com.example.CyProject.user.model;
 
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,7 +24,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Query("UPDATE UserEntity set upw = ?1 WHERE email = ?2")
     int updUserUpw(String upw, String email);
 
-    List<UserEntity> findByNm(String search);
+    List<UserEntity> findByNmContains(String search, Pageable pageable);
 
 
+    List<UserEntity> findByNmContains(String search);
 }

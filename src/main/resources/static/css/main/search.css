@@ -1,0 +1,61 @@
+.search-header {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px;
+}
+
+.search-option {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.search-count {
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    margin-top: 10px;
+}
+
+.search-count > p {
+    font-weight: bold;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    text-decoration: none;
+    width: 80%;
+    margin: auto;
+}
+
+.results-data {
+    display: flex;
+    width: 500px;
+    height: 300px;
+    border : 1px solid lightsteelblue;
+    border-radius: 3px;
+    margin: auto;
+}
+
+.photo-img > img{
+    width: 100px;
+    height: 150px;
+}
+
+.profile-img > img{
+    width: 100px;
+    height: 150px;
+}
+
+.diary-img > img{
+    width: 100px;
+    height: 150px;
+}
+
+.pagination {
+
+}

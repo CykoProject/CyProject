@@ -61,12 +61,16 @@
 
                     <!--        TODO 로그인 한 회원만 작성할 수 있게       -->
                     <div class="diary-comment-container">
-                        <form action="" th:method="post">
+                        <div>
+                            <div class="comment-ctnt">
+
+                            </div>
                             <div class="input-cmt">
                                 <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
-                                <input type="submit" th:value="댓글등록" class="ctnt-btn">
+
+                                <button class="ctnt-btn">댓글쓰기</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </th:block>

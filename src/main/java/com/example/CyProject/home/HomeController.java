@@ -63,8 +63,6 @@ public class HomeController {
         model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
         return "home/home";
     }
-
-
 // ======================= 방명록, 다이어리, 주크박스 =====================================================================================
 
     // 다이어리 ============================================================================================
@@ -166,6 +164,12 @@ public class HomeController {
         model.addAttribute("data", jukeBoxRepository.selRepreList(iuser));
 
         return "home/jukebox/repre";
+    }
+
+    @GetMapping("/audio")
+    public String audio() {
+
+        return "home/audio";
     }
     // 주크박스 ============================================================================================================
 

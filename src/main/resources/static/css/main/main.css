@@ -85,7 +85,6 @@
     padding: 5px;
     justify-content: space-between;
     margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 .profile-top {
@@ -115,7 +114,7 @@
 }
 
 .profile-top > p{
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 .profile-top > .b-1{

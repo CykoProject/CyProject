@@ -50,7 +50,6 @@ if(manageContainerElem) {
 
 
     tabSubmitBtnElem.addEventListener('click', () => {
-        console.log(manageFrmElem);
         manageFrmElem.submit();
     });
 

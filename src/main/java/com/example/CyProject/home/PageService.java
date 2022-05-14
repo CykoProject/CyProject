@@ -28,8 +28,10 @@ public class PageService {
                 .startDate(rdt)
                 .tomorrow(rdt)
                 .build();
+
         return diaryRepository.findAllByIhostAndRdt(ihost, dateData.getStartDate(), dateData.getTomorrow(), PageRequest.of(page-1, rowCnt, Sort.by(Sort.Direction.DESC, "rdt")));
     }
+
     public Page<DiaryEntity> diaryPaging(int ihost, int page, int rowCnt) {
         return diaryRepository.findAllByIhost(ihost, PageRequest.of(page-1, rowCnt, Sort.by(Sort.Direction.DESC, "rdt")));
     }

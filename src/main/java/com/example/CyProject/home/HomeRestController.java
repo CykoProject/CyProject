@@ -3,6 +3,8 @@ package com.example.CyProject.home;
 import com.example.CyProject.ResultVo;
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.comment.CommentEntity;
+import com.example.CyProject.home.model.comment.CommentRepository;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
@@ -15,10 +17,12 @@ import com.example.CyProject.home.model.report.ReportRepository;
 import com.example.CyProject.home.model.visit.VisitDto;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
+import com.example.CyProject.user.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.Result;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,6 +33,7 @@ public class HomeRestController {
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private VisitRepository visitRepository;
     @Autowired private ReportRepository reportRepository;
+    @Autowired private CommentRepository commentRepository;
     @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private AuthenticationFacade authenticationFacade;
     @Autowired private Utils utils;
@@ -36,6 +41,41 @@ public class HomeRestController {
     @GetMapping
     public HomeEntity home(HomeEntity entity) {
         return homeRepository.findByIuser(entity.getIuser());
+    }
+
+    @GetMapping("/cmt/{cg}")
+    public List<CommentEntity> selCommentList(@PathVariable String cg, CommentEntity param) {
+        int ihost = param.getIhost().getIuser();
+        int iboard = param.getIboard();
+        int icategory = utils.getCommentCategory(cg);
+        int parent = 0;
+
+        UserEntity entity = new UserEntity();
+        entity.setIuser(ihost);
+
+        return commentRepository.findAllByIhostAndIboardAndCategoryAndParent(entity, iboard, icategory, parent);
+    }
+
+    @GetMapping("/reply/{cg}")
+    public List<CommentEntity> selReplyList(@PathVariable String cg, CommentEntity param) {
+        int icmt = param.getParent();
+        int ihost = param.getIhost().getIuser();
+        int icategory = utils.getCommentCategory(cg);
+
+        UserEntity entity = new UserEntity();
+        entity.setIuser(ihost);
+
+        System.out.println(param);
+
+        return commentRepository.selReplyList(icmt, entity, icategory);
+    }
+
+    @PostMapping("/cmt/{category}")
+    public ResultVo insComment(@PathVariable String category) {
+        ResultVo vo = new ResultVo();
+        System.out.println(category);
+        System.out.println(utils.getCommentCategory(category));
+        return vo;
     }
 
     @DeleteMapping("/diary/del")
@@ -138,5 +178,11 @@ public class HomeRestController {
         vo.setResult(cnt == dto.getJukeBoxList().size() ? 1 : 0);
 
         return vo;
+    }
+
+    @GetMapping("/repre/audio")
+    public List<JukeBoxEntity> getRepreMusicList(int iuser) {
+        List<JukeBoxEntity> list = jukeBoxRepository.selRepreList(iuser);
+        return list;
     }
 }

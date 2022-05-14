@@ -3,7 +3,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-    <title></title>
+    <title>추억의 싸이월드</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js" integrity="sha512-ksHM9XpigYGeRdXZfI4GddPsUjmLj6zd1MCNXL4fsfDwp1G+u6hC73uwDjlpjdX4tbEtj/N1AWkLo6WjDwQkyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -13,24 +16,24 @@
 <body>
 <header>
     <div class="header">
-        <div th:id="loginUserPk" th:if="${session.loginUserPkSession != null}" th:data-iuser="${#session.getAttribute('loginUserPkSession')}"></div>
+        <div th:id="loginUserPk" th:if="${session.loginUserPkSession != null}" th:data-iuser="${#session.getAttribute('loginUserPkSession')}" style="display: none"></div>
         <a th:href="@{/}"><img class="logo-img" src="https://cdn.senmoney.co.kr/news/photo/202006/1999_2098_4524.jpg" alt=""/></a>
 
         <div class="header-center">
             <div class="header-menu">
                 <p>미니홈피</p>
                 <p>인기글</p>
-                <p>쇼핑</p>
+                <p><a th:href="@{/shopping}">쇼핑</a></p>
             </div>
             <div class="search">
-                <div class="search-select">
-                    <select class="search-conditions">
+                <form method="get" action="/search" class="search-select">
+                    <select class="search-conditions" name="type">
                         <option value="0">게시글</option>
                         <option value="1">친구</option>
                     </select>
-                    <input type="text" class="search-text">
+                    <input type="text" class="search-text" name="search">
                     <button class="search-btn">검색</button>
-                </div>
+                </form>
             </div>
         </div>
         <img class="ads-img"

@@ -3,10 +3,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="main/index">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>추억의 싸이월드</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
@@ -36,7 +32,7 @@
                         <strong id="msg-notice" th:text="${msgCnt}"></strong>
                     </div>
                     <div class="profile-info-count-dotori">
-                        <img src="https://littledeep.com/wp-content/uploads/2020/12/xAcorn-illustration-png-1024x853.png.pagespeed.ic._h4grUYJsp.webp" alt="">
+                        <img src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt="">
                         <p>0개</p>
                         <p class="p-1"><a>충전</a></p>
                     </div>
@@ -79,7 +75,7 @@
                         <input type="password" name="upw" placeholder="비밀번호를 입력하세요."/>
                     </div>
                     <div class="login-btn">
-                        <button id="login_bth">로그인</button>
+                        <button id="login_btn">로그인</button>
                     </div>
                 </div>
 
@@ -115,7 +111,7 @@
             </form>
         </div>
 
-        <div class="on-friends">
+        <div th:if="${loginUserPk > 0}" class="on-friends">
             <div class="f-1"><h3>접속 중인 친구</h3></div>
             <table>
                 <thead>

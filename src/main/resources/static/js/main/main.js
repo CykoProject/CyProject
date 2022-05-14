@@ -4,7 +4,7 @@ const goFriendHome = document.querySelectorAll('.profile-go-to-friend-home');
 const openUp = (iuser) => {
     const popupWidth = 1189;
     const popupHeight = 600;
-    const popX = (window.screen.width / 2) - (popupWidth / 2);
+    const popX = 0;
     const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
     const option = `width = ${popupWidth}px
         , height = ${popupHeight}px
@@ -14,7 +14,7 @@ const openUp = (iuser) => {
         `;
 
     if(iuser > 0) {
-        window.open(`/home?iuser=${iuser}`, 'home', option);
+        popup = window.open(`/home?iuser=${iuser}`, 'home', option);
     } else {
         location.href = '/user/login';
     }
@@ -23,13 +23,12 @@ if(goHome) {
     goHome.addEventListener('click', () => {
         openUp(goHome.dataset.iuser);
     });
+}
 
-    goFriendHome.forEach(item => {
-        item.addEventListener('click', (e) => {
-            openUp(e.target.dataset.iuser);
-            console.log('asd');
-        });
-    })
+if(goFriendHome) {
+    goFriendHome.addEventListener('click', (e) => {
+        openUp(e.target.dataset.iuser);
+    });
 }
 
 // WebSocket with Stomp ==================================
@@ -79,9 +78,20 @@ if(loginUserElem) {
                 location.href = '/msg/inbox';
             });
             header.appendChild(divElem);
-            setTimeout(() => {
+
+            let setTimeOut = setTimeout(() => {
                 divElem.remove();
             }, 3000);
+
+            divElem.addEventListener('mouseover', () => {
+                clearTimeout(setTimeOut);
+            });
+
+            divElem.addEventListener('mouseout', () => {
+                setTimeOut = setTimeout(() => {
+                    divElem.remove();
+                }, 3000);
+            });
         }
 
         const ws = new WebSocket("ws://localhost:8090/ws");
@@ -153,7 +163,6 @@ if(loginUserElem) {
 const mainContainerElem = document.querySelector('.container');
 if(mainContainerElem) {
     const headerSearchBtn = document.querySelector(".search-btn");
-
     headerSearchBtn.addEventListener("click", () => {
         let headerSelectVal = document.querySelector(".search-conditions").value;
         let headerSearchVal = document.querySelector(".search-text").value;
@@ -399,9 +408,9 @@ if(mainContainerElem) {
                     const link = data[i].link;
                     const userRating = data[i].userRating;
                     movieListElem.innerHTML += `
-                <div class="eachMovie" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 200px; height: 287px; border: solid 1px #b2b2b2; padding: 5px;">
+                <div class="eachMovie" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 200px; height: 287px;">
                 <a href="${link}" style = "text-decoration: none; color: black;" target='_blank'>
-                <img src="${image}" style="width:200px; height:287px;" >
+                <img src="${image}" style="width:190px; height:277px;" >
                 <p style="margin: 5px; font-weight: bold;">${title}</p>
                 <p style="margin: 5px; font-size: small;">평점 : ${userRating}</p>
                 </a>
@@ -481,7 +490,7 @@ if(mainContainerElem) {
         });
     }
     //아이디 저장
-    const login_save_Bth = document.querySelector('#login_bth');
+    const login_save_Bth = document.querySelector('#login_btn');
     const frm = document.querySelector('#loginFrm');
     const loginSave = frm.querySelector('#saveIdChk');
 
