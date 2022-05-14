@@ -14,5 +14,4 @@ public class ItemLikeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ilike;
-
 }

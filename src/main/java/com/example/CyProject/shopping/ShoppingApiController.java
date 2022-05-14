@@ -37,26 +37,48 @@ public class ShoppingApiController {
         return itemRepository.findAllByOrderByPriceAsc();
     }
 
+    @PostMapping("/searchOrderByRdtDescAll")
+    public List<ItemEntity> searchOrderByRdtDescAll(@RequestBody ItemDto dto) {
+        System.out.println(dto.getSearch());
+        return itemRepository.findByNmContainsOrderByRdtDesc(dto.getSearch());
+    }
+    @PostMapping("/searchOrderByRdtAscAll")
+    public List<ItemEntity> searchOrderByRdtAscAll(@RequestBody ItemDto dto) {
+        return itemRepository.findByNmContainsOrderByRdtAsc(dto.getSearch());
+    }
+    @PostMapping("/searchOrderByPriceDescAll")
+    public List<ItemEntity> searchOrderByPriceDescAll(@RequestBody ItemDto dto) {
+        return itemRepository.findByNmContainsOrderByPriceDesc(dto.getSearch());
+    }
+    @PostMapping("/searchOrderByPriceAscAll")
+    public List<ItemEntity> searchOrderByPriceAscAll(@RequestBody ItemDto dto) {
+        return itemRepository.findByNmContainsOrderByPriceAsc(dto.getSearch());
+    }
+
     @PostMapping("/searchOrderByRdtDesc")
     public List<ItemEntity> searchOrderByRdtDesc(@RequestBody ItemDto dto) {
         System.out.println(dto.getSearch());
         System.out.println(dto.getCategory());
+
         System.out.println(itemRepository.searchByCategoryAndTxtByOrderByRdtDesc(dto.getCategory(), dto.getSearch()));
         return itemRepository.searchByCategoryAndTxtByOrderByRdtDesc(dto.getCategory(), dto.getSearch());
     }
 
-//    @PostMapping("/searchOrderByRdtAsc")
-//    public List<ItemEntity> searchOrderByRdtAsc(String category, String search) {
-//        return itemRepository.searchByCategoryAndTxtByOrderByRdtAsc(category, search);
-//    }
-//
-//    @PostMapping("/searchOrderByPriceDesc")
-//    public List<ItemEntity> searchOrderByPriceDesc(String category, String search) {
-//        return itemRepository.searchByCategoryAndTxtByOrderByPriceDesc(category, search);
-//    }
-//
-//    @PostMapping("/searchOrderByPriceAsc")
-//    public List<ItemEntity> searchOrderByPriceAsc(String category, String search) {
-//        return itemRepository.searchByCategoryAndTxtByOrderByPriceAsc(category, search);
-//    }
+    @PostMapping("/searchOrderByRdtAsc")
+    public List<ItemEntity> searchOrderByRdtAsc(@RequestBody ItemDto dto) {
+        System.out.println(itemRepository.searchByCategoryAndTxtByOrderByRdtAsc(dto.getCategory(), dto.getSearch()));
+        return itemRepository.searchByCategoryAndTxtByOrderByRdtAsc(dto.getCategory(), dto.getSearch());
+    }
+
+    @PostMapping("/searchOrderByPriceDesc")
+    public List<ItemEntity> searchOrderByPriceDesc(@RequestBody ItemDto dto) {
+        System.out.println(itemRepository.searchByCategoryAndTxtByOrderByPriceDesc(dto.getCategory(), dto.getSearch()));
+        return itemRepository.searchByCategoryAndTxtByOrderByPriceDesc(dto.getCategory(), dto.getSearch());
+    }
+
+    @PostMapping("/searchOrderByPriceAsc")
+    public List<ItemEntity> searchOrderByPriceAsc(@RequestBody ItemDto dto) {
+        System.out.println(itemRepository.searchByCategoryAndTxtByOrderByPriceAsc(dto.getCategory(), dto.getSearch()));
+        return itemRepository.searchByCategoryAndTxtByOrderByPriceAsc(dto.getCategory(), dto.getSearch());
+    }
 }

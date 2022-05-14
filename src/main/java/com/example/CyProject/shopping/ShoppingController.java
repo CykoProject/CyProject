@@ -37,46 +37,6 @@ public class ShoppingController {
         return "shopping/shoppingMain";
     }
 
-//    @GetMapping("/allOrderByRdtDesc")
-//    public String allOrderByRdtDesc() {
-//        return itemRepository.findAllByOrderByRdtDesc();
-//    }
-//
-//    @GetMapping("/allOrderByRdtAsc")
-//    public String allOrderByRdtAsc() {
-//        return itemRepository.findAllByOrderByRdtAsc();
-//    }
-//
-//    @GetMapping("/allOrderByPriceDesc")
-//    public String allOrderByPriceDesc() {
-//        return itemRepository.findAllByOrderByPriceDesc();
-//    }
-//
-//    @GetMapping("/allOrderByPriceAsc")
-//    public String allOrderByPriceAsc() {
-//        return itemRepository.findAllByOrderByPriceAsc();
-//    }
-//
-//    @GetMapping("/searchOrderByRdtDesc")
-//    public String searchOrderByRdtDesc(int icategory, String search) {
-//        return itemRepository.searchByCategoryAndTxtByOrderByRdtDesc(icategory, search);
-//    }
-//
-//    @GetMapping("/searchOrderByRdtAsc")
-//    public String searchOrderByRdtAsc(int icategory, String search) {
-//        return itemRepository.searchByCategoryAndTxtByOrderByRdtAsc(icategory, search);
-//    }
-//
-//    @GetMapping("/searchOrderByPriceDesc")
-//    public String searchOrderByPriceDesc(int icategory, String search) {
-//        return itemRepository.searchByCategoryAndTxtByOrderByPriceDesc(icategory, search);
-//    }
-//
-//    @GetMapping("/searchOrderByPriceAsc")
-//    public List<ItemEntity> searchOrderByPriceAsc(int icategory, String search) {
-//        return itemRepository.searchByCategoryAndTxtByOrderByPriceAsc(icategory, search);
-//    }
-
     @GetMapping("/cart")
     public String shoppingCart() {
 

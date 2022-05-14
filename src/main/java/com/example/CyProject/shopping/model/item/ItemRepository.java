@@ -15,6 +15,9 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Integer> {
     List<ItemEntity> findAllByOrderByPriceAsc();
 
     List<ItemEntity> findByNmContainsOrderByRdtDesc(String search);
+    List<ItemEntity> findByNmContainsOrderByRdtAsc(String search);
+    List<ItemEntity> findByNmContainsOrderByPriceDesc(String search);
+    List<ItemEntity> findByNmContainsOrderByPriceAsc(String search);
 
     @Query("SELECT i FROM ItemEntity as i WHERE i.icategory = :category and i.nm like concat ('%',:search,'%') order by i.rdt desc")
     List<ItemEntity> searchByCategoryAndTxtByOrderByRdtDesc(int category, String search);
