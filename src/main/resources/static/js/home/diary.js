@@ -129,6 +129,11 @@ if(diaryELem) {
     commentObj.elemCntName = '.comment-cnt';
     commentObj.makeCnt();
 
+    // 댓글쓰기
+    commentObj.writeCmt.init.inputTxtNm = '.ctnt';
+    commentObj.writeCmt.init.execute('.ctnt-btn');
+    commentObj.writeCmt.submit();
+
     // 댓글보기
     const commentCountElemArr = document.querySelectorAll('.comment-cnt');
     commentCountElemArr.forEach(item => {
