@@ -1,16 +1,15 @@
 package com.example.CyProject.home.model.comment;
 
-import com.example.CyProject.home.HomeCategory;
-import com.example.CyProject.user.model.UserEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<CommentEntity, Integer> {
 
-    List<CommentEntity> findAllByIhostAndIboardAndCategoryAndParent(UserEntity ihost, int iboard, int category, int parent);
+    @Query("SELECT COUNT (c) FROM CommentEntity c WHERE (c.iboard = :iboard AND c.category = :category) AND c.parent = 0")
+    int selCommentWithOutReplyCnt(int iboard, int category);
 
-    @Query("SELECT c from CommentEntity as c where c.category = :icategory and c.parent = :icmt and c.ihost = :ihost")
-    List<CommentEntity> selReplyList(int icmt, UserEntity ihost, int icategory);
+    @Query("SELECT c FROM CommentEntity c WHERE (c.iboard = :iboard AND c.category = :category) AND c.parent = 0")
+    List<CommentEntity> selCommentWithOutReply(int iboard, int category, Pageable pageable);
 }

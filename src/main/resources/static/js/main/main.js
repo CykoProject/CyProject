@@ -97,10 +97,10 @@ if(loginUserElem) {
         }
 
         const ws = new WebSocket("ws://localhost:8090/ws");
-        console.log('연결성공');
         ws.onopen = onOpen;
         ws.onclose = onClose;
         ws.onmessage = onMessage;
+
         const logoutBtnElem = document.querySelector('.logout-btn');
         if(logoutBtnElem) {
             logoutBtnElem.addEventListener('click', () => {
@@ -119,7 +119,6 @@ if(loginUserElem) {
         }
 
         function onMessage(msg) {
-            console.log(msg.data);
             const data = JSON.parse(msg.data);
             const status = Object.keys(data);
             if (status.includes('msgCnt')) {
