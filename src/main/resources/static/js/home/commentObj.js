@@ -1,3 +1,12 @@
+const beforeElem = localStorage.getItem('beforeScroll');
+if(beforeElem) {
+    document.querySelector('.home-container').scroll(0, parseInt(beforeElem));
+    localStorage.clear();
+}
+
+const cUrl = new URL(location.href);
+const cUrlParams = cUrl.searchParams;
+
 const commentObj = {
     page : 0,
     size : 5,
@@ -7,9 +16,12 @@ const commentObj = {
     iboard : 0,
     parentName : '',
     parentElemArr : '',
+
     elemName : '',
     elemCntName : '',
+
     ctntElem : document.querySelector(`${this.name}`),
+
     myFetch : {
         send : function (fetchObj, cb) {
             return fetchObj
@@ -23,6 +35,13 @@ const commentObj = {
                 url += queryString;
             }
             return this.send(fetch(url), cb);
+        },
+        post : function (url, param, cb) {
+            return this.send(fetch(url, {
+                method : 'POST',
+                headers : {'Content-Type' : 'application/json'},
+                body : JSON.stringify(param)
+            }), cb);
         }
     },
     init : function () {
@@ -74,7 +93,6 @@ const commentObj = {
             });
         });
     },
-
     makeCmt : function (item, elem) {
         const div = document.createElement('div');
         div.classList.add('cmt');
@@ -83,5 +101,42 @@ const commentObj = {
         p.innerText = item.ctnt;
         div.appendChild(p);
         elem.appendChild(div);
+    },
+    writeCmt : {
+        url : '/ajax/home/',
+        btnElemArr : '',
+        btnNm : '',
+        ihost : 0,
+        loginUserPk : 0,
+        iboard : 0,
+        init : {
+            inputTxtNm : '',
+            execute : function (btnNm) {
+                commentObj.writeCmt.btnElemArr = document.querySelectorAll(`${btnNm}`);
+                commentObj.writeCmt.ihost = parseInt(cUrlParams.get('iuser'));
+                commentObj.writeCmt.loginUserPk = parseInt(document.querySelector('.home-common-pk').dataset.pk);
+                commentObj.writeCmt.url += commentObj.menu + '/cmt/write';
+            }
+        },
+        submit : function () {
+            this.btnElemArr.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const parent = e.target.closest(`${commentObj.parentName}`);
+                    const ctnt  = parent.querySelector(`${this.init.inputTxtNm}`).value;
+                    this.iboard = parseInt(parent.querySelector(`${commentObj.dataSetName}`).dataset.iboard);
+                    commentObj.myFetch.post(this.url, {
+                        ihost : {iuser : this.ihost},
+                        iboard : this.iboard,
+                        writer : {iuser : this.loginUserPk},
+                        ctnt : ctnt
+                    }, (data) => {
+                        if(data.result === 1) {
+                            localStorage.setItem('beforeScroll', document.querySelector('.home-container').scrollTop);
+                            location.reload();
+                        }
+                    });
+                });
+            });
+        }
     }
 }

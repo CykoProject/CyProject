@@ -52,14 +52,21 @@ public class HomeRestController {
         ResultVo vo = new ResultVo();
         vo.setResult(commentRepository.selCommentWithOutReplyCnt(iboard, utils.getCommentCategory(cg)));
 
-
-
         return vo;
     }
 
     @GetMapping("/{cg}/cmt/{iboard}")
     public List<CommentEntity> getCommentList(@PathVariable String cg, @PathVariable int iboard, Pageable pageable) {
         return commentRepository.selCommentWithOutReply(iboard, utils.getCommentCategory(cg), pageable);
+    }
+
+    @PostMapping("/{cg}/cmt/write")
+    public ResultVo insComment(@PathVariable String cg, @RequestBody CommentEntity commentEntity) {
+        commentEntity.setCategory(utils.getCommentCategory(cg));
+        ResultVo vo = new ResultVo();
+        vo.setResult(commentRepository.save(commentEntity) != null ? 1 : 0);
+
+        return vo;
     }
 
     @DeleteMapping("/diary/del")
