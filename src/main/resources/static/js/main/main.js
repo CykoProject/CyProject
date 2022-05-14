@@ -1,6 +1,6 @@
 //미니홈피 바로가기
 const goHome = document.querySelector('.profile-go-to-home');
-const goFriendHome = document.querySelector('.profile-go-to-friend-home');
+const goFriendHome = document.querySelectorAll('.profile-go-to-friend-home');
 const openUp = (iuser) => {
     const popupWidth = 1189;
     const popupHeight = 600;
@@ -24,9 +24,12 @@ if(goHome) {
         openUp(goHome.dataset.iuser);
     });
 
-    goFriendHome.addEventListener('click', (e) => {
-        openUp(e.target.dataset.iuser);
-    });
+    goFriendHome.forEach(item => {
+        item.addEventListener('click', (e) => {
+            openUp(e.target.dataset.iuser);
+            console.log('asd');
+        });
+    })
 }
 
 // WebSocket with Stomp ==================================

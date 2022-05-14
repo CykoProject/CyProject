@@ -120,23 +120,19 @@
             <table>
                 <thead>
                 <tr>
-                    <th>번호</th>
                     <th>이름</th>
                     <th>접속</th>
-                    <th>바로가기</th>
+                    <th>미니홈피</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="list : ${data}">
-                    <td th:text="${list.fuser.iuser}"></td>
                     <td th:text="${list.fuser.nm}"></td>
-                    <td th:text="'이름'"></td>
+                    <td th:text="'ㅇ'"></td>
                     <td><button class="profile-go-to-friend-home" th:data-iuser="${list.fuser.iuser}">이동</button></td>
                 </tr>
                 </tbody>
             </table>
-
-
         </div>
 
         <div class="service">
