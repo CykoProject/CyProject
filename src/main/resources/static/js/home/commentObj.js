@@ -46,6 +46,7 @@ const commentObj = {
     },
     init : function () {
         this.parentElemArr = document.querySelectorAll(`${this.parentName}`);
+        console.log(this.parentElemArr);
         this.parentElemArr.forEach(item => {
             this.iboard = parseInt(item.querySelector(`${this.dataSetName}`).dataset.iboard);
             const elem = item.querySelector(`${this.elemName}`);
