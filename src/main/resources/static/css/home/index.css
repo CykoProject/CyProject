@@ -151,6 +151,60 @@ body {
     color: red !important;
 }
 
-.empty-data {
+.cur-folder {
+    font-weight: bold;
+    text-decoration: underline;
+}
 
+.idx-audio {
+    position: absolute;
+    width: 200px;
+    right: 70px;
+}
+
+.hidden-ctnt {
+    display: none;
+    flex-direction: column;
+}
+
+.comment-cnt:hover {
+    cursor: pointer;
+}
+
+.user-img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.user-img img {
+    width: 75px;
+    height: auto;
+}
+
+.comment-wrap {
+    margin-bottom: 15px;
+}
+
+.comment-rdt {
+    color: gray;
+}
+
+.comment-sec {
+    margin-left: 10px;
+}
+
+.comment-sec p {
+    margin-bottom: 5px;
+}
+
+.go-home {
+    background: orange;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+    max-width: 100px;
+}
+
+.go-home:hover {
+    cursor: pointer;
 }

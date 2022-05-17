@@ -16,3 +16,21 @@ th, td {
 th {
     border-top: 2px solid black;
 }
+
+.audio-wrap {
+    text-align: center;
+}
+
+.msg-send-success {
+    position: fixed;
+    right: 0;
+    top: 0;
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 3px 5px 0px black;
+    margin-right: 10px;
+    margin-top: 10px;
+    transition: all 0.2s;
+}

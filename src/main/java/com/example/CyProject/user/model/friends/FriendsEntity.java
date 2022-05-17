@@ -1,5 +1,6 @@
 package com.example.CyProject.user.model.friends;
 
+import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.user.model.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class FriendsEntity {
     @OneToOne
     @JoinColumn(name = "fuser")
     private UserEntity fuser;
+
     private int status;
     private String nickname;
 

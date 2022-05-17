@@ -1,4 +1,4 @@
-package com.example.CyProject.item.minime;
+package com.example.CyProject.shopping.model.minime;
 
 import lombok.Getter;
 import lombok.Setter;

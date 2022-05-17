@@ -5,6 +5,7 @@
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
+    <script defer th:src="@{/js/home/commentObj.js}"></script>
     <script defer th:src="@{/js/home/visit.js}"></script>
     <link rel="stylesheet" th:href="@{/css/home/visit.css}">
     <title>Title</title>
@@ -16,12 +17,13 @@
 
     <th:block layout:fragment="content_right">
         <div class="data-pk" th:data-loginuser="${loginUserPk}"></div>
-        <div class="visit-container">
+        <div class="visit-container home-container">
             <div class="visit-write" th:if="${loginUserPk > 0}">
                 <form class="visitFrm" th:method="post" th:action="@{/home/visit/write}">
                     <div class="frow bc-gray p10-10">
                         <div class="f1 fc">
                             <div>
+<!--                                todo 미니미 설정-->
                                 <img class="visit-minime" th:src="@{/static/img/defaultProfileImg.jpeg}">
                             </div>
                             <div class="w100p">
@@ -63,7 +65,8 @@
                     <strong>방명록이 없습니다.</strong>
                 </th:block>
                 <th:block th:each="item : ${data}">
-                    <div class="visit-elem mb10" th:data-ivisit="${item.ivisit}">
+                    <div class="visit-elem mb10" th:data-iboard="${item.ivisit}">
+                        <div th:data-iboard="${item.ivisit}" id="data-iboard"></div>
                         <div th:classappend="${item.secret} ? 'visit-secret-bar' : 'visit-date-bar'" id="status-bar">
                             <div>
                                 <span th:text="|no.${item.ivisit}|"></span>
@@ -97,9 +100,11 @@
                             </div>
                         </div>
 
-                        <div class="visit-ctnt bc-white">
+                        <div class="visit-ctnt frow g30">
                             <th:block th:if="${item.secret}">
                                 <th:block th:if="${(#strings.equals(loginUserPk, param.iuser) || #strings.equals(loginUserPk, item.iuser.iuser))}">
+                                    <img class="visit-minime" th:if="${item.iminime == 0}" th:src="@{/static/img/defaultProfileImg.jpeg}">
+                                    <img class="visit-minime" th:if="${item.iminime != 0}" th:src="@{/pic/minime/{iminime}.jpg (iminime=${item.iminime})}">
                                     <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
                                 </th:block>
 
@@ -113,9 +118,31 @@
                                 <div class="frow g30">
                                     <img class="visit-minime" th:if="${item.iminime == 0}" th:src="@{/static/img/defaultProfileImg.jpeg}">
                                     <img class="visit-minime" th:if="${item.iminime != 0}" th:src="@{/pic/minime/{iminime}.jpg (iminime=${item.iminime})}">
-                                    <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                    <div>
+                                        <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                        <div class="visit-mod-wrap"></div>
+                                    </div>
                                 </div>
                             </th:block>
+                        </div>
+
+                        <div class="visit-comment-container">
+                            <div>
+                                <div class="input-cmt">
+                                    <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
+
+                                    <button class="ctnt-btn">댓글쓰기</button>
+                                </div>
+                                <div>
+                                    <span class="comment-cnt"></span>
+                                </div>
+                                <div class="hidden-ctnt">
+                                    <div class="comment-ctnt"></div>
+                                    <div class="pagination">
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </th:block>

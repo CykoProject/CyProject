@@ -113,4 +113,39 @@ if(diaryELem) {
         location.href = `/home/diary?iuser=${iuser}&searchRdt=${diaryCalendarElem.value}`;
     });
     // 달력 ========================================================================================================
+
+    // 댓글 ========================================================================================================
+    commentObj.parentName = '.diary-data';
+    commentObj.menu = 'diary';
+    commentObj.size = 5;
+
+    commentObj.dataSetName = '#data-idiary';
+    commentObj.elemName = '.comment-ctnt';
+    commentObj.url = '/ajax/home/diary/cmt/';
+    commentObj.init();
+
+    commentObj.url = '/ajax/home/diary/cmt/cnt/';
+    commentObj.name = '#data-idiary';
+    commentObj.elemCntName = '.comment-cnt';
+    commentObj.makeCnt();
+
+    // 댓글쓰기
+    commentObj.writeCmt.init.inputTxtNm = '.ctnt';
+    commentObj.writeCmt.init.execute('.ctnt-btn');
+    commentObj.writeCmt.submit();
+
+    // 댓글보기
+    const commentCountElemArr = document.querySelectorAll('.comment-cnt');
+    commentCountElemArr.forEach(item => {
+        item.addEventListener('click', () => {
+            const parent = item.closest('.diary-comment-container');
+            const ctntElem = parent.querySelector('.hidden-ctnt');
+            if(ctntElem.style.display === 'none' || ctntElem.style.display === '') {
+                ctntElem.style.display = 'flex';
+            } else {
+                ctntElem.style.display = 'none';
+            }
+        });
+    });
+    // 댓글 ========================================================================================================
 }

@@ -3,19 +3,30 @@ package com.example.CyProject.home;
 import com.example.CyProject.ResultVo;
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.comment.CommentEntity;
+import com.example.CyProject.home.model.comment.CommentRepository;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.home.HomeRepository;
+import com.example.CyProject.home.model.jukebox.JukeBoxDto;
+import com.example.CyProject.home.model.jukebox.JukeBoxEntity;
+import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
 import com.example.CyProject.home.model.report.ReportEntity;
 import com.example.CyProject.home.model.report.ReportRepository;
 import com.example.CyProject.home.model.visit.VisitDto;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
+import com.example.CyProject.user.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.Query;
+import javax.persistence.EntityManager;
 import javax.xml.transform.Result;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,12 +37,36 @@ public class HomeRestController {
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private VisitRepository visitRepository;
     @Autowired private ReportRepository reportRepository;
+    @Autowired private CommentRepository commentRepository;
+    @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private AuthenticationFacade authenticationFacade;
     @Autowired private Utils utils;
 
     @GetMapping
     public HomeEntity home(HomeEntity entity) {
         return homeRepository.findByIuser(entity.getIuser());
+    }
+
+    @GetMapping("/{cg}/cmt/cnt/{iboard}")
+    public ResultVo getCommentCnt(@PathVariable String cg, @PathVariable int iboard) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(commentRepository.selCommentWithOutReplyCnt(iboard, utils.getCommentCategory(cg)));
+
+        return vo;
+    }
+
+    @GetMapping("/{cg}/cmt/{iboard}")
+    public List<CommentEntity> getCommentList(@PathVariable String cg, @PathVariable int iboard, Pageable pageable) {
+        return commentRepository.selCommentWithOutReply(iboard, utils.getCommentCategory(cg), pageable);
+    }
+
+    @PostMapping("/{cg}/cmt/write")
+    public ResultVo insComment(@PathVariable String cg, @RequestBody CommentEntity commentEntity) {
+        commentEntity.setCategory(utils.getCommentCategory(cg));
+        ResultVo vo = new ResultVo();
+        vo.setResult(commentRepository.save(commentEntity) != null ? 1 : 0);
+
+        return vo;
     }
 
     @DeleteMapping("/diary/del")
@@ -121,5 +156,24 @@ public class HomeRestController {
             vo.setResult(1);
         }
         return vo;
+    }
+
+    @PostMapping("/jukebox/repre")
+    public ResultVo updRepreStatus(@RequestBody JukeBoxDto dto) {
+        ResultVo vo = new ResultVo();
+        int cnt = 0;
+        for(JukeBoxEntity item : dto.getJukeBoxList()) {
+            cnt += jukeBoxRepository.updRepreStatus(item.isRepre(), item.getIhost(), item.getIjukebox());
+        }
+
+        vo.setResult(cnt == dto.getJukeBoxList().size() ? 1 : 0);
+
+        return vo;
+    }
+
+    @GetMapping("/repre/audio")
+    public List<JukeBoxEntity> getRepreMusicList(int iuser) {
+        List<JukeBoxEntity> list = jukeBoxRepository.selRepreList(iuser);
+        return list;
     }
 }

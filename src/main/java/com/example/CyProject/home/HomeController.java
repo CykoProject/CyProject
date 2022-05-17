@@ -1,7 +1,9 @@
 package com.example.CyProject.home;
 
+import com.example.CyProject.PageEntity;
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.comment.CommentRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
@@ -19,13 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.text.html.Option;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,27 +33,28 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/home")
 public class HomeController {
 
-    @Autowired private Utils utils;
-    @Autowired private HomeRepository homeRepository;
-    @Autowired private DiaryRepository diaryRepository;
-    @Autowired private VisitRepository visitRepository;
-    @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스
-    @Autowired private PageService pageService;
+    @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private ProfileRepository profileRepository;
+    @Autowired private CommentRepository commentRepository;
+    @Autowired private VisitRepository visitRepository;
+    @Autowired private DiaryRepository diaryRepository;
+    @Autowired private HomeRepository homeRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private PageService pageService;
     @Autowired private HomeService homeService;
+    @Autowired private Utils utils;
 
     @GetMapping
     public String home(HomeEntity entity, Model model) {
         int loginUser = authenticationFacade.getLoginUserPk();
+        int ihomePk = utils.findHomePk(entity.getIuser());
+
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
         model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
         return "home/home";
     }
-
-
 // ======================= 방명록, 다이어리, 주크박스 =====================================================================================
 
     // 다이어리 ============================================================================================
@@ -146,8 +144,24 @@ public class HomeController {
     // 주크박스 ============================================================================================================
     @GetMapping("/jukebox")
     public String jukeBox(@RequestParam(value = "iuser") int iuser, Model model) {
+        model.addAttribute("folder", "jukebox");
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", jukeBoxRepository.findAllByIhost(iuser));
         return "home/jukebox/jukebox";
+    }
+
+    @GetMapping("/jukebox/repre")
+    public String jukeBoxRepreFolder(@RequestParam(value = "iuser") int iuser, Model model) {
+        model.addAttribute("folder", "repre");
+        model.addAttribute("data", jukeBoxRepository.selRepreList(iuser));
+
+        return "home/jukebox/repre";
+    }
+
+    @GetMapping("/audio")
+    public String audio() {
+
+        return "home/audio";
     }
     // 주크박스 ============================================================================================================
 

@@ -19,6 +19,7 @@ public class HomeEntity {
     private int ihome;
 
     private int iuser;
+
     private boolean diary;
     private boolean photo;
     private boolean visit;

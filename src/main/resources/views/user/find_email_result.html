@@ -21,28 +21,30 @@
             <div class="find_email_result">
                 <div class="t_bottom">
                     <th:block th:if="${!#strings.equals(param.email, 'null')}">
-                    <div class="m4">회원님의 아이디는
-                        <strong th:text="${param.email}"></strong>
-                        입니다. </div>
-                    <div hidden>error</div>
-                    </th:block>
+                    <div class="m4">회원님의 아이디는 <strong th:text="${param.email}"></strong> 입니다. </div>
 
+                    <div class="m1">
+                        <button class="m2" >
+                            <a href="/" style="color: white">로그인</a>
+                        </button>
+                        <button class="m3" >
+                            <a href="/user/find_upw" style="color: white">비밀번호 찾기</a>
+                        </button>
+                    </div>
+                    </th:block>
                     <th:block th:if="${#strings.equals(param.email, 'null')}">
                         <div class="m4">
-                            <strong th:text="'등록되어있지않은번호입니다'"></strong>
+                            <strong th:text="'등록되어 있지 않은 번호입니다. 다시 확인해 주세요. '"></strong>
                         </div>
-                        <div hidden>error</div>
+                        <div class="m1">
+                            <button class="m6" >
+                                <a href="/user/find_email" style="color: white">다시 입력하기</a>
+                            </button>
+                        </div>
                     </th:block>
                 </div>
             </div>
-            <div class="m1">
-                <button class="m2" >
-                    <a href="/" style="color: white">로그인</a>
-                </button>
-                <button class="m3" >
-                    <a href="/user/find_upw" style="color: white">비밀번호 찾기</a>
-                </button>
-            </div>
+
         </div>
     </th:block>
 </body>

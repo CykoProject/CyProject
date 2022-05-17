@@ -27,7 +27,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
-        System.out.println("payload : " + payload);
         String payloadArr[] = payload.split("=");
         String status = payloadArr[0];
 
@@ -39,7 +38,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
             if (onlineUser.indexOf(iuser) == -1) {
                 onlineUser.add(iuser);
 
-//                List<Integer> result = selFriendList(iuser);
                 List<Integer> result = friendsRepository.selectFriendsPkList(iuser);
                 Collections.sort(onlineUser);
                 List<Integer> list1 = result;
@@ -70,7 +68,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
             Map<String, String> JSONData = mapper.readValue(payloadArr[1], Map.class);
             String recStr = JSONData.get("receiver");
             String[] receivers = recStr.split(",");
-
             List<Integer> receiverList = new ArrayList<>();
             for(int i=0; i< receivers.length; i++) {
                 receiverList.add(Integer.parseInt(receivers[i]));
@@ -102,27 +99,52 @@ public class WebSocketHandler extends TextWebSocketHandler {
                     }
                 }
             }
-        } else {
+        } else { // logout
+            int iuser = Integer.parseInt(payloadArr[1]);
+            List<Integer> friendsPkList = friendsRepository.selectFriendsPkList(iuser);
+            List<String> friendsSessionIdList = new ArrayList<>();
+            for(String keys : mappingId.keySet()) {
+                for(Integer item : friendsPkList) {
+                    if(mappingId.get(keys) == item) {
+                        friendsSessionIdList.add(keys);
+                    }
+                }
+            }
+
+            Map<String, Map<Integer, Integer>> sendData = new HashMap<>();
+            Map<Integer, Integer> data = new HashMap<>();
+
+            for(Integer item : friendsPkList) {
+                data.put(item, -1);
+            }
+            sendData.put("logout", data);
+            JSONObject json = new JSONObject(sendData);
+            TextMessage send = new TextMessage(json.toString());
             for (WebSocketSession sess : list) {
-                sess.sendMessage(message);
+                for(String id : friendsSessionIdList) {
+                    if(sess.getId().equals(id)) {
+                        sess.sendMessage(send);
+                    }
+                }
             }
         }
     }
 
-    @Override
+    @Override // onOpen
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         list.add(session);
     }
 
-    @Override
+
+
+    @Override // onClose
     public void afterConnectionClosed(WebSocketSession session, CloseStatus ct) throws Exception {
         list.remove(session);
-        System.out.println("연결종료");
+
         String sessionId = session.getId();
         int logoutIuser = mappingId.get(sessionId);
 
         if(onlineUser.contains(logoutIuser)) {
-//            List<Integer> result = selFriendList(logoutIuser);
             List<Integer> result = friendsRepository.selectFriendsPkList(logoutIuser);
             for (Integer item : result) {
                 int cnt = 0;
@@ -143,7 +165,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
         JSONObject json = new JSONObject(cntMap);
         TextMessage msg = new TextMessage(json.toString());
         for(WebSocketSession sess : list) {
-            sess.sendMessage(msg);
+            if(logoutIuser == 0) {
+                sess.sendMessage(msg);
+            }
         }
     }
 }

@@ -14,16 +14,25 @@
         <div class="frow">
             <div class="f1 msg-menu">
                 <div>
-                    <a th:href="@{#}">받은쪽지함</a>
+                    <a th:classappend="${#strings.equals(box, 'inbox')} ? 'selected' : ''" th:href="@{/msg/inbox}">받은쪽지함</a>
                 </div>
                 <div>
-                    <a th:href="@{#}">보낸쪽지함</a>
+                    <a th:classappend="${#strings.equals(box, 'outbox')} ? 'selected' : ''" th:href="@{/msg/outbox}">보낸쪽지함</a>
+                </div>
+                <div>
+                    <a th:classappend="${#strings.equals(box, 'savebox')} ? 'selected' : ''" th:href="@{/msg/savebox}">보관함</a>
                 </div>
             </div>
-            <div class="message-container f2">
+            <div class="message-container f3">
                 <div>
-                    <div class="text-align-right">
-                        <a th:href="@{/msg/write}"><button id="test-btn">쪽지쓰기</button></a>
+                    <div class="frow justify-space mb10">
+                        <div>
+                            <button class="msg-del">삭제</button>
+                            <button class="msg-check">수신확인</button>
+                        </div>
+                        <div>
+                            <a th:href="@{/msg/write}"><button id="test-btn">쪽지쓰기</button></a>
+                        </div>
                     </div>
                     <div class="message-box">
                         <table class="msg-table">
@@ -37,7 +46,7 @@
                             <thead>
                             <tr>
                                 <th>
-                                    <input type="checkbox">
+                                    <input type="checkbox" class="msg-all-chk">
                                 </th>
                                 <th>보낸사람</th>
                                 <th>내용</th>
@@ -45,10 +54,15 @@
                             </tr>
                             </thead>
                             <tbody>
+                                <tr th:if="${msgList.getTotalPages == 0}">
+                                    <td colspan="4">
+                                        <strong>쪽지가 없습니다.</strong>
+                                    </td>
+                                </tr>
                             <th:block th:each="item : ${msgList}">
                                 <tr class="msg-data" th:data-imsg="${item.imsg}" th:classappend="${item.recv_read} ? 'read-msg' : 'unread-msg'">
                                     <td>
-                                        <input type="checkbox">
+                                        <input type="checkbox" class="msg-chk">
                                     </td>
                                     <td class="msg-tr">
                                         <span th:text="${item.iuser.nm}"></span>
@@ -63,6 +77,18 @@
                             </th:block>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="pagination">
+                        <a th:href="@{/msg/inbox(page=${(pageData.pop - 1) * pageData.pageCnt})}" th:if="${pageData.pop != 1}" th:text="'<'"></a>
+
+                        <th:block th:each="page : ${#numbers.sequence(pageData.startPage, pageData.lastPage)}">
+                            <a th:href="@{/msg/inbox(page=${page})}"
+                               th:text="${page}"
+                               th:if="${(page <= pageData.maxPage) && (!#strings.equals(param.page, page)) && (!#strings.equals(pageData.startPage, page) || !#strings.isEmpty(param.page))}"
+                               th:classappend="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))} ? 'cur-page' : ''"></a>
+                            <span th:if="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))}" class="cur-page" th:text="${page}"></span>
+                        </th:block>
+                        <a th:href="@{/msg/inbox(page=${pageData.lastPage + 1})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
                     </div>
                 </div>
             </div>

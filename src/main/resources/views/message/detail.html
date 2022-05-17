@@ -3,11 +3,48 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/message/message.css}">
+    <script defer th:src="@{/js/message/message.js}"></script>
+    <script defer th:src="@{/js/message/detail.js}"></script>
     <title>Title</title>
 </head>
 <body>
-    <div>
-        <strong>aslkdhalskjdaslkd</strong>
+    <div id="loginUserPk" th:data-iuser="${loginUserPk}"></div>
+    <div class="msg-detail-container" th:data-iuser="${loginUserPk}" th:with="item = ${msgDetail}">
+        <div class="msg-detail-bg">
+            <div class="msg-detail-in">
+                <div class="friendly-msg">
+                    <span>다정한 쪽지</span>
+                </div>
+                <div class="msg-sender">
+                    <th:block th:if="${loginUserPk != item.iuser.iuser}">
+                        <span>보낸이 :</span>
+                        <span class="msg-color" th:text="${item.iuser.nm}"></span>
+                    </th:block>
+                    <th:block th:if="${loginUserPk == item.iuser.iuser}">
+                        <span>받는이 :</span>
+                        <span class="msg-color" th:text="${item.receiver.nm}"></span>
+                    </th:block>
+                        <span class="msg-color" th:text="|(${#temporals.format(item.rdt, 'yyyy-MM-dd HH:mm:ss')})|"></span>
+                </div>
+                <div class="msg-ctnt-container">
+                    <span th:utext="${item.ctnt}"></span>
+                </div>
+                <div class="msg-tool">
+                    <button id="msg-reply-btn" th:if="${loginUserPk == item.receiver.iuser}">답장쓰기</button>
+                    <button th:data-imsg="${item.imsg}" th:if="${loginUserPk == item.iuser.iuser && !#strings.equals(param.box, 'save')}" class="msg-savebox">보관하기</button>
+                    <button id="msg-close">확인</button>
+                    <button id="msg-del-btn" th:data-imsg="${item.imsg}">삭제</button>
+                </div>
+            </div>
+            <div class="msg-reply-container">
+                <textarea class="msg-reply-text"></textarea>
+                <div id="sender" th:data-sender="${item.iuser.iuser}"></div>
+                <div>
+                    <button id="msg-reply-submit">전송</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

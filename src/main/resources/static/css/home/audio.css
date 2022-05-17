@@ -1,0 +1,47 @@
+.this-music {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+body {
+    background-color: #ffdcb3;
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden;
+}
+
+.audio-player-wrap {
+    text-align: center;
+}
+
+.audio-table-div {
+    overflow-y: scroll;
+    margin-top: 20px;
+    max-height: 226px;
+}
+
+.audio-player {
+    margin-top: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+thead tr {
+    background-color: orange;
+}
+
+thead th {
+    border: 1px solid orange;
+}
+
+td, th {
+    text-align: center;
+    padding: 10px 0px;
+}
+
+td {
+    border-bottom: 1px solid orange;
+}

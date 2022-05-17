@@ -1,10 +1,78 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/index">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/main/search.css}">
+    <script defer th:src="@{/js/main/search.js}"></script>
 </head>
-<body>
-<h1 th:text=""></h1>
-</body>
+
+<th:block layout:fragment="container">
+    <div class="search-container">
+        <div class="search-header">
+            <div class="search-option">
+                <h2 class="see-all">전체 보기</h2>
+                <h2 class="see-profile">프로필</h2>
+                <h2 class="see-diary">다이어리</h2>
+                <h2 class="see-photo">사진첩</h2>
+            </div>
+
+            <div class="search-count">
+                검색결과 : <p class="count-number"
+                    th:text="${#lists.size(searchProfile) + #lists.size(searchPhoto) + #lists.size(searchDiary)}"></th:text></p>
+                개
+            </div>
+
+        </div>
+        <div class="search-results">
+            <div class="photo-elem">
+
+                <th:block th:each="data : ${searchPhoto}">
+                    <div class="results-photo results-data">
+                        <div class="photo-img">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT01d4OBfsfcn3i82usjadKKTPbAtKGIkgRcA&usqp=CAU"
+                                 alt="">
+                        </div>
+                        <div class="photo-title" th:text="${data.title}"></div>
+                    </div>
+                </th:block>
+
+            </div>
+
+            <div class="diary-elem">
+
+                <th:block th:each="data : ${searchDiary}">
+                    <div class="results-diary results-data">
+                        <div class="diary-img">
+                            <img src="https://entertainimg.kbsmedia.co.kr/cms/uploads/PERSON_20220112081105_4217f0cc8e5e82a908647d8e1de448a5.jpg"
+                                 alt="">
+                        </div>
+                        <div class="diary-ctnt" th:text="${data.ctnt}"></div>
+                    </div>
+                </th:block>
+
+            </div>
+
+            <div class="profile-elem">
+
+                <th:block th:each="data : ${searchProfile}">
+                    <div class="results-profile results-data">
+                        <div class="profile-img">
+                            <img src="https://cdn.mhnse.com/news/photo/202205/105045_88610_1253.jpg" alt="">
+                        </div>
+                        <div class="profile-ctnt" th:text="${data.ctnt}"></div>
+                    </div>
+                </th:block>
+
+            </div>
+
+        </div>
+        <div class="pagination" style="display:none">
+
+        </div>
+
+    </div>
+</th:block>
+
 </html>

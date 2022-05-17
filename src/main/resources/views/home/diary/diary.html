@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/home/diary.css}">
+    <script defer th:src="@{/js/home/commentObj.js}"></script>
     <script defer th:src="@{/js/home/diary.js}"></script>
     <title>Title</title>
 </head>
@@ -61,12 +62,22 @@
 
                     <!--        TODO 로그인 한 회원만 작성할 수 있게       -->
                     <div class="diary-comment-container">
-                        <form action="" th:method="post">
+                        <div>
                             <div class="input-cmt">
                                 <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
-                                <input type="submit" th:value="댓글등록" class="ctnt-btn">
+
+                                <button class="ctnt-btn">댓글쓰기</button>
                             </div>
-                        </form>
+                            <div class="comment-cnt"></div>
+                            <div class="hidden-ctnt">
+                                <div>
+                                    <span class="comment-cnt"></span>
+                                </div>
+                                <div class="pagination">
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </th:block>

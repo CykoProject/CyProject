@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="shopping/shoppingIndex">
+
+<head>
+    <title>싸이월드 쇼핑몰</title>
+    <script defer th:src="@{/js/shopping/shopping.js}"></script>
+</head>
+
+<body>
+<th:block layout:fragment="container">
+
+    <div class="shopping-container">
+        <div class="shopping-left">
+            <h3 class="left-menus menu-all"><a th:href="@{/shopping}">전체</a></h3>
+            <h3 class="left-menus menu-bgm"><a th:href="@{/shopping/search?category=1&search=}">BGM</a></h3>
+            <h3 class="left-menus menu-font"><a th:href="@{/shopping/search?category=2&search=}">폰트</a></h3>
+            <h3 class="left-menus menu-skin"><a th:href="@{/shopping/search?category=3&search=}">스킨</a></h3>
+            <h3 class="left-menus menu-minimi"><a th:href="@{/shopping/search?category=4&search=}">미니미</a></h3>
+        </div>
+
+        <div class="shopping-main">
+
+            <div class="order-options">
+                <p class="option-date-recent">등록일최신순</p>
+                <p class="option-date-old">등록일오래된순</p>
+                <p class="option-price-low">낮은가격순</p>
+                <p class="option-price-high">높은가격순</p>
+                <p>좋아요</p>
+            </div>
+
+            <div class="shopping-items">
+                <th:block th:each="item : ${items}">
+                    <div class="item">
+                        <img class="item-img" th:src="${item.file}">
+                        <span class="item-nm" th:text="${item.nm}"></span>
+                        <span><span class="item-price" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')}"></span>원</span>
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+</body>
+</html>
