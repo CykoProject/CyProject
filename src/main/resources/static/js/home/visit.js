@@ -212,25 +212,16 @@ if(visitElem) {
     commentObj.parentName = '.visit-elem';
     commentObj.menu = 'visit';
     commentObj.size = 5;
-
-    commentObj.dataSetName = '#data-iboard';
-    commentObj.elemName = '.comment-ctnt';
-    commentObj.url = '/ajax/home/visit/cmt/';
     commentObj.init();
-
-    commentObj.url = '/ajax/home/visit/cmt/cnt/';
-    commentObj.name = '.visit-elem';
-    commentObj.elemCntName = '.comment-cnt';
     commentObj.makeCnt();
 
-    commentObj.writeCmt.init.inputTxtNm = '.ctnt';
     commentObj.writeCmt.init.execute('.ctnt-btn');
     commentObj.writeCmt.submit();
 
     const commentCountElemArr = document.querySelectorAll('.comment-cnt');
     commentCountElemArr.forEach(item => {
         item.addEventListener('click', () => {
-            const parent = item.closest('.visit-comment-container');
+            const parent = item.closest('.comment-container');
             const ctntElem = parent.querySelector('.hidden-ctnt');
             if(ctntElem.style.display === 'none' || ctntElem.style.display === '') {
                 ctntElem.style.display = 'flex';
