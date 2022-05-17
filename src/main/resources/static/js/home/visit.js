@@ -227,6 +227,18 @@ if(visitElem) {
     commentObj.writeCmt.init.execute('.ctnt-btn');
     commentObj.writeCmt.submit();
 
+    const commentCountElemArr = document.querySelectorAll('.comment-cnt');
+    commentCountElemArr.forEach(item => {
+        item.addEventListener('click', () => {
+            const parent = item.closest('.visit-comment-container');
+            const ctntElem = parent.querySelector('.hidden-ctnt');
+            if(ctntElem.style.display === 'none' || ctntElem.style.display === '') {
+                ctntElem.style.display = 'flex';
+            } else {
+                ctntElem.style.display = 'none';
+            }
+        });
+    });
     //============================ 댓글 finish ===================================
 }
 
