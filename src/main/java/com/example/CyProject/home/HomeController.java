@@ -124,7 +124,6 @@ public class HomeController {
                 .build();
 
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
-
         model.addAttribute("data", utils.makeStringNewLine(list));
         model.addAttribute("pageData", pageEntity);
 
