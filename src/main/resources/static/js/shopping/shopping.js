@@ -129,3 +129,5 @@ if (location.href.indexOf("search") === -1){
 }
 
 //장바구니 넣기
+let addCart = document.querySelector(".add-cart");
+
