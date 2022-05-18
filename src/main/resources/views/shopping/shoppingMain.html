@@ -34,9 +34,10 @@ layout:decorate="shopping/shoppingIndex">
                 <th:block th:each="item : ${items}">
                     <div class="item">
                         <img class="item-img" th:src="${item.file}">
+                        <div class="item_id" style="display: none" th:text="${item.item_id}"></div>
                         <span class="item-nm" th:text="${item.nm}"></span>
                         <span><span class="item-price" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')}"></span>원</span>
-                        <i class="fa-solid fa-cart-plus add-cart"></i>
+                        <div class="add-cart" style="display: inline"><i class="fa-solid fa-cart-plus"></i></div>
                     </div>
                 </th:block>
             </div>
