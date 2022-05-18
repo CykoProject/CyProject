@@ -134,10 +134,36 @@ if (location.href.indexOf("search") === -1){
 let addCart = document.querySelectorAll(".add-cart");
 let iUser = document.querySelector("#loginUserPk").dataset.iuser;
 
+const msgAlarm = () => {
+    const divElem = document.createElement('div');
+    divElem.classList.add('msg-alarm');
+    divElem.innerHTML = `
+                <span>장바구니에 추가</span>
+            `;
+    const header = document.querySelector('.header');
+    divElem.addEventListener('click', () => {
+        location.href = '/shopping/cart';
+    });
+    header.appendChild(divElem);
 
+    let setTimeOut = setTimeout(() => {
+        divElem.remove();
+    }, 3000);
+
+    divElem.addEventListener('mouseover', () => {
+        clearTimeout(setTimeOut);
+    });
+
+    divElem.addEventListener('mouseout', () => {
+        setTimeOut = setTimeout(() => {
+            divElem.remove();
+        }, 3000);
+    });
+}
 
 addCart.forEach((item)=> item.addEventListener("click", () => {
     if (iUser > 0) {
+        
         const data = {
             "iuser": parseInt(iUser),
             "item_id": parseInt(item.parentElement.querySelector(".item_id").textContent)
@@ -151,6 +177,7 @@ addCart.forEach((item)=> item.addEventListener("click", () => {
              .then(res => res.json())
              .then(data => {
                  console.log(data);
+                 msgAlarm();
              })
              .catch(e => {
                  console.error(e);

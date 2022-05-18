@@ -37,4 +37,9 @@ public class CartApiController {
 
         return 0;
     }
+
+    @PostMapping("/delete")
+    public void deleteItem(@RequestBody CartDto dto) {
+        cartRepository.deleteByIuserAndItemid(dto.getIuser() ,dto.getItem_id());
+    }
 }

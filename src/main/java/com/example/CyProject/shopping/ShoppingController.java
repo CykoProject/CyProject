@@ -1,7 +1,12 @@
 package com.example.CyProject.shopping;
 
+import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.shopping.model.cart.CartEntity;
+import com.example.CyProject.shopping.model.cart.CartRepository;
 import com.example.CyProject.shopping.model.item.ItemEntity;
 import com.example.CyProject.shopping.model.item.ItemRepository;
+import com.example.CyProject.user.model.UserEntity;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +22,10 @@ public class ShoppingController {
 
     @Autowired
     ItemRepository itemRepository;
+    @Autowired
+    CartRepository cartRepository;
+    @Autowired
+    AuthenticationFacade authenticationFacade;
 
     @GetMapping("")
     public String shoppingMain(Model model) {
@@ -37,9 +46,4 @@ public class ShoppingController {
         return "shopping/shoppingMain";
     }
 
-    @GetMapping("/cart")
-    public String shoppingCart() {
-
-        return "shopping/shoppingCart";
-    }
 }
