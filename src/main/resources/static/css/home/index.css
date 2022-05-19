@@ -197,14 +197,35 @@ body {
     margin-bottom: 5px;
 }
 
-.go-home {
-    background: orange;
-    color: white;
-    padding: 5px;
-    border-radius: 10px;
-    max-width: 100px;
+.comment-writer-nm {
+    color: #00aaff;
 }
 
-.go-home:hover {
-    cursor: pointer;
+.cmt-word-break {
+    word-break: break-all;
+    padding: 3px 5px;
+    display: flex;
+}
+
+.cmt-first-child {
+    width: 100px;
+    max-width: 44px;
+    min-width: 44px;
+}
+
+.input-cmt {
+    margin-left: 5px;
+    margin-right: 5px;
+    display: flex;
+    gap: 10px;
+}
+
+.ctnt {
+    flex: 1;
+    height: 35px;
+    resize: none;
+}
+
+.comment-cnt-wrap {
+    padding: 3px 5px;
 }

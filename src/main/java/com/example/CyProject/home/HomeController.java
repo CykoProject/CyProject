@@ -47,6 +47,11 @@ public class HomeController {
 
     @GetMapping
     public String home(HomeEntity entity, Model model) {
+        int homeScope = authenticationFacade.isHomeVisitScope(entity.getIuser());
+        if(homeScope < 2) {
+            return authenticationFacade.returnPath(entity.getIuser(), model);
+        }
+
         int loginUser = authenticationFacade.getLoginUserPk();
         int ihomePk = utils.findHomePk(entity.getIuser());
 

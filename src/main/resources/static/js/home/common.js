@@ -1,3 +1,10 @@
+const isPopup = opener !== null ? true : false;
+if(!isPopup) {
+    location.href = '/error/home';
+}
+
+
+
 const popupWidth = 330;
 const popupHeight = 300;
 const popX = 1195;
