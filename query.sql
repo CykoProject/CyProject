@@ -248,3 +248,11 @@ CREATE OR REPLACE TABLE purchase_history (
     FOREIGN KEY (iuser) REFERENCES user(iuser),
     FOREIGN KEY (item_id) REFERENCES item(item_id)
 );
+
+CREATE OR REPLACE table cart (
+    icart int unsigned primary key auto_increment,
+    iuser int unsigned not null,
+    item_id int unsigned not null,
+    cnt int unsigned default 1,
+    rdt datetime default current_timestamp()
+);

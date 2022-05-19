@@ -96,8 +96,10 @@ function callSearchOrderedItems (btn, name) {
                     shoppingItemsElem.innerHTML += `
                 <div class="item">
                 <img src="${data[i].file}" class="item-img" alt="">
+                        <div class="item_id" style="display: none">${data[i].item_id}</div>
                         <span class="item-nm">${data[i].nm}</span>
                         <span><span class="item-price">${data[i].price}</span>원</span>
+                        <i class="fa-solid fa-cart-plus add-cart"></i>
                     </div>
                 `
                 }
@@ -129,3 +131,59 @@ if (location.href.indexOf("search") === -1){
 }
 
 //장바구니 넣기
+let addCart = document.querySelectorAll(".add-cart");
+let iUser = document.querySelector("#loginUserPk").dataset.iuser;
+
+const msgAlarm = () => {
+    const divElem = document.createElement('div');
+    divElem.classList.add('msg-alarm');
+    divElem.innerHTML = `
+                <span>장바구니에 추가</span>
+            `;
+    const header = document.querySelector('.header');
+    divElem.addEventListener('click', () => {
+        location.href = '/shopping/cart';
+    });
+    header.appendChild(divElem);
+
+    let setTimeOut = setTimeout(() => {
+        divElem.remove();
+    }, 3000);
+
+    divElem.addEventListener('mouseover', () => {
+        clearTimeout(setTimeOut);
+    });
+
+    divElem.addEventListener('mouseout', () => {
+        setTimeOut = setTimeout(() => {
+            divElem.remove();
+        }, 3000);
+    });
+}
+
+addCart.forEach((item)=> item.addEventListener("click", () => {
+    if (iUser > 0) {
+        
+        const data = {
+            "iuser": parseInt(iUser),
+            "item_id": parseInt(item.parentElement.querySelector(".item_id").textContent)
+        }
+        console.log(data);
+         fetch("/cart/add", {
+             method : 'POST',
+             headers : {'Content-Type' : 'application/json'},
+             body: JSON.stringify(data)
+         })
+             .then(res => res.json())
+             .then(data => {
+                 console.log(data);
+                 msgAlarm();
+             })
+             .catch(e => {
+                 console.error(e);
+             });
+    } else {
+        alert("장바구니에 담기 위해서 로그인을 해주세요");
+        location.href = "/";
+    }
+}))

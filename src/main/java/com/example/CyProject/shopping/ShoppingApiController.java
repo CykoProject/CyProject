@@ -57,9 +57,6 @@ public class ShoppingApiController {
 
     @PostMapping("/searchOrderByRdtDesc")
     public List<ItemEntity> searchOrderByRdtDesc(@RequestBody ItemDto dto) {
-        System.out.println(dto.getSearch());
-        System.out.println(dto.getCategory());
-
         System.out.println(itemRepository.searchByCategoryAndTxtByOrderByRdtDesc(dto.getCategory(), dto.getSearch()));
         return itemRepository.searchByCategoryAndTxtByOrderByRdtDesc(dto.getCategory(), dto.getSearch());
     }
