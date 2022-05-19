@@ -18,34 +18,46 @@
             <input type="checkbox" checked="checked">
         </div>
         <div class="cart-items">
-            <th:block th:each="item : ${items}">
-                <div class="cart-item">
-                    <div class="cart-item-select">
 
-                        <input type="checkbox" class="cart-item-check">
-                    <img class="cart-item-img" th:src="${item.itemid.file}">
-                    </div>
-                    <div class="item_id" style="display: none" th:text="${item.itemid.item_id}"></div>
-                    <div class="cart-item-info">
-                    <span class="cart-item-nm" th:text="${item.itemid.nm}"></span>
-                        <div class="cart-item-total">
-                    <span><span class="cart-item-price" th:text="${#numbers.formatInteger(item.itemid.price, 3, 'COMMA')}"></span>원</span>
-                            <i class="fa-solid fa-minus cart-item-minus"></i>
-                    <span class="cart-item-cnt" th:text="${item.cnt}"></span>
-                            <span>개</span>
-                            <i class="fa-solid fa-plus cart-item-plus"></i>
+            <th:block th:each="item : ${items}">
+                    <div class="cart-item">
+                        <div class="cart-item-select">
+
+                            <input type="checkbox" class="cart-item-check">
+                            <img class="cart-item-img" th:src="${item.itemid.file}" alt="">
                         </div>
-                    </div>
-                    <div class="cart-item-result">
+                        <div class="item_id" style="display: none" th:text="${item.itemid.item_id}"></div>
+                        <div class="cart-item-info">
+                            <span class="cart-item-nm" th:text="${item.itemid.nm}"></span>
+                            <div class="cart-item-total">
+                            <span>
+                                <span class="cart-item-price"
+                                      th:text="${#numbers.formatInteger(item.itemid.price, 3, 'COMMA')}"></span>
+                                원</span>
+                                <div class="cart-item-cnt-set">
+                            <span class="cart-item-minus">
+                            <i class="fa-solid fa-minus"></i>
+                            </span>
+                                    <span class="cart-item-cnt" th:text="${item.cnt}"></span>
+                                    <span>개</span>
+                                    <span class="cart-item-plus">
+                            <i class="fa-solid fa-plus"></i>
+                            </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cart-item-result">
                         <span>
-                            <span class="cart-item-total-price" th:text="${#numbers.formatInteger(item.itemid.price * item.cnt, 3, 'COMMA')}"></span>
+                            <span class="cart-item-total-price"
+                                  th:text="${#numbers.formatInteger(item.itemid.price * item.cnt, 3, 'COMMA')}"></span>
                             <span>원</span>
                         </span>
-                        <button class="cart-item-delete">상품 취소</button>
+                            <button class="cart-item-delete">상품 취소</button>
+                        </div>
                     </div>
-                </div>
-            </th:block>
+                </th:block>
             <div class="cart-item-all-price">
+                <p>총합 : </p><span class="total-price" th:text="${totalPrice}"></span><p>원</p>
             </div>
         </div>
     </div>

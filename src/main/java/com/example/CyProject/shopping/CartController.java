@@ -25,7 +25,14 @@ public class CartController {
         entity.setIuser(authenticationFacade.getLoginUserPk());
 
         model.addAttribute("items", cartRepository.findAllByIuser(entity));
+        if (cartRepository.totalPrice(entity) == null) {
+            model.addAttribute("totalPrice", 0);
+            System.out.println(cartRepository.findAllByIuser(entity));
+        } else {
+            model.addAttribute("totalPrice", cartRepository.totalPrice(entity));
+        }
         System.out.println(cartRepository.totalPrice(entity));
+
         return "shopping/shoppingCart";
     }
 }

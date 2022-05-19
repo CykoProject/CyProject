@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -27,9 +28,9 @@ public class CartApiController {
         ItemEntity i = new ItemEntity();
         i.setItem_id(dto.getItem_id());
 
-        boolean dd = cartRepository.findByIuserAndItemid(u, i) == null ? true : false;
+        boolean isItem = cartRepository.findByIuserAndItemid(u, i) == null ? true : false;
 
-        if(dd) {
+        if(isItem) {
             cartRepository.save(dto.toEntity());
         } else {
             cartRepository.updCartCnt(u, i);
@@ -38,8 +39,36 @@ public class CartApiController {
         return 0;
     }
 
-    @PostMapping("/delete")
-    public void deleteItem(@RequestBody CartDto dto) {
-        cartRepository.deleteByIuserAndItemid(dto.getIuser() ,dto.getItem_id());
+    @Transactional
+    @PostMapping("/subtract")
+    public int subtractItem(@RequestBody CartDto dto) {
+        UserEntity u = new UserEntity();
+        u.setIuser(dto.getIuser());
+        ItemEntity i = new ItemEntity();
+        i.setItem_id(dto.getItem_id());
+
+        boolean isItem = cartRepository.findByIuserAndItemid(u, i).getCnt() > 1 ? true : false;
+
+        if(isItem) {
+            cartRepository.subtractCartCnt(u, i);
+        }
+        return 0;
     }
+
+    @Transactional
+    @PostMapping("/delete")
+    public int deleteItem(@RequestBody CartDto dto) {
+        UserEntity u = new UserEntity();
+        u.setIuser(dto.getIuser());
+        ItemEntity i = new ItemEntity();
+        i.setItem_id(dto.getItem_id());
+
+        System.out.println(u);
+        System.out.println(i);
+
+        cartRepository.deleteByIuserAndItemid(u, i);
+        return 0;
+    }
+
+
 }
