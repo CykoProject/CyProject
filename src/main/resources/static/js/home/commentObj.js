@@ -110,29 +110,18 @@ const commentObj = {
         const srcVal = item.writer.img;
         const src = srcVal === null ? '/img/defaultProfileImg.jpeg' : `/pic/profile/${srcVal}`;
         p.innerHTML = `
-            <div class="frow comment-wrap">
-                <div class="user-img">
-                    <div>
-                        <img src="${src}">
-                    </div>
+            <div class="cmt-word-break">
+                <div class="cmt-first-child">
+                    <a href="/home?iuser=${item.writer.iuser}"><span class="comment-writer-nm">${item.writer.nm} </span></a>
                 </div>
-                <div class="comment-sec">
-                    <p class="comment-rdt">${date.toLocaleDateString()}</p>
-                    <p>${item.writer.nm}(${item.writer.email})</p>
-                    <p>${item.ctnt}</p>
-                    <p class="go-home" data-iuser="${item.writer.iuser}">미니홈피가기</p>
+                <div>
+                    <span>${item.ctnt}</span>
                 </div>
             </div>
         `;
 
         div.appendChild(p);
         elem.appendChild(div);
-
-        const goHome = p.querySelector('.go-home');
-        goHome.addEventListener('click', () => {
-            const iuser = goHome.dataset.iuser;
-            location.href = '/home?iuser=' + iuser;
-        });
     },
     writeCmt : {
         url : '/ajax/home/',

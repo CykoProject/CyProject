@@ -64,12 +64,12 @@
                     <div class="comment-container">
                         <div>
                             <div class="input-cmt" sec:authorize="isAuthenticated()">
-                                <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
+                                <textarea name="ctnt" placeholder="댓글쓰기" class="ctnt"></textarea>
 
                                 <button class="ctnt-btn">댓글쓰기</button>
                             </div>
 
-                            <div>
+                            <div class="comment-cnt-wrap">
                                 <span class="comment-cnt"></span>
                             </div>
                             <div class="hidden-ctnt">
