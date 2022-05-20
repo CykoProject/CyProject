@@ -27,10 +27,9 @@ public class KakaoPayController {
     }
 
     @PostMapping("/kakaoPay")
-    public String kakaoPay(@RequestBody KakaoPayDto dto) {
+    public String kakaoPay() {
         log.info("kakaoPay post............................................");
-        System.out.println(dto);
-        return "redirect:" + kakaopay.kakaoPayReady(dto);
+        return "redirect:" + kakaopay.kakaoPayReady();
 
     }
 
@@ -38,6 +37,7 @@ public class KakaoPayController {
     public void kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
         log.info("kakaoPaySuccess get............................................");
         log.info("kakaoPaySuccess pg_token : " + pg_token);
-//        model.addAttribute("data", cartRepository.findAllByIuser())
+        model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
     }
+
 }

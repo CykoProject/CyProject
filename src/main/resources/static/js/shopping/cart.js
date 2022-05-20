@@ -258,24 +258,34 @@ cartItemMinusElem.forEach((item)=> {
 
 let buyBtn = document.querySelector(".buy-btn");
 
-buyBtn.addEventListener("click", ()=> {
+buyBtn.addEventListener("click", (e)=> {
 console.log(selectedItemCntArr[0].closest(".cart-item").querySelector(".cart-item-nm").textContent)
+
+    let orderItemsId = []; //구매 기록 db 입력
+    let orderItemsCnt = [];
+
     let totalCnt = 0;
+
     selectedItemCntArr.forEach((item)=> {
+        orderItemsCnt.push(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
+        orderItemsId.push(item.closest(".cart-item").querySelector(".item_id").textContent);
         totalCnt += parseInt(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
     })
+    let orderItemsNm = selectedItemCntArr[0].closest(".cart-item").querySelector(".cart-item-nm").textContent + " 외 " + (totalCnt-1) + "개 상품"; //카카오페이 결제 사용
 
     let data = {
-        "item_id" : selectedItemCntArr[0].closest(".cart-item").querySelector(".cart-item-nm").textContent + " 외 "+ (totalCnt-1)+"개 상품",
+        "item_cnt" : orderItemsCnt,
+        "item_id" : orderItemsId,
+        "item_nm" : orderItemsNm,
         "quantity" : totalCnt,
         "total_amount" : document.querySelector(".total-price").textContent.split(",").join("")
     }
     console.log(data);
-    fetch("/shopping/kakaoPay", {
+    fetch("/cart/orderInfo", {
             method : 'POST',
             headers : {'Content-Type' : 'application/json'},
             body: JSON.stringify(data)
         }).then(res=>res.json())
-        .then()
+        .then(data => console.log(data))
         .catch((e)=> console.error(e))
 })

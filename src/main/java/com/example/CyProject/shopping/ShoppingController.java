@@ -41,4 +41,15 @@ public class ShoppingController {
         return "shopping/shoppingMain";
     }
 
+    @GetMapping("/kakaoPayCancel")
+    public String kakaoPayCancel() {
+
+        return"/shopping/kakaoPayCancel";
+    }
+
+    @GetMapping("/kakaoPaySuccessFail")
+    public String kakaoPaySuccessFail() {
+
+        return "/shopping/kakaoPaySuccessFail";
+    }
 }

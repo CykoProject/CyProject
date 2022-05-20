@@ -256,3 +256,12 @@ CREATE OR REPLACE table cart (
     cnt int unsigned default 1,
     rdt datetime default current_timestamp()
 );
+
+CREATE OR REPLACE table order_info(
+                                      order_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                                      iuser INT UNSIGNED NOT NULL,
+                                      item_nm VARCHAR(50) NOT null,
+                                      quantity INT UNSIGNED,
+                                      rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
+                                      FOREIGN KEY (iuser) REFERENCES user(iuser)
+)
