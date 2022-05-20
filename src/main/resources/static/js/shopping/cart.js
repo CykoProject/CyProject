@@ -2,57 +2,85 @@ let allSelectElem = document.querySelector(".cart-items-select > input");
 
 let cartItemSelectElems = document.querySelectorAll(".cart-item-select > input");
 
-const saveTotalprice = parseInt(document.querySelector('.total-price').innerText);
+let cartItemAllPrice = document.querySelector(".cart-item-all-price > span");
+
+const initAllPrice = () => {
+    let price = 0;
+    const checkArr = document.querySelectorAll(".cart-item-select > input");
+    checkArr.forEach(item => {
+        const isChecked = item.checked;
+        if(isChecked === true) {
+            price += parseInt(item.closest(".cart-item").querySelector(".cart-item-total-price").innerText.split(',').join(''));
+        }
+    });
+
+    cartItemAllPrice.innerText = numberWithCommas(checkArr.length === 0 ? 0 : price);
+}
 
 let selectedItemCntArr = []; // 9
+// cartItemSelectElems.forEach((item)=> {
+// selectedItemCntArr.push(item)
+// })
+console.log("초기 배열" + selectedItemCntArr)
 function cartItemsCheck() {
+
     if (allSelectElem.checked === false) {
         cartItemSelectElems.forEach((item)=> {
             item.checked = false;
+            initAllPrice();
             selectedItemCntArr = [];
             document.querySelector('.total-price').innerText = 0;
         })
+        console.log("함수 실행 될 때 배열"+selectedItemCntArr)
     } else {
+        selectedItemCntArr = [];
         cartItemSelectElems.forEach((item) => {
             item.checked = true;
-            if(selectedItemCntArr.length !== cartItemSelectElems.length) {
-                selectedItemCntArr.push(item);
-            }
+            // if(selectedItemCntArr.length !== cartItemSelectElems.length) {
+            //     selectedItemCntArr.push(item);
+            // }
+            selectedItemCntArr.push(item);
 
+            initAllPrice();
         });
-
-        document.querySelector('.total-price').innerText = numberWithCommas(saveTotalprice);
-
+        console.log("함수 실행 될 때 배열"+selectedItemCntArr)
+        // document.querySelector('.total-price').innerText = numberWithCommas(saveTotalprice);
         cartItemSelectElems.forEach((item) => {
-            item.addEventListener("click", (e) => {
-                if(e.target.checked === true) {
-                    selectedItemCntArr.push(item);
+            item.addEventListener("click", () => {
+                if (!selectedItemCntArr.includes(item)) {
+                    if(item.checked === true) {
+                        selectedItemCntArr.push(item);
+                    }
+                    // else {
+                    //     selectedItemCntArr = selectedItemCntArr.filter((item) => item.checked === true);
+                    // }
                 } else {
-                    selectedItemCntArr = selectedItemCntArr.filter((item) => item.checked !== false);
+                    selectedItemCntArr = selectedItemCntArr.filter((item) => item.checked === true);
                 }
+                console.log("개별 체크 눌렀을 때 배열 " + selectedItemCntArr)
 
-                let selectedItemCnt = selectedItemCntArr.filter((item) => item.checked !== false);
+                // let selectedItemCnt = selectedItemCntArr.filter((item) => item.checked !== false);
                 let selectedItemPriceSum = 0;
 
-                if (selectedItemCnt == null) {
+                if (selectedItemCntArr == null) {
                     selectedItemPriceSum = 0;
                 } else {
-                    if (selectedItemCnt.length === cartItemSelectElems.length) {
+                    if (selectedItemCntArr.length === cartItemSelectElems.length) {
                         allSelectElem.checked = true;
 
                     } else {
                         allSelectElem.checked = false;
                     }
                     console.log(selectedItemCntArr);
-                    selectedItemCnt.forEach((item) => {
+                    selectedItemCntArr.forEach((item) => {
                         let selectedItemPrice = item.closest(".cart-item").querySelector(".cart-item-total-price").textContent.split(",").join("");
                         selectedItemPriceSum += parseInt(selectedItemPrice);
                     });
+                    console.log(selectedItemPriceSum)
                 }
                 document.querySelector('.total-price').innerText = numberWithCommas(selectedItemPriceSum);
             })
         })
-
     }
 }
 cartItemsCheck();
@@ -64,7 +92,7 @@ allSelectElem.addEventListener("click", ()=> {
 //장바구니 총 합
 
 
-let cartItemAllPrice = document.querySelector(".cart-item-all-price > span");
+
 let cartItemAllPriceValue = cartItemAllPrice.textContent.split(",").join("");
 
 cartItemAllPrice.innerText = numberWithCommas(cartItemAllPriceValue);
@@ -73,6 +101,8 @@ cartItemAllPrice.innerText = numberWithCommas(cartItemAllPriceValue);
 
 let cartItemDeleteElem = document.querySelectorAll(".cart-item-delete");
 let iuser = document.querySelector("#loginUserPk").dataset.iuser;
+
+initAllPrice();
 
 cartItemDeleteElem.forEach((item)=> {
     item.addEventListener("click", ()=> {
@@ -94,6 +124,7 @@ cartItemDeleteElem.forEach((item)=> {
         }).then(res => res.json())
             .then(data => {
                 console.log(data);
+                item.closest('.cart-item').querySelector('.cart-item-check').checked = false;
                 item.closest(".cart-item").remove();
                 alert("상품을 장바구니에서 삭제하였습니다.");
 
@@ -107,9 +138,12 @@ cartItemDeleteElem.forEach((item)=> {
                 });
                 cartItemAllPrice.innerText = numberWithCommas(checkArr.length === 0 ? 0 : price);
 
-                item.closest('.cart-item').querySelector('.cart-item-check').checked = false;
                 // cartItemAllPriceValue = parseInt(cartItemAllPriceValue) - parseInt(cartItemTotalPrice);
                 selectedItemCntArr = selectedItemCntArr.filter((item) => item.checked !== false);
+                if (selectedItemCntArr.length === checkArr.length) {
+                    allSelectElem.checked = true;
+                }
+                console.log("삭제 했을 때 배열 "+ selectedItemCntArr)
             })
             .catch(e=> {
                 console.error(e)
@@ -220,3 +254,28 @@ cartItemMinusElem.forEach((item)=> {
     })
 })
 
+//카카오페이로 선택 된 아이템 정보 보내기
+
+let buyBtn = document.querySelector(".buy-btn");
+
+buyBtn.addEventListener("click", ()=> {
+console.log(selectedItemCntArr[0].closest(".cart-item").querySelector(".cart-item-nm").textContent)
+    let totalCnt = 0;
+    selectedItemCntArr.forEach((item)=> {
+        totalCnt += parseInt(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
+    })
+
+    let data = {
+        "item_id" : selectedItemCntArr[0].closest(".cart-item").querySelector(".cart-item-nm").textContent + " 외 "+ (totalCnt-1)+"개 상품",
+        "quantity" : totalCnt,
+        "total_amount" : document.querySelector(".total-price").textContent.split(",").join("")
+    }
+    console.log(data);
+    fetch("/shopping/kakaoPay", {
+            method : 'POST',
+            headers : {'Content-Type' : 'application/json'},
+            body: JSON.stringify(data)
+        }).then(res=>res.json())
+        .then()
+        .catch((e)=> console.error(e))
+})

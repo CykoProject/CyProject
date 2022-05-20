@@ -100,8 +100,25 @@
     font-size: large;
     justify-content: end;
     margin-top: 20px;
+    align-items: center;
 }
 
 .cart-item-all-price > span {
     font-weight: bold;
+}
+
+.buy-btn {
+    margin-left: 10px;
+    border: solid 1px lightskyblue;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    font-size: large;
+}
+
+.buy-btn:hover {
+    background-color: lightskyblue;
+    color: white;
 }
