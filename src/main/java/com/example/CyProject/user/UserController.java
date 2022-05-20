@@ -112,10 +112,33 @@ public class UserController {
 
     @GetMapping("/mypage")
     public String mypage(Model model) {
+        if(auth.getLoginUserPk() == 0 || auth.getLoginUser() ==  null) {
+            return "redirect:/";
+        }
         model.addAttribute("loginUser", auth.getLoginUser());
         return "user/mypage";
     }
 
+    @GetMapping("/charge")
+    public String charge(Model model) {
+        if(auth.getLoginUserPk() != 0) {
+            int result = userRepository.findByIuser(auth.getLoginUserPk()).getPoint();
+            model.addAttribute("count", result);
+            return "/user/charge";
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/charge")
+    public void charge(@RequestParam int money) {
+        int hasPoint = userRepository.findByIuser(auth.getLoginUserPk()).getPoint();
+        int dotori = (hasPoint + money) / 100;
+        Optional<UserEntity> user = userRepository.findById(auth.getLoginUserPk());
+        user.ifPresent(selectUser -> {
+            selectUser.setPoint(dotori);
+            userRepository.save(selectUser);
+        });
+    }
 
     @GetMapping("/change_upw")
     public String change_upw(Model model) {
