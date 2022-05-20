@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/index">
+<head>
+    <link rel="stylesheet" th:href="@{/css/user/charge.css}">
+    <script defer th:src="@{/js/user/charge.js}"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+</head>
+<title>내 정보 수정</title>
+<body>
+<th:block layout:fragment="container">
+    <div id="point-contain">
+        <div id="points">
+            현재 보유 도토리 : <label th:text="${#numbers.formatInteger(count, 0, 'COMMA') + '개'}"></label>
+        </div>
+        <div class="form-check">
+            <label><input id="direct" type="number"></label>
+            <button type="button" class="btn" id="charge_kakao">충전하기</button>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>
