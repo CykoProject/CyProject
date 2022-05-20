@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
@@ -126,18 +127,43 @@
                             </th:block>
                         </div>
 
-                        <div class="visit-comment-container">
+                        <div class="comment-container" th:if="${item.secret == true && (#strings.equals(param.iuser, loginUserPk) || #strings.equals(item.iuser.iuser, loginUserPk))}">
                             <div>
-                                <div class="input-cmt">
+                                <div class="input-cmt" sec:authorize="isAuthenticated()">
                                     <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
 
                                     <button class="ctnt-btn">댓글쓰기</button>
                                 </div>
+
                                 <div>
                                     <span class="comment-cnt"></span>
                                 </div>
                                 <div class="hidden-ctnt">
-                                    <div class="comment-ctnt"></div>
+                                    <div>
+                                        <span class="comment-ctnt"></span>
+                                    </div>
+                                    <div class="pagination">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="comment-container" th:if="${item.secret == false}">
+                            <div>
+                                <div class="input-cmt" sec:authorize="isAuthenticated()">
+                                    <textarea name="ctnt" placeholder="댓글쓰기" class="ctnt"></textarea>
+
+                                    <button class="ctnt-btn">댓글쓰기</button>
+                                </div>
+
+                                <div class="comment-cnt-wrap">
+                                    <span class="comment-cnt"></span>
+                                </div>
+                                <div class="hidden-ctnt">
+                                    <div>
+                                        <span class="comment-ctnt"></span>
+                                    </div>
                                     <div class="pagination">
 
                                     </div>

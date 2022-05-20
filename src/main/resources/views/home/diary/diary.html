@@ -31,7 +31,7 @@
             <span class="empty-data" th:if="${data.size() == 0}" th:text="'다이어리 글이 없습니다'"></span>
             <th:block th:each="item : ${data}">
                 <div class="diary-data">
-                    <div id="data-idiary" th:data-iboard="${item.idiary}"></div>
+                    <div id="data-iboard" th:data-iboard="${item.idiary}"></div>
                     <div id="data-ihost" th:data-ihost="${item.ihost}"></div>
                     <div>
                         <div class="date-bar">
@@ -61,17 +61,20 @@
                     </div>
 
                     <!--        TODO 로그인 한 회원만 작성할 수 있게       -->
-                    <div class="diary-comment-container">
+                    <div class="comment-container">
                         <div>
-                            <div class="input-cmt">
-                                <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
+                            <div class="input-cmt" sec:authorize="isAuthenticated()">
+                                <textarea name="ctnt" placeholder="댓글쓰기" class="ctnt"></textarea>
 
                                 <button class="ctnt-btn">댓글쓰기</button>
                             </div>
-                            <div class="comment-cnt"></div>
+
+                            <div class="comment-cnt-wrap">
+                                <span class="comment-cnt"></span>
+                            </div>
                             <div class="hidden-ctnt">
                                 <div>
-                                    <span class="comment-cnt"></span>
+                                    <span class="comment-ctnt"></span>
                                 </div>
                                 <div class="pagination">
 
