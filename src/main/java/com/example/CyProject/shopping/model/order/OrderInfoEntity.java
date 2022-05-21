@@ -30,4 +30,8 @@ public class OrderInfoEntity {
     @Column(insertable = false)
     @ColumnDefault("CURRENT_TIMESTAMP()")
     private Date rdt;
+
+    @Column(insertable = false)
+    @ColumnDefault(value = "0")
+    private int complete;
 }

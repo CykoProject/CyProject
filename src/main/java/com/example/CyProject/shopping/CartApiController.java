@@ -88,8 +88,15 @@ public class CartApiController {
         UserEntity userEntity = new UserEntity();
         userEntity.setIuser(authenticationFacade.getLoginUserPk());
 
+        System.out.println("구매기록 0 : " + purchaseHistoryRepository.isIncompletePurchase(userEntity));
 
+        if (purchaseHistoryRepository.isIncompletePurchase(userEntity) > 0) {
+            purchaseHistoryRepository.deletePurchaseFailData(userEntity);
+        }
 
+        if (orderInfoRepository.isIncompleteOrder(userEntity) > 0) {
+            orderInfoRepository.deleteOrderIncomplete(userEntity);
+        }
 
         OrderInfoEntity orderInfoEntity = new OrderInfoEntity();
         orderInfoEntity.setItem_nm(dto.getItem_nm());
@@ -99,6 +106,7 @@ public class CartApiController {
 
         System.out.println(orderInfoRepository.save(orderInfoEntity));
         orderInfoRepository.save(orderInfoEntity);
+
 
         for (int i=0; i < dto.getItem_id().size(); i++) {
             PurchaseHistoryEntity entity = new PurchaseHistoryEntity();

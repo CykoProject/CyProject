@@ -3,6 +3,7 @@ package com.example.CyProject.shopping.model.history;
 import com.example.CyProject.shopping.model.item.ItemEntity;
 import com.example.CyProject.user.model.UserEntity;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,7 +26,12 @@ public class PurchaseHistoryEntity {
     private ItemEntity item_id;
 
     @Column(insertable = false)
+    @ColumnDefault("CURRENT_TIMESTAMP()")
     private Date rdt;
 
     private int cnt;
+
+    @Column(insertable = false)
+    @ColumnDefault(value = "0")
+    private int complete;
 }

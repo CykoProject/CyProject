@@ -30,27 +30,26 @@ public class KakaoPayService {
     AuthenticationFacade authenticationFacade;
     @Autowired
     OrderInfoRepository orderInfoRepository;
+    @Autowired
+    CartApiController cartApiController;
 
 
     private static final String HOST = "https://kapi.kakao.com";
 
     private KakaoPayReadyVO kakaoPayReadyVO;
     private KakaoPayApprovalVO kakaoPayApprovalVO;
-    private String randomOrderNumber = String.valueOf(Math.random()*100000000+1);
     private String totalAmount = null;
-
-
 
     public String kakaoPayReady() {
 
         UserEntity entity = new UserEntity();
         entity.setIuser(authenticationFacade.getLoginUserPk());
 
-        OrderInfoEntity orderInfoEntity = new OrderInfoEntity();
-        orderInfoEntity = orderInfoRepository.findTopByIuserOrderByRdtDesc(entity);
-        System.out.println(orderInfoEntity);
+        System.out.println("orderinforepositoryfindby.. : " + orderInfoRepository.findTopByIuserOrderByRdtDesc(entity));
 
-        totalAmount = String.valueOf(orderInfoEntity.getTotal_amount());
+        OrderInfoEntity orderInfoEntity;
+        orderInfoEntity = orderInfoRepository.findTopByIuserOrderByRdtDesc(entity);
+
 
         //상품 총 액(장바구니 아이템 총액)
 //        int totalAmount = 0;
@@ -73,11 +72,11 @@ public class KakaoPayService {
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("cid", "TC0ONETIME");
-        params.add("partner_order_id", randomOrderNumber);
+        params.add("partner_order_id", String.valueOf(orderInfoEntity.getOrder_id()));
         params.add("partner_user_id", authenticationFacade.getLoginUser().getEmail());
         params.add("item_name", orderInfoEntity.getItem_nm());
         params.add("quantity", String.valueOf(orderInfoEntity.getQuantity()));
-        params.add("total_amount", totalAmount);
+        params.add("total_amount", String.valueOf(orderInfoEntity.getTotal_amount()));
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://localhost:8090/shopping/kakaoPaySuccess");
         params.add("cancel_url", "http://localhost:8090/shopping/kakaoPayCancel");
@@ -109,6 +108,12 @@ public class KakaoPayService {
         log.info("KakaoPayInfoVO............................................");
         log.info("-----------------------------");
 
+        UserEntity entity = new UserEntity();
+        entity.setIuser(authenticationFacade.getLoginUserPk());
+
+        OrderInfoEntity orderInfoEntity;
+        orderInfoEntity = orderInfoRepository.findTopByIuserOrderByRdtDesc(entity);
+
         RestTemplate restTemplate = new RestTemplate();
 
         // 서버로 요청할 Header
@@ -121,10 +126,10 @@ public class KakaoPayService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("cid", "TC0ONETIME");
         params.add("tid", kakaoPayReadyVO.getTid());
-        params.add("partner_order_id", randomOrderNumber);
+        params.add("partner_order_id", String.valueOf(orderInfoEntity.getOrder_id()));
         params.add("partner_user_id", authenticationFacade.getLoginUser().getEmail());
         params.add("pg_token", pg_token);
-        params.add("total_amount", totalAmount);
+        params.add("total_amount", String.valueOf(orderInfoEntity.getTotal_amount()));
 
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<>(params, headers);
 

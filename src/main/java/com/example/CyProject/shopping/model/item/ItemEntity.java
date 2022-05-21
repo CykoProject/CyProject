@@ -1,6 +1,7 @@
 package com.example.CyProject.shopping.model.item;
 
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -20,5 +21,8 @@ public class ItemEntity {
     private int price;
     private int icategory;
     private String file;
+
+    @Column(insertable = false)
+    @ColumnDefault("CURRENT_TIMESTAMP()")
     private Date rdt;
 }

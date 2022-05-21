@@ -9,7 +9,7 @@ const initAllPrice = () => {
     const checkArr = document.querySelectorAll(".cart-item-select > input");
     checkArr.forEach(item => {
         const isChecked = item.checked;
-        if(isChecked === true) {
+        if (isChecked === true) {
             price += parseInt(item.closest(".cart-item").querySelector(".cart-item-total-price").innerText.split(',').join(''));
         }
     });
@@ -22,16 +22,17 @@ let selectedItemCntArr = []; // 9
 // selectedItemCntArr.push(item)
 // })
 console.log("초기 배열" + selectedItemCntArr)
+
 function cartItemsCheck() {
 
     if (allSelectElem.checked === false) {
-        cartItemSelectElems.forEach((item)=> {
+        cartItemSelectElems.forEach((item) => {
             item.checked = false;
             initAllPrice();
             selectedItemCntArr = [];
             document.querySelector('.total-price').innerText = 0;
         })
-        console.log("함수 실행 될 때 배열"+selectedItemCntArr)
+        console.log("함수 실행 될 때 배열" + selectedItemCntArr)
     } else {
         selectedItemCntArr = [];
         cartItemSelectElems.forEach((item) => {
@@ -43,12 +44,12 @@ function cartItemsCheck() {
 
             initAllPrice();
         });
-        console.log("함수 실행 될 때 배열"+selectedItemCntArr)
+        console.log("함수 실행 될 때 배열" + selectedItemCntArr)
         // document.querySelector('.total-price').innerText = numberWithCommas(saveTotalprice);
         cartItemSelectElems.forEach((item) => {
             item.addEventListener("click", () => {
                 if (!selectedItemCntArr.includes(item)) {
-                    if(item.checked === true) {
+                    if (item.checked === true) {
                         selectedItemCntArr.push(item);
                     }
                     // else {
@@ -83,14 +84,14 @@ function cartItemsCheck() {
         })
     }
 }
+
 cartItemsCheck();
 
-allSelectElem.addEventListener("click", ()=> {
+allSelectElem.addEventListener("click", () => {
     cartItemsCheck();
 })
 
 //장바구니 총 합
-
 
 
 let cartItemAllPriceValue = cartItemAllPrice.textContent.split(",").join("");
@@ -104,8 +105,8 @@ let iuser = document.querySelector("#loginUserPk").dataset.iuser;
 
 initAllPrice();
 
-cartItemDeleteElem.forEach((item)=> {
-    item.addEventListener("click", ()=> {
+cartItemDeleteElem.forEach((item) => {
+    item.addEventListener("click", () => {
         const cartItemId = item.closest(".cart-item").querySelector(".item_id").textContent;
         let cartItemTotalPrice = item.closest(".cart-item").querySelector(".cart-item-total-price").textContent.split(",").join("");
         const cartItemAllPrice = document.querySelector(".cart-item-all-price > span");
@@ -113,14 +114,14 @@ cartItemDeleteElem.forEach((item)=> {
         const cartItemAllPriceValue = cartItemAllPrice.textContent.split(",").join("");
 
         const data = {
-            "iuser" : iuser,
-            "item_id" : cartItemId
+            "iuser": iuser,
+            "item_id": cartItemId
         }
 
         fetch("/cart/delete", {
-            method : 'POST',
-            headers : {'Content-Type' : 'application/json'},
-            body : JSON.stringify(data)
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
         }).then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -132,7 +133,7 @@ cartItemDeleteElem.forEach((item)=> {
                 const checkArr = document.querySelectorAll(".cart-item-select > input");
                 checkArr.forEach(item2 => {
                     const isChecked = item2.checked;
-                    if(isChecked === true) {
+                    if (isChecked === true) {
                         price += parseInt(item2.closest(".cart-item").querySelector(".cart-item-total-price").innerText.split(',').join(''));
                     }
                 });
@@ -143,23 +144,25 @@ cartItemDeleteElem.forEach((item)=> {
                 if (selectedItemCntArr.length === checkArr.length) {
                     allSelectElem.checked = true;
                 }
-                console.log("삭제 했을 때 배열 "+ selectedItemCntArr)
+                console.log("삭제 했을 때 배열 " + selectedItemCntArr)
             })
-            .catch(e=> {
+            .catch(e => {
                 console.error(e)
             });
     })
 })
 
 //정규식 천단위 콤마
-function numberWithCommas(x) { return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); };
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
 //장바구니 안 상품 수량 증가
 
 let cartItemPlusElem = document.querySelectorAll(".cart-item-plus");
 
-cartItemPlusElem.forEach((item)=> {
-    item.addEventListener("click", ()=> {
+cartItemPlusElem.forEach((item) => {
+    item.addEventListener("click", () => {
         const cartItemId = item.closest(".cart-item").querySelector(".item_id").textContent;
         let cartItemCnt = item.closest(".cart-item-total").querySelector(".cart-item-cnt").textContent;
         let cartItemTotalPrice = item.closest(".cart-item").querySelector(".cart-item-total-price");
@@ -167,13 +170,13 @@ cartItemPlusElem.forEach((item)=> {
         let cartItemPriceValue = item.closest(".cart-item").querySelector(".cart-item-price").textContent.split(",").join("");
 
         const data = {
-            "iuser" : iuser,
-            "item_id" : cartItemId
+            "iuser": iuser,
+            "item_id": cartItemId
         }
 
         fetch("/cart/add", {
-            method : 'POST',
-            headers : {'Content-Type' : 'application/json'},
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
         })
             .then(res => res.json())
@@ -186,7 +189,7 @@ cartItemPlusElem.forEach((item)=> {
                 const checkArr = document.querySelectorAll(".cart-item-select > input");
                 checkArr.forEach(item2 => {
                     const isChecked = item2.checked;
-                    if(isChecked === true) {
+                    if (isChecked === true) {
                         price += parseInt(item2.closest(".cart-item").querySelector(".cart-item-total-price").innerText.split(',').join(''));
                     }
                 });
@@ -202,8 +205,8 @@ cartItemPlusElem.forEach((item)=> {
 
 let cartItemMinusElem = document.querySelectorAll(".cart-item-minus");
 
-cartItemMinusElem.forEach((item)=> {
-    item.addEventListener("click", ()=> {
+cartItemMinusElem.forEach((item) => {
+    item.addEventListener("click", () => {
         const cartItemId = item.closest(".cart-item").querySelector(".item_id").textContent;
         let cartItemCnt = item.closest(".cart-item-total").querySelector(".cart-item-cnt").textContent;
         let cartItemTotalPrice = item.closest(".cart-item").querySelector(".cart-item-total-price");
@@ -213,13 +216,13 @@ cartItemMinusElem.forEach((item)=> {
         if (cartItemCnt > 1) {
 
             const data = {
-                "iuser" : iuser,
-                "item_id" : cartItemId
+                "iuser": iuser,
+                "item_id": cartItemId
             }
 
             fetch("/cart/subtract", {
-                method : 'POST',
-                headers : {'Content-Type' : 'application/json'},
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
             })
                 .then(res => res.json())
@@ -232,7 +235,7 @@ cartItemMinusElem.forEach((item)=> {
                     const checkArr = document.querySelectorAll(".cart-item-select > input");
                     checkArr.forEach(item2 => {
                         const isChecked = item2.checked;
-                        if(isChecked === true) {
+                        if (isChecked === true) {
                             price += parseInt(item2.closest(".cart-item").querySelector(".cart-item-total-price").innerText.split(',').join(''));
                         }
                     });
@@ -258,34 +261,33 @@ cartItemMinusElem.forEach((item)=> {
 
 let buyBtn = document.querySelector(".buy-btn");
 
-buyBtn.addEventListener("click", (e)=> {
-console.log(selectedItemCntArr[0].closest(".cart-item").querySelector(".cart-item-nm").textContent)
-
+buyBtn.addEventListener("click", (e) => {
     let orderItemsId = []; //구매 기록 db 입력
     let orderItemsCnt = [];
 
     let totalCnt = 0;
 
-    selectedItemCntArr.forEach((item)=> {
+    selectedItemCntArr.forEach((item) => {
         orderItemsCnt.push(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
         orderItemsId.push(item.closest(".cart-item").querySelector(".item_id").textContent);
         totalCnt += parseInt(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
     })
-    let orderItemsNm = selectedItemCntArr[0].closest(".cart-item").querySelector(".cart-item-nm").textContent + " 외 " + (totalCnt-1) + "개 상품"; //카카오페이 결제 사용
+    let orderItemsNm = selectedItemCntArr[0].closest(".cart-item").querySelector(".cart-item-nm").textContent + " 외 " + (totalCnt - 1) + "개 상품"; //카카오페이 결제 사용
 
     let data = {
-        "item_cnt" : orderItemsCnt,
-        "item_id" : orderItemsId,
-        "item_nm" : orderItemsNm,
-        "quantity" : totalCnt,
-        "total_amount" : document.querySelector(".total-price").textContent.split(",").join("")
+        "item_cnt": orderItemsCnt,
+        "item_id": orderItemsId,
+        "item_nm": orderItemsNm,
+        "quantity": totalCnt,
+        "total_amount": document.querySelector(".total-price").textContent.split(",").join("")
     }
     console.log(data);
     fetch("/cart/orderInfo", {
-            method : 'POST',
-            headers : {'Content-Type' : 'application/json'},
-            body: JSON.stringify(data)
-        }).then(res=>res.json())
-        .then(data => console.log(data))
-        .catch((e)=> console.error(e))
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    }).then(res => res.json())
+        .then(data => {
+            console.log(data)
+        }).catch((e) => console.error(e))
 })
