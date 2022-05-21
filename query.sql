@@ -185,10 +185,7 @@ CREATE OR REPLACE TABLE item_category(
 
 #CREATE OR REPLACE TABLE shop(
 #   item_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-#   icategory INT UNSIGNED NOT NULL,
-#	nm TEXT NOT NULL,
-#	img TEXT NOT NULL,
-#	price INT UNSIGNED NOT NULL
+#   icategory INT UNSIGNED NOT NULL
 #);
 
 CREATE OR REPLACE TABLE purchase_history(
@@ -225,29 +222,46 @@ CREATE OR REPLACE TABLE home_message( # 일촌평
 
 # -2022-05-13-
 CREATE OR REPLACE TABLE item (
-    item_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    nm VARCHAR(50) NOT NULL,
-    artist VARCHAR(50), # null 가능
-    price INT UNSIGNED NOT NULL,
-    icategory INT UNSIGNED,
-    `file` VARCHAR(200),
-    rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
-    CHECK(icategory <= 4)
+                                 item_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                                 nm VARCHAR(50) NOT NULL,
+                                 artist VARCHAR(50), # null 가능
+                                 price INT UNSIGNED NOT NULL,
+                                 icategory INT UNSIGNED,
+                                 `file` VARCHAR(200),
+                                 rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
+                                 CHECK(icategory <= 4)
 );
 
 CREATE OR REPLACE TABLE item_like (
-    ilike INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    iuser INT UNSIGNED NOT null,
-    item_id INT UNSIGNED NOT null,
-    FOREIGN KEY (iuser) REFERENCES user(iuser),
-    FOREIGN KEY (item_id) REFERENCES item(item_id)
+                                      ilike INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                                      iuser INT UNSIGNED NOT null,
+                                      item_id INT UNSIGNED NOT null,
+                                      FOREIGN KEY (iuser) REFERENCES user(iuser),
+                                      FOREIGN KEY (item_id) REFERENCES item(item_id)
 );
 
-CREATE OR REPLACE TABLE purchase_history (
-    ihistory INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    iuser INT UNSIGNED NOT null,
-    item_id INT UNSIGNED NOT null,
-    rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
-    FOREIGN KEY (iuser) REFERENCES user(iuser),
-    FOREIGN KEY (item_id) REFERENCES item(item_id)
+CREATE OR REPLACE TABLE sell_history (
+                                         ihistory INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                                         iuser INT UNSIGNED NOT null,
+                                         item_id INT UNSIGNED NOT null,
+                                         rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
+                                         FOREIGN KEY (iuser) REFERENCES user(iuser),
+                                         FOREIGN KEY (item_id) REFERENCES item(item_id)
 );
+
+CREATE OR REPLACE table cart (
+    icart int unsigned primary key auto_increment,
+    iuser int unsigned not null,
+    item_id int unsigned not null,
+    cnt int unsigned default 1,
+    rdt datetime default current_timestamp()
+);
+
+CREATE OR REPLACE table order_info(
+                                      order_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                                      iuser INT UNSIGNED NOT NULL,
+                                      item_nm VARCHAR(50) NOT null,
+                                      quantity INT UNSIGNED,
+                                      rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
+                                      FOREIGN KEY (iuser) REFERENCES user(iuser)
+)
