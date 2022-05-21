@@ -1,7 +1,7 @@
 $('#charge_kakao').click(function () {
     var IMP = window.IMP;
     IMP.init('imp34994645');
-    var money = $('#direct').val();
+    var money = $('input[name=money]:checked').val();
     console.log(money);
     if(money > 1000000) {
         alert('충전 금액은 최대 1,000,000원 이하 입니다.')
