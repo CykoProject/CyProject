@@ -6,15 +6,17 @@ if(visitElem) {
     const loginUserPk = parseInt(document.querySelector('.data-pk').dataset.loginuser);
 
     //============================ 방명록 작성 start ==========================
-    const insVisitBtn = document.querySelector('.ins-visit');
-    insVisitBtn.addEventListener('click', (e) => {
-        const visitFrmElem = document.querySelector('.visitFrm');
-        const textareaCtnt = visitFrmElem.querySelector('textarea').value;
-        if(textareaCtnt.length === 0) {
-            e.preventDefault();
-            alert('1자 이상 작성해 주세요.');
-        }
-    });
+    if(loginUserPk) {
+        const insVisitBtn = document.querySelector('.ins-visit');
+        insVisitBtn.addEventListener('click', (e) => {
+            const visitFrmElem = document.querySelector('.visitFrm');
+            const textareaCtnt = visitFrmElem.querySelector('textarea').value;
+            if (textareaCtnt.length === 0) {
+                e.preventDefault();
+                alert('1자 이상 작성해 주세요.');
+            }
+        });
+    }
     //============================ 방명록 작성 finish ==========================
 
 
@@ -23,7 +25,7 @@ if(visitElem) {
         const visitSecretArr = document.querySelectorAll('.visit-secret');
         visitSecretArr.forEach(item => {
             item.addEventListener('click', (e) => {
-                const ivisit = e.target.closest('.visit-elem').dataset.ivisit;
+                const ivisit = e.target.closest('.visit-elem').dataset.iboard;
                 fetch(`/ajax/home/visit/secret?ivisit=${ivisit}`)
                     .then(res => res.json())
                     .then(data => {
@@ -58,7 +60,7 @@ if(visitElem) {
         const visitOpenArr = document.querySelectorAll('.visit-open');
         visitOpenArr.forEach(item => {
             item.addEventListener('click', (e) => {
-                const ivisit = e.target.closest('.visit-elem').dataset.ivisit;
+                const ivisit = e.target.closest('.visit-elem').dataset.iboard;
                 fetch(`/ajax/home/visit/secret?ivisit=${ivisit}`)
                     .then(res => res.json())
                     .then(data => {
@@ -98,7 +100,7 @@ if(visitElem) {
                 return;
             }
 
-            const ivisit = e.target.closest('.visit-elem').dataset.ivisit;
+            const ivisit = e.target.closest('.visit-elem').dataset.iboard;
             const iuser = e.target.dataset.iuser;
 
             fetch(`/ajax/home/visit/del?ivisit=${ivisit}&ihost=${ihost}&iuser=${iuser}`, {
@@ -141,7 +143,7 @@ if(visitElem) {
                 }
             }
             cnt = 1;
-            const ivisit = superElem.dataset.ivisit;
+            const ivisit = superElem.dataset.iboard;
             const visitCtntElem = superElem.querySelector('.visit-mod-wrap');
 
             const insertVisit = (data) => {
@@ -205,6 +207,30 @@ if(visitElem) {
         });
     });
     //============================ 수정 finish ===================================
+
+    //============================ 댓글 start ===================================
+    commentObj.parentName = '.visit-elem';
+    commentObj.menu = 'visit';
+    commentObj.size = 5;
+    commentObj.init();
+    commentObj.makeCnt();
+
+    commentObj.writeCmt.init.execute('.ctnt-btn');
+    commentObj.writeCmt.submit();
+
+    const commentCountElemArr = document.querySelectorAll('.comment-cnt');
+    commentCountElemArr.forEach(item => {
+        item.addEventListener('click', () => {
+            const parent = item.closest('.comment-container');
+            const ctntElem = parent.querySelector('.hidden-ctnt');
+            if(ctntElem.style.display === 'none' || ctntElem.style.display === '') {
+                ctntElem.style.display = 'flex';
+            } else {
+                ctntElem.style.display = 'none';
+            }
+        });
+    });
+    //============================ 댓글 finish ===================================
 }
 
 const visitWriteElem = document.querySelector('.visit-write');

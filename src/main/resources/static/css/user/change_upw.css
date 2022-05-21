@@ -1,4 +1,4 @@
-.mypage {
+.change_upw {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,7 +24,7 @@
 .hidden { visibility: hidden; }
 
 /*버튼*/
-.mypage-btn-pwCheck {
+.change_upw-btn-pwCheck {
     color: white;
     background-color: orange;
     border: solid orange;
@@ -35,7 +35,7 @@
     margin-left: 10px;
 }
 
-.mypage-btn {
+.change_upw-btn {
     color: white;
     background-color: orange;
     border: solid orange;

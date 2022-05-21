@@ -8,17 +8,22 @@ const cUrl = new URL(location.href);
 const cUrlParams = cUrl.searchParams;
 
 const commentObj = {
+    url : '',
+    cntUrl : '',
+
     page : 0,
     size : 5,
     url : '',
-    dataSetName : '',
+    dataSetName : '#data-iboard',
     menu : '',
     iboard : 0,
     parentName : '',
     parentElemArr : '',
 
-    elemName : '',
-    elemCntName : '',
+    // elemName : document.querySelector('.comment-ctnt'),
+    elemName : '.comment-ctnt',
+    // elemCntName : document.querySelector('.comment-cnt'),
+    elemCntName : '.comment-cnt',
 
     ctntElem : document.querySelector(`${this.name}`),
 
@@ -46,6 +51,9 @@ const commentObj = {
     },
     init : function () {
         this.parentElemArr = document.querySelectorAll(`${this.parentName}`);
+
+        commentObj.url = `/ajax/home/${commentObj.menu}/cmt/`;
+        commentObj.cntUrl = `/ajax/home/${commentObj.menu}/cmt/cnt/`;
         this.parentElemArr.forEach(item => {
             this.iboard = parseInt(item.querySelector(`${this.dataSetName}`).dataset.iboard);
             const elem = item.querySelector(`${this.elemName}`);
@@ -67,7 +75,7 @@ const commentObj = {
             span.innerText = i;
             paginationElem.appendChild(span);
             span.addEventListener('click', (e) => {
-                this.iboard = e.target.closest('.diary-data').querySelector('#data-idiary').dataset.iboard;
+                this.iboard = e.target.closest(`${this.parentName}`).querySelector('#data-iboard').dataset.iboard;
                 this.myFetch.get(`/ajax/home/${this.menu}/cmt/${this.iboard}`, (data) => {
                     this.parentElemArr.forEach(item => {
                         const elem = item.querySelector(`${this.elemName}`);
@@ -86,7 +94,7 @@ const commentObj = {
     makeCnt : function () {
         this.parentElemArr.forEach(item => {
             this.iboard = parseInt(item.querySelector(`${this.dataSetName}`).dataset.iboard);
-            this.myFetch.get(`${this.url}${this.iboard}`, (data) => {
+            this.myFetch.get(`${this.cntUrl}${this.iboard}`, (data) => {
                 const elem = item.querySelector(`${this.elemCntName}`);
                 elem.innerText = `댓글보기(${data.result})`;
                 this.makePage(data.result, item.querySelector('.pagination'));
@@ -97,8 +105,21 @@ const commentObj = {
         const div = document.createElement('div');
         div.classList.add('cmt');
         div.dataset.icmt = item.icmt;
-        const p = document.createElement('p');
-        p.innerText = item.ctnt;
+        const p = document.createElement('div');
+        const date = new Date(item.rdt);
+        const srcVal = item.writer.img;
+        const src = srcVal === null ? '/img/defaultProfileImg.jpeg' : `/pic/profile/${srcVal}`;
+        p.innerHTML = `
+            <div class="cmt-word-break">
+                <div class="cmt-first-child">
+                    <a href="/home?iuser=${item.writer.iuser}"><span class="comment-writer-nm">${item.writer.nm} </span></a>
+                </div>
+                <div>
+                    <span>${item.ctnt}</span>
+                </div>
+            </div>
+        `;
+
         div.appendChild(p);
         elem.appendChild(div);
     },
@@ -106,11 +127,12 @@ const commentObj = {
         url : '/ajax/home/',
         btnElemArr : '',
         btnNm : '',
+
         ihost : 0,
         loginUserPk : 0,
         iboard : 0,
         init : {
-            inputTxtNm : '',
+            inputTxtNm : '.ctnt',
             execute : function (btnNm) {
                 commentObj.writeCmt.btnElemArr = document.querySelectorAll(`${btnNm}`);
                 commentObj.writeCmt.ihost = parseInt(cUrlParams.get('iuser'));
@@ -119,6 +141,7 @@ const commentObj = {
             }
         },
         submit : function () {
+            // todo
             this.btnElemArr.forEach(item => {
                 item.addEventListener('click', (e) => {
                     const parent = e.target.closest(`${commentObj.parentName}`);
