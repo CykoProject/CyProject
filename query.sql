@@ -236,18 +236,35 @@ CREATE OR REPLACE TABLE item (
 );
 
 CREATE OR REPLACE TABLE item_like (
-    ilike INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    iuser INT UNSIGNED NOT null,
-    item_id INT UNSIGNED NOT null,
-    FOREIGN KEY (iuser) REFERENCES user(iuser),
-    FOREIGN KEY (item_id) REFERENCES item(item_id)
+                                      ilike INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                                      iuser INT UNSIGNED NOT null,
+                                      item_id INT UNSIGNED NOT null,
+                                      FOREIGN KEY (iuser) REFERENCES user(iuser),
+                                      FOREIGN KEY (item_id) REFERENCES item(item_id)
 );
 
-CREATE OR REPLACE TABLE purchase_history (
-    ihistory INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    iuser INT UNSIGNED NOT null,
-    item_id INT UNSIGNED NOT null,
-    rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
-    FOREIGN KEY (iuser) REFERENCES user(iuser),
-    FOREIGN KEY (item_id) REFERENCES item(item_id)
+CREATE OR REPLACE TABLE sell_history (
+                                         ihistory INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                                         iuser INT UNSIGNED NOT null,
+                                         item_id INT UNSIGNED NOT null,
+                                         rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
+                                         FOREIGN KEY (iuser) REFERENCES user(iuser),
+                                         FOREIGN KEY (item_id) REFERENCES item(item_id)
 );
+
+CREATE OR REPLACE table cart (
+    icart int unsigned primary key auto_increment,
+    iuser int unsigned not null,
+    item_id int unsigned not null,
+    cnt int unsigned default 1,
+    rdt datetime default current_timestamp()
+);
+
+CREATE OR REPLACE table order_info(
+                                      order_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                                      iuser INT UNSIGNED NOT NULL,
+                                      item_nm VARCHAR(50) NOT null,
+                                      quantity INT UNSIGNED,
+                                      rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
+                                      FOREIGN KEY (iuser) REFERENCES user(iuser)
+)

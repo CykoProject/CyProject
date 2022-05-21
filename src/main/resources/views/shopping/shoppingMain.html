@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="shopping/shoppingIndex">
+        layout:decorate="shopping/shoppingIndex">
 
 <head>
     <title>싸이월드 쇼핑몰</title>
-    <script defer th:src="@{/js/shopping/shopping.js}"></script>
+<!--    <script defer th:src="@{/js/shopping/shopping.js}"></script>-->
 </head>
 
 <body>
@@ -34,9 +34,10 @@ layout:decorate="shopping/shoppingIndex">
                 <th:block th:each="item : ${items}">
                     <div class="item">
                         <img class="item-img" th:src="${item.file}">
+                        <div class="item_id" style="display: none" th:text="${item.item_id}"></div>
                         <span class="item-nm" th:text="${item.nm}"></span>
                         <span><span class="item-price" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')}"></span>원</span>
-                        <i class="fa-solid fa-cart-plus"></i>
+                        <div class="add-cart" style="display: inline"><i class="fa-solid fa-cart-plus"></i></div>
                     </div>
                 </th:block>
             </div>

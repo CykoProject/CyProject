@@ -28,8 +28,17 @@
     margin-right: 10px;
 }
 
-.my-info > svg {
-    font-size: x-large;
+.my-info > a {
+    color: black;
+    text-decoration : none;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.my-info > a > svg {
+    font-size: 24px;
 }
 
 .cart {
@@ -39,16 +48,25 @@
     margin-right: 10px;
 }
 
-.cart > svg {
-    font-size: x-large;
+.cart > a {
+    color: black;
+    text-decoration : none;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cart > a > svg {
+    font-size: 24px;
 }
 
 .my-info > p {
-    font-size: small;
+
 }
 
 .cart > p {
-    font-size: small;
+
 }
 
 .ads-img {
@@ -197,4 +215,21 @@
     margin-left: 30px;
     text-decoration: none;
     color: white;
+}
+
+.msg-alarm {
+    position: fixed;
+    right: 0;
+    top: 0;
+    background-color: lightskyblue;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 3px 5px 0px black;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.msg-alarm:hover {
+    cursor: pointer;
 }
