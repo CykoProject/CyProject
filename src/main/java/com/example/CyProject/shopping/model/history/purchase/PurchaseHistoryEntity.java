@@ -1,4 +1,4 @@
-package com.example.CyProject.shopping.model.history;
+package com.example.CyProject.shopping.model.history.purchase;
 
 import com.example.CyProject.shopping.model.item.ItemEntity;
 import com.example.CyProject.user.model.UserEntity;

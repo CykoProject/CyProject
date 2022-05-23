@@ -99,7 +99,7 @@ public class KakaoPayService {
             e.printStackTrace();
         }
 
-        return "/pay";
+        return "/shopping/kakaoPayCancel";
 
     }
 

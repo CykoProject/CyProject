@@ -392,6 +392,14 @@
     padding: 5px;
 }
 
+.service-menu {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-bottom: 20px;
+}
+
 .main-container {
     flex: 0.7;
     display: flex;

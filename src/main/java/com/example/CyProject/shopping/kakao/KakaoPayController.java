@@ -2,14 +2,9 @@ package com.example.CyProject.shopping.kakao;
 
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.shopping.CartApiController;
-import com.example.CyProject.shopping.model.cart.CartDto;
 import com.example.CyProject.shopping.model.cart.CartRepository;
-import com.example.CyProject.shopping.model.history.PurchaseHistoryEntity;
-import com.example.CyProject.shopping.model.history.PurchaseHistoryRepository;
-import com.example.CyProject.shopping.model.item.ItemEntity;
-import com.example.CyProject.shopping.model.order.OrderInfoEntity;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
 import com.example.CyProject.shopping.model.order.OrderInfoRepository;
-import com.example.CyProject.shopping.model.order.OrderItemsDto;
 import com.example.CyProject.user.model.UserEntity;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -40,10 +35,10 @@ public class KakaoPayController {
     private KakaoPayService kakaopay;
 
 
-    @GetMapping("/kakaoPay")
-    public void kakaoPayGet() {
-
-    }
+//    @GetMapping("/kakaoPay")
+//    public void kakaoPayGet() {
+//
+//    }
 
     @PostMapping("/kakaoPay")
     public String kakaoPay() {
