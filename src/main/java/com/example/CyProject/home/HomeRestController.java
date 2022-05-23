@@ -19,8 +19,12 @@ import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.user.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.Query;
+import javax.persistence.EntityManager;
 import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,38 +47,25 @@ public class HomeRestController {
         return homeRepository.findByIuser(entity.getIuser());
     }
 
-    @GetMapping("/cmt/{cg}")
-    public List<CommentEntity> selCommentList(@PathVariable String cg, CommentEntity param) {
-        int ihost = param.getIhost().getIuser();
-        int iboard = param.getIboard();
-        int icategory = utils.getCommentCategory(cg);
-        int parent = 0;
-
-        UserEntity entity = new UserEntity();
-        entity.setIuser(ihost);
-
-        return commentRepository.findAllByIhostAndIboardAndCategoryAndParent(entity, iboard, icategory, parent);
-    }
-
-    @GetMapping("/reply/{cg}")
-    public List<CommentEntity> selReplyList(@PathVariable String cg, CommentEntity param) {
-        int icmt = param.getParent();
-        int ihost = param.getIhost().getIuser();
-        int icategory = utils.getCommentCategory(cg);
-
-        UserEntity entity = new UserEntity();
-        entity.setIuser(ihost);
-
-        System.out.println(param);
-
-        return commentRepository.selReplyList(icmt, entity, icategory);
-    }
-
-    @PostMapping("/cmt/{category}")
-    public ResultVo insComment(@PathVariable String category) {
+    @GetMapping("/{cg}/cmt/cnt/{iboard}")
+    public ResultVo getCommentCnt(@PathVariable String cg, @PathVariable int iboard) {
         ResultVo vo = new ResultVo();
-        System.out.println(category);
-        System.out.println(utils.getCommentCategory(category));
+        vo.setResult(commentRepository.selCommentWithOutReplyCnt(iboard, utils.getCommentCategory(cg)));
+
+        return vo;
+    }
+
+    @GetMapping("/{cg}/cmt/{iboard}")
+    public List<CommentEntity> getCommentList(@PathVariable String cg, @PathVariable int iboard, Pageable pageable) {
+        return commentRepository.selCommentWithOutReply(iboard, utils.getCommentCategory(cg), pageable);
+    }
+
+    @PostMapping("/{cg}/cmt/write")
+    public ResultVo insComment(@PathVariable String cg, @RequestBody CommentEntity commentEntity) {
+        commentEntity.setCategory(utils.getCommentCategory(cg));
+        ResultVo vo = new ResultVo();
+        vo.setResult(commentRepository.save(commentEntity) != null ? 1 : 0);
+
         return vo;
     }
 

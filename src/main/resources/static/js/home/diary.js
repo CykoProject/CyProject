@@ -115,41 +115,28 @@ if(diaryELem) {
     // 달력 ========================================================================================================
 
     // 댓글 ========================================================================================================
-    const boardElem = document.querySelectorAll('.diary-data');
+    commentObj.parentName = '.diary-data';
+    commentObj.menu = 'diary';
+    commentObj.size = 5;
+    commentObj.init();
+    commentObj.makeCnt();
 
-    const getReply = () => {
+    // 댓글쓰기
+    commentObj.writeCmt.init.execute('.ctnt-btn');
+    commentObj.writeCmt.submit();
 
-    }
-
-    const getComment = (elem) => {
-        const url = new URL(location.href);
-        const param = url.searchParams;
-        const ihost = param.get('iuser');
-        const iboard = elem.querySelector('#data-idiary').dataset.iboard;
-
-        fetch(`/ajax/home/cmt/diary?ihost=${ihost}&iboard=${iboard}`)
-            .then(res => res.json())
-            .then(data1 => {
-                const cmtElem = elem.querySelector('.comment-ctnt');
-                data1.forEach(item1 => {
-                    const icmt = item1.icmt;
-                    fetch(`/ajax/home/reply/diary?ihost=${ihost}&parent=${icmt}`)
-                        .then(res => res.json())
-                        .then(data2 => {
-                            console.log(data2);
-                        })
-                        .catch(e => {
-                            console.error(e);
-                        });
-                });
-            })
-            .catch(e => {
-                console.error(e);
-            });
-    }
-
-    boardElem.forEach(item => {
-        getComment(item);
+    // 댓글보기
+    const commentCountElemArr = document.querySelectorAll('.comment-cnt');
+    commentCountElemArr.forEach(item => {
+        item.addEventListener('click', () => {
+            const parent = item.closest('.comment-container');
+            const ctntElem = parent.querySelector('.hidden-ctnt');
+            if(ctntElem.style.display === 'none' || ctntElem.style.display === '') {
+                ctntElem.style.display = 'flex';
+            } else {
+                ctntElem.style.display = 'none';
+            }
+        });
     });
     // 댓글 ========================================================================================================
 }

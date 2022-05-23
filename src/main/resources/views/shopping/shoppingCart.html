@@ -5,13 +5,64 @@
 
 <head>
     <title>싸이월드 쇼핑몰 장바구니</title>
+    <link rel="stylesheet" th:href="@{/css/shopping/shoppingCart.css}">
+    <script defer th:src="@{/js/shopping/cart.js}"></script>
 </head>
 
 <body>
 <th:block layout:fragment="container">
 
     <div class="shopping-cart-container">
-        <h2>장바구니</h2>
+        <div class="cart-items-select">
+            <span>전체선택</span>
+            <input type="checkbox" checked="checked">
+        </div>
+        <div class="cart-items">
+
+            <th:block th:each="item : ${items}">
+                    <div class="cart-item">
+                        <div class="cart-item-select">
+
+                            <input type="checkbox" class="cart-item-check">
+                            <img class="cart-item-img" th:src="${item.itemid.file}" alt="">
+                        </div>
+                        <div class="item_id" style="display: none" th:text="${item.itemid.item_id}"></div>
+                        <div class="cart-item-info">
+                            <span class="cart-item-nm" th:text="${item.itemid.nm}"></span>
+                            <div class="cart-item-total">
+                            <span>
+                                <span class="cart-item-price"
+                                      th:text="${#numbers.formatInteger(item.itemid.price, 3, 'COMMA')}"></span>
+                                원</span>
+                                <div class="cart-item-cnt-set">
+                            <span class="cart-item-minus">
+                            <i class="fa-solid fa-minus"></i>
+                            </span>
+                                    <span class="cart-item-cnt" th:text="${item.cnt}"></span>
+                                    <span>개</span>
+                                    <span class="cart-item-plus">
+                            <i class="fa-solid fa-plus"></i>
+                            </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cart-item-result">
+                        <span>
+                            <span class="cart-item-total-price"
+                                  th:text="${#numbers.formatInteger(item.itemid.price * item.cnt, 3, 'COMMA')}"></span>
+                            <span>원</span>
+                        </span>
+                            <button class="cart-item-delete">상품 취소</button>
+                        </div>
+                    </div>
+                </th:block>
+            <div class="cart-item-all-price">
+                <p>총합 : </p><span class="total-price" th:text="${totalPrice}"></span><p>원</p>
+                <form method="post" action="/shopping/kakaoPay">
+                    <button class="buy-btn">구매하기</button>
+                </form>
+            </div>
+        </div>
     </div>
 
 </th:block>

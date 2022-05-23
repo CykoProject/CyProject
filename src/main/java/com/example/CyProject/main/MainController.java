@@ -2,7 +2,12 @@ package com.example.CyProject.main;
 
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.home.HomeEntity;
+import com.example.CyProject.home.model.visitor.VisitorEntity;
+import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.message.model.MessageRepository;
+import com.example.CyProject.user.model.UserEntity;
+import com.example.CyProject.user.model.friends.FriendsEntity;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import com.example.CyProject.user.model.friends.FriendsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +16,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -30,6 +37,8 @@ public class MainController {
     private Utils utils;
     @Autowired
     private FriendsService friendsService;
+    @Autowired
+    private VisitorRepository visitorRepository;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})

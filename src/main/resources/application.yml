@@ -28,7 +28,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       use-new-id-generator-mappings: false
-    show-sql: false
+    show-sql: true
     properties:
       hibernate.format_sql: true
 
@@ -40,7 +40,7 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 30MB
-      location: /Users/sonjuyoung/Desktop/CyProject
+      location: D:/files
 
   mail:
     host: smtp.gmail.com

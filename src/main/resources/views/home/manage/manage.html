@@ -97,28 +97,6 @@
                     <input type="submit" th:value="적용">
                 </div>
             </form>
-
-            <!--    TODO 다이어리 달력 설정      -->
-            <div class="line">
-                <strong>다이어리 달력 표시</strong>
-            </div>
-            <div>
-                <form th:action="@{/home/manage/calendar}" method="post">
-                    <div class="manage-content">
-                        <div>
-                            <span>표시</span>
-                            <input type="radio" name="scope" th:value="0" th:checked="${data.scope == 0}">
-                        </div>
-                        <div>
-                            <span>미표시</span>
-                            <input type="radio" name="scope" th:value="0" th:checked="${data.scope == 0}">
-                        </div>
-                    </div>
-                    <div class="manage-save-btn">
-                        <input type="submit" th:value="적용">
-                    </div>
-                </form>
-            </div>
         </div>
         <div class="tab-issue" th:data-err="${error}"></div>
     </th:block>

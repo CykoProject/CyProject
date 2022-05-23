@@ -7,7 +7,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "mini_me")
+@Table(name = "minime")
 @Getter
 @Setter
 @ToString

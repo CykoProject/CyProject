@@ -9,13 +9,17 @@ import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.user.model.UserDto;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
+import com.example.CyProject.user.model.points.PointHistoryEntity;
+import com.example.CyProject.user.model.points.PointHistoryRepository;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -27,7 +31,9 @@ public class UserController {
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserRepository userRepository;
     @Autowired private HomeRepository homeRepository;
+    @Autowired private PointHistoryRepository pointHistoryRepository;
     @Autowired private AuthenticationFacade auth;
+    @Autowired private UserService service;
 
     @GetMapping("/join")
     public String join() {
@@ -110,12 +116,47 @@ public class UserController {
 
     @GetMapping("/mypage")
     public String mypage(Model model) {
+        if(auth.getLoginUserPk() == 0 || auth.getLoginUser() ==  null) {
+            return "redirect:/";
+        }
         model.addAttribute("loginUser", auth.getLoginUser());
         return "user/mypage";
     }
 
-    @PostMapping("/mypage")
-    public String update(String newUpw) {
+    @GetMapping("/charge")
+    public String charge(Model model) {
+        if(auth.getLoginUserPk() != 0) {
+            int hasPoint = userRepository.findByIuser(auth.getLoginUserPk()).getPoint();
+            PointHistoryEntity history = pointHistoryRepository.findByIuser(auth.getLoginUserPk());
+            model.addAttribute("dotori", hasPoint);
+            model.addAttribute("history", history);
+            return "/user/charge";
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/charge")
+    public void charge(@RequestParam int money, LocalDateTime rdt) {
+        int hasPoint = userRepository.findByIuser(auth.getLoginUserPk()).getPoint();
+        int dotori = (money / 100) + hasPoint;
+        userRepository.updDotori(dotori, auth.getLoginUserPk());
+
+        PointHistoryEntity entity = new PointHistoryEntity();
+        entity.setIuser(auth.getLoginUserPk());
+        entity.setChanged_point(money / 100);
+        entity.setReason("도토리 충전");
+        entity.setRdt(rdt);
+        pointHistoryRepository.save(entity);
+    }
+
+    @GetMapping("/change_upw")
+    public String change_upw(Model model) {
+        model.addAttribute("loginUser", auth.getLoginUser());
+        return "user/change_upw";
+    }
+
+    @PostMapping("/change_upw")
+    public String change_upw(String newUpw) {
         String secureUpw = passwordEncoder.encode(newUpw);
         Optional<UserEntity> user = userRepository.findById(auth.getLoginUserPk());
         user.ifPresent(selectUser -> {
