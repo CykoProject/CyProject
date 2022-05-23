@@ -1,6 +1,6 @@
 //미니홈피 바로가기
 const goHome = document.querySelector('.profile-go-to-home');
-const goFriendHome = document.querySelector('.profile-go-to-friend-home');
+const goFriendHome = document.querySelectorAll('.profile-go-to-friend-home');
 let popup;
 
 const openUp = (iuser) => {
@@ -28,8 +28,10 @@ if(goHome) {
 }
 
 if(goFriendHome) {
-    goFriendHome.addEventListener('click', (e) => {
-        openUp(e.target.dataset.iuser);
+    goFriendHome.forEach(item => {
+        item.addEventListener('click', (e) => {
+            openUp(e.target.dataset.iuser);
+        });
     });
 }
 

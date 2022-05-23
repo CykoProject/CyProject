@@ -122,10 +122,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="list : ${data}">
-                    <td th:text="${list.fuser.nm}"></td>
+                <tr th:each="list : ${friend}">
+                    <td th:text="${list.nm}"></td>
                     <td th:text="'이름'"></td>
-                    <td><button class="profile-go-to-friend-home" th:data-iuser="${list.fuser.iuser}">이동</button></td>
+                    <td><button class="profile-go-to-friend-home" th:data-iuser="${list.fuser}">이동</button></td>
                 </tr>
                 </tbody>
             </table>

@@ -4,6 +4,7 @@ import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.message.model.MessageRepository;
 import com.example.CyProject.user.model.friends.FriendsRepository;
+import com.example.CyProject.user.model.friends.FriendsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,6 +28,8 @@ public class MainController {
     private FriendsRepository friendsRepository;
     @Autowired
     private Utils utils;
+    @Autowired
+    private FriendsService friendsService;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
@@ -35,6 +38,7 @@ public class MainController {
             model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
             model.addAttribute("loginUser", authenticationFacade.getLoginUser());
         }
+        model.addAttribute("friend", friendsService.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("data", friendsRepository.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("msgCnt", messageRepository.beforeReadMsgCnt(authenticationFacade.getLoginUserPk()));
         model.addAttribute("userData", mainService.userRepository.findByIuser(authenticationFacade.getLoginUserPk()));
