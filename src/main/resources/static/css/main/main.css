@@ -226,6 +226,16 @@
     margin-bottom: 5px;
 }
 
+.profile-go-to-friend-home{
+    width: 80%;
+    height: 30px;
+    background-color: lightslategray;
+    color : white;
+    border: none;
+    border-radius: 100px;
+    margin-bottom: 5px;
+}
+
 .profile-select {
     width: 90%;
 }

@@ -1,4 +1,4 @@
-const mypageForm = document.querySelector('#mypageForm');
+const changeUpwForm = document.querySelector('#change_upw');
 const changeBtn = document.querySelector('#changeBtn');
 //oldUpw
 const oldUpwElem = document.querySelector('#oldUpw');
@@ -76,7 +76,7 @@ newUpwChkInput.addEventListener('keyup', (e) => {
     }
 });
 
-mypageForm.addEventListener('submit', (e) => {
+changeUpwForm.addEventListener('submit', (e) => {
     if(oldUpwTrue === false) {
         alert('현재 비밀번호를 확인해 주세요')
         e.preventDefault();

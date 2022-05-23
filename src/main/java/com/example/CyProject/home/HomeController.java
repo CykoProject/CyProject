@@ -13,6 +13,12 @@ import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
 import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
+
+import com.example.CyProject.home.model.visitor.VisitorEntity;
+import com.example.CyProject.home.model.visitor.VisitorPk;
+import com.example.CyProject.home.model.visitor.VisitorRepository;
+import com.example.CyProject.home.model.visitor.VisitorService;
+
 import com.example.CyProject.user.model.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +34,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.logging.SimpleFormatter;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/home")
 public class HomeController {
 
     @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스
+    @Autowired private VisitRepository visitRepository;
     @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private ProfileRepository profileRepository;
+
+    @Autowired private VisitorService visitorService;
     @Autowired private CommentRepository commentRepository;
     @Autowired private VisitRepository visitRepository;
     @Autowired private DiaryRepository diaryRepository;
@@ -47,9 +61,14 @@ public class HomeController {
 
     @GetMapping
     public String home(HomeEntity entity, Model model) {
+        int homeScope = authenticationFacade.isHomeVisitScope(entity.getIuser());
+        if(homeScope < 2) {
+            return authenticationFacade.returnPath(entity.getIuser(), model);
+        }
+
         int loginUser = authenticationFacade.getLoginUserPk();
         int ihomePk = utils.findHomePk(entity.getIuser());
-
+        int success = visitorService.saveVisitor(loginUser, ihomePk);
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
         model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));

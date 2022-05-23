@@ -1,18 +1,13 @@
 package com.example.CyProject.shopping;
 
 import com.example.CyProject.config.AuthenticationFacade;
-import com.example.CyProject.shopping.model.cart.CartEntity;
 import com.example.CyProject.shopping.model.cart.CartRepository;
 import com.example.CyProject.shopping.model.item.ItemEntity;
 import com.example.CyProject.shopping.model.item.ItemRepository;
-import com.example.CyProject.user.model.UserEntity;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,4 +41,15 @@ public class ShoppingController {
         return "shopping/shoppingMain";
     }
 
+    @GetMapping("/kakaoPayCancel")
+    public String kakaoPayCancel() {
+
+        return"/shopping/kakaoPayCancel";
+    }
+
+    @GetMapping("/kakaoPaySuccessFail")
+    public String kakaoPaySuccessFail() {
+
+        return "/shopping/kakaoPaySuccessFail";
+    }
 }
