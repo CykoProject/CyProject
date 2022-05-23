@@ -7,8 +7,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
-    top: 0;
     z-index: 100;
     margin-bottom: 15px;
 }
@@ -30,8 +28,17 @@
     margin-right: 10px;
 }
 
-.my-info > svg {
-    font-size: x-large;
+.my-info > a {
+    color: black;
+    text-decoration : none;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.my-info > a > svg {
+    font-size: 24px;
 }
 
 .cart {
@@ -41,16 +48,25 @@
     margin-right: 10px;
 }
 
-.cart > svg {
-    font-size: x-large;
+.cart > a {
+    color: black;
+    text-decoration : none;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cart > a > svg {
+    font-size: 24px;
 }
 
 .my-info > p {
-    font-size: small;
+
 }
 
 .cart > p {
-    font-size: small;
+
 }
 
 .ads-img {
@@ -78,6 +94,11 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+}
+
+.left-menus > a {
+    text-decoration: none;
+    color: black;
 }
 
 .shopping-main {
@@ -135,6 +156,41 @@
     margin-bottom: 20px;
 }
 
+.shopping-items {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.item {
+    width: 300px;
+    height: 400px;
+    border: solid 1px lightskyblue;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-img {
+    width: 280px;
+    height: 320px;
+    text-align: center;
+}
+
+.item-nm {
+    margin-top: 5px;
+    font-size: large;
+    font-weight: bold;
+}
+
+.item-price {
+    margin-top: 5px;
+}
+
 .footer-wrapper {
     position: relative;
     width: 100%;
@@ -159,4 +215,21 @@
     margin-left: 30px;
     text-decoration: none;
     color: white;
+}
+
+.msg-alarm {
+    position: fixed;
+    right: 0;
+    top: 0;
+    background-color: lightskyblue;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 3px 5px 0px black;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.msg-alarm:hover {
+    cursor: pointer;
 }

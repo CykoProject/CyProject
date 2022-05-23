@@ -33,8 +33,8 @@
                     </div>
                     <div class="profile-info-count-dotori">
                         <img src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt="">
-                        <p>0개</p>
-                        <p class="p-1"><a>충전</a></p>
+                        <p th:text="|${loginUser.getPoint()}개|"></p>
+                        <p class="p-1"><a href="/user/charge">충전</a></p>
                     </div>
                 </div>
                 <div class="profile-info-main">

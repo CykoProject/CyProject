@@ -2,9 +2,11 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
+    <script defer th:src="@{/js/home/commentObj.js}"></script>
     <script defer th:src="@{/js/home/visit.js}"></script>
     <link rel="stylesheet" th:href="@{/css/home/visit.css}">
     <title>Title</title>
@@ -16,7 +18,7 @@
 
     <th:block layout:fragment="content_right">
         <div class="data-pk" th:data-loginuser="${loginUserPk}"></div>
-        <div class="visit-container">
+        <div class="visit-container home-container">
             <div class="visit-write" th:if="${loginUserPk > 0}">
                 <form class="visitFrm" th:method="post" th:action="@{/home/visit/write}">
                     <div class="frow bc-gray p10-10">
@@ -64,7 +66,8 @@
                     <strong>방명록이 없습니다.</strong>
                 </th:block>
                 <th:block th:each="item : ${data}">
-                    <div class="visit-elem mb10" th:data-ivisit="${item.ivisit}">
+                    <div class="visit-elem mb10" th:data-iboard="${item.ivisit}">
+                        <div th:data-iboard="${item.ivisit}" id="data-iboard"></div>
                         <div th:classappend="${item.secret} ? 'visit-secret-bar' : 'visit-date-bar'" id="status-bar">
                             <div>
                                 <span th:text="|no.${item.ivisit}|"></span>
@@ -122,6 +125,50 @@
                                     </div>
                                 </div>
                             </th:block>
+                        </div>
+
+                        <div class="comment-container" th:if="${item.secret == true && (#strings.equals(param.iuser, loginUserPk) || #strings.equals(item.iuser.iuser, loginUserPk))}">
+                            <div>
+                                <div class="input-cmt" sec:authorize="isAuthenticated()">
+                                    <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
+
+                                    <button class="ctnt-btn">댓글쓰기</button>
+                                </div>
+
+                                <div>
+                                    <span class="comment-cnt"></span>
+                                </div>
+                                <div class="hidden-ctnt">
+                                    <div>
+                                        <span class="comment-ctnt"></span>
+                                    </div>
+                                    <div class="pagination">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="comment-container" th:if="${item.secret == false}">
+                            <div>
+                                <div class="input-cmt" sec:authorize="isAuthenticated()">
+                                    <textarea name="ctnt" placeholder="댓글쓰기" class="ctnt"></textarea>
+
+                                    <button class="ctnt-btn">댓글쓰기</button>
+                                </div>
+
+                                <div class="comment-cnt-wrap">
+                                    <span class="comment-cnt"></span>
+                                </div>
+                                <div class="hidden-ctnt">
+                                    <div>
+                                        <span class="comment-ctnt"></span>
+                                    </div>
+                                    <div class="pagination">
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </th:block>

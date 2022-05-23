@@ -3,6 +3,7 @@ package com.example.CyProject.home;
 import com.example.CyProject.PageEntity;
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.comment.CommentRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
@@ -12,10 +13,12 @@ import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
 import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
+
 import com.example.CyProject.home.model.visitor.VisitorEntity;
 import com.example.CyProject.home.model.visitor.VisitorPk;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.home.model.visitor.VisitorService;
+
 import com.example.CyProject.user.model.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +48,10 @@ public class HomeController {
     @Autowired private VisitRepository visitRepository;
     @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private ProfileRepository profileRepository;
+
     @Autowired private VisitorService visitorService;
+    @Autowired private CommentRepository commentRepository;
+    @Autowired private VisitRepository visitRepository;
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private HomeRepository homeRepository;
     @Autowired private UserRepository userRepository;
@@ -55,6 +61,11 @@ public class HomeController {
 
     @GetMapping
     public String home(HomeEntity entity, Model model) {
+        int homeScope = authenticationFacade.isHomeVisitScope(entity.getIuser());
+        if(homeScope < 2) {
+            return authenticationFacade.returnPath(entity.getIuser(), model);
+        }
+
         int loginUser = authenticationFacade.getLoginUserPk();
         int ihomePk = utils.findHomePk(entity.getIuser());
         int success = visitorService.saveVisitor(loginUser, ihomePk);
@@ -132,7 +143,6 @@ public class HomeController {
                 .build();
 
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
-
         model.addAttribute("data", utils.makeStringNewLine(list));
         model.addAttribute("pageData", pageEntity);
 
