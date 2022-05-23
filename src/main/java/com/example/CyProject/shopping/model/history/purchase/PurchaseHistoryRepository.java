@@ -1,5 +1,6 @@
 package com.example.CyProject.shopping.model.history.purchase;
 
+import com.example.CyProject.shopping.model.item.ItemEntity;
 import com.example.CyProject.user.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface PurchaseHistoryRepository extends JpaRepository<PurchaseHistoryEntity, Integer> {
@@ -18,6 +20,9 @@ public interface PurchaseHistoryRepository extends JpaRepository<PurchaseHistory
 
     @Query("select count(ihistory) from PurchaseHistoryEntity where complete = 0 and iuser = :iuser")
     Integer isIncompletePurchase(UserEntity iuser);
+
+    @Query("select distinct item_id from PurchaseHistoryEntity where complete = 0 and iuser = :iuser")
+    List<ItemEntity> purchaseItemIdList(UserEntity iuser);
 
     @Modifying
     @Transactional

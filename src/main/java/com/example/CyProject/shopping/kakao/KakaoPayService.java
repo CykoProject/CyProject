@@ -2,10 +2,15 @@ package com.example.CyProject.shopping.kakao;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.shopping.CartApiController;
 import com.example.CyProject.shopping.model.cart.CartRepository;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryEntity;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
+import com.example.CyProject.shopping.model.item.ItemEntity;
 import com.example.CyProject.shopping.model.order.OrderInfoEntity;
 import com.example.CyProject.shopping.model.order.OrderInfoRepository;
 import com.example.CyProject.user.model.UserEntity;
@@ -32,6 +37,8 @@ public class KakaoPayService {
     OrderInfoRepository orderInfoRepository;
     @Autowired
     CartApiController cartApiController;
+    @Autowired
+    PurchaseHistoryRepository purchaseHistoryRepository;
 
 
     private static final String HOST = "https://kapi.kakao.com";
@@ -56,6 +63,21 @@ public class KakaoPayService {
 //        for (int i=0; i<cartRepository.findAllByIuser(entity).size(); i++) {
 //            totalAmount += cartRepository.findAllByIuser(entity).get(i).getItemid().getPrice() * cartRepository.findAllByIuser(entity).get(i).getCnt();
 //        }
+
+        //아이템 코드
+        List<ItemEntity> itemIdList = new ArrayList<>();
+        itemIdList.addAll(purchaseHistoryRepository.purchaseItemIdList(entity));
+
+//        String item_code = "";
+//
+//        for (int i=0; i< itemIdList.size(); i++) {
+//            if (i<itemIdList.size()-1) {
+//                item_code += (itemIdList.get(i).getItem_id()+",");
+//            } else  {
+//                item_code += itemIdList.get(i).getItem_id();
+//            }
+//        }
+//        System.out.println(item_code);
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -110,6 +132,20 @@ public class KakaoPayService {
 
         UserEntity entity = new UserEntity();
         entity.setIuser(authenticationFacade.getLoginUserPk());
+
+        //아이템 코드
+//        List<ItemEntity> itemIdList = new ArrayList<>();
+//        itemIdList.addAll(purchaseHistoryRepository.purchaseItemIdList(entity));
+//
+//        String item_code ="";
+
+//        for (int i=0; i< itemIdList.size(); i++) {
+//            if (i<itemIdList.size()-1) {
+//                item_code += (itemIdList.get(i).getItem_id()+",");
+//            } else  {
+//                item_code += itemIdList.get(i).getItem_id();
+//            }
+//        }
 
         OrderInfoEntity orderInfoEntity;
         orderInfoEntity = orderInfoRepository.findTopByIuserOrderByRdtDesc(entity);

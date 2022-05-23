@@ -4,6 +4,7 @@ import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.shopping.CartApiController;
 import com.example.CyProject.shopping.model.cart.CartRepository;
 import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
+import com.example.CyProject.shopping.model.item.ItemEntity;
 import com.example.CyProject.shopping.model.order.OrderInfoRepository;
 import com.example.CyProject.user.model.UserEntity;
 import lombok.Setter;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Log
@@ -40,16 +43,9 @@ public class KakaoPayController {
 //
 //    }
 
-    @PostMapping("/kakaoPay")
+    @GetMapping("/kakaoPay")
     public String kakaoPay() {
-        try {
-            for (int i = 0; i < 1; i++) {
-                TimeUnit.SECONDS.sleep(1);
-                System.out.println("자바스크립트 우선 수행을 위한 카카오페이 1초 지연");
-            }
-        }catch(Exception e) {
-            System.out.println(e);
-        }
+
         log.info("kakaoPay post............................................");
         return "redirect:" + kakaopay.kakaoPayReady();
 
@@ -66,5 +62,10 @@ public class KakaoPayController {
 
         purchaseHistoryRepository.purchaseComplete(userEntity);
         orderInfoRepository.OrderComplete(userEntity);
+
+        List<ItemEntity> itemIdList = new ArrayList<>();
+        itemIdList.addAll(purchaseHistoryRepository.purchaseItemIdList(userEntity));
+
+        itemIdList.forEach((item)-> cartRepository.deleteByIuserAndItemid(userEntity, item));
     }
 }

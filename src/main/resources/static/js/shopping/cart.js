@@ -288,6 +288,7 @@ buyBtn.addEventListener("click", (e) => {
         body: JSON.stringify(data)
     }).then(res => res.json())
         .then(data => {
-            console.log(data)
+            const option = 'width = 500px, height = 700px';
+            window.open('/shopping/kakaoPay', '', option);
         }).catch((e) => console.error(e))
 })
