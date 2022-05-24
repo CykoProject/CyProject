@@ -60,12 +60,19 @@ public class KakaoPayController {
         UserEntity userEntity = new UserEntity();
         userEntity.setIuser(authenticationFacade.getLoginUserPk());
 
-        purchaseHistoryRepository.purchaseComplete(userEntity);
-        orderInfoRepository.OrderComplete(userEntity);
-
         List<ItemEntity> itemIdList = new ArrayList<>();
         itemIdList.addAll(purchaseHistoryRepository.purchaseItemIdList(userEntity));
 
-        itemIdList.forEach((item)-> cartRepository.deleteByIuserAndItemid(userEntity, item));
+        System.out.println("성공시 itemid : " + itemIdList);
+
+        for(ItemEntity item : itemIdList) {
+//            ItemEntity itemEntity = new ItemEntity();
+//            itemEntity.setItem_id(itemEntity.getItem_id());
+            cartRepository.deleteByIuserAndItemid(userEntity, item);
+        }
+        System.out.println("구매 아이템 카트 삭제");
+
+        purchaseHistoryRepository.purchaseComplete(userEntity);
+        orderInfoRepository.OrderComplete(userEntity);
     }
 }

@@ -33,5 +33,6 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer> {
     @Query("SELECT sum(c.itemid.price * c.cnt) from CartEntity c where c.iuser = :iuser")
     Integer totalPrice(UserEntity iuser);
 
+    @Transactional
     void deleteByIuserAndItemid(UserEntity iUser, ItemEntity itemId);
 }

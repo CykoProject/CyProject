@@ -2,7 +2,7 @@ let allSelectElem = document.querySelector(".cart-items-select > input");
 
 let cartItemSelectElems = document.querySelectorAll(".cart-item-select > input");
 
-let cartItemAllPrice = document.querySelector(".cart-item-all-price > span");
+let cartItemAllPrice = document.querySelector(".total-price");
 
 const initAllPrice = () => {
     let price = 0;
@@ -15,6 +15,7 @@ const initAllPrice = () => {
     });
 
     cartItemAllPrice.innerText = numberWithCommas(checkArr.length === 0 ? 0 : price);
+    calNeedCharge();
 }
 
 let selectedItemCntArr = []; // 9
@@ -80,6 +81,7 @@ function cartItemsCheck() {
                     console.log(selectedItemPriceSum)
                 }
                 document.querySelector('.total-price').innerText = numberWithCommas(selectedItemPriceSum);
+                calNeedCharge();
             })
         })
     }
@@ -109,7 +111,7 @@ cartItemDeleteElem.forEach((item) => {
     item.addEventListener("click", () => {
         const cartItemId = item.closest(".cart-item").querySelector(".item_id").textContent;
         let cartItemTotalPrice = item.closest(".cart-item").querySelector(".cart-item-total-price").textContent.split(",").join("");
-        const cartItemAllPrice = document.querySelector(".cart-item-all-price > span");
+        const cartItemAllPrice = document.querySelector(".total-price");
         console.log(cartItemAllPrice);
         const cartItemAllPriceValue = cartItemAllPrice.textContent.split(",").join("");
 
@@ -138,6 +140,7 @@ cartItemDeleteElem.forEach((item) => {
                     }
                 });
                 cartItemAllPrice.innerText = numberWithCommas(checkArr.length === 0 ? 0 : price);
+                calNeedCharge();
 
                 // cartItemAllPriceValue = parseInt(cartItemAllPriceValue) - parseInt(cartItemTotalPrice);
                 selectedItemCntArr = selectedItemCntArr.filter((item) => item.checked !== false);
@@ -194,6 +197,7 @@ cartItemPlusElem.forEach((item) => {
                     }
                 });
                 cartItemAllPrice.innerText = numberWithCommas(price);
+                calNeedCharge();
             })
             .catch(e => {
                 console.error(e);
@@ -240,7 +244,7 @@ cartItemMinusElem.forEach((item) => {
                         }
                     });
                     cartItemAllPrice.innerText = numberWithCommas(price);
-
+                    calNeedCharge();
                     // console.log(data);
                     // cartItemCnt--;
                     // item.closest(".cart-item-total").querySelector(".cart-item-cnt").innerText = cartItemCnt;
@@ -267,6 +271,20 @@ buyBtn.addEventListener("click", (e) => {
 
     let totalCnt = 0;
 
+    let total_amount;
+    if (document.querySelector(".need-charge") !== null) {
+        total_amount = document.querySelector(".need-charge").textContent.split("원")[0].split(',').join('');
+        console.log(total_amount);
+    } else {
+        total_amount = document.querySelector(".total-price").textContent.split(",").join("");
+        console.log(total_amount);
+    }
+
+    if(!confirm(`${total_amount}원을 결제 하시겠습니까?`)) {
+        return;
+    }
+
+
     selectedItemCntArr.forEach((item) => {
         orderItemsCnt.push(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
         orderItemsId.push(item.closest(".cart-item").querySelector(".item_id").textContent);
@@ -279,7 +297,7 @@ buyBtn.addEventListener("click", (e) => {
         "item_id": orderItemsId,
         "item_nm": orderItemsNm,
         "quantity": totalCnt,
-        "total_amount": document.querySelector(".total-price").textContent.split(",").join("")
+        "total_amount": parseInt(total_amount)
     }
     console.log(data);
     fetch("/cart/orderInfo", {
@@ -292,3 +310,22 @@ buyBtn.addEventListener("click", (e) => {
             window.open('/shopping/kakaoPay', '', option);
         }).catch((e) => console.error(e))
 })
+
+//포인트와 충전 금액
+
+function calNeedCharge() {
+    let hasDotori = document.querySelector(".has-dotori").textContent;
+    let totalPrice = document.querySelector(".total-price").textContent.split(",").join("");
+    let needCharge = document.querySelector(".need-charge");
+    let needPrice;
+
+    console.log(hasDotori);
+    console.log(totalPrice);
+    if (parseInt(hasDotori)*100 - parseInt(totalPrice) < 0) {
+        needPrice = numberWithCommas((parseInt(hasDotori)*100 - parseInt(totalPrice)) * -1);
+        needCharge.innerText = `${needPrice}원이 더 필요해요`
+    } else {
+        needCharge.innerText = "";
+    }
+}
+calNeedCharge();

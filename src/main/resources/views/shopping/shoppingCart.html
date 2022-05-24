@@ -11,7 +11,6 @@
 
 <body>
 <th:block layout:fragment="container">
-    <button id="test">test</button>
     <div class="shopping-cart-container">
         <div class="cart-items-select">
             <span>전체선택</span>
@@ -57,10 +56,18 @@
                     </div>
                 </th:block>
             <div class="cart-item-all-price">
-                <p>총합 : </p><span class="total-price" th:text="${totalPrice}"></span><p>원</p>
+                <div class="cart-item-all-result">
+                    <div class="has-dotori-div">
+                    <p>보유 도토리 :</p><span class="has-dotori" th:text="${loginUser.getPoint()}"></span><p>개</p>
+                    </div>
+                    <div class="total-price-div">
+                <p>구매 가격 총합 : </p><span class="total-price" th:text="${totalPrice}"></span><p>원</p>
+                    </div>
 <!--                <form method="get" action="/shopping/kakaoPay">-->
 <!--                    <button class="buy-btn">구매하기</button>-->
 <!--                </form>-->
+                    <span class="need-charge" style="font-weight: bold; font-size:large;"></span>
+                </div>
                 <div>
                     <button class="buy-btn">구매하기</button>
                 </div>
