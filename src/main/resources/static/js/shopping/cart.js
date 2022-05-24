@@ -290,4 +290,4 @@ buyBtn.addEventListener("click", (e) => {
         .then(data => {
             console.log(data)
         }).catch((e) => console.error(e))
-})
+});

@@ -25,9 +25,11 @@ if(goHome) {
     });
 }
 
-if(goFriendHome) {
-    goFriendHome.addEventListener('click', (e) => {
-        openUp(e.target.dataset.iuser);
+if(goFriendHome.length > 0) {
+    goFriendHome.forEach(item => {
+        item.addEventListener('click', (e) => {
+            openUp(e.target.dataset.iuser);
+        });
     });
 }
 
