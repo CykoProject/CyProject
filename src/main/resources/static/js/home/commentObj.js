@@ -11,14 +11,20 @@ const commentObj = {
     url : '',
     cntUrl : '',
 
-    page : 0,
-    size : 5,
     url : '',
     dataSetName : '#data-iboard',
     menu : '',
     iboard : 0,
     parentName : '',
     parentElemArr : '',
+
+    page : 0,
+    size : 5,
+    currentPage : 0,
+    pageCnt : 5,
+    pop : 1,
+    startPage : 1,
+    lastPage : 5,
 
     // elemName : document.querySelector('.comment-ctnt'),
     elemName : '.comment-ctnt',
@@ -69,27 +75,82 @@ const commentObj = {
         });
     },
     makePage : function (totalCnt, paginationElem) {
+        paginationElem.innerHTML = '';
         const maxPage = Math.ceil(totalCnt / this.size);
-        for(let i=1; i<=maxPage; i++) {
+        const lastPage = this.size * this.pop;
+        const startPage = lastPage - (this.size - 1);
+
+        const span1 = document.createElement('span');
+        span1.innerText = '<';
+        if(this.pop > 1) {
+            paginationElem.appendChild(span1);
+        }
+        span1.addEventListener('click', (e) => {
+            const parent = e.target.closest(`${this.parentName}`);
+            this.pop -= 1;
+            this.currentPage = startPage - (this.size + 1);
+            this.getList(totalCnt, parent, paginationElem);
+        });
+
+        for(let i=startPage; i<=(lastPage<maxPage ? lastPage:maxPage); i++) {
             const span = document.createElement('span');
             span.innerText = i;
+            if(this.currentPage+1 === i) {
+                console.log('same');
+                span.classList.add('selected');
+            }
+
             paginationElem.appendChild(span);
             span.addEventListener('click', (e) => {
+                this.currentPage = i;
                 this.iboard = e.target.closest(`${this.parentName}`).querySelector('#data-iboard').dataset.iboard;
+                const parent = e.target.closest(`${this.parentName}`);
                 this.myFetch.get(`/ajax/home/${this.menu}/cmt/${this.iboard}`, (data) => {
-                    this.parentElemArr.forEach(item => {
-                        const elem = item.querySelector(`${this.elemName}`);
-                        elem.innerHTML = '';
-                        data.forEach(item => {
-                            this.makeCmt(item, elem);
-                        });
+
+                    const elem = parent.querySelector(`${this.elemName}`);
+                    elem.innerHTML = '';
+                    data.forEach(item => {
+                        this.makeCmt(item, elem);
                     });
+
+                    this.pop = Math.ceil( i / this.size);
+                    this.makePage(totalCnt, paginationElem);
                 }, {
                     page : i-1,
                     size : this.size
-                })
+                });
             });
         }
+
+        const span2 = document.createElement('span');
+        span2.innerText = '>';
+        if(lastPage < maxPage) {
+            paginationElem.appendChild(span2);
+        }
+        span2.addEventListener('click', (e) => {
+            const parent = e.target.closest(`${this.parentName}`);
+
+            this.pop += 1;
+            this.currentPage = lastPage;
+
+            this.getList(totalCnt, parent, paginationElem);
+        });
+    },
+
+    getList : function (totalCnt, elem, pageElem) {
+        this.iboard = parseInt(elem.querySelector(`${this.dataSetName}`).dataset.iboard);
+        this.myFetch.get(`/ajax/home/${this.menu}/cmt/${this.iboard}`, (data) => {
+            elem = elem.querySelector(`${this.elemName}`);
+            elem.innerHTML = '';
+            data.forEach(item => {
+                this.makeCmt(item, elem);
+            });
+
+            this.makePage(totalCnt, pageElem);
+        }, {
+            page : this.currentPage,
+            size : this.size
+        })
     },
     makeCnt : function () {
         this.parentElemArr.forEach(item => {
@@ -108,14 +169,16 @@ const commentObj = {
         const p = document.createElement('div');
         const date = new Date(item.rdt);
         const srcVal = item.writer.img;
-        const src = srcVal === null ? '/img/defaultProfileImg.jpeg' : `/pic/profile/${srcVal}`;
+        const ctntToNewLineVal = item.ctnt.replaceAll('\n', '<br>');
         p.innerHTML = `
             <div class="cmt-word-break">
                 <div class="cmt-first-child">
-                    <a href="/home?iuser=${item.writer.iuser}"><span class="comment-writer-nm">${item.writer.nm} </span></a>
+                    <a href="/home?iuser=${item.writer.iuser}">
+                        <span class="comment-writer-nm">${item.writer.nm} </span>
+                    </a>
                 </div>
                 <div>
-                    <span>${item.ctnt}</span>
+                    <span>${ctntToNewLineVal}</span>
                 </div>
             </div>
         `;
