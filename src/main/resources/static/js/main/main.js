@@ -1,8 +1,6 @@
 //미니홈피 바로가기
 const goHome = document.querySelector('.profile-go-to-home');
-const goFriendHome = document.querySelector('.profile-go-to-friend-home');
-let popup;
-
+const goFriendHome = document.querySelectorAll('.profile-go-to-friend-home');
 const openUp = (iuser) => {
     const popupWidth = 1189;
     const popupHeight = 600;
