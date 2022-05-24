@@ -188,7 +188,6 @@
 }
 
 .item-price {
-    margin-top: 5px;
 }
 
 .footer-wrapper {
@@ -232,4 +231,14 @@
 
 .msg-alarm:hover {
     cursor: pointer;
+}
+
+.dotori {
+    width: 25px;
+}
+
+.dotori-span {
+    display: flex;
+    align-items: center;
+    height: 30px;
 }
