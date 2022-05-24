@@ -158,6 +158,17 @@ cartItemDeleteElem.forEach((item) => {
 //정규식 천단위 콤마
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // if (x.charAt(0) == 0) {
+    //     let result = "";
+    //     for (let i=1; i<x.length; i++) {
+    //         result = result.concat(x[i])
+    //     }
+    //     console.log(result);
+    //     return result;
+    // } else {
+    //     console.log(x);
+    //     return x;
+    // }
 };
 
 //장바구니 안 상품 수량 증가
@@ -272,43 +283,73 @@ buyBtn.addEventListener("click", (e) => {
     let totalCnt = 0;
 
     let total_amount;
-    if (document.querySelector(".need-charge") !== null) {
-        total_amount = document.querySelector(".need-charge").textContent.split("원")[0].split(',').join('');
+    if (document.querySelector(".need-charge").textContent !== "") {
+        total_amount = parseInt(document.querySelector(".need-charge").textContent.split(" ")[1].split('개')[0]) * 100;
         console.log(total_amount);
+
+        if(!confirm(`${total_amount}원을 결제하시겠습니까?`)) {
+            return;
+        }
+
+        selectedItemCntArr.forEach((item) => {
+            orderItemsCnt.push(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
+            orderItemsId.push(item.closest(".cart-item").querySelector(".item_id").textContent);
+            totalCnt += parseInt(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
+        })
+        let orderItemsNm = selectedItemCntArr[0].closest(".cart-item").querySelector(".cart-item-nm").textContent + " 외 " + (totalCnt - 1) + "개 상품"; //카카오페이 결제 사용
+
+        let data = {
+            "item_cnt": orderItemsCnt,
+            "item_id": orderItemsId,
+            "item_nm": orderItemsNm,
+            "quantity": totalCnt,
+            "total_amount": parseInt(total_amount)
+        }
+        console.log(data);
+        fetch("/cart/orderInfo", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        }).then(res => res.json())
+            .then(data => {
+                const option = 'width = 500px, height = 700px';
+                window.open('/shopping/kakaoPay', '', option);
+            }).catch((e) => console.error(e))
     } else {
         total_amount = document.querySelector(".total-price").textContent.split(",").join("");
         console.log(total_amount);
+
+        if(!confirm(`도토리 ${total_amount}개를 사용하시겠습니까?`)) {
+            return;
+        }
+
+        selectedItemCntArr.forEach((item) => {
+            orderItemsCnt.push(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
+            orderItemsId.push(item.closest(".cart-item").querySelector(".item_id").textContent);
+            totalCnt += parseInt(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
+        })
+        let orderItemsNm = selectedItemCntArr[0].closest(".cart-item").querySelector(".cart-item-nm").textContent + " 외 " + (totalCnt - 1) + "개 상품"; //카카오페이 결제 사용
+
+        let data = {
+            "item_cnt": orderItemsCnt,
+            "item_id": orderItemsId,
+            "item_nm": orderItemsNm,
+            "quantity": totalCnt,
+            "total_amount": parseInt(total_amount)
+        }
+        console.log(data);
+        fetch("/cart/orderInfoPoint", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data);
+                location.reload();
+            }).catch((e) => console.error(e))
+
     }
 
-    if(!confirm(`${total_amount}원을 결제 하시겠습니까?`)) {
-        return;
-    }
-
-
-    selectedItemCntArr.forEach((item) => {
-        orderItemsCnt.push(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
-        orderItemsId.push(item.closest(".cart-item").querySelector(".item_id").textContent);
-        totalCnt += parseInt(item.closest(".cart-item").querySelector(".cart-item-cnt").textContent);
-    })
-    let orderItemsNm = selectedItemCntArr[0].closest(".cart-item").querySelector(".cart-item-nm").textContent + " 외 " + (totalCnt - 1) + "개 상품"; //카카오페이 결제 사용
-
-    let data = {
-        "item_cnt": orderItemsCnt,
-        "item_id": orderItemsId,
-        "item_nm": orderItemsNm,
-        "quantity": totalCnt,
-        "total_amount": parseInt(total_amount)
-    }
-    console.log(data);
-    fetch("/cart/orderInfo", {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-    }).then(res => res.json())
-        .then(data => {
-            const option = 'width = 500px, height = 700px';
-            window.open('/shopping/kakaoPay', '', option);
-        }).catch((e) => console.error(e))
 })
 
 //포인트와 충전 금액
@@ -321,9 +362,9 @@ function calNeedCharge() {
 
     console.log(hasDotori);
     console.log(totalPrice);
-    if (parseInt(hasDotori)*100 - parseInt(totalPrice) < 0) {
-        needPrice = numberWithCommas((parseInt(hasDotori)*100 - parseInt(totalPrice)) * -1);
-        needCharge.innerText = `${needPrice}원이 더 필요해요`
+    if (parseInt(hasDotori) - parseInt(totalPrice) < 0) {
+        needPrice = numberWithCommas((parseInt(hasDotori) - parseInt(totalPrice)) * -1);
+        needCharge.innerText = `도토리 ${needPrice}개가 더 필요해요`
     } else {
         needCharge.innerText = "";
     }

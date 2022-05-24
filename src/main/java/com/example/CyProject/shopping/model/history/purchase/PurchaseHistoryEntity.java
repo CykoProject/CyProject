@@ -31,7 +31,6 @@ public class PurchaseHistoryEntity {
 
     private int cnt;
 
-    @Column(insertable = false)
     @ColumnDefault(value = "0")
     private int complete;
 }

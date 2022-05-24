@@ -36,7 +36,7 @@
                         <img class="item-img" th:src="${item.file}">
                         <div class="item_id" style="display: none" th:text="${item.item_id}"></div>
                         <span class="item-nm" th:text="${item.nm}"></span>
-                        <span><span class="item-price" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')}"></span>원</span>
+                        <span class="dotori-span"><img class="dotori" src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt=""><span class="item-price" th:text="${#strings.length(item.price) > 3 ? #numbers.formatInteger(item.price, 3, 'COMMA') : item.price}"></span></span>
                         <div class="add-cart" style="display: inline"><i class="fa-solid fa-cart-plus"></i></div>
                     </div>
                 </th:block>
