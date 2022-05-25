@@ -21,13 +21,16 @@
         </div>
 
         <div class="shopping-main">
-
+            <div class="search-count">
+                검색결과 : <p class="count-number"
+                          th:text="${itemsCount}"></th:text></p>
+                개
+            </div>
             <div class="order-options">
                 <p class="option-date-recent">등록일최신순</p>
                 <p class="option-date-old">등록일오래된순</p>
                 <p class="option-price-low">낮은가격순</p>
                 <p class="option-price-high">높은가격순</p>
-                <p>좋아요</p>
             </div>
 
             <div class="shopping-items">
@@ -36,10 +39,17 @@
                         <img class="item-img" th:src="${item.file}">
                         <div class="item_id" style="display: none" th:text="${item.item_id}"></div>
                         <span class="item-nm" th:text="${item.nm}"></span>
-                        <span class="dotori-span"><img class="dotori" src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt=""><span class="item-price" th:text="${#strings.length(item.price) > 3 ? #numbers.formatInteger(item.price, 3, 'COMMA') : item.price}"></span></span>
+                        <span class="dotori-span">
+                            <img class="dotori" src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt="">
+                            <span class="item-price" th:text="${#strings.length(item.price) > 3 ? #numbers.formatInteger(item.price, 3, 'COMMA') : item.price}">
+                            </span>
+                        </span>
                         <div class="add-cart" style="display: inline"><i class="fa-solid fa-cart-plus"></i></div>
                     </div>
                 </th:block>
+            </div>
+            <div class="pagination">
+
             </div>
         </div>
     </div>

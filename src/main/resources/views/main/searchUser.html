@@ -24,11 +24,12 @@
 
                 <th:block th:each="data : ${searchUser}">
                     <div class="results-data">
-                        <div class="photo-img">
+                        <div class="userId" style="display: none" th:text="${data.getIuser()}"></div>
+                        <div class="user-img">
                             <img th:src="${data.img}"
                                  alt="">
                         </div>
-                        <div class="photo-title" th:text="${data.nm}"></div>
+                        <div class="user-name" th:text="${data.nm}"></div>
                     </div>
                 </th:block>
 

@@ -32,3 +32,31 @@ searchTypeElem.value = searchType;
 
 console.log(searchTxt);
 console.log(searchType);
+
+let userImgElem = document.querySelectorAll(".user-img > img");
+
+userImgElem.forEach((item)=> {
+    let userId = item.parentNode.parentNode.querySelector(".userId").textContent;
+    console.log(userId)
+    item.addEventListener("click", ()=> {
+        const openUp = (userId) => {
+            const popupWidth = 1189;
+            const popupHeight = 600;
+            const popX = 0;
+            const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
+            const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+        `;
+
+            if(userId > 0) {
+                popup = window.open(`/home?iuser=${userId}`, 'home', option);
+            } else {
+                location.href = '/user/login';
+            }
+        }
+        openUp(userId);
+    })
+})

@@ -28,7 +28,10 @@ function callOrderedItems(btn, name) {
                 <img src="${data[i].file}" class="item-img" alt="">
                 <div class="item_id" style="display: none" data-set="${data[i].item_id}"></div>
                         <span class="item-nm">${data[i].nm}</span>
-                        <span><span class="item-price">${data[i].price}</span>원</span>
+                        <span class="dotori-span">
+                            <img class="dotori" src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt="">
+                            <span class="item-price">${data[i].price}</span>
+                        </span>
                         <div class="add-cart" style="display: inline"><i class="fa-solid fa-cart-plus"></i></div>
                     </div>
                 `
@@ -91,7 +94,10 @@ function callSearchOrderedItemsAll(btn, name) {
                 <img src="${data[i].file}" class="item-img" alt="">
                 <div class="item_id" style="display: none" data-set="${data[i].item_id}"></div>
                         <span class="item-nm">${data[i].nm}</span>
-                        <span><span class="item-price">${data[i].price}</span>원</span>
+                        <span class="dotori-span">
+                            <img class="dotori" src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt="">
+                            <span class="item-price">${data[i].price}</span>
+                        </span>
                         <div class="add-cart" style="display: inline"><i class="fa-solid fa-cart-plus"></i></div>
                     </div>
                 `
@@ -155,7 +161,10 @@ function callSearchOrderedItems(btn, name) {
                 <img src="${data[i].file}" class="item-img" alt="">
                         <div class="item_id" style="display: none" data-set="${data[i].item_id}"></div>
                         <span class="item-nm">${data[i].nm}</span>
-                        <span><span class="item-price">${data[i].price}</span>원</span>
+                        <span class="dotori-span">
+                            <img class="dotori" src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt="">
+                            <span class="item-price">${data[i].price}</span>
+                        </span>
                         <div class="add-cart" style="display: inline"><i class="fa-solid fa-cart-plus"></i></div>
                     </div>
                 `
@@ -271,3 +280,38 @@ addCart.forEach((item) => item.addEventListener("click", () => {
         location.href = "/";
     }
 }))
+
+//페이징
+
+let paginationElem = document.querySelector(".pagination");
+console.log(paginationElem)
+let resultsCount = Number(document.querySelector(".count-number").textContent);
+console.log(resultsCount)
+let currentUrl = window.location.href;
+console.log(currentUrl)
+if (currentUrl.includes("search")) {
+    let urlSplit = currentUrl.split('&', 2);
+currentUrl = urlSplit[0]+'&'+urlSplit[1];
+    function goToNumber(i) {
+        location.href = currentUrl + '&page=' + i;
+    }
+} else {
+    let urlSplit = currentUrl.split('?', 2);
+    currentUrl = urlSplit[0];
+    console.log(currentUrl);
+    function goToNumber(i) {
+        location.href = currentUrl + '?page=' + i;
+    }
+}
+
+
+
+
+const makePagingNumber = () => {
+    for (let i = 1; i <= Math.ceil(resultsCount/5); i++) {
+        paginationElem.innerHTML += `
+        <span onclick="goToNumber(${i-1})" class="number">${i}</span>
+        `;
+    }
+}
+makePagingNumber();
