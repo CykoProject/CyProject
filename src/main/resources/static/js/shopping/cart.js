@@ -360,8 +360,6 @@ buyBtn.addEventListener("click", (e) => {
         }).catch((e) => console.error(e))
 });
 
-})
-
 //포인트와 충전 금액
 
 function calNeedCharge() {
