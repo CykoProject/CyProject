@@ -199,6 +199,7 @@ body {
 
 .comment-writer-nm {
     color: #00aaff;
+    margin-right: 5px;
 }
 
 .cmt-word-break {
@@ -208,8 +209,6 @@ body {
 }
 
 .cmt-first-child {
-    width: 100px;
-    max-width: 44px;
     min-width: 44px;
 }
 
@@ -228,4 +227,17 @@ body {
 
 .comment-cnt-wrap {
     padding: 3px 5px;
+}
+
+.pagination > span {
+    margin-left: 5px;
+}
+
+.selected {
+    color: red;
+    text-decoration: underline;
+}
+
+.hover-pointer:hover {
+    cursor: pointer;
 }

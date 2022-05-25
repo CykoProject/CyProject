@@ -349,6 +349,16 @@ buyBtn.addEventListener("click", (e) => {
             }).catch((e) => console.error(e))
 
     }
+    console.log(data);
+    fetch("/cart/orderInfo", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    }).then(res => res.json())
+        .then(data => {
+            console.log(data)
+        }).catch((e) => console.error(e))
+});
 
 })
 

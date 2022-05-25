@@ -51,7 +51,6 @@ public class HomeController {
 
     @Autowired private VisitorService visitorService;
     @Autowired private CommentRepository commentRepository;
-    @Autowired private VisitRepository visitRepository;
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private HomeRepository homeRepository;
     @Autowired private UserRepository userRepository;
@@ -68,7 +67,9 @@ public class HomeController {
 
         int loginUser = authenticationFacade.getLoginUserPk();
         int ihomePk = utils.findHomePk(entity.getIuser());
-        int success = visitorService.saveVisitor(loginUser, ihomePk);
+
+        // todo jpa primary key 오류남
+//        int success = visitorService.saveVisitor(loginUser, ihomePk);
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
         model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
