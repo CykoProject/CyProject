@@ -132,11 +132,14 @@ if(visitElem) {
     visitModArr.forEach(item => {
         item.addEventListener('click', () => {
             const superElem = item.closest('.visit-elem');
+
             if(cnt === 1) {
                 const visitContentsElem = document.querySelector('.visit-contents');
                 const preBox = visitContentsElem.querySelector('.mod-area');
                 const curBox = superElem.querySelector('.mod-area');
-                preBox.remove();
+                if(preBox) {
+                    preBox.remove();
+                }
                 if(curBox) {
                     cnt = 0;
                     return;
@@ -146,13 +149,15 @@ if(visitElem) {
             const ivisit = superElem.dataset.iboard;
             const visitCtntElem = superElem.querySelector('.visit-mod-wrap');
 
+
             const insertVisit = (data) => {
                 const visitData = {
                     ivisit : data.ivisit,
                     ihost : data.ihost,
                     ctnt : data.ctnt.replaceAll("\n", "\r\n"),
                     iuser : data.iuser,
-                    secret : data.secret
+                    secret : data.secret,
+                    iminime : data.iminime
                 }
 
                 fetch(`/ajax/home/visit/mod`, {
@@ -199,6 +204,7 @@ if(visitElem) {
             fetch(`/ajax/home/visit/mod?ivisit=${ivisit}`)
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data);
                     makeVisitMod(data);
                 })
                 .catch(e => {
@@ -241,5 +247,16 @@ if(visitWriteElem) {
         if(ctntVal.length === 0) {
             e.preventDefault();
         }
+    });
+}
+
+const selectMinimeElem = document.querySelector('.select-minime');
+if(selectMinimeElem) {
+    const minimeImgElem = document.querySelector('.visit-minime');
+    selectMinimeElem.addEventListener('change', () => {
+        const url = '/pic/minime/'
+        const selectedElem = selectMinimeElem[selectMinimeElem.selectedIndex];
+        const file = selectedElem.dataset.file !== '0' ? url + selectedElem.dataset.file : '/static/img/defaultProfileImg.jpeg';
+        minimeImgElem.src = file;
     });
 }
