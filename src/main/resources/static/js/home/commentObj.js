@@ -11,18 +11,23 @@ const commentObj = {
     url : '',
     cntUrl : '',
 
-    page : 0,
-    size : 5,
     url : '',
     dataSetName : '#data-iboard',
     menu : '',
     iboard : 0,
     parentName : '',
+    parentElem : '',
     parentElemArr : '',
 
-    // elemName : document.querySelector('.comment-ctnt'),
+    page : 0,
+    size : 5,
+    currentPage : 1,
+    pageCnt : 5,
+    pop : 1,
+    startPage : 1,
+    lastPage : 5,
+
     elemName : '.comment-ctnt',
-    // elemCntName : document.querySelector('.comment-cnt'),
     elemCntName : '.comment-cnt',
 
     ctntElem : document.querySelector(`${this.name}`),
@@ -69,27 +74,77 @@ const commentObj = {
         });
     },
     makePage : function (totalCnt, paginationElem) {
+        paginationElem.innerHTML = '';
+
+        const parent = paginationElem.closest(`${this.parentName}`);
+
+        this.pop = Math.ceil(this.currentPage / this.size);
         const maxPage = Math.ceil(totalCnt / this.size);
-        for(let i=1; i<=maxPage; i++) {
+        const lastPage = this.size * this.pop;
+        const startPage = lastPage - (this.size - 1);
+
+        const iboard = parseInt(parent.querySelector(`${this.dataSetName}`).dataset.iboard);
+
+        const span1 = document.createElement('span');
+        span1.innerText = '<';
+        span1.classList.add('hover-pointer')
+        if(startPage !== 1) {
+            paginationElem.appendChild(span1);
+        }
+        span1.addEventListener('click', () => {
+            this.parentElem = parent;
+            this.currentPage = startPage - 1;
+            this.makePage(totalCnt, paginationElem);
+            this.getPageList(iboard, this.currentPage - 1);
+        });
+
+        for(let i=startPage; i<=(lastPage<maxPage ? lastPage:maxPage); i++) {
             const span = document.createElement('span');
+            span.classList.add('hover-pointer');
+            if(this.currentPage === i) {
+                span.classList.add('selected');
+            }
+
             span.innerText = i;
             paginationElem.appendChild(span);
-            span.addEventListener('click', (e) => {
-                this.iboard = e.target.closest(`${this.parentName}`).querySelector('#data-iboard').dataset.iboard;
-                this.myFetch.get(`/ajax/home/${this.menu}/cmt/${this.iboard}`, (data) => {
-                    this.parentElemArr.forEach(item => {
-                        const elem = item.querySelector(`${this.elemName}`);
-                        elem.innerHTML = '';
-                        data.forEach(item => {
-                            this.makeCmt(item, elem);
-                        });
-                    });
-                }, {
-                    page : i-1,
-                    size : this.size
-                })
+            span.addEventListener('click', () => {
+                this.currentPage = i;
+                this.parentElem = parent;
+                const page = i-1;
+                this.makePage(totalCnt, paginationElem);
+                this.getPageList(iboard, page);
             });
         }
+
+        const span2 = document.createElement('span');
+        span2.innerText = '>';
+        span2.classList.add('hover-pointer');
+        if(lastPage < maxPage) {
+            paginationElem.appendChild(span2);
+        }
+        span2.addEventListener('click', () => {
+            this.parentElem = parent;
+            this.currentPage = lastPage + 1;
+            this.makePage(totalCnt, paginationElem);
+            this.getPageList(iboard, this.currentPage - 1);
+        });
+    },
+
+    getPageList : function (iboard, page) {
+        this.myFetch.get(`${this.url}${iboard}`, (data) => {
+            this.setPageList(data);
+        }, {
+            page: page,
+            size : this.size
+        })
+    },
+
+    setPageList : function (list) {
+        const ctntElem = this.parentElem.querySelector(`${this.elemName}`);
+        ctntElem.innerHTML = '';
+        list.forEach(item => {
+            this.makeCmt(item, ctntElem);
+        });
     },
     makeCnt : function () {
         this.parentElemArr.forEach(item => {
@@ -106,16 +161,16 @@ const commentObj = {
         div.classList.add('cmt');
         div.dataset.icmt = item.icmt;
         const p = document.createElement('div');
-        const date = new Date(item.rdt);
-        const srcVal = item.writer.img;
-        const src = srcVal === null ? '/img/defaultProfileImg.jpeg' : `/pic/profile/${srcVal}`;
+        const ctntToNewLineVal = item.ctnt.replaceAll('\n', '<br>');
         p.innerHTML = `
             <div class="cmt-word-break">
                 <div class="cmt-first-child">
-                    <a href="/home?iuser=${item.writer.iuser}"><span class="comment-writer-nm">${item.writer.nm} </span></a>
+                    <a href="/home?iuser=${item.writer.iuser}">
+                        <span class="comment-writer-nm">${item.writer.nm} </span>
+                    </a>
                 </div>
                 <div>
-                    <span>${item.ctnt}</span>
+                    <span>${ctntToNewLineVal}</span>
                 </div>
             </div>
         `;

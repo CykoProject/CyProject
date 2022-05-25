@@ -18,6 +18,17 @@
 
 
 <h2>[[${info}]]</h2>
+<button class="close-success">닫기</button>
 
+<script>
+    window.onbeforeunload = () => {
+        opener.location.reload();
+    }
+    let closeBtn = document.querySelector(".close-success");
+
+    closeBtn.addEventListener("click", ()=> {
+        window.close();
+    })
+</script>
 </body>
 </html>

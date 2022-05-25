@@ -78,4 +78,10 @@ public class MainController {
             return "main/searchUser";
         }
     }
+
+    @GetMapping("/point")
+    public String point() {
+
+        return "main/point";
+    }
 }
