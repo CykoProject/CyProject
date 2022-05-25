@@ -1,6 +1,5 @@
 package com.example.CyProject.shopping.model.order;
 
-import com.example.CyProject.shopping.model.history.PurchaseHistoryEntity;
 import com.example.CyProject.user.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Repository
 public interface OrderInfoRepository extends JpaRepository <OrderInfoEntity, Integer> {

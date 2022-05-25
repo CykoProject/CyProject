@@ -52,7 +52,7 @@ if(goVisit){
     })
 }
 
-if(goFriendHome) {
+if(goFriendHome.length > 0) {
     goFriendHome.forEach(item => {
         item.addEventListener('click', (e) => {
             openUp(e.target.dataset.iuser);

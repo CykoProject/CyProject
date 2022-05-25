@@ -20,6 +20,11 @@ public class CartController {
 
     @GetMapping("")
     public String shoppingCart(Model model) {
+        if (authenticationFacade.getLoginUserPk() > 0) {
+            model.addAttribute("loginUser", authenticationFacade.getLoginUser());
+        } else {
+            return "/main/main";
+        }
 
         UserEntity entity = new UserEntity();
         entity.setIuser(authenticationFacade.getLoginUserPk());
@@ -32,6 +37,7 @@ public class CartController {
             model.addAttribute("totalPrice", cartRepository.totalPrice(entity));
         }
         System.out.println(cartRepository.totalPrice(entity));
+
 
         return "shopping/shoppingCart";
     }

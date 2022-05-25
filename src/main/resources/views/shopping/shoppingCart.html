@@ -11,7 +11,6 @@
 
 <body>
 <th:block layout:fragment="container">
-
     <div class="shopping-cart-container">
         <div class="cart-items-select">
             <span>전체선택</span>
@@ -31,9 +30,10 @@
                             <span class="cart-item-nm" th:text="${item.itemid.nm}"></span>
                             <div class="cart-item-total">
                             <span>
+                                <img class="dotori" src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt="">
                                 <span class="cart-item-price"
-                                      th:text="${#numbers.formatInteger(item.itemid.price, 3, 'COMMA')}"></span>
-                                원</span>
+                                      th:text="${#strings.length(item.itemid.price) > 3 ? #numbers.formatInteger(item.itemid.price, 3, 'COMMA') : item.itemid.price}"></span>
+                                </span>
                                 <div class="cart-item-cnt-set">
                             <span class="cart-item-minus">
                             <i class="fa-solid fa-minus"></i>
@@ -48,19 +48,31 @@
                         </div>
                         <div class="cart-item-result">
                         <span>
+                            <img class="dotori" src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt="">
                             <span class="cart-item-total-price"
-                                  th:text="${#numbers.formatInteger(item.itemid.price * item.cnt, 3, 'COMMA')}"></span>
-                            <span>원</span>
+                                  th:text="${#strings.length(item.itemid.price * item.cnt) > 3 ? #numbers.formatInteger(item.itemid.price * item.cnt, 3, 'COMMA') : item.itemid.price * item.cnt}"></span>
+                            <span></span>
                         </span>
                             <button class="cart-item-delete">상품 취소</button>
                         </div>
                     </div>
                 </th:block>
             <div class="cart-item-all-price">
-                <p>총합 : </p><span class="total-price" th:text="${totalPrice}"></span><p>원</p>
-                <form method="post" action="/shopping/kakaoPay">
+                <div class="cart-item-all-result">
+                    <div class="has-dotori-div">
+                    <p>보유 도토리 :</p><span class="has-dotori" th:text="${loginUser.getPoint()}"></span><p>개</p>
+                    </div>
+                    <div class="total-price-div">
+                <p>구매 가격 총합 : </p><span class="total-price" th:text="${totalPrice}"></span><p>개</p>
+                    </div>
+<!--                <form method="get" action="/shopping/kakaoPay">-->
+<!--                    <button class="buy-btn">구매하기</button>-->
+<!--                </form>-->
+                    <span class="need-charge" style="font-weight: bold; font-size:large;"></span>
+                </div>
+                <div>
                     <button class="buy-btn">구매하기</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>

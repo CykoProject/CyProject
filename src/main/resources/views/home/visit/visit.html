@@ -23,14 +23,14 @@
                 <form class="visitFrm" th:method="post" th:action="@{/home/visit/write}">
                     <div class="frow bc-gray p10-10">
                         <div class="f1 fc">
-                            <div>
+                            <div class="minime-wrap">
 <!--                                todo 미니미 설정-->
                                 <img class="visit-minime" th:src="@{/static/img/defaultProfileImg.jpeg}">
-                            </div>
-                            <div class="w100p">
-                                <select>
-                                    <option>미니미 설정</option>
-                                    <option></option>
+                                <select name="iminime" class="select-minime">
+                                    <option value="0" th:data-file="0">미니미설정</option>
+                                    <th:block th:each="minime : ${minime}">
+                                        <option th:value="${minime.item_id.item_id}" th:data-file="${minime.item_id.file}" th:text="${minime.item_id.nm}"></option>
+                                    </th:block>
                                 </select>
                             </div>
                         </div>
@@ -104,9 +104,12 @@
                         <div class="visit-ctnt frow g30">
                             <th:block th:if="${item.secret}">
                                 <th:block th:if="${(#strings.equals(loginUserPk, param.iuser) || #strings.equals(loginUserPk, item.iuser.iuser))}">
-                                    <img class="visit-minime" th:if="${item.iminime == 0}" th:src="@{/static/img/defaultProfileImg.jpeg}">
-                                    <img class="visit-minime" th:if="${item.iminime != 0}" th:src="@{/pic/minime/{iminime}.jpg (iminime=${item.iminime})}">
-                                    <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                    <img th:data-iminime="0" class="visit-minime" th:if="${item.iminime == null}" th:src="@{/static/img/defaultProfileImg.jpeg}">
+                                    <img th:data-iminime="${item.iminime.item_id}" class="visit-minime" th:if="${item.iminime != null}" th:src="@{/pic/minime/{iminime} (iminime=${item.iminime.file})}">
+                                    <div>
+                                        <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                        <div class="visit-mod-wrap"></div>
+                                    </div>
                                 </th:block>
 
                                 <th:block th:if="${(!#strings.equals(loginUserPk, param.iuser) && !#strings.equals(loginUserPk, item.iuser.iuser))}">
@@ -117,8 +120,8 @@
 
                             <th:block th:if="${!item.secret}">
                                 <div class="frow g30">
-                                    <img class="visit-minime" th:if="${item.iminime == 0}" th:src="@{/static/img/defaultProfileImg.jpeg}">
-                                    <img class="visit-minime" th:if="${item.iminime != 0}" th:src="@{/pic/minime/{iminime}.jpg (iminime=${item.iminime})}">
+                                    <img th:data-iminime="0" class="visit-minime" th:if="${item.iminime == null}" th:src="@{/static/img/defaultProfileImg.jpeg}">
+                                    <img th:data-iminime="${item.iminime.item_id}" class="visit-minime" th:if="${item.iminime != null}" th:src="@{/pic/minime/{iminime} (iminime=${item.iminime.file})}">
                                     <div>
                                         <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
                                         <div class="visit-mod-wrap"></div>

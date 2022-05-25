@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface PointHistoryRepository extends JpaRepository<PointHistoryEntity, Integer> {
 
-    PointHistoryEntity findByIuser(int iuser);
-
+    List<PointHistoryEntity> findByIuserOrderByRdtDesc(int iuser);
 }
