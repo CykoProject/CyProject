@@ -10,10 +10,20 @@
 <body>
 <th:block layout:fragment="container">
     <div class="mypage">
+        <h1>내 정보</h1>
+        <div>이메일 : <span th:text="${loginUser.email}"></span></div>
+        <div>연락처 : <span th:text="${loginUser.cellphone}"></span></div>
+        <div>이름 : <span th:text="${loginUser.nm}"></span></div>
+        <div>보유 도토리 : <span th:text="${loginUser.point}"></span></div>
+    </div>
+    <div>
         <button><a href="/user/change_upw">비밀번호 변경</a></button>
     </div>
     <div>
         <button><a href="/user/charge">포인트 충전</a></button>
+    </div>
+    <div>
+        <button><a href="/user/history">구매 내역</a></button>
     </div>
 </th:block>
 
