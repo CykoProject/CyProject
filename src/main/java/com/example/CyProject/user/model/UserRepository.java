@@ -33,4 +33,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Transactional
     @Query("UPDATE UserEntity set point = ?1 WHERE iuser = ?2")
     int updDotori(int point, int iuser);
+
+
 }

@@ -103,8 +103,26 @@
     align-items: center;
 }
 
-.cart-item-all-price > span {
+.has-dotori-div {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.total-price-div {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.has-dotori {
     font-weight: bold;
+}
+
+.total-price {
+    font-weight: bold;
+}
+
+.cart-item-all-result {
+    margin-right: 20px;
 }
 
 .buy-btn {

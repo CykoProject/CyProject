@@ -133,9 +133,11 @@
 
         <div class="service">
             <h3>싸이월드 서비스</h3>
+            <div class="service-menu">
             <p>미니홈피</p>
-            <p>쇼핑</p>
-            <p>친구 찾기</p>
+            <p><a th:href="@{/shopping}">쇼핑</a></p>
+            <p><a th:href="@{/search?type=1&search=}">친구 찾기</a></p>
+            </div>
         </div>
 
         <div id="map" style="width:260px;height:260px;"></div>
@@ -161,7 +163,7 @@
         </div>
         <div class="main-webtoons">
             <div class="webtoon-top">
-                <h5>웹툰</h5>
+                <h5>오늘의 웹툰</h5>
                 <div class="webtoon-move-btn">
                     <button class="webtoon-prev-btn">이전</button>
                     <button class="webtoon-next-btn">다음</button>

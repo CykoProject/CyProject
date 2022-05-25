@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -127,7 +128,7 @@ public class UserController {
     public String charge(Model model) {
         if(auth.getLoginUserPk() != 0) {
             int hasPoint = userRepository.findByIuser(auth.getLoginUserPk()).getPoint();
-            PointHistoryEntity history = pointHistoryRepository.findByIuser(auth.getLoginUserPk());
+            List<PointHistoryEntity> history = pointHistoryRepository.findByIuserOrderByRdtDesc(auth.getLoginUserPk());
             model.addAttribute("dotori", hasPoint);
             model.addAttribute("history", history);
             return "/user/charge";
