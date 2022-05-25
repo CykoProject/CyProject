@@ -1,6 +1,7 @@
 //미니홈피 바로가기
 const goHome = document.querySelector('.profile-go-to-home');
 const goFriendHome = document.querySelectorAll('.profile-go-to-friend-home');
+const goVisit = document.querySelector('.visit-go-to');
 let popup;
 
 const openUp = (iuser) => {
@@ -21,10 +22,34 @@ const openUp = (iuser) => {
         location.href = '/user/login';
     }
 }
+const openVisit = (iuser) => {
+    const popupWidth = 1189;
+    const popupHeight = 600;
+    const popX = 0;
+    const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
+    const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+        `;
+
+    if(iuser > 0) {
+        popup = window.open(`/home/visit?iuser=${iuser}`, 'home', option);
+    } else {
+        location.href = '/user/login';
+    }
+}
+
 if(goHome) {
     goHome.addEventListener('click', () => {
         openUp(goHome.dataset.iuser);
     });
+}
+if(goVisit){
+    goVisit.addEventListener('click', ()=>{
+        openVisit(goVisit.dataset.iuser);
+    })
 }
 
 if(goFriendHome) {
