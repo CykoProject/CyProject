@@ -17,6 +17,9 @@ import com.example.CyProject.home.model.report.ReportRepository;
 import com.example.CyProject.home.model.visit.VisitDto;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryEntity;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
+import com.example.CyProject.shopping.model.item.ItemCategory;
 import com.example.CyProject.user.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +43,7 @@ public class HomeRestController {
     @Autowired private CommentRepository commentRepository;
     @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private AuthenticationFacade authenticationFacade;
+    @Autowired private PurchaseHistoryRepository purchaseHistoryRepository;
     @Autowired private Utils utils;
 
     @GetMapping
@@ -58,6 +62,15 @@ public class HomeRestController {
     @GetMapping("/{cg}/cmt/{iboard}")
     public List<CommentEntity> getCommentList(@PathVariable String cg, @PathVariable int iboard, Pageable pageable) {
         return commentRepository.selCommentWithOutReply(iboard, utils.getCommentCategory(cg), pageable);
+    }
+
+    @GetMapping("/font")
+    public List<PurchaseHistoryEntity> getUserFontList(int iuser) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        if(iuser != loginUserPk) {
+            return null;
+        }
+        return purchaseHistoryRepository.findAllByIcategoryInHisotry(ItemCategory.FONT.getCategory(), authenticationFacade.getLoginUserPk());
     }
 
     @PostMapping("/{cg}/cmt/write")
@@ -123,9 +136,8 @@ public class HomeRestController {
     @PostMapping("/visit/mod")
     public ResultVo visitModProc(@RequestBody VisitEntity entity) {
         ResultVo vo = new ResultVo();
-        String preCtnt = visitRepository.findByIvisit(entity.getIvisit()).getCtnt();
         VisitEntity result = visitRepository.save(entity);
-        if(!preCtnt.equals(result.getCtnt())) {
+        if(result != null) {
             vo.setResult(1);
         }
         return vo;
