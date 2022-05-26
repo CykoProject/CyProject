@@ -51,7 +51,6 @@ public class HomeController {
     @Autowired private VisitRepository visitRepository;
     @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private ProfileRepository profileRepository;
-
     @Autowired private VisitorService visitorService;
     @Autowired private CommentRepository commentRepository;
     @Autowired private DiaryRepository diaryRepository;

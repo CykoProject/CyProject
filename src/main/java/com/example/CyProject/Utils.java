@@ -37,7 +37,13 @@ public class Utils {
     }
 
     public int findHomePk(int iuser) {
-        return homeRepository.findByIuser(iuser).getIhome();
+        int homePk = 0;
+        try {
+            homePk = homeRepository.findByIuser(iuser).getIhome();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return homePk;
     }
 
     public int getParseIntParameter(String param) {

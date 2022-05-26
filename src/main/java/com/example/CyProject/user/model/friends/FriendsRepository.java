@@ -1,5 +1,6 @@
 package com.example.CyProject.user.model.friends;
 
+import com.example.CyProject.user.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,5 @@ public interface FriendsRepository extends JpaRepository<FriendsEntity, Integer>
 
     @Query("SELECT f FROM FriendsEntity f WHERE f.iuser = ?1 AND f.status = 1")
     List<FriendsEntity> selectFriendsList(int iuser);
+
 }
