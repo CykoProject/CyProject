@@ -140,3 +140,20 @@ if(diaryELem) {
     });
     // 댓글 ========================================================================================================
 }
+
+// 다이어리 작성 ====================================================================================================================
+const diaryWriteElem = document.querySelector('#diary-write-elem');
+if(diaryWriteElem) {
+    const selectFontElem = diaryWriteElem.querySelector('.select-font');
+    const diaryWriteTextareaElem = diaryWriteElem.querySelector('.diary-write-textarea');
+    let preFontVal = '';
+    selectFontElem.addEventListener('change', () => {
+        if(preFontVal != '') {
+            diaryWriteTextareaElem.classList.remove(preFontVal);
+        }
+        const selectedOption = selectFontElem[selectFontElem.selectedIndex];
+        const fontVal = selectedOption.dataset.font;
+        preFontVal = fontVal;
+        diaryWriteTextareaElem.classList.add(fontVal);
+    });
+}
