@@ -5,19 +5,82 @@ let OrderByPriceDesc = document.querySelector(".option-price-high");
 
 let shoppingItemsElem = document.querySelector(".shopping-items");
 
+let sortStatus = localStorage.getItem('sort') !== undefined ? localStorage.getItem('sort') : '';
+
+const sort = localStorage.getItem('sort');
+const page = localStorage.getItem('page');
 
 //url 파라미터 받기
 function getParameterByName(name) {
     const url = new URL(location.href);
     const params = url.searchParams;
     const results = params.get(name);
-    console.log(results);
     return results;
+}
+
+if(localStorage.getItem('url')) {
+    let url = localStorage.getItem('url');
+
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            shoppingItemsElem.innerHTML = null;
+            for (let i = 0; i < data.length; i++) {
+                shoppingItemsElem.innerHTML += `
+                <div class="item">
+                <img src="${data[i].file}" class="item-img" alt="">
+                <div class="item_id" style="display: none" data-set="${data[i].item_id}"></div>
+                        <span class="item-nm">${data[i].nm}</span>
+                        <span class="dotori-span">
+                            <img class="dotori" src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt="">
+                            <span class="item-price">${data[i].price}</span>
+                        </span>
+                        <div class="add-cart" style="display: inline"><i class="fa-solid fa-cart-plus"></i></div>
+                    </div>
+                `
+            }
+            document.querySelectorAll(".add-cart").forEach((item) => item.addEventListener("click", () => {
+                if (iUser > 0) {
+
+                    const data = {
+                        "iuser": parseInt(iUser),
+                        "item_id": parseInt(item.parentElement.querySelector(".item_id").dataset.set)
+                    }
+                    console.log(data);
+                    fetch("/cart/add", {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(data)
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data);
+                            msgAlarm();
+                        })
+                        .catch(e => {
+                            console.error(e);
+                        });
+                } else {
+                    alert("장바구니에 담기 위해서 로그인을 해주세요");
+                    location.href = "/";
+                }
+            }))
+            localStorage.clear();
+        }).catch(e => {
+            console.log(e)
+        }
+    )
 }
 
 function callOrderedItems(btn, name) {
     btn.addEventListener("click", () => {
-        fetch(`/shopping/api/${name}`)
+        sortStatus = name;
+
+        let url = `/shopping/api/${name}`;
+        if(localStorage.getItem('url')) {
+            url = localStorage.getItem('url');
+        }
+        fetch(url)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -62,7 +125,6 @@ function callOrderedItems(btn, name) {
                         location.href = "/";
                     }
                 }))
-
             }).catch(e => {
                 console.log(e)
             }
@@ -289,10 +351,15 @@ let resultsCount = Number(document.querySelector(".count-number").textContent);
 console.log(resultsCount)
 let currentUrl = window.location.href;
 console.log(currentUrl)
+
 if (currentUrl.includes("search")) {
     let urlSplit = currentUrl.split('&', 2);
-currentUrl = urlSplit[0]+'&'+urlSplit[1];
+    currentUrl = urlSplit[0]+'&'+urlSplit[1];
     function goToNumber(i) {
+        if(sortStatus) {
+            localStorage.setItem('url', `/shopping/api/${sortStatus}?page=${i}`);
+            localStorage.setItem('sort', sortStatus);
+        }
         location.href = currentUrl + '&page=' + i;
     }
 } else {
@@ -300,6 +367,10 @@ currentUrl = urlSplit[0]+'&'+urlSplit[1];
     currentUrl = urlSplit[0];
     console.log(currentUrl);
     function goToNumber(i) {
+        if(sortStatus) {
+            localStorage.setItem('url', `/shopping/api/${sortStatus}?page=${i}`);
+            localStorage.setItem('sort', sortStatus);
+        }
         location.href = currentUrl + '?page=' + i;
     }
 }

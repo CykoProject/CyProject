@@ -38,7 +38,7 @@ public class ShoppingApiController {
     }
 
     @PostMapping("/searchOrderByRdtDescAll")
-    public List<ItemEntity> searchOrderByRdtDescAll(@RequestBody ItemDto dto, Pageable pageable) {
+    public List<ItemEntity> searchOrderByRdtDescAll(@RequestBody ItemDto dto, @PageableDefault(size=5) Pageable pageable) {
         System.out.println(dto.getSearch());
         return itemRepository.findByNmContainsOrderByRdtDesc(dto.getSearch(), pageable);
     }
