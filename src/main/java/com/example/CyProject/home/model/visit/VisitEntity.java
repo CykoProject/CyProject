@@ -36,6 +36,11 @@ public class VisitEntity {
     @NotFound(action = NotFoundAction.IGNORE)
     private ItemEntity iminime;
 
+    @OneToOne
+    @JoinColumn(name = "ifont")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private ItemEntity ifont;
+
     private boolean secret;
 
     @Column(insertable = false, updatable = false)

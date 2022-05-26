@@ -55,7 +55,7 @@
                                 <span th:text="${#temporals.format(item.rdt, 'HH:mm')}"></span>
                             </div>
                             <div>
-                                <span th:utext="${item.ctnt}" class="diary-ctnt"></span>
+                                <span th:classappend="${item.ifont != null ? item.ifont.file : ''}" th:utext="${item.ctnt}" class="diary-ctnt"></span>
                             </div>
                         </div>
                     </div>

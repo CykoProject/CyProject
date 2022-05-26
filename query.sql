@@ -8,10 +8,12 @@ CREATE OR replace TABLE home_profile(
 	rdt DATETIME DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- *** 2022-05-26 수정 ( font 추가 ) ***
 CREATE OR replace TABLE home_diary(
 	idiary INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	ihost INT UNSIGNED NOT NULL,
 	ctnt TEXT NOT NULL,
+    ifont INT UNSIGNED DEFAULT 0,
 	rdt DATETIME DEFAULT CURRENT_TIMESTAMP()
 );
 
@@ -33,12 +35,14 @@ CREATE OR replace TABLE home_photos(
 );
 
 -- *** 2022-04-21 수정 ( iminime 추가 ) ***
+-- *** 2022-05-26 수정 ( font 추가 ) ***
 CREATE OR replace TABLE home_visit(
 	ivisit INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	ihost INT UNSIGNED NOT NULL,
 	ctnt TEXT NOT NULL,
 	iuser INT UNSIGNED NOT NULL,
 	iminime INT UNSIGNED DEFAULT 0,
+    ifont INT UNSIGNED DEFAULT 0,
 	secret BOOLEAN DEFAULT FALSE,
 	rdt DATETIME DEFAULT CURRENT_TIMESTAMP()
 );

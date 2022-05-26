@@ -16,7 +16,21 @@ if(visitElem) {
                 alert('1자 이상 작성해 주세요.');
             }
         });
+        // 글꼴변경
+        const fontElem = document.querySelector('.font-select');
+        let preFontVal = '';
+        fontElem.addEventListener('change', () => {
+            const selectedOptionElem = fontElem[fontElem.selectedIndex];
+            const fontFileVal = selectedOptionElem.dataset.font;
+            const visitTextAreaElem = document.querySelector('.visit-textarea');
+            if(preFontVal != '') {
+                visitTextAreaElem.classList.remove(preFontVal);
+            }
+            visitTextAreaElem.classList.add(fontFileVal);
+            preFontVal = fontFileVal;
+        });
     }
+
     //============================ 방명록 작성 finish ==========================
 
 
