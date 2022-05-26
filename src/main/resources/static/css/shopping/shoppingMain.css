@@ -253,7 +253,10 @@
 
 .pagination {
     margin-top: 20px;
-    font-weight: bold;
+}
+
+.number {
+    margin: 5px;
 }
 
 .number:hover {

@@ -196,3 +196,15 @@
     width: 170px;
     height: 230px;
 }
+
+.pagination {
+    margin-top: 20px;
+}
+
+.number {
+    margin: 5px;
+}
+
+.number:hover {
+    cursor: pointer;
+}

@@ -1,6 +1,7 @@
 package com.example.CyProject.shopping.model.item;
 
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 

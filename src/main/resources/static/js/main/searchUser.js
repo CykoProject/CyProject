@@ -13,8 +13,17 @@ function goToNumber(i) {
 const makePagingNumber = () => {
     for (let i = 1; i <= Math.ceil(resultsCount/5); i++) {
         paginationElem.innerHTML += `
-        <span onclick="goToNumber(${i-1})">${i}</span>
+        <span class="number" onclick="goToNumber(${i-1})">${i}</span>
         `;
+    }
+    document.querySelectorAll(".number")[0].style.fontWeight= "bold";
+    document.querySelectorAll(".number")[0].style.fontSize = "large";
+    if(new URL(location.href).searchParams.get("page")) {
+        document.querySelectorAll(".number")[0].style.fontWeight= "";
+        document.querySelectorAll(".number")[0].style.fontSize = "";
+        let i = new URL(location.href).searchParams.get("page");
+        document.querySelectorAll(".number")[i].style.fontWeight= "bold";
+        document.querySelectorAll(".number")[i].style.fontSize = "large";
     }
 }
 makePagingNumber();

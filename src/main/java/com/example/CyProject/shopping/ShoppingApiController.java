@@ -42,6 +42,7 @@ public class ShoppingApiController {
         System.out.println(dto.getSearch());
         return itemRepository.findByNmContainsOrderByRdtDesc(dto.getSearch(), pageable);
     }
+
     @PostMapping("/searchOrderByRdtAscAll")
     public List<ItemEntity> searchOrderByRdtAscAll(@RequestBody ItemDto dto, @PageableDefault(size=5) Pageable pageable) {
         return itemRepository.findByNmContainsOrderByRdtAsc(dto.getSearch(), pageable);
@@ -56,26 +57,26 @@ public class ShoppingApiController {
     }
 
     @PostMapping("/searchOrderByRdtDesc")
-    public List<ItemEntity> searchOrderByRdtDesc(@RequestBody ItemDto dto, Pageable pageable) {
+    public List<ItemEntity> searchOrderByRdtDesc(@RequestBody ItemDto dto, @PageableDefault(size=5) Pageable pageable) {
         System.out.println(itemRepository.searchByCategoryAndTxtByOrderByRdtDesc(dto.getCategory(), dto.getSearch(), pageable));
         return itemRepository.searchByCategoryAndTxtByOrderByRdtDesc(dto.getCategory(), dto.getSearch(), pageable);
     }
 
     @PostMapping("/searchOrderByRdtAsc")
-    public List<ItemEntity> searchOrderByRdtAsc(@RequestBody ItemDto dto) {
-        System.out.println(itemRepository.searchByCategoryAndTxtByOrderByRdtAsc(dto.getCategory(), dto.getSearch()));
-        return itemRepository.searchByCategoryAndTxtByOrderByRdtAsc(dto.getCategory(), dto.getSearch());
+    public List<ItemEntity> searchOrderByRdtAsc(@RequestBody ItemDto dto, @PageableDefault(size=5) Pageable pageable) {
+        System.out.println(itemRepository.searchByCategoryAndTxtByOrderByRdtAsc(dto.getCategory(), dto.getSearch(), pageable));
+        return itemRepository.searchByCategoryAndTxtByOrderByRdtAsc(dto.getCategory(), dto.getSearch(), pageable);
     }
 
     @PostMapping("/searchOrderByPriceDesc")
-    public List<ItemEntity> searchOrderByPriceDesc(@RequestBody ItemDto dto) {
-        System.out.println(itemRepository.searchByCategoryAndTxtByOrderByPriceDesc(dto.getCategory(), dto.getSearch()));
-        return itemRepository.searchByCategoryAndTxtByOrderByPriceDesc(dto.getCategory(), dto.getSearch());
+    public List<ItemEntity> searchOrderByPriceDesc(@RequestBody ItemDto dto, @PageableDefault(size=5) Pageable pageable) {
+        System.out.println(itemRepository.searchByCategoryAndTxtByOrderByPriceDesc(dto.getCategory(), dto.getSearch(), pageable));
+        return itemRepository.searchByCategoryAndTxtByOrderByPriceDesc(dto.getCategory(), dto.getSearch(), pageable);
     }
 
     @PostMapping("/searchOrderByPriceAsc")
-    public List<ItemEntity> searchOrderByPriceAsc(@RequestBody ItemDto dto) {
-        System.out.println(itemRepository.searchByCategoryAndTxtByOrderByPriceAsc(dto.getCategory(), dto.getSearch()));
-        return itemRepository.searchByCategoryAndTxtByOrderByPriceAsc(dto.getCategory(), dto.getSearch());
+    public List<ItemEntity> searchOrderByPriceAsc(@RequestBody ItemDto dto, @PageableDefault(size=5) Pageable pageable) {
+        System.out.println(itemRepository.searchByCategoryAndTxtByOrderByPriceAsc(dto.getCategory(), dto.getSearch(), pageable));
+        return itemRepository.searchByCategoryAndTxtByOrderByPriceAsc(dto.getCategory(), dto.getSearch(), pageable);
     }
 }

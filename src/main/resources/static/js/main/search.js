@@ -20,6 +20,9 @@ let allList = document.querySelectorAll(".results-data");
 const changeElemBlock = (elem) => {
     for(let i=0; i<elem.children.length; i++) {
         elem.children[i].style.display = 'flex';
+        if (i>10) {
+            elem.children[i].style.display = 'none';
+        }
     }
 }
 
