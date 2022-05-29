@@ -10,8 +10,13 @@
     padding: 50px;
 }
 
-.mypage label {
+.mypage-detail label {
     display: flex;
+    text-align: start;
+}
+
+.mypage-detail div {
+    text-align: right;
 }
 
 .btns {

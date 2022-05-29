@@ -12,10 +12,10 @@
     <div class="mypage">
         <h1>내 정보</h1>
         <div class="mypage-detail">
-            <label>이메일 : <span th:text="${loginUser.email}"></span></label>
-            <label>연락처 : <span th:text="${loginUser.cellphone}"></span></label>
-            <label>이름 : <span th:text="${loginUser.nm}"></span></label>
-            <label>보유 도토리 : <span th:text="${loginUser.point}"></span></label>
+            <label>이메일 : <div th:text="${loginUser.email}"></div></label>
+            <label>연락처 : <div th:text="${loginUser.cellphone}"></div></label>
+            <label>이름 : <div th:text="${loginUser.nm}"></div></label>
+            <label>보유 도토리 : <div th:text="${loginUser.point}"></div></label>
         </div>
         <div class="btns">
             <button class="btn"><a href="/user/change_upw">비밀번호 변경</a></button>
