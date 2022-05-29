@@ -4,7 +4,6 @@ import com.example.CyProject.PageEntity;
 import com.example.CyProject.Utils;
 import com.example.CyProject.common.MyFileUtils;
 import com.example.CyProject.config.AuthenticationFacade;
-import com.example.CyProject.home.model.friends.FriendsEntity;
 import com.example.CyProject.home.model.comment.CommentRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
@@ -29,6 +28,7 @@ import com.example.CyProject.home.model.visitor.VisitorService;
 import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
 import com.example.CyProject.shopping.model.item.ItemCategory;
 import com.example.CyProject.user.model.UserRepository;
+import com.example.CyProject.user.model.friends.FriendsEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -71,7 +71,6 @@ public class HomeController {
     @Autowired private HomeRepository homeRepository;
     @Autowired private PageService pageService;
     @Autowired private UserRepository userRepository;
-    @Autowired private PageService pageService;
     @Autowired private HomeService homeService;
     @Autowired private Utils utils;
     @Autowired private AuthenticationFacade auth;
@@ -94,7 +93,7 @@ public class HomeController {
 
         FriendsEntity friendsEntity = new FriendsEntity();
         friendsEntity.setIuser(entity.getIuser());
-        friendsEntity.setFuser(auth.getLoginUserPk());
+        friendsEntity.setFuser(userRepository.findByIuser(auth.getLoginUserPk()));
 
         model.addAttribute("isFriend", homeService.selFriends(friendsEntity));
 
