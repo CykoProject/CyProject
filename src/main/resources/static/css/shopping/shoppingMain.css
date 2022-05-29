@@ -242,3 +242,23 @@
     align-items: center;
     height: 30px;
 }
+
+.search-count {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.number {
+    margin: 5px;
+}
+
+.number:hover {
+    cursor: pointer;
+}

@@ -95,6 +95,9 @@ public class HomeController {
                 .rowCnt(rowCnt)
                 .build();
 
+        int fontCategory = ItemCategory.FONT.getCategory();
+
+        model.addAttribute("font", purchaseHistoryRepository.findAllByIcategoryInHisotry(fontCategory, loginUserPk));
         model.addAttribute("loginUserPk", loginUserPk);
         model.addAttribute("data", utils.makeStringNewLine(list));
         model.addAttribute("pageData", pageEntity);
@@ -105,11 +108,15 @@ public class HomeController {
     public String writeDiary(int iuser, String idiary, Model model) {
         int idx = utils.getParseIntParameter(idiary);
         if(idx != 0) {
+            System.out.println("mod");
             model.addAttribute("modData", diaryRepository.findById(idx));
         }
         if(authenticationFacade.getLoginUserPk() != iuser) {
             return "redirect:/home/diary?iuser="+iuser;
         }
+
+        int fontCategory = ItemCategory.FONT.getCategory();
+        model.addAttribute("font", purchaseHistoryRepository.findAllByIcategoryInHisotry(fontCategory, authenticationFacade.getLoginUserPk()));
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "home/diary/write";
     }
@@ -145,9 +152,11 @@ public class HomeController {
          * 미니미설정
          */
         int loginUserPk = authenticationFacade.getLoginUserPk();
-        int itemCategory = ItemCategory.MINIME.getCategory();
+        int minimeCategory = ItemCategory.MINIME.getCategory();
+        int fontCategory = ItemCategory.FONT.getCategory();
 
-        model.addAttribute("minime", purchaseHistoryRepository.findAllByIcategoryInHisotry(itemCategory, loginUserPk));
+        model.addAttribute("font", purchaseHistoryRepository.findAllByIcategoryInHisotry(fontCategory, loginUserPk));
+        model.addAttribute("minime", purchaseHistoryRepository.findAllByIcategoryInHisotry(minimeCategory, loginUserPk));
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", utils.makeStringNewLine(list));
         model.addAttribute("pageData", pageEntity);
@@ -178,7 +187,7 @@ public class HomeController {
     public String jukeBoxRepreFolder(@RequestParam(value = "iuser") int iuser, Model model) {
         model.addAttribute("folder", "repre");
         model.addAttribute("data", jukeBoxRepository.selRepreList(iuser));
-
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "home/jukebox/repre";
     }
 
