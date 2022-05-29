@@ -442,6 +442,19 @@
     flex-direction: column;
 }
 
+.main-cmt-top > h5 {
+    margin-bottom: 10px;
+}
+
+.main-cmt-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-cmt-bottom {
+    margin-top: 10px;
+}
+
 .news-container {
     margin-top: 10px;
     flex: 0.25;

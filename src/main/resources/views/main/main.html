@@ -152,11 +152,15 @@
                 <div class="main-cmt-top">
                     <h5>한 마디</h5>
                     <div>
-                        <tr th:each="list : ${cmt}">
-                            <td th:text="${list.ctnt}"></td>
-                        </tr>
-                        <input type="text" class="main-cmt-ctnt" placeholder="한 마디 하세요.">
-                        <button class="main-cmt-button">등록</button>
+                        <div class="main-cmt-list">
+                        <div th:each="list : ${cmt}">
+                            <span th:text="${list.ctnt}"></span>
+                        </div>
+                        </div>
+                        <div class="main-cmt-bottom">
+                            <input type="text" class="main-cmt-ctnt" placeholder="한 마디 하세요.">
+                            <button class="main-cmt-button">등록</button>
+                        </div>
                     </div>
                 </div>
             </div>

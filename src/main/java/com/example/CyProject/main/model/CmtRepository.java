@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface CmtRepository extends JpaRepository<CmtEntity, Integer> {
 
-    List<CmtEntity> findAllOrderByRdt();
+    List<CmtEntity> findAll();
 }

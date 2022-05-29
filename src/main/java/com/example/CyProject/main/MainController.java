@@ -52,8 +52,7 @@ public class MainController {
         model.addAttribute("data", friendsRepository.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("msgCnt", messageRepository.beforeReadMsgCnt(authenticationFacade.getLoginUserPk()));
         model.addAttribute("userData", mainService.userRepository.findByIuser(authenticationFacade.getLoginUserPk()));
-        System.out.println(cmtRepository.findAllOrderByRdt());
-        model.addAttribute("cmt", cmtRepository.findAllOrderByRdt());
+        model.addAttribute("cmt", cmtRepository.findAll());
 
         return "main/main";
     }
