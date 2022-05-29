@@ -1,7 +1,5 @@
 package com.example.CyProject.home;
 
-import com.example.CyProject.home.model.friends.FriendsEntity;
-import com.example.CyProject.home.model.friends.FriendsMapper;
 import com.example.CyProject.home.model.home.HomeMessageEntity;
 import com.example.CyProject.home.model.home.HomeMessageMapper;
 import com.example.CyProject.home.model.photo.PhotoEntity;
@@ -12,6 +10,8 @@ import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
+import com.example.CyProject.user.model.friends.FriendMapper;
+import com.example.CyProject.user.model.friends.FriendsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +40,7 @@ public class HomeService {
     private final PhotoRepository photoRepository;
     private final UserRepository userRepository;
 
-    @Autowired private FriendsMapper friendsMapper;
+    @Autowired private FriendMapper friendMapper;
     @Autowired private HomeMessageMapper homeMessageMapper;
     @Autowired private VisitRepository visitRepository;
 
@@ -151,7 +151,7 @@ public class HomeService {
     }
 
     public int selFriends(FriendsEntity entity) {
-        return friendsMapper.selFriends(entity);
+        return friendMapper.selFriends(entity.getIuser(), entity.getFuser().getIuser());
     }
 
     public int selMessage(HomeMessageEntity entity) {
