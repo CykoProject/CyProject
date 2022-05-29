@@ -76,6 +76,17 @@ public class HomeRestController {
         return homeRepository.findByIuser(entity.getIuser());
     }
 
+
+//    @PostMapping("/diary/scrap")
+//    public int diaryScrap(@RequestBody DiaryEntity entity) {
+//        int loginUserPk = authenticationFacade.getLoginUserPk();
+//        if(loginUserPk > 0) {
+//            entity.setIhost(loginUserPk);
+//            diaryRepository.save(entity);
+//        }
+//        return 1;
+//    }
+
     @PutMapping("/nm/mod")
     public ResultVo modHomeNm(@RequestBody HomeEntity entity) {
         // TODO : home 테이블 `home_nm` 추가

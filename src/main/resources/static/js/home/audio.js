@@ -30,10 +30,10 @@ if(repreAudioElem) {
                 let idx = 0;
                 data.forEach(item => {
                     const musicData = {};
-                    musicData.imusic = item.imusic.imusic;
+                    musicData.imusic = item.imusic.item_id;
                     musicData.nm = item.imusic.nm;
                     musicData.artist = item.imusic.artist;
-                    musicData.url = '/pic/bgm/' + item.imusic.url;
+                    musicData.url = '/pic/bgm/' + item.imusic.file;
                     musicData.idx = idx++;
                     playList.push(musicData);
                 });

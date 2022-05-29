@@ -260,6 +260,34 @@ body {
 }
 
 
+.audio-section {
+    position: absolute;
+    right: 100px;
+    top: 108px;
+    border: 1px solid;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+}
+
+.audio-section:hover {
+    cursor: pointer;
+}
+
+.scrap-div {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.scrap {
+    font-size: 10px;
+    color: gray;
+}
+
+.scrap:hover {
+    cursor: pointer;
+=======
+
 /* left profile */
 .profile-img {
     width: 100%;
