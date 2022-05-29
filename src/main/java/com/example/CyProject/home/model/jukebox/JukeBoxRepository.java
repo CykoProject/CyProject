@@ -1,5 +1,8 @@
 package com.example.CyProject.home.model.jukebox;
 
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryEntity;
+import com.example.CyProject.shopping.model.item.ItemEntity;
+import com.example.CyProject.user.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

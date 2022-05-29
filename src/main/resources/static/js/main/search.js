@@ -20,6 +20,9 @@ let allList = document.querySelectorAll(".results-data");
 const changeElemBlock = (elem) => {
     for(let i=0; i<elem.children.length; i++) {
         elem.children[i].style.display = 'flex';
+        if (i>10) {
+            elem.children[i].style.display = 'none';
+        }
     }
 }
 
@@ -90,3 +93,93 @@ searchTypeElem.value = searchType;
 
 console.log(searchTxt);
 console.log(searchType);
+
+//게시물 사진 없을 때 기본 사진
+let photoImgElem = document.querySelectorAll(".photo-img > img");
+let diaryImgElem = document.querySelectorAll(".diary-img > img");
+let profileImgElem = document.querySelectorAll(".profile-img > img");
+
+photoImgElem.forEach((item)=> {
+    if(item.getAttribute("src") == null || 1) {
+        item.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT01d4OBfsfcn3i82usjadKKTPbAtKGIkgRcA&usqp=CAU"
+    }
+    let userId = item.parentNode.parentNode.querySelector(".userId").textContent;
+    item.addEventListener("click", ()=> {
+        const openUp = (userId) => {
+            const popupWidth = 1189;
+            const popupHeight = 600;
+            const popX = 0;
+            const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
+            const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+        `;
+
+            if(userId > 0) {
+                popup = window.open(`/home/photo?iuser=${userId}`, 'home', option);
+            } else {
+                location.href = '/user/login';
+            }
+        }
+        openUp(userId);
+    })
+})
+
+diaryImgElem.forEach((item)=> {
+    if(item.getAttribute("src") == ""||null || 0) {
+        item.src = "https://entertainimg.kbsmedia.co.kr/cms/uploads/PERSON_20220112081105_4217f0cc8e5e82a908647d8e1de448a5.jpg"
+    }
+    let userId = item.parentNode.parentNode.querySelector(".userId").textContent;
+    item.addEventListener("click", ()=> {
+        const openUp = (userId) => {
+            const popupWidth = 1189;
+            const popupHeight = 600;
+            const popX = 0;
+            const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
+            const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+        `;
+
+            if(userId > 0) {
+                popup = window.open(`/home/diary?iuser=${userId}`, 'home', option);
+            } else {
+                location.href = '/user/login';
+            }
+        }
+        openUp(userId);
+    })
+})
+
+profileImgElem.forEach((item)=> {
+    if(item.getAttribute("src") == null || 0) {
+        item.src = "https://cdn.mhnse.com/news/photo/202205/105045_88610_1253.jpg"
+    }
+    let userId = item.parentNode.parentNode.querySelector(".userId").textContent;
+    item.addEventListener("click", ()=> {
+        const openUp = (userId) => {
+            const popupWidth = 1189;
+            const popupHeight = 600;
+            const popX = 0;
+            const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
+            const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+        `;
+
+            if(userId > 0) {
+                popup = window.open(`/home/profile?iuser=${userId}`, 'home', option);
+            } else {
+                location.href = '/user/login';
+            }
+        }
+        openUp(userId);
+    })
+})
+

@@ -1,6 +1,8 @@
 package com.example.CyProject.shopping.kakao;
 
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.jukebox.JukeBoxEntity;
+import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
 import com.example.CyProject.shopping.CartApiController;
 import com.example.CyProject.shopping.model.cart.CartRepository;
 import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
@@ -33,6 +35,8 @@ public class KakaoPayController {
     OrderInfoRepository orderInfoRepository;
     @Autowired
     CartApiController cartApiController;
+    @Autowired
+    JukeBoxRepository jukeBoxRepository;
 
     @Setter(onMethod_ = @Autowired)
     private KakaoPayService kakaopay;
@@ -68,11 +72,18 @@ public class KakaoPayController {
         for(ItemEntity item : itemIdList) {
 //            ItemEntity itemEntity = new ItemEntity();
 //            itemEntity.setItem_id(itemEntity.getItem_id());
+            JukeBoxEntity entity = new JukeBoxEntity();
+            entity.setIhost(authenticationFacade.getLoginUserPk());
+            entity.setImusic(item);
+            jukeBoxRepository.save(entity);
             cartRepository.deleteByIuserAndItemid(userEntity, item);
         }
         System.out.println("구매 아이템 카트 삭제");
 
+
         purchaseHistoryRepository.purchaseComplete(userEntity);
         orderInfoRepository.OrderComplete(userEntity);
+
+
     }
 }

@@ -13,9 +13,9 @@
         <div class="search-header">
             <div class="search-option">
                 <h2 class="see-all">전체 보기</h2>
-                <h2 class="see-profile">프로필</h2>
-                <h2 class="see-diary">다이어리</h2>
                 <h2 class="see-photo">사진첩</h2>
+                <h2 class="see-diary">다이어리</h2>
+                <h2 class="see-profile">프로필</h2>
             </div>
 
             <div class="search-count">
@@ -30,11 +30,15 @@
 
                 <th:block th:each="data : ${searchPhoto}">
                     <div class="results-photo results-data">
+                        <div class="userId" style="display: none" th:text="${data.getIhost()}"></div>
                         <div class="photo-img">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT01d4OBfsfcn3i82usjadKKTPbAtKGIkgRcA&usqp=CAU"
+                            <img th:src="${data.getIfile()}"
                                  alt="">
                         </div>
+                        <div class="photo-info">
+                            <h3 th:text="|${data.getIhost()}의 사진첩|">사진첩</h3>
                         <div class="photo-title" th:text="${data.title}"></div>
+                        </div>
                     </div>
                 </th:block>
 
@@ -44,11 +48,15 @@
 
                 <th:block th:each="data : ${searchDiary}">
                     <div class="results-diary results-data">
+                        <div class="userId" style="display: none" th:text="${data.getIhost()}"></div>
                         <div class="diary-img">
-                            <img src="https://entertainimg.kbsmedia.co.kr/cms/uploads/PERSON_20220112081105_4217f0cc8e5e82a908647d8e1de448a5.jpg"
+                            <img src=""
                                  alt="">
                         </div>
-                        <div class="diary-ctnt" th:text="${data.ctnt}"></div>
+                        <div class="diary-info">
+                            <h3 th:text="|${data.getIhost()}의 다이어리|">다이어리</h3>
+                            <div class="diary-ctnt" th:text="${data.ctnt}"></div>
+                        </div>
                     </div>
                 </th:block>
 
@@ -58,10 +66,14 @@
 
                 <th:block th:each="data : ${searchProfile}">
                     <div class="results-profile results-data">
+                        <div class="userId" style="display: none" th:text="${data.getIhost()}"></div>
                         <div class="profile-img">
-                            <img src="https://cdn.mhnse.com/news/photo/202205/105045_88610_1253.jpg" alt="">
+                            <img th:src="${data.getImg()}" alt="">
                         </div>
-                        <div class="profile-ctnt" th:text="${data.ctnt}"></div>
+                        <div class="profile-info">
+                            <h3 th:text="|${data.getIhost()}의 프로필|">프로필</h3>
+                            <div class="profile-ctnt" th:text="${data.ctnt}"></div>
+                        </div>
                     </div>
                 </th:block>
 

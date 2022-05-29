@@ -19,6 +19,7 @@ public class PhotoEntity {
     private int iphoto;
 
     private int ihost;
+    private int ifile;
     private String title;
     private String ctnt;
 

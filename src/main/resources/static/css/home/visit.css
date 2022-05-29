@@ -20,6 +20,8 @@
     width: 115px;
     height: auto;
     object-fit: cover;
+    max-height: 170px;
+    min-height: 170px;
 }
 
 .visit-secret-bar {

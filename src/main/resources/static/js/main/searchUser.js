@@ -13,8 +13,17 @@ function goToNumber(i) {
 const makePagingNumber = () => {
     for (let i = 1; i <= Math.ceil(resultsCount/5); i++) {
         paginationElem.innerHTML += `
-        <span onclick="goToNumber(${i-1})">${i}</span>
+        <span class="number" onclick="goToNumber(${i-1})">${i}</span>
         `;
+    }
+    document.querySelectorAll(".number")[0].style.fontWeight= "bold";
+    document.querySelectorAll(".number")[0].style.fontSize = "large";
+    if(new URL(location.href).searchParams.get("page")) {
+        document.querySelectorAll(".number")[0].style.fontWeight= "";
+        document.querySelectorAll(".number")[0].style.fontSize = "";
+        let i = new URL(location.href).searchParams.get("page");
+        document.querySelectorAll(".number")[i].style.fontWeight= "bold";
+        document.querySelectorAll(".number")[i].style.fontSize = "large";
     }
 }
 makePagingNumber();
@@ -32,3 +41,31 @@ searchTypeElem.value = searchType;
 
 console.log(searchTxt);
 console.log(searchType);
+
+let userImgElem = document.querySelectorAll(".user-img > img");
+
+userImgElem.forEach((item)=> {
+    let userId = item.parentNode.parentNode.querySelector(".userId").textContent;
+    console.log(userId)
+    item.addEventListener("click", ()=> {
+        const openUp = (userId) => {
+            const popupWidth = 1189;
+            const popupHeight = 600;
+            const popX = 0;
+            const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
+            const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+        `;
+
+            if(userId > 0) {
+                popup = window.open(`/home?iuser=${userId}`, 'home', option);
+            } else {
+                location.href = '/user/login';
+            }
+        }
+        openUp(userId);
+    })
+})
