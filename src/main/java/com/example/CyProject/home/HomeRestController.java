@@ -51,6 +51,16 @@ public class HomeRestController {
         return homeRepository.findByIuser(entity.getIuser());
     }
 
+//    @PostMapping("/diary/scrap")
+//    public int diaryScrap(@RequestBody DiaryEntity entity) {
+//        int loginUserPk = authenticationFacade.getLoginUserPk();
+//        if(loginUserPk > 0) {
+//            entity.setIhost(loginUserPk);
+//            diaryRepository.save(entity);
+//        }
+//        return 1;
+//    }
+
     @GetMapping("/{cg}/cmt/cnt/{iboard}")
     public ResultVo getCommentCnt(@PathVariable String cg, @PathVariable int iboard) {
         ResultVo vo = new ResultVo();

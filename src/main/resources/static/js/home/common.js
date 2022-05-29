@@ -18,7 +18,6 @@ const option = `width = ${popupWidth}px
         , top = ${popY}
         , scrollbars = no
 `;
-const audioPopup = window.open(`/home/audio?iuser=${pk}`, 'audio', option);
 
 const tab_list_css = [
     'tab3','tab4', 'tab5', 'tab6', 'tab7', 'tab8'
@@ -107,3 +106,9 @@ const msgSendSuccess = (msg) => {
         }, 3000);
     });
 }
+
+const audioPlayElem = document.querySelector('.audio-section');
+let audioPopup;
+audioPlayElem.addEventListener('click', () => {
+    audioPopup = window.open(`/home/audio?iuser=${pk}`, 'audio', option);
+});

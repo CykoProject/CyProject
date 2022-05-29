@@ -48,6 +48,7 @@ if(jukebox) {
             musicData.artist = musicArtist;
             musicData.nm = musicNm;
             musicData.url = musicUrl;
+            console.log(musicData);
 
             if(playList.length > 0) {
                 playList.forEach(item => {
