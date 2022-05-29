@@ -1,6 +1,8 @@
 package com.example.CyProject.shopping;
 
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.jukebox.JukeBoxEntity;
+import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
 import com.example.CyProject.shopping.model.order.OrderItemsDto;
 import com.example.CyProject.shopping.model.cart.CartDto;
 import com.example.CyProject.shopping.model.cart.CartRepository;
@@ -39,6 +41,8 @@ public class CartApiController {
     UserRepository userRepository;
     @Autowired
     PointHistoryRepository pointHistoryRepository;
+    @Autowired
+    JukeBoxRepository jukeBoxRepository;
 
     @PostMapping("/add")
     public int saveItem(@RequestBody CartDto dto) {
@@ -201,6 +205,11 @@ public class CartApiController {
         for(ItemEntity item : itemIdList) {
 //            ItemEntity itemEntity = new ItemEntity();
 //            itemEntity.setItem_id(itemEntity.getItem_id());
+            JukeBoxEntity entity = new JukeBoxEntity();
+            entity.setIhost(authenticationFacade.getLoginUserPk());
+            entity.setImusic(item);
+            System.out.println(entity);
+            jukeBoxRepository.save(entity);
             cartRepository.deleteByIuserAndItemid(userEntity, item);
         }
         System.out.println("구매 아이템 카트 삭제");
