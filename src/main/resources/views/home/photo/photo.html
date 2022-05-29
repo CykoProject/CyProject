@@ -10,16 +10,35 @@
     <title></title>
 </head>
 <body>
-    <th:block layout:fragment="content-right">
-        <div>
-            <span>PHOTO ALBUM</span>
+    <th:block layout:fragment="content_right">
+        <div class="photo-container">
+            <div class="btn-cont" th:if="${#strings.equals(loginUserPk, param.iuser)}">
+                <div class="board-btn">
+                    <a th:href="@{/}">삭제</a>
+                </div>
+                <div class="board-btn write-btn">
+                    <a th:href="@{/home/photo/write(iuser=${param.iuser})}">사진 등록</a>
+                </div>
+            </div>
+            <div class="photo-detail">
+                <div th:each="item : ${list}">
+                    <div class="detail-cont">
+                        <div class="data-iphoto" th:data-iphoto="${item.iphoto}" hidden></div>
+                        <div class="title" th:text="${item.title}"></div>
+                        <div class="info">
+                            <div class="writer" th:text="${item.ihost}"></div>
+                            <div class="stretch"></div>
+                            <div class="rdt" th:text="${item.rdt}"></div>
+                            <div>스크랩 <span th:text="${item.scrap}"></span></div>
+                        </div>
+                        <div class="content">
+                            <div class="imgCont"></div>
+                            <div th:text="${item.ctnt}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <span>전체보기</span>
-        </div>
-    </th:block>
-    <th:block layout:fragment="content-left">
-
     </th:block>
 </body>
 </html>
