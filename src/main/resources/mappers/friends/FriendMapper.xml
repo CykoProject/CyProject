@@ -11,4 +11,11 @@
         WHERE A.iuser = ${iuser} AND A.`status` = 1
     </select>
 
+    <select id="selFriends" resultType="int">
+        SELECT COUNT(`ifriend`)
+        FROM `cyworld`.`friends`
+        WHERE `iuser` = #{iuser}
+          AND `fuser` = #{fuser}
+          AND `status` = 1
+    </select>
 </mapper>
