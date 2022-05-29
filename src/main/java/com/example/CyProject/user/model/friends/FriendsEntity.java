@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 @ToString
 public class FriendsEntity {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ifriend;

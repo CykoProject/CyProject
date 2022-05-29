@@ -19,6 +19,8 @@ import com.example.CyProject.home.model.visitor.VisitorPk;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.home.model.visitor.VisitorService;
 
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
+import com.example.CyProject.shopping.model.item.ItemCategory;
 import com.example.CyProject.user.model.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +46,12 @@ import java.util.logging.SimpleFormatter;
 @RequestMapping("/home")
 public class HomeController {
 
+    @Autowired private PurchaseHistoryRepository purchaseHistoryRepository;
     @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스
     @Autowired private VisitRepository visitRepository;
     @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private ProfileRepository profileRepository;
+    @Autowired private VisitorService visitorService;
     @Autowired private CommentRepository commentRepository;
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private HomeRepository homeRepository;
@@ -62,12 +66,13 @@ public class HomeController {
         if(homeScope < 2) {
             return authenticationFacade.returnPath(entity.getIuser(), model);
         }
-
         int loginUser = authenticationFacade.getLoginUserPk();
         int ihomePk = utils.findHomePk(entity.getIuser());
 
+
+
         // todo jpa primary key 오류남
-//        int success = visitorService.saveVisitor(loginUser, ihomePk);
+        int success = visitorService.saveVisitor(loginUser, ihomePk);
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
         model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
@@ -94,6 +99,9 @@ public class HomeController {
                 .rowCnt(rowCnt)
                 .build();
 
+        int fontCategory = ItemCategory.FONT.getCategory();
+
+        model.addAttribute("font", purchaseHistoryRepository.findAllByIcategoryInHisotry(fontCategory, loginUserPk));
         model.addAttribute("loginUserPk", loginUserPk);
         model.addAttribute("data", utils.makeStringNewLine(list));
         model.addAttribute("pageData", pageEntity);
@@ -104,11 +112,15 @@ public class HomeController {
     public String writeDiary(int iuser, String idiary, Model model) {
         int idx = utils.getParseIntParameter(idiary);
         if(idx != 0) {
+            System.out.println("mod");
             model.addAttribute("modData", diaryRepository.findById(idx));
         }
         if(authenticationFacade.getLoginUserPk() != iuser) {
             return "redirect:/home/diary?iuser="+iuser;
         }
+
+        int fontCategory = ItemCategory.FONT.getCategory();
+        model.addAttribute("font", purchaseHistoryRepository.findAllByIcategoryInHisotry(fontCategory, authenticationFacade.getLoginUserPk()));
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "home/diary/write";
     }
@@ -125,7 +137,6 @@ public class HomeController {
     @GetMapping("/visit")
     public String visit(Model model, @RequestParam(required = false, defaultValue = "1", value = "page") int page
             , @RequestParam(required = false, defaultValue = "0", value = "iuser") int iuser) {
-        // TODO - 동적 페이징
         int rowCnt = 10;
         int pageCnt = 10;
         int maxPage = pageService.visitMaxPage(iuser, rowCnt);
@@ -141,6 +152,15 @@ public class HomeController {
                 .rowCnt(rowCnt)
                 .build();
 
+        /*
+         * 미니미설정
+         */
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        int minimeCategory = ItemCategory.MINIME.getCategory();
+        int fontCategory = ItemCategory.FONT.getCategory();
+
+        model.addAttribute("font", purchaseHistoryRepository.findAllByIcategoryInHisotry(fontCategory, loginUserPk));
+        model.addAttribute("minime", purchaseHistoryRepository.findAllByIcategoryInHisotry(minimeCategory, loginUserPk));
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", utils.makeStringNewLine(list));
         model.addAttribute("pageData", pageEntity);
@@ -171,7 +191,7 @@ public class HomeController {
     public String jukeBoxRepreFolder(@RequestParam(value = "iuser") int iuser, Model model) {
         model.addAttribute("folder", "repre");
         model.addAttribute("data", jukeBoxRepository.selRepreList(iuser));
-
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "home/jukebox/repre";
     }
 

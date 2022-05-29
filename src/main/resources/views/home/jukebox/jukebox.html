@@ -34,7 +34,7 @@
                 <div>
                     <button id="play">듣기</button>
                 </div>
-                <div>
+                <div th:if="${#strings.equals(loginUserPk, param.iuser)}">
                     <button class="repre-btn">배경음악 등록</button>
                 </div>
             </div>

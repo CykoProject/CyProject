@@ -1,0 +1,10 @@
+@import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
+@import url(//fonts.googleapis.com/earlyaccess/jejumyeongjo.css);
+
+.font-1 {
+    font-family: 'Jeju Hallasan', cursive;
+}
+
+.font-2 {
+    font-family: 'Jeju Myeongjo', serif;
+}
