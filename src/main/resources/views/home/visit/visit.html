@@ -96,10 +96,10 @@
                                 </th:block>
                                 <th:block th:if="${#strings.equals(loginUserPk, param.iuser) || #strings.equals(loginUserPk, item.iuser.iuser)}">
                                     <span class="visit-del" th:data-iuser="${item.iuser.iuser}">삭제</span>
-                                    <span>|</span>
-                                    <span class="visit-mod" th:data-iuser="${item.iuser.iuser}">수정</span>
-                                    <span>|</span>
+                                    <span th:if="${#strings.equals(loginUserPk, item.iuser.iuser)}">|</span>
+                                    <span th:if="${#strings.equals(loginUserPk, item.iuser.iuser)}" class="visit-mod" th:data-iuser="${item.iuser.iuser}">수정</span>
                                 </th:block>
+                                <span>|</span>
                                 <span class="visit-report">신고</span>
                             </div>
                         </div>
