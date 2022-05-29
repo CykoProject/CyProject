@@ -5,6 +5,8 @@ import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.visitor.VisitorEntity;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
+import com.example.CyProject.main.model.CmtEntity;
+import com.example.CyProject.main.model.CmtRepository;
 import com.example.CyProject.message.model.MessageRepository;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.friends.FriendsEntity;
@@ -36,6 +38,8 @@ public class MainController {
     private Utils utils;
     @Autowired
     private VisitorRepository visitorRepository;
+    @Autowired
+    private CmtRepository cmtRepository;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
@@ -48,6 +52,8 @@ public class MainController {
         model.addAttribute("data", friendsRepository.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("msgCnt", messageRepository.beforeReadMsgCnt(authenticationFacade.getLoginUserPk()));
         model.addAttribute("userData", mainService.userRepository.findByIuser(authenticationFacade.getLoginUserPk()));
+        System.out.println(cmtRepository.findAllOrderByRdt());
+        model.addAttribute("cmt", cmtRepository.findAllOrderByRdt());
 
         return "main/main";
     }
