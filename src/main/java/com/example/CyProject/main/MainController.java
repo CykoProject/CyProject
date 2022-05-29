@@ -37,7 +37,7 @@ public class MainController {
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String main(Model model, @RequestParam(required = false) String error) {
+    public String main(Model model, @RequestParam(required = false) String error, @PageableDefault(size=10) Pageable pageable) {
         if(!"true".equals(error) || error == null) {
             model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
             model.addAttribute("loginUser", authenticationFacade.getLoginUser());
@@ -51,7 +51,7 @@ public class MainController {
             System.out.println("endDate"+ endDate);
         }
 
-        model.addAttribute("cmt", cmtRepository.findAll());
+        model.addAttribute("cmt", cmtRepository.findAllByOrderByRdtDesc(pageable));
         model.addAttribute("visitor", visitorRepository.todayCount(utils.findHomePk(authenticationFacade.getLoginUserPk())));
         model.addAttribute("friend", friendsService.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("data", friendsRepository.selectFriendsList(authenticationFacade.getLoginUserPk()));

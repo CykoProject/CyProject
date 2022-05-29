@@ -442,7 +442,7 @@
 .main-container-img {
     display: flex;
     justify-content: center;
-    height: 300px;
+    height: 350px;
     width: 90%;
     margin-top: 10px;
     padding: 5px;
@@ -455,6 +455,7 @@
     width: 150px;
     height: 200px;
     object-fit: contain;
+    margin-right: 10px;
 }
 
 .main-cmt-container {
@@ -471,10 +472,30 @@
 .main-cmt-list {
     display: flex;
     flex-direction: column;
+    width: 90%;
+}
+
+.main-cmt-each {
+    display: flex;
+    justify-content: space-between;
 }
 
 .main-cmt-bottom {
     margin-top: 10px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination > p {
+    margin-left: 5px;
+    margin-top: 10px;
+}
+
+.pagination > p:hover {
+    cursor: pointer;
 }
 
 .news-container {
