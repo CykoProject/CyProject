@@ -1,0 +1,134 @@
+
+/* photo write */
+#photo-form .write-cont {
+    background-color: #f2f2f2;
+    color: #343434;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+label {
+    padding: 0.3rem 0;
+}
+
+label:first-child {
+    border-top: 0.1rem solid #dcdcdc;
+}
+
+label:last-child {
+    border-bottom: 0.1rem solid #dcdcdc;
+}
+
+label.imgs {
+    padding: 0.3rem 0.5rem;
+}
+
+label input[name='title'] {
+    width: 100%;
+    border: 0.0625rem solid #848a84;
+    padding: 0.1rem 0.5rem;
+}
+
+label input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+label input.img-name {
+    background-color: #fff;
+    border: 0.0625rem solid #848a84;
+    padding: 0.1rem;
+    margin-left: 0.5rem;
+}
+
+label textarea {
+    width: 100%;
+    min-height: 15rem;
+    resize: none;
+    padding: 0.5rem;
+}
+
+/* editor */
+.ck.ck-editor__main>.ck-editor__editable {
+    min-height: 15rem;
+    padding: 0 1rem;
+    outline: none;
+}
+
+.ck.ck-editor {
+    overflow: scroll;
+    max-height: 20rem;
+}
+
+label #editor {
+    width: 100%;
+    height: 15rem;
+    background-color: #fff;
+    border: 0.0625rem solid #848a84;
+    resize: none;
+    overflow: scroll;
+}
+
+#photo-form .write-cont .board-btn {
+    width: 2.3rem;
+    background-color: #fff;
+    font-family: 'DOSGothic';
+    font-size: 0.75rem;
+    text-align: center;
+    padding: 0.1rem;
+}
+
+
+/* list */
+.photo-detail {
+    width: 100%;
+    height: 90%;
+}
+
+.photo-detail .detail-cont {
+    margin-bottom: 2rem;
+}
+
+.photo-detail .title {
+    width: 100%;
+    background-color: #f2f2f2;
+    border-top: 0.1rem solid #dcdcdc;
+    color: #343434;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    padding: 0.3rem 0;
+}
+
+.photo-detail .info {
+    width: 100%;
+    align-items: center;
+    background-color: #fcfcfc;
+    display: flex;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.5rem;
+}
+
+.photo-detail .info .writer {
+    font-size: 0.85rem;
+}
+
+.photo-detail .info .rdt {
+    margin-right: 0.5rem;
+}
+
+.photo-detail .info .stretch {
+    flex: 1;
+}
+
+.photo-detail .content {
+    width: 100%;
+    border: none;
+    padding: 0.5rem 0 !important;
+}

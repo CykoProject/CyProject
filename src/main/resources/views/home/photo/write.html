@@ -5,35 +5,68 @@
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/photo/write.css}">
+    <link rel="stylesheet" th:href="@{/css/home/photo.css}">
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script th:src="@{/js/ckeditor/ckeditor.js}"></script>
+    <script th:src="@{/js/home/photo.js}" defer></script>
     <title></title>
 </head>
 <body>
-    <th:block layout:fragment="content_right">
+    <th:block layout:fragment="content_left">
 
     </th:block>
-    <th:block layout:fragment="content_left">
+    <th:block layout:fragment="content_right">
         <div>
             <form id="photo-form" th:method="post" th:action="@{/home/photo/write}" enctype="multipart/form-data">
                 <input type="hidden" name="ihost" th:value="${param.iuser}">
-                <div>
-                    <label>
+                <div class="write-cont">
+                    <label class="title">
                         <input type="text" name="title" placeholder="제목">
                     </label>
-                    <label>
-                        <textarea name="ctnt" placeholder="내용" cols="30" rows="10">
+                    <label class="imgs" for="file">
+                        이미지 <input id="file" type="file" name="imgs" accept="image/*" multiple>
+                        <input class="img-name" type="text" disabled>
+                        <div class="board-btn">첨부</div>
+                    </label>
+                    <label class="ctnt">
+                        <textarea name="ctnt" placeholder="내용"></textarea>
+                        <div contentEditable="true" class="ctnt">
 
-                        </textarea>
+                        </div>
                     </label>
-                    <label>
-                        <input type="file" name="imgs" accept="image/*" multiple>
-                    </label>
+<!--                    <label class="ctnt">-->
+<!--                        <textarea id="editor" name="ctnt" maxlength="10000" placeholder="내용"></textarea>-->
+<!--                    </label>-->
+                    <!-- 공개설정 -->
                 </div>
-                <div>
-                    <input type="submit" name="save">
+                <div class="btn-cont">
+                    <div class="board-btn">
+                        <a href="#">목록</a>
+                    </div>
+                    <div class="board-btn">
+                        <input type="submit" name="save" th:value="확인">
+                    </div>
                 </div>
             </form>
         </div>
+        <script>
+            ClassicEditor
+                .create(document.querySelector("#editor"),
+                    {
+                        language: "ko",
+                        simpleUpload:
+                            {
+                                uploadUrl: "/ajax/home/upload/image",
+                                withCredentials: true,
+                            }
+                    })
+                .then(newEditor => {
+                    editor = newEditor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
     </th:block>
 </body>
 </html>

@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
@@ -9,27 +11,68 @@
     <title>Title</title>
 </head>
 <body>
-    <th:block layout:fragment="content_left">
-        <div class="profile-container">
-            <div class="profile-img">
-                <img th:src="@{'/pic/profile/' + ${data.ihost} + '/' + ${data.img}}" onerror="this.onerror=null; this.src='/img/defaultProfile.jpeg'">
-            </div>
-            <div class="profile-ctnt">
-                <span th:text="${data.ctnt}"></span>
-            </div>
-            <div class="profile-history">
-                <a href="#">
-                    <p><span>&#9654;</span> HISTORY</p>
-                </a>
-            </div>
-            <div class="profile-name">
-                <span th:text="${user.nm}"></span>
-            </div>
-        </div>
-    </th:block>
     <th:block layout:fragment="content_right">
         <div class="home-container">
+            <div class="board">
+                <div class="update-list">
+                    <h2>Updated news</h2>
+                    <div class="news">
+                        <div class="default-message">
+                            <p>등록된 게시물이 없습니다.</p>
+                            <p>소식이 뜸한 친구에게 마음의 한마디를 남겨주세요.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="board-list">
+                    <table>
+                        <tr>
+                            <td class="board-menu">
+                                <a th:href="@{/home/profile(iuser=${param.iuser})}">프로필</a>
+                            </td>
+                            <td class="board-menu"></td>
+                        </tr>
+                        <tr>
+                            <td class="board-menu"></td>
+                            <td class="board-menu"></td>
+                        </tr>
+                        <tr>
+                            <td class="board-menu"></td>
+                            <td class="board-menu"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="miniroom">
+                <h2>Miniroom</h2>
+                <div class="miniroom-cont"></div>
+            </div>
+            <div class="friend-comment">
+                <h2>What friends say</h2>
+                <div class="friend-comment-cont">
+                    <div class="friend-comment-write" th:if="${isFriend == 1}">
+                        <form id="friend-comment-form" th:method="post" th:action="@{/ajax/home/friendComment/write}">
+                            <span>일촌평</span>
+                            <div class="write-cont">
+                                <input type="hidden" name="ihost" th:value="${param.iuser}">
+                                <input type="hidden" name="writer" th:value="${loginUserPk}">
+                                <label class="ctnt">
+                                    <input type="text" name="ctnt" placeholder="일촌과 나누고 싶은 이야기를 남겨보세요~!">
+                                </label>
+                            </div>
+                            <div class="btn-cont">
+                                <div class="board-btn">
+                                    <input type="button" name="save" th:value="확인">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="friend-comment-list">
+
+                    </div>
+                </div>
+            </div>
         </div>
     </th:block>
+
 </body>
 </html>
