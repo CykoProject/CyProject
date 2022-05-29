@@ -28,6 +28,7 @@ public class HomeEntity {
     private int scrap_cnt;
     private int daily_visit;
     private int total_visit;
+    private String home_nm;
 
     @Column(insertable = false, updatable = false)
     private int scope;

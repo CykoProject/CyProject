@@ -42,4 +42,7 @@ public class UserEntity {
     private Date rdt;
 
     private Role role;
+
+    private String profile_img;
+    private String profile_ctnt;
 }

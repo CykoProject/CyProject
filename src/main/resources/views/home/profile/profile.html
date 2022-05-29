@@ -10,40 +10,25 @@
     <title>Title</title>
 </head>
 <body>
-    <th:block layout:fragment="content_left">
-        <ul>
-            <li>
-                <a th:href="@{#}">내 소개</a>
-                <ul>
-                    <li><a th:href="@{#}">소개</a></li>
-                    <li><a th:href="@{#}">키워드</a></li>
-                    <li><a th:href="@{#}">히스토리</a></li>
-                    <li><a th:href="@{#}">42문답</a></li>
-                    <li><a th:href="@{#}">기본정보</a></li>
-                </ul>
-            </li>
-        </ul>
-    </th:block>
-
     <th:block layout:fragment="content_right">
         <div class="profile-container">
-            <th:block th:if="${#strings.equals(loginUser, param.iuser)}">
-                <div class="write-btn">
+            <div class="btn-cont" th:if="${#strings.equals(loginUserPk, param.iuser)}">
+                <div class="board-btn write-btn">
                     <a th:href="@{/home/profile/write(iuser=${param.iuser})}">프로필 등록</a>
                 </div>
-            </th:block>
-            <th:block>
+            </div>
+            <div>
                 <div>
-                    <div class="profile-img">
-                        <img th:src="@{'/pic/profile/' + ${data.ihost} +'/' + ${data.img}}" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'">
+                    <div class="profile-image">
+                        <img th:src="@{'/pic/profile/' + ${user.iuser} +'/' + ${user.profile_img}}" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'">
                     </div>
                 </div>
                 <div>
                     <div class="profile-content">
-                        <span th:text="${data.ctnt}"></span>
+                        <span th:text="${user.profile_ctnt}"></span>
                     </div>
                 </div>
-            </th:block>
+            </div>
         </div>
     </th:block>
 </body>
