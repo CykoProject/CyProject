@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/shopping/shoppingMain.css}">
+    <script defer th:src="@{/js/shopping/shopping.js}"></script>
+    <script defer src="https://use.fontawesome.com/releases/v6.1.1/js/all.js"
+            integrity="sha384-xBXmu0dk1bEoiwd71wOonQLyH+VpgR1XcDH3rtxrLww5ajNTuMvBdL5SOiFZnNdp"
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div class="header">
+    <div class="userInfo" th:id="loginUserPk" th:if="${session.loginUserPkSession != null}"
+         th:data-iuser="${#session.getAttribute('loginUserPkSession')}" style="display: none"></div>
+    <a th:href="@{/}"><img class="logo-img" src="https://cdn.senmoney.co.kr/news/photo/202006/1999_2098_4524.jpg"
+                           alt=""/></a>
+
+    <div class="header-center">
+        <div class="search">
+            <form method="get" action="/shopping/search" class="search-select">
+                <select class="shopping-search-conditions" name="category">
+                    <option th:selected="${#strings.equals(param.category, '0')}" value="0">전체</option>
+                    <option th:selected="${#strings.equals(param.category, '1')}" value="1">BGM</option>
+                    <option th:selected="${#strings.equals(param.category, '2')}" value="2">폰트</option>
+                    <option th:selected="${#strings.equals(param.category, '3')}" value="3">스킨</option>
+                    <option th:selected="${#strings.equals(param.category, '4')}" value="4">미니미</option>
+                </select>
+                <input th:value="${param.search}" type="text" class="shopping-search-text" name="search">
+                <button class="shopping-search-btn">
+                    찾기
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="shopping-info">
+        <th:block th:if="${session.loginUserPkSession > 0}">
+            <div class="my-info">
+                <a th:href="@{/#}">
+                    <i class="fa-solid fa-user"></i>
+                    <p>내 정보</p>
+                </a>
+            </div>
+            <div class="cart">
+                <a th:href="@{/shopping/cart}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <p>장바구니</p>
+                </a>
+            </div>
+        </th:block>
+        <img class="ads-img"
+             src="https://mblogthumb-phinf.pstatic.net/20160817_259/retspe_14714118890125sC2j_PNG/%C7%C7%C4%AB%C3%F2_%281%29.png?type=w800"
+             alt=""/>
+    </div>
+</div>
+
+<th:block layout:fragment="container">
+
+</th:block>
+
+<div class="footer-wrapper">
+    <footer class="footer">
+        &copy; 2022 Cyworld KoreaIt Team, Inc
+        <a th:href="@{https://github.com/CykoProject/CyProject}" target="_blank">
+            <i class="fa-brands fa-github"></i>
+        </a>
+    </footer>
+</div>
+</body>
+</html>

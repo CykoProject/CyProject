@@ -2,9 +2,11 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
+    <script defer th:src="@{/js/home/commentObj.js}"></script>
     <script defer th:src="@{/js/home/visit.js}"></script>
     <link rel="stylesheet" th:href="@{/css/home/visit.css}">
     <title>Title</title>
@@ -15,23 +17,25 @@
     </th:block>
 
     <th:block layout:fragment="content_right">
-
         <div class="data-pk" th:data-loginuser="${loginUserPk}"></div>
-        <div class="home-container">
+        <div class="visit-container home-container">
             <div class="visit-write" th:if="${loginUserPk > 0}">
-                <div class="frow bc-gray">
-                    <div class="f1">
-                        <div>
-                            <img>
+                <form class="visitFrm" th:method="post" th:action="@{/home/visit/write}">
+                    <div class="frow bc-gray p10-10">
+                        <div class="f1 fc">
+                            <div class="minime-wrap">
+<!--                                todo 미니미 설정-->
+                                <img class="visit-minime" th:src="@{/static/img/defaultProfileImg.jpeg}">
+                                <select name="iminime" class="select-minime">
+                                    <option value="0" th:data-file="0">미니미설정</option>
+                                    <th:block th:each="minime : ${minime}">
+                                        <option th:value="${minime.item_id.item_id}" th:data-file="${minime.item_id.file}" th:text="${minime.item_id.nm}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
                         </div>
-                        <div class="w100p">
-                            <span>미니미</span>
-                            <span>설정</span>
-                        </div>
-                    </div>
-                    <div class="f2">
-                        <div class="w100p">
-                            <form class="visitFrm" th:method="post" th:action="@{/home/visit/write}">
+                        <div class="f2">
+                            <div class="w100p">
                                 <input type="hidden" name="iuser" th:value="${loginUserPk}">
                                 <input type="hidden" name="ihost" th:value="${param.iuser}">
                                 <input type="hidden" name="ivisit" th:if="${modData != null}" th:value="${modData.get().getIvisit()}">
@@ -39,6 +43,12 @@
                                     <span>비밀로하기</span>
                                     <input type="checkbox" name="secret" th:value="true" th:if="${modData != null}" th:checked="${modData.get().isSecret() == true}">
                                     <input type="checkbox" name="secret" th:value="true" th:if="${modData == null}">
+                                    <select name="ifont" class="font-select">
+                                        <option value="0">글꼴</option>
+                                        <th:block th:each="font : ${font}">
+                                            <option th:data-font="${font.item_id.file}" th:value="${font.item_id.getItem_id()}" th:text="${font.getItem_id().getNm()}"></option>
+                                        </th:block>
+                                    </select>
 
                                 </div>
                                 <div>
@@ -46,17 +56,21 @@
                                     <textarea name="ctnt" class="visit-textarea" placeholder="내용" th:if="${modData == null}"></textarea>
                                 </div>
                                 <div>
-                                    <input type="submit" value="save">
+                                    <input type="submit" value="save" class="ins-visit">
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
 
             <div class="visit-contents">
+                <th:block th:if="${data.size() == 0}">
+                    <strong>방명록이 없습니다.</strong>
+                </th:block>
                 <th:block th:each="item : ${data}">
-                    <div class="visit-elem" th:data-ivisit="${item.ivisit}">
+                    <div class="visit-elem mb10" th:data-iboard="${item.ivisit}">
+                        <div th:data-iboard="${item.ivisit}" id="data-iboard"></div>
                         <div th:classappend="${item.secret} ? 'visit-secret-bar' : 'visit-date-bar'" id="status-bar">
                             <div>
                                 <span th:text="|no.${item.ivisit}|"></span>
@@ -72,19 +86,33 @@
                                         <span>|</span>
                                     </span>
                                 </th:block>
+                                <th:block th:if="${(#strings.equals(loginUserPk, param.iuser)
+                                || #strings.equals(loginUserPk, item.iuser.iuser))
+                                && item.secret}">
+                                    <span class="open-elem">
+                                        <span class="visit-open">공개하기</span>
+                                        <span>|</span>
+                                    </span>
+                                </th:block>
                                 <th:block th:if="${#strings.equals(loginUserPk, param.iuser) || #strings.equals(loginUserPk, item.iuser.iuser)}">
                                     <span class="visit-del" th:data-iuser="${item.iuser.iuser}">삭제</span>
-                                    <span>|</span>
-                                    <span class="visit-mod" th:data-iuser="${item.iuser.iuser}">수정</span>
-                                    <span>|</span>
+                                    <span th:if="${#strings.equals(loginUserPk, item.iuser.iuser)}">|</span>
+                                    <span th:if="${#strings.equals(loginUserPk, item.iuser.iuser)}" class="visit-mod" th:data-iuser="${item.iuser.iuser}">수정</span>
                                 </th:block>
+                                <span>|</span>
                                 <span class="visit-report">신고</span>
                             </div>
                         </div>
-                        <div class="visit-ctnt">
+
+                        <div class="visit-ctnt frow g30">
                             <th:block th:if="${item.secret}">
                                 <th:block th:if="${(#strings.equals(loginUserPk, param.iuser) || #strings.equals(loginUserPk, item.iuser.iuser))}">
-                                    <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                    <img th:data-iminime="0" class="visit-minime" th:if="${item.iminime == null}" th:src="@{/static/img/defaultProfileImg.jpeg}">
+                                    <img th:data-iminime="${item.iminime.item_id}" class="visit-minime" th:if="${item.iminime != null}" th:src="@{/pic/minime/{iminime} (iminime=${item.iminime.file})}">
+                                    <div>
+                                        <div th:classappend="${item.ifont != null ? item.ifont.file : ''}" class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                        <div class="visit-mod-wrap"></div>
+                                    </div>
                                 </th:block>
 
                                 <th:block th:if="${(!#strings.equals(loginUserPk, param.iuser) && !#strings.equals(loginUserPk, item.iuser.iuser))}">
@@ -94,8 +122,59 @@
 
 
                             <th:block th:if="${!item.secret}">
-                                <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                <div class="frow g30">
+                                    <img th:data-iminime="0" class="visit-minime" th:if="${item.iminime == null}" th:src="@{/static/img/defaultProfileImg.jpeg}">
+                                    <img th:data-iminime="${item.iminime.item_id}" class="visit-minime" th:if="${item.iminime != null}" th:src="@{/pic/minime/{iminime} (iminime=${item.iminime.file})}">
+                                    <div>
+                                        <div th:classappend="${item.ifont != null ? item.ifont.file : ''}" class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                        <div class="visit-mod-wrap"></div>
+                                    </div>
+                                </div>
                             </th:block>
+                        </div>
+
+                        <div class="comment-container" th:if="${item.secret == true && (#strings.equals(param.iuser, loginUserPk) || #strings.equals(item.iuser.iuser, loginUserPk))}">
+                            <div>
+                                <div class="input-cmt" sec:authorize="isAuthenticated()">
+                                    <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
+
+                                    <button class="ctnt-btn">댓글쓰기</button>
+                                </div>
+
+                                <div>
+                                    <span class="comment-cnt"></span>
+                                </div>
+                                <div class="hidden-ctnt">
+                                    <div>
+                                        <span class="comment-ctnt"></span>
+                                    </div>
+                                    <div class="pagination">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="comment-container" th:if="${item.secret == false}">
+                            <div>
+                                <div class="input-cmt" sec:authorize="isAuthenticated()">
+                                    <textarea name="ctnt" placeholder="댓글쓰기" class="ctnt"></textarea>
+
+                                    <button class="ctnt-btn">댓글쓰기</button>
+                                </div>
+
+                                <div class="comment-cnt-wrap">
+                                    <span class="comment-cnt"></span>
+                                </div>
+                                <div class="hidden-ctnt">
+                                    <div>
+                                        <span class="comment-ctnt"></span>
+                                    </div>
+                                    <div class="pagination">
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </th:block>

@@ -1,9 +1,11 @@
 package com.example.CyProject.home;
 
+import com.example.CyProject.PageEntity;
 import com.example.CyProject.Utils;
 import com.example.CyProject.common.MyFileUtils;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.friends.FriendsEntity;
+import com.example.CyProject.home.model.comment.CommentRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
@@ -12,11 +14,20 @@ import com.example.CyProject.home.model.photo.PhotoEntity;
 import com.example.CyProject.home.model.photo.PhotoImgEntity;
 import com.example.CyProject.home.model.photo.PhotoImgRepository;
 import com.example.CyProject.home.model.photo.PhotoRepository;
+import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
 import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.user.model.UserEntity;
+
+import com.example.CyProject.home.model.visitor.VisitorEntity;
+import com.example.CyProject.home.model.visitor.VisitorPk;
+import com.example.CyProject.home.model.visitor.VisitorRepository;
+import com.example.CyProject.home.model.visitor.VisitorService;
+
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
+import com.example.CyProject.shopping.model.item.ItemCategory;
 import com.example.CyProject.user.model.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +41,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,23 +50,45 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.logging.SimpleFormatter;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/home")
 public class HomeController {
 
-    @Autowired private Utils utils;
-    @Autowired private DiaryRepository diaryRepository;
-    @Autowired private VisitRepository visitRepository;
+    @Autowired private PurchaseHistoryRepository purchaseHistoryRepository;
     @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스
+    @Autowired private VisitRepository visitRepository;
+    @Autowired private JukeBoxRepository jukeBoxRepository;
+    @Autowired private ProfileRepository profileRepository;
+    @Autowired private VisitorService visitorService;
+    @Autowired private CommentRepository commentRepository;
+    @Autowired private DiaryRepository diaryRepository;
+    @Autowired private HomeRepository homeRepository;
     @Autowired private PageService pageService;
     @Autowired private UserRepository userRepository;
+    @Autowired private PageService pageService;
     @Autowired private HomeService homeService;
+    @Autowired private Utils utils;
     @Autowired private AuthenticationFacade auth;
     @Autowired private PhotoRepository photoRepository;
 
     @GetMapping
     public String home(HomeEntity entity, Model model) {
+        int homeScope = authenticationFacade.isHomeVisitScope(entity.getIuser());
+        if(homeScope < 2) {
+            return authenticationFacade.returnPath(entity.getIuser(), model);
+        }
+        int loginUser = authenticationFacade.getLoginUserPk();
+        int ihomePk = utils.findHomePk(entity.getIuser());
+
+
+        // todo jpa primary key 오류남
+        int success = visitorService.saveVisitor(loginUser, ihomePk);
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
 
@@ -65,8 +100,6 @@ public class HomeController {
 
         return "home/home";
     }
-
-
 // ======================= 방명록, 다이어리, 주크박스 =====================================================================================
 
     // 다이어리 ============================================================================================
@@ -88,6 +121,9 @@ public class HomeController {
                 .rowCnt(rowCnt)
                 .build();
 
+        int fontCategory = ItemCategory.FONT.getCategory();
+
+        model.addAttribute("font", purchaseHistoryRepository.findAllByIcategoryInHisotry(fontCategory, loginUserPk));
         model.addAttribute("loginUserPk", loginUserPk);
         model.addAttribute("data", utils.makeStringNewLine(list));
         model.addAttribute("pageData", pageEntity);
@@ -98,11 +134,15 @@ public class HomeController {
     public String writeDiary(int iuser, String idiary, Model model) {
         int idx = utils.getParseIntParameter(idiary);
         if(idx != 0) {
+            System.out.println("mod");
             model.addAttribute("modData", diaryRepository.findById(idx));
         }
         if(authenticationFacade.getLoginUserPk() != iuser) {
             return "redirect:/home/diary?iuser="+iuser;
         }
+
+        int fontCategory = ItemCategory.FONT.getCategory();
+        model.addAttribute("font", purchaseHistoryRepository.findAllByIcategoryInHisotry(fontCategory, authenticationFacade.getLoginUserPk()));
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "home/diary/write";
     }
@@ -119,8 +159,6 @@ public class HomeController {
     @GetMapping("/visit")
     public String visit(Model model, @RequestParam(required = false, defaultValue = "1", value = "page") int page
             , @RequestParam(required = false, defaultValue = "0", value = "iuser") int iuser) {
-        int category = HomeCategory.VISIT.getCategory();
-        // TODO - 동적 페이징
         int rowCnt = 10;
         int pageCnt = 10;
         int maxPage = pageService.visitMaxPage(iuser, rowCnt);
@@ -136,6 +174,15 @@ public class HomeController {
                 .rowCnt(rowCnt)
                 .build();
 
+        /*
+         * 미니미설정
+         */
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        int minimeCategory = ItemCategory.MINIME.getCategory();
+        int fontCategory = ItemCategory.FONT.getCategory();
+
+        model.addAttribute("font", purchaseHistoryRepository.findAllByIcategoryInHisotry(fontCategory, loginUserPk));
+        model.addAttribute("minime", purchaseHistoryRepository.findAllByIcategoryInHisotry(minimeCategory, loginUserPk));
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", utils.makeStringNewLine(list));
         model.addAttribute("pageData", pageEntity);
@@ -153,8 +200,69 @@ public class HomeController {
     }
     // 방명록 ============================================================================================================
 
+    // 주크박스 ============================================================================================================
+    @GetMapping("/jukebox")
+    public String jukeBox(@RequestParam(value = "iuser") int iuser, Model model) {
+        model.addAttribute("folder", "jukebox");
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
+        model.addAttribute("data", jukeBoxRepository.findAllByIhost(iuser));
+        return "home/jukebox/jukebox";
+    }
 
-// ======================= 방명록, 다이어리, 주크박스 =====================================================================================
+    @GetMapping("/jukebox/repre")
+    public String jukeBoxRepreFolder(@RequestParam(value = "iuser") int iuser, Model model) {
+        model.addAttribute("folder", "repre");
+        model.addAttribute("data", jukeBoxRepository.selRepreList(iuser));
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
+        return "home/jukebox/repre";
+    }
+
+    @GetMapping("/audio")
+    public String audio() {
+
+        return "home/audio";
+    }
+    // 주크박스 ============================================================================================================
+
+    // 관리 ============================================================================================================
+    @GetMapping("/manage")
+    public String manage(@RequestParam int iuser, Model model, HttpSession hs) {
+        int loginIuser = authenticationFacade.getLoginUserPk();
+
+
+        if(iuser != loginIuser) {
+            return "redirect:/manage?iuser=" + loginIuser;
+        }
+        model.addAttribute("data", homeRepository.findByIuser(iuser));
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
+        model.addAttribute("error", hs.getAttribute("error"));
+        hs.removeAttribute("error");
+        return "home/manage/manage";
+    }
+
+    @PostMapping("/manage/tab")
+    public String manageTabProc(HomeEntity entity, HttpSession hs) {
+        int ihome = homeRepository.findByIuser(entity.getIuser()).getIhome();
+        entity.setIhome(ihome);
+        try{
+            if(entity.getIuser() == authenticationFacade.getLoginUserPk()) {
+                homeRepository.save(entity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            hs.setAttribute("error", "실패");
+        }
+        hs.setAttribute("error", "성공");
+        return "redirect:/home/manage?iuser=" + entity.getIuser();
+    }
+    @PostMapping("/manage/scope")
+    public String manageScopeProc(HomeEntity entity) {
+        homeRepository.updateScope(entity.getScope(), entity.getIuser());
+
+        return "redirect:/home/manage?iuser=" + entity.getIuser();
+    }
+    // 관리 ============================================================================================================
+// ======================= 방명록, 다이어리, 주크박스, 관리 =====================================================================================
 
 
     @GetMapping("/profile")

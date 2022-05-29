@@ -30,7 +30,7 @@ public class MainMovieApiService {
         try {
             text = URLEncoder.encode(movieNm, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("검색어 인코딩 실패",e);
+            throw new RuntimeException("검색어 인코딩 실패", e);
         }
 
         String apiURL = "https://openapi.naver.com/v1/search/movie?query=" + text + "&display=1";    // json 결과
@@ -39,7 +39,7 @@ public class MainMovieApiService {
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-        String responseBody = get(apiURL,requestHeaders);
+        String responseBody = get(apiURL, requestHeaders);
 
 //        System.out.println(responseBody);
 
@@ -49,8 +49,16 @@ public class MainMovieApiService {
 
         Iterator<Object> iter = naverMovieResult.iterator();
 
+        String title = null;
+        String image = null;
+        String link = null;
+        String actor = null;
+        String director = null;
+        String userRating = null;
+
         List<String> list = new ArrayList<>();
-        while(iter.hasNext()) {
+        MovieEntity entity = new MovieEntity();
+        while (iter.hasNext()) {
             JSONObject naverMovie = (JSONObject) iter.next();
             list.add((String) naverMovie.get("title"));
             list.add((String) naverMovie.get("image"));
@@ -58,23 +66,24 @@ public class MainMovieApiService {
             list.add(naverMovie.get("actor").toString().replaceAll("\\|$", ""));
             list.add(naverMovie.get("director").toString().replaceAll("\\|$", ""));
             list.add((String) naverMovie.get(("userRating")));
-        }
-        String title = list.get(0);
-        String image = list.get(1);
-        String link = list.get(2);
-        String actor = list.get(3);
-        String director = list.get(4);
-        String userRating = list.get(5);
 
-        MovieEntity entity = new MovieEntity();
+        //}
+        title = list.get(0);
+        image = list.get(1);
+        link = list.get(2);
+        actor = list.get(3);
+        director = list.get(4);
+        userRating = list.get(5);
+
+
         entity.setTitle(title);
         entity.setImage(image);
         entity.setLink(link);
         entity.setActor(actor);
         entity.setDirector(director);
         entity.setUserRating(userRating);
-
-        System.out.println(entity);
+    }
+//        System.out.println(entity);
 
         return entity;
     }

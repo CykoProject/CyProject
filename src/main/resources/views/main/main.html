@@ -3,10 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="main/index">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>추억의 싸이월드</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v6.1.1/js/all.js" integrity="sha384-xBXmu0dk1bEoiwd71wOonQLyH+VpgR1XcDH3rtxrLww5ajNTuMvBdL5SOiFZnNdp" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
 </head>
@@ -14,86 +13,136 @@
 
 <th:block layout:fragment="container">
 <div class="container">
-
     <div class="left-container">
         <div th:if="${loginUserPk > 0}" class="profile">
             <div class="profile-top">
-                <p th:text="${loginUser.getNm()}"></p>
-                <button><a th:href="@{/user/mypage}">내 정보수정</a></button>
-                <button><a th:href="@{/user/logout}">로그아웃</a></button>
+                <p th:text="|${loginUser.getNm()}님|"></p>
+                <button class="b-1"><a th:href="@{/user/mypage}">마이페이지</a></button>
+                <button class="b-2"><a class="logout-btn" th:href="@{/user/logout}">로그아웃</a></button>
             </div>
 
             <div class="profile-info">
                 <div class="profile-info-top">
-                    <p>일촌 ON</p>
-                    <p>쪽지</p>
+                    <div class="t-1">
+                        <strong>일촌ON</strong>
+                        <strong id="online-friends-cnt"></strong>
+                    </div>
+                    <div class="t-2">
+                        <strong><a th:href="@{/msg/inbox}">쪽지</a></strong>
+                        <strong id="msg-notice" th:text="${msgCnt}"></strong>
+                    </div>
+                    <div class="profile-info-count-dotori">
+                        <img src="https://littledeep.com/wp-content/uploads/2020/12/Acorn-illustration-png-1024x853.png" alt="">
+                        <p th:text="|${loginUser.getPoint()}개|"></p>
+                        <p class="p-1"><a href="/user/charge">충전</a></p>
+                    </div>
                 </div>
                 <div class="profile-info-main">
                     <div class="profile-info-img">
-                        <img src="https://w.namu.la/s/cfdb7644478e28c31fc1a36bf3bb7d567c50369071414650bc8b54bd38bb8f828f83d6c825ece60af02d993d9f9ea6bdb3049734f704ec3395895ca7b920f224fe3df152cc46617fff3703c199b01f24e3c05ead187e1495bbe822dbda0fa5a7b4fc0e646bd7be633b2fac67608f09e6"
-                             alt=""/>
+                        <img width="120px" height="140px" th:if="${#strings.isEmpty(userData.img)}" th:src="@{/pic/user/default/defaultProfileImg.jpeg}">
+                        <img width="120px" height="140px" th:unless="${#strings.isEmpty(userData.img)}" th:src="@{/pic/user/{iuser}/{img} (iuser=${userData.iuser}, img=${userData.img})}">
                     </div>
                     <div class="profile-info-count">
-                        <p>오늘 방문자</p>
-                        <p>새 게시물</p>
-                        <p>일촌 신청</p>
-                        <p>초대</p>
-                        <div class="profile-info-count-dotori"><img
-                                src="https://previews.123rf.com/images/fayethequeen/fayethequeen1611/fayethequeen161100005/68882734-acorn-kawaii-niedliche-cartoon-icon-acorn-charakter-kawaii-flach-getrennt-design-vector-abbildung-st.jpg"
-                                alt=""> 0개
-                            <button>충전</button>
+                        <div>
+                            <p>오늘 방문자</p>
+                            <div th:text="|${visitor} 명|"></div>
+                        </div>
+                        <div>
+                            <button class="visit-go-to" th:data-iuser="${loginUserPk}">
+                                <p>방명록</p>
+                                <div th:text="|${visit} 개|"></div>
+                            </button>
+                        </div>
+                        <div>
+                            <p>일촌 신청</p>
+                            <div></div>
+                        </div>
+                        <div>
+                            <p>일촌 확인</p>
+                            <div></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="profile-info-bottom">
                 <button class="profile-go-to-home" th:data-iuser="${loginUserPk}">내 미니홈피 가기</button>
-                <select class="profile-select">
-                    <option value="0">친구1</option>
-                    <option value="1">친구2</option>
-                    <option value="2">친구3</option>
-                </select>
             </div>
         </div>
 
         <div th:unless="${loginUserPk > 0}" class="login">
-            <div class="login-img-box">
-                <img class="login-img" src="https://cdn.senmoney.co.kr/news/photo/202006/1999_2098_4524.jpg" alt=""/>
-            </div>
-            <form method="post" action="/user/login">
-            <div class="login-section">
-
-                <div class="login-input">
-                    <input type="text" name="email" placeholder="아이디를 입력하세요."/>
-                    <input type="password" name="upw" placeholder="비밀번호를 입력하세요."/>
+            <form id="loginFrm" method="post" action="/">
+                <div class="login-section">
+                    <div class="login-input">
+                        <input type="text" name="email" placeholder="이메일를 입력하세요."/>
+                        <input type="password" name="upw" placeholder="비밀번호를 입력하세요."/>
+                    </div>
+                    <div class="login-btn">
+                        <button id="login_btn">로그인</button>
+                    </div>
                 </div>
 
-                <div class="login-btn">
-                    <button type="submit">로그인</button>
+                <div class="login_error_teg" th:text="${#request.getAttribute('errorMessage')}">error</div>
+                <div class="login-find">
+                    <div class="email-save">
+                        <input type="checkbox" id="saveIdChk" name="">
+                        <label for="saveIdChk">아이디 저장</label>
+                    </div>
+                    <div class="login-save">
+                        <input type="checkbox" id="keepLoginChk" name="remember-me">
+                        <label for="keepLoginChk">자동 로그인</label>
+                    </div>
                 </div>
+                <div class="join-section">
+                    <button><a class="join-btn" href="/user/join">회원가입</a></button>
+                </div>
+                <div class="find-email-upw">
+                    <div class="find-email">
+                        <a href="/user/find_email">
+                            <label class="find-email-label">아이디 찾기</label>
+                        </a>
+                        <span>|</span>
+                    </div>
+                    <div class="find-upw">
+                        <a href="/user/find_upw">
+                            <label class="find-upw-label">비밀번호 찾기</label>
+                        </a>
 
-            </div>
+                    </div>
+
+                </div>
             </form>
-            <div class="join-section">
-                <button><a class="join-btn" href="/user/join">회원가입</a></button>
-            </div>
         </div>
 
-        <div class="on-friends">
-            <h3>접속 중인 친구</h3>
-            <p>주영</p>
-            <p>언수</p>
-            <p>수아</p>
-            <p>유영</p>
-            <p>동규</p>
+        <div th:if="${loginUserPk > 0}" class="on-friends">
+            <div class="f-1"><h3>접속 중인 친구</h3></div>
+            <div style="overflow-y: scroll" class="t-s">
+                <table class="f-2">
+                    <thead>
+                    <tr>
+                        <th class="t-n">이름</th>
+                        <th class="t-login">접속</th>
+                        <th class="t-h">미니홈피</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="list : ${friend}">
+                        <td th:text="${list.nm}"></td>
+                        <td th:text="'ㅇ'"></td>
+                        <td><button class="profile-go-to-friend-home" th:data-iuser="${list.fuser}">바로가기</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
 
         <div class="service">
             <h3>싸이월드 서비스</h3>
+            <div class="service-menu">
             <p>미니홈피</p>
-            <p>쇼핑</p>
-            <p>친구 찾기</p>
+            <p><a th:href="@{/shopping}">쇼핑</a></p>
+            <p><a th:href="@{/search?type=1&search=}">친구 찾기</a></p>
+            </div>
         </div>
 
         <div id="map" style="width:260px;height:260px;"></div>
@@ -119,7 +168,7 @@
         </div>
         <div class="main-webtoons">
             <div class="webtoon-top">
-                <h5>웹툰</h5>
+                <h5>오늘의 웹툰</h5>
                 <div class="webtoon-move-btn">
                     <button class="webtoon-prev-btn">이전</button>
                     <button class="webtoon-next-btn">다음</button>

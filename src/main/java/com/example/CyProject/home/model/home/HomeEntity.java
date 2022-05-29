@@ -19,6 +19,7 @@ public class HomeEntity {
     private int ihome;
 
     private int iuser;
+
     private boolean diary;
     private boolean photo;
     private boolean visit;
@@ -28,6 +29,9 @@ public class HomeEntity {
     private int daily_visit;
     private int total_visit;
     private String home_nm;
+
+    @Column(insertable = false, updatable = false)
+    private int scope;
 
     @Column(insertable = false, updatable = false)
     private LocalDateTime rdt;

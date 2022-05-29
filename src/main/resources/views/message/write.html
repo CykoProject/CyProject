@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/index">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/message/message.css}">
+    <script defer th:src="@{/js/message/message.js}"></script>
+    <title>Title</title>
+</head>
+<body>
+    <th:block layout:fragment="container">
+        <div class="msg-write"></div>
+        <div class="frow just-center">
+            <div class="text-align-center friend-container">
+<!--                <div class="friend-list"><strong>친구목록</strong></div>-->
+                <div class="friend-table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" class="friends-all-chk">
+                            </th>
+                            <th>일촌 이름</th>
+                            <th>일촌 이메일</th>
+                            <th>일촌 닉네임</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${friendList.size == 0}">
+                            <td colspan="4"><strong>일촌이 없습니다.</strong></td>
+                        </tr>
+                            <th:block th:each="item : ${friendList}">
+                                <tr class="friends-data" th:data-receiver="${item.fuser.iuser}">
+                                    <td>
+                                        <input type="checkbox" class="friends-chk">
+                                    </td>
+                                    <td th:text="${item.fuser.nm}"></td>
+                                    <td th:text="${item.fuser.email}"></td>
+                                    <td th:text="${item.nickname}"></td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div>
+                <div class="msg-send-data">
+                    <input type="hidden" name="iuser" th:value="${loginUserPk}">
+                    <div class="write-tool-section">
+                        <label>
+                            <span>글꼴</span>
+                            <select>
+                                <option>글꼴</option>
+                            </select>
+                        </label>
+                    </div>
+                    <textarea class="cus-textarea" placeholder="내용"></textarea>
+                    <div class="ins-btn">
+                        <button class="msg-submit-btn">전송</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

@@ -4,12 +4,19 @@ import com.example.CyProject.ResultVo;
 import com.example.CyProject.Utils;
 import com.example.CyProject.common.MyFileUtils;
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.comment.CommentEntity;
+import com.example.CyProject.home.model.comment.CommentRepository;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.home.HomeMessageEntity;
 import com.example.CyProject.home.model.home.HomeMessageRepository;
 import com.example.CyProject.home.model.home.HomeRepository;
+import com.example.CyProject.home.model.jukebox.JukeBoxDto;
+import com.example.CyProject.home.model.jukebox.JukeBoxEntity;
+import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
+import com.example.CyProject.home.model.report.ReportEntity;
+import com.example.CyProject.home.model.report.ReportRepository;
 import com.example.CyProject.home.model.photo.PhotoEntity;
 import com.example.CyProject.home.model.photo.PhotoImgEntity;
 import com.example.CyProject.home.model.photo.PhotoImgRepository;
@@ -17,20 +24,30 @@ import com.example.CyProject.home.model.photo.PhotoRepository;
 import com.example.CyProject.home.model.visit.VisitDto;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryEntity;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
+import com.example.CyProject.shopping.model.item.ItemCategory;
+import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
+import javax.management.Query;
+import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.Result;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -42,7 +59,11 @@ public class HomeRestController {
     @Autowired private HomeRepository homeRepository;
     @Autowired private DiaryRepository diaryRepository;
     @Autowired private VisitRepository visitRepository;
+    @Autowired private ReportRepository reportRepository;
+    @Autowired private CommentRepository commentRepository;
+    @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private AuthenticationFacade authenticationFacade;
+    @Autowired private PurchaseHistoryRepository purchaseHistoryRepository;
     @Autowired private Utils utils;
     @Autowired private HomeService homeService;
     @Autowired private MyFileUtils myFileUtils;
@@ -67,6 +88,37 @@ public class HomeRestController {
         return vo;
     }
 
+    @GetMapping("/{cg}/cmt/cnt/{iboard}")
+    public ResultVo getCommentCnt(@PathVariable String cg, @PathVariable int iboard) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(commentRepository.selCommentWithOutReplyCnt(iboard, utils.getCommentCategory(cg)));
+
+        return vo;
+    }
+
+    @GetMapping("/{cg}/cmt/{iboard}")
+    public List<CommentEntity> getCommentList(@PathVariable String cg, @PathVariable int iboard, Pageable pageable) {
+        return commentRepository.selCommentWithOutReply(iboard, utils.getCommentCategory(cg), pageable);
+    }
+
+    @GetMapping("/font")
+    public List<PurchaseHistoryEntity> getUserFontList(int iuser) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        if(iuser != loginUserPk) {
+            return null;
+        }
+        return purchaseHistoryRepository.findAllByIcategoryInHisotry(ItemCategory.FONT.getCategory(), authenticationFacade.getLoginUserPk());
+    }
+
+    @PostMapping("/{cg}/cmt/write")
+    public ResultVo insComment(@PathVariable String cg, @RequestBody CommentEntity commentEntity) {
+        commentEntity.setCategory(utils.getCommentCategory(cg));
+        ResultVo vo = new ResultVo();
+        vo.setResult(commentRepository.save(commentEntity) != null ? 1 : 0);
+
+        return vo;
+    }
+
     @DeleteMapping("/diary/del")
     public ResultVo delDiary(DiaryEntity entity) {
         ResultVo vo = new ResultVo();
@@ -75,6 +127,29 @@ public class HomeRestController {
         if(dbData.getIhost() == authenticationFacade.getLoginUserPk()) {
             diaryRepository.deleteById(entity.getIdiary());
             vo.setResult(1);
+        }
+        return vo;
+    }
+
+    @PostMapping("/diary/report")
+    public ResultVo reportDiary(@RequestBody ReportEntity reportEntity) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(0);
+
+        int icategory = HomeCategory.DIARY.getCategory();
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        if(loginUserPk == 0) {
+            vo.setResult(0);
+            return vo;
+        }
+        reportEntity.setIcategory(icategory);
+        reportEntity.setReporter(loginUserPk);
+
+        try {
+            reportRepository.save(reportEntity);
+            vo.setResult(1);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return vo;
     }
@@ -98,11 +173,8 @@ public class HomeRestController {
     @PostMapping("/visit/mod")
     public ResultVo visitModProc(@RequestBody VisitEntity entity) {
         ResultVo vo = new ResultVo();
-        String preCtnt = visitRepository.findByIvisit(entity.getIvisit()).getCtnt();
         VisitEntity result = visitRepository.save(entity);
-        System.out.println(preCtnt);
-        System.out.println(result);
-        if(!preCtnt.equals(result.getCtnt())) {
+        if(result != null) {
             vo.setResult(1);
         }
         return vo;
@@ -111,7 +183,11 @@ public class HomeRestController {
     @GetMapping("/visit/secret")
     public ResultVo onVisitSecret(VisitDto dto) {
         VisitEntity entity = visitRepository.getById(dto.getIvisit());
-        entity.setSecret(true);
+        if(entity.isSecret()) {
+            entity.setSecret(false);
+        } else {
+            entity.setSecret(true);
+        }
         VisitEntity status = visitRepository.save(entity);
         ResultVo vo = new ResultVo();
         vo.setResult(entity.isSecret() == status.isSecret() ? 1 : 0);
@@ -129,6 +205,28 @@ public class HomeRestController {
             vo.setResult(1);
         }
         return vo;
+    }
+
+    @PostMapping("/jukebox/repre")
+    public ResultVo updRepreStatus(@RequestBody JukeBoxDto dto) {
+        ResultVo vo = new ResultVo();
+
+        System.out.println(dto);
+
+        int cnt = 0;
+        for(JukeBoxEntity item : dto.getJukeBoxList()) {
+            cnt += jukeBoxRepository.updRepreStatus(item.isRepre(), item.getIhost(), item.getIjukebox());
+        }
+
+        vo.setResult(cnt == dto.getJukeBoxList().size() ? 1 : 0);
+
+        return vo;
+    }
+
+    @GetMapping("/repre/audio")
+    public List<JukeBoxEntity> getRepreMusicList(int iuser) {
+        List<JukeBoxEntity> list = jukeBoxRepository.selRepreList(iuser);
+        return list;
     }
 
     @PostMapping("/upload/image")

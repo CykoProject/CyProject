@@ -1,8 +1,11 @@
 package com.example.CyProject.home.model.diary;
 
+import com.example.CyProject.shopping.model.item.ItemEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,6 +23,11 @@ public class DiaryEntity {
 
     private int ihost;
     private String ctnt;
+
+    @OneToOne
+    @JoinColumn(name = "ifont")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private ItemEntity ifont;
 
     @Column(insertable = false, updatable = false)
     private LocalDateTime rdt;

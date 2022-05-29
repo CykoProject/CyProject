@@ -80,29 +80,26 @@
     display: flex;
     flex-direction: column;
     width: 250px;
-    height: 300px;
+    height: 280px;
     border: solid 1px #b2b2b2;
     padding: 5px;
     justify-content: space-between;
     margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 .profile-top {
     display: flex;
-    justify-content:space-between;
     padding-bottom: 5px;
-    border-bottom: 1px solid #b2b2b2;
     align-items: center;
 }
 
 .profile-top > button {
     border: solid 3px orange;
     border-radius: 10px;
-    padding: 5px;
+    padding: 2px;
     background-color: orange;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .profile-top > button > a {
@@ -110,62 +107,120 @@
     color: black;
 }
 
-.profile-top > button {
-    border: solid 3px orange;
-    border-radius: 10px;
-    padding: 5px;
-    background-color: orange;
-    font-weight: bold;
-    font-size: 15px;
-}
 
 .profile-top > button > a {
     text-decoration: none;
     color: white;
 }
 
+.profile-top > p{
+    margin-left: 10px;
+}
+
+.profile-top > .b-1{
+    margin-left: 25px;
+}
+
+.profile-top > .b-2{
+    margin-left: 6px;
+}
+
+
+.profile-go-to-home:hover {
+    cursor: pointer;
+}
+
 .profile-info {
     display: flex;
     flex-direction: column;
+    height: 170px;
 }
 
 .profile-info-top {
     display: flex;
-    justify-content: space-around;
+    margin-left: 5px;
+}
+
+.profile-info-top {
+    font-size: 15px;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.profile-info-top > .t-1{
+
+    font-size: 14px;
+}
+
+.profile-info-top > .t-2{
+    margin-left: 25px;
+    font-size: 14px;
 }
 
 .profile-info-main {
     display: flex;
+
 }
 
-.profile-info-img > img {
-    width: 100px;
+.profile-info-img{
+    padding-top: 10px;
 }
+
 
 .profile-info-count {
     display: flex;
     flex-direction: column;
     width: 90%;
+    margin-top: 25px;
+    margin-left: 10px;
+
 }
+.profile-info-count > div {
+    display: flex;
+    font-size: 13px;
+}
+
+.profile-info-count > div > div {
+    margin-left: 10px;
+}
+
+.profile-info-count > div > p{
+    font-size: 13px;
+    margin-bottom: 11px;
+}
+
 
 .profile-info-count-dotori {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    font-size: 14px;
+    margin-left: 10px;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+.profile-info-count-dotori > .p-1 {
+    margin-left: 8px;
 }
 
 .profile-info-count-dotori > img {
-    width: 20px;
+    width: 25px;
 }
 
-.profile-info-count-dotori > button {
-    border: solid 3px orange;
-    border-radius: 10px;
-    padding: 3px;
-    background-color: orange;
-    font-weight: bold;
-    font-size: 12px;
-    color: white;
+
+.profile-info-count-dotori > .t-3{
+    font-size: 10px;
+}
+
+.visit-go-to {
+    width: 100%;
+    display: flex;
+    background-color: white;
+    border: 0;
+    outline: 0;
+    margin-bottom: 11px;
+    cursor: pointer;
+}
+.visit-go-to > p {
+    padding-right: 20px;
 }
 
 .profile-info-bottom {
@@ -181,7 +236,16 @@
     color : white;
     border: none;
     border-radius: 100px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+.profile-go-to-friend-home{
+    width: 60%;
+    height: 25px;
+    background-color: lightslategray;
+    color : white;
+    border: none;
+    border-radius: 100px;
 }
 
 .profile-select {
@@ -193,16 +257,15 @@
     flex-direction: column;
     align-items: center;
     width: 250px;
-    height: 300px;
+    height: 185px;
     border: solid 1px #b2b2b2;
-    padding: 5px;
     justify-content: space-between;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
 .login > form {
-    width: 90%;
+    width: 100%;
 }
 
 .login-img-box {
@@ -221,8 +284,7 @@
 
 .login-section {
     display: flex;
-    padding-top: 10px;
-    border-top: solid 1px #b2b2b2;
+    padding-top: 20px;
     width: 100%;
 }
 
@@ -232,6 +294,23 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+}
+
+.login-input input {
+    width: 170px;
+    height: 25px;
+    margin-bottom: 3px;
+    font-size: 11px;
+    padding-left: 3px;
+}
+
+.login_error_teg{
+    color: #FF7777;
+    font-size: 11px;
+    margin-left: 5px;
+    margin-bottom: 9px;
+    height: 5px;
 }
 
 .login-btn {
@@ -239,38 +318,75 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: -10px;
 }
 
 .login-btn > button {
     border: solid 3px orange;
-    border-radius: 10px;
+    border-radius: 6px;
     padding: 5px;
+    height: 55px;
     background-color: orange;
     color: white;
     font-weight: bold;
     font-size: 15px;
     margin-left: 5px;
 }
+.login-find{
+    display: flex;
+    font-size: 10px;
+    margin-top: 7px;
+    margin-left: 7px;
+}
+
+.login-find input {
+    position: relative;
+    top: 1.5px;
+}
+
+.login-save{
+    margin-left: 9px;
+}
 
 .join-section {
     display: flex;
     justify-content: center;
-    margin-bottom: 5px;
+    margin-bottom: 11px;
 }
 
 .join-section > button {
+    margin-top: 12px;
     border: solid 3px orange;
-    border-radius: 10px;
+    border-radius:6px;
     padding: 3px;
     background-color: orange;
     color: white;
     font-weight: bold;
     font-size: 15px;
+    width: 230px;
 }
 
 .join-btn {
     text-decoration: none;
     color: white;
+}
+
+.find-email-upw{
+    display: flex;
+    font-size: 10px;
+    margin-left: 60px;
+}
+
+.find-email span {
+    font-size: 10px;
+}
+
+.find-email-label {
+    color: #9497a4;
+}
+.find-upw-label {
+    color: #9497a4;
+    padding-left: 4px;
 }
 
 .on-friends {
@@ -280,8 +396,23 @@
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
-    padding: 5px;
 }
+
+.on-friends > .f-1{
+    width: 220px;
+    margin: auto;
+    border-bottom: 1px solid #b2b2b2;
+    padding-bottom: 7px;
+}
+
+.f-2 > tbody > tr {
+    height: 30px;
+}
+
+.f-2 { width: 230px; height: 160px; }
+.t-n{ width: 70px; }
+.t-s{ height: 80%;}
+
 
 .service {
     width: 250px;
@@ -291,6 +422,14 @@
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 5px;
+}
+
+.service-menu {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-bottom: 20px;
 }
 
 .main-container {
@@ -484,4 +623,8 @@ text-align: center;
     margin-left: 30px;
     text-decoration: none;
     color: white;
+}
+
+#online-friends-cnt {
+    color: #ffa500;
 }

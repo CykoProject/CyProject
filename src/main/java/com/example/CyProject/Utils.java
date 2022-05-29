@@ -1,7 +1,12 @@
 package com.example.CyProject;
 
+import com.example.CyProject.home.HomeCategory;
 import com.example.CyProject.home.model.diary.DiaryEntity;
+import com.example.CyProject.home.model.home.HomeEntity;
+import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.home.model.visit.VisitEntity;
+import com.example.CyProject.user.model.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -14,6 +19,33 @@ import java.util.Map;
 
 @Component
 public class Utils {
+
+    @Autowired private HomeRepository homeRepository;
+
+    public int getCommentCategory(String category) {
+        int result = 0;
+        switch (category) {
+            case "diary":
+                result = HomeCategory.DIARY.getCategory();
+                break;
+            case "visit":
+                result = HomeCategory.VISIT.getCategory();
+                break;
+        }
+
+        return result;
+    }
+
+    public int findHomePk(int iuser) {
+        int homePk = 0;
+        try {
+            homePk = homeRepository.findByIuser(iuser).getIhome();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return homePk;
+    }
+
     public int getParseIntParameter(String param) {
         int idx = 0;
         try {
@@ -23,35 +55,6 @@ public class Utils {
         }
 
         return idx;
-    }
-
-    public VisitEntity makeStringNewLine(VisitEntity entity) {
-        /*
-         * 리턴 값 List<Object>
-         */
-        VisitEntity data = null;
-            try {
-                data = new VisitEntity();
-                for (Field field : entity.getClass().getDeclaredFields()) {
-                    field.setAccessible(true);
-                    System.out.println(field.getName());
-                    String nm = field.getName();
-                    Object value = field.get(entity);
-                    if("ctnt".equals(nm)) {
-                        value = value.toString().replaceAll("\r\n", "<br>");
-                        data.setCtnt((String) value);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-//         =============== 작동 테스트 용 =============
-//        for(Object list : objList) {
-//            System.out.println(list.toString());
-//        }
-//         ==========================================
-
-        return data;
     }
 
     public List<Object> makeStringNewLine(List<?> entity) {
@@ -117,4 +120,6 @@ public class Utils {
 
         return objList;
     }
+
+
 }

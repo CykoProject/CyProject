@@ -39,18 +39,6 @@
     color: #7ba3fa;
 }
 
-.input-cmt {
-    margin-left: 5px;
-    margin-right: 5px;
-    display: flex;
-    gap: 10px;
-}
-
-.ctnt {
-    flex: 1;
-    height: 35px;
-}
-
 .diary-write {
     text-align: right;
     padding: 10px 10px;
@@ -61,4 +49,37 @@
 .diary-write > a {
     text-decoration: none;
     font-size: 15px;
+}
+
+.diary-report-modal {
+    position: absolute;
+    top: calc(50vh - 100px); left: calc(50vw - 200px);
+    background-color: white;
+    display: none; justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    width: 400px;
+    height: 200px;
+    border: 1px solid black;
+}
+
+.diary-report-textarea {
+    width: 308px;
+    height: 102px;
+    border: 1px solid black;
+    resize: none;
+}
+
+.diary-report-ctnt {
+    display: flex;
+    flex-direction: column;
+}
+
+.diary-report-close {
+    position: absolute;
+    right: 14px;
+    top: 4px;
+}
+.diary-report-close:hover {
+    cursor: pointer;
 }

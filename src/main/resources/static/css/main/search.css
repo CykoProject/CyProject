@@ -1,0 +1,210 @@
+.search-header {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px;
+}
+
+.search-option {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.see-all:hover {
+    cursor: pointer;
+}
+
+.see-profile:hover {
+    cursor: pointer;
+}
+
+.see-diary:hover {
+    cursor: pointer;
+}
+
+.see-photo:hover {
+    cursor: pointer;
+}
+
+.search-count {
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    margin-top: 10px;
+}
+
+.search-count > p {
+    font-weight: bold;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    text-decoration: none;
+    width: 80%;
+    margin: auto;
+}
+
+.results-data {
+    display: flex;
+    width: 500px;
+    height: 250px;
+    border : 1px solid lightsteelblue;
+    border-radius: 3px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.photo-img {
+    flex: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-info {
+    flex: 6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.diary-img {
+    flex: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.diary-info {
+    flex: 6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-img {
+    flex: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-info {
+    flex: 6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.photo-img > img{
+    width: 170px;
+    height: 230px;
+}
+
+.photo-img > img:hover {
+    cursor: pointer;
+}
+
+.profile-img > img{
+    width: 170px;
+    height: 230px;
+}
+
+.profile-img > img:hover {
+    cursor: pointer;
+}
+.diary-img > img{
+    width: 170px;
+    height: 230px;
+}
+
+.diary-img > img:hover {
+    cursor: pointer;
+}
+
+.photo-info > h3 {
+    flex: 2;
+    display: flex;
+    align-items: center;
+}
+
+.photo-info > div {
+    flex: 8;
+    display: flex;
+    align-items: center;
+    font-size: large;
+    font-weight: bold;
+}
+
+.profile-info > h3 {
+    flex: 2;
+    display: flex;
+    align-items: center;
+}
+
+.profile-info > div {
+    flex: 8;
+    display: flex;
+    align-items: center;
+    font-size: large;
+    font-weight: bold;
+}
+
+.diary-info > h3 {
+    flex: 2;
+    display: flex;
+    align-items: center;
+}
+
+.diary-info > div {
+    flex: 8;
+    display: flex;
+    align-items: center;
+    font-size: large;
+    font-weight: bold;
+}
+
+.user-img {
+    flex: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-img:hover {
+    cursor: pointer;
+}
+
+.user-name {
+    flex: 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    font-weight: bold;
+}
+
+.user-img > img{
+    width: 170px;
+    height: 230px;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.number {
+    margin: 5px;
+}
+
+.number:hover {
+    cursor: pointer;
+}

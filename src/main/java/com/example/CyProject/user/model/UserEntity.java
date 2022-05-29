@@ -26,6 +26,9 @@ public class UserEntity {
     private String nm;
     private String upw;
 
+    @Column(nullable = false)
+    private String cellphone;
+
     @Column(insertable = false)
     private String provider;
 

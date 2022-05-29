@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/index">
+
+<head>
+    <link rel="stylesheet" th:href="@{/css/main/search.css}">
+    <script defer th:src="@{/js/main/searchUser.js}"></script>
+</head>
+
+<th:block layout:fragment="container">
+    <div class="search-container">
+        <div class="search-header">
+
+            <div class="search-count">
+                검색결과 : <p class="count-number"
+                          th:text="${searchUserCount}"></th:text></p>
+                개
+            </div>
+
+        </div>
+        <div class="search-results">
+            <div class="user-elem">
+
+                <th:block th:each="data : ${searchUser}">
+                    <div class="results-data">
+                        <div class="userId" style="display: none" th:text="${data.getIuser()}"></div>
+                        <div class="user-img">
+                            <img th:src="${data.img}"
+                                 alt="">
+                        </div>
+                        <div class="user-name" th:text="${data.nm}"></div>
+                    </div>
+                </th:block>
+
+            </div>
+        </div>
+        <div class="pagination">
+
+        </div>
+
+    </div>
+</th:block>
+
+</html>

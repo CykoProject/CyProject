@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/home/diary.css}">
+    <script defer th:src="@{/js/home/commentObj.js}"></script>
     <script defer th:src="@{/js/home/diary.js}"></script>
     <title>Title</title>
 </head>
@@ -30,6 +31,8 @@
             <span class="empty-data" th:if="${data.size() == 0}" th:text="'다이어리 글이 없습니다'"></span>
             <th:block th:each="item : ${data}">
                 <div class="diary-data">
+                    <div id="data-iboard" th:data-iboard="${item.idiary}"></div>
+                    <div id="data-ihost" th:data-ihost="${item.ihost}"></div>
                     <div>
                         <div class="date-bar">
                             <div>
@@ -43,7 +46,7 @@
                                 </span>
                                 <span th:if="${!#strings.equals(loginUserPk, param.iuser)}">
                                     <span th:if="${#strings.equals(loginUserPk, param.iuser)}">|</span>
-                                    <a href="#" class="diary-report">신고</a>
+                                    <a href="#" th:if="${!#strings.equals(param.iuser, loginUserPk) && !#strings.equals(loginUserPk, '0')}" class="diary-report">신고</a>
                                 </span>
                             </div>
                         </div>
@@ -52,19 +55,32 @@
                                 <span th:text="${#temporals.format(item.rdt, 'HH:mm')}"></span>
                             </div>
                             <div>
-                                <span th:utext="${item.ctnt}" class="diary-ctnt"></span>
+                                <span th:classappend="${item.ifont != null ? item.ifont.file : ''}" th:utext="${item.ctnt}" class="diary-ctnt"></span>
                             </div>
                         </div>
                     </div>
 
                     <!--        TODO 로그인 한 회원만 작성할 수 있게       -->
-                    <div class="diary-comment-container">
-                        <form action="" th:method="post">
-                            <div class="input-cmt">
-                                <input type="text" name="ctnt" placeholder="댓글쓰기" class="ctnt">
-                                <input type="submit" th:value="댓글등록" class="ctnt-btn">
+                    <div class="comment-container">
+                        <div>
+                            <div class="input-cmt" sec:authorize="isAuthenticated()">
+                                <textarea name="ctnt" placeholder="댓글쓰기" class="ctnt"></textarea>
+
+                                <button class="ctnt-btn">댓글쓰기</button>
                             </div>
-                        </form>
+
+                            <div class="comment-cnt-wrap">
+                                <span class="comment-cnt"></span>
+                            </div>
+                            <div class="hidden-ctnt">
+                                <div>
+                                    <span class="comment-ctnt"></span>
+                                </div>
+                                <div class="pagination">
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </th:block>
@@ -79,6 +95,25 @@
                 <span th:if="${(#strings.equals(param.page, page) || (#strings.isEmpty(param.page) && #strings.equals(page, 1)))}" class="cur-page" th:text="${page}"></span>
             </th:block>
             <a th:href="@{/home/diary(iuser=${param.iuser}, page=${pageData.lastPage + 1}, searchRdt=${param.searchRdt})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
+        </div>
+
+        <div class="diary-report-modal">
+            <div class="diary-report-ctnt">
+                <div>
+                    <span>글 번호 : </span>
+                    <span id="report-iboard"></span>
+                    <input type="hidden" id="diary-ihost">
+                </div>
+                <div>
+                    <textarea class="diary-report-textarea" placeholder="신고사유"></textarea>
+                </div>
+                <div>
+                    <button id="report-submit-btn">제출</button>
+                </div>
+            </div>
+            <div class="diary-report-close">
+                x
+            </div>
         </div>
     </th:block>
 </body>

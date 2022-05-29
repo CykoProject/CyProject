@@ -1,6 +1,28 @@
+const isPopup = opener !== null ? true : false;
+if(!isPopup) {
+    location.href = '/error/home';
+}
+
+
+
+const popupWidth = 330;
+const popupHeight = 300;
+const popX = 1195;
+const popY = (window.screen.height / 2) - (popupHeight / 2) - 250;
+const aurl = new URL(location.href);
+const aparams = aurl.searchParams;
+const pk = aparams.get("iuser");
+const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+`;
+const audioPopup = window.open(`/home/audio?iuser=${pk}`, 'audio', option);
+
 const tab_list_css = [
-    'tab3', 'tab4', 'tab5', 'tab6', 'tab7', 'tab8'
-]
+    'tab3','tab4', 'tab5', 'tab6', 'tab7', 'tab8'
+];
 
 const tabMenuElem = document.querySelector('.tab-menu');
 
@@ -22,23 +44,23 @@ const makeProperties = (elem, text, name) => {
     cnt++;
 }
 const addTabMenu = (data) => {
-    if (data.diary) {
+    if(data.diary) {
         makeProperties(createAElem(), '다이어리', 'diary');
     }
-    if (data.photo) {
+    if(data.photo) {
         makeProperties(createAElem(), '사진첩', 'photo');
     }
-    if (data.visit) {
+    if(data.visit) {
         makeProperties(createAElem(), '방명록', 'visit');
     }
-    if (data.jukebox) {
+    if(data.jukebox) {
         makeProperties(createAElem(), '주크박스', 'jukebox')
     }
-    if (data.mini_room) {
+    if(data.mini_room) {
         makeProperties(createAElem(), '미니룸', 'miniroom')
     }
-    if (loginUserPk === iuser) {
-        makeProperties(createAElem(), '관리', 'setting');
+    if(loginUserPk === iuser) {
+        makeProperties(createAElem(), '관리', 'manage');
     }
     cnt = 0;
 
@@ -46,9 +68,7 @@ const addTabMenu = (data) => {
 
     pathName = pathName.substr(0, pathName.indexOf('/') === -1 ? pathName.length : pathName.indexOf("/"));
 
-    console.log(pathName);
-
-    if (pathName.length === 0) {
+    if(pathName.length === 0) {
         document.querySelector('.home').classList.add('menu-checked');
     } else {
         document.querySelector(`.${pathName}`).classList.add('menu-checked');
@@ -66,6 +86,29 @@ fetch(`/ajax/home?iuser=${iuser}`)
     .catch(e => {
         console.error(e);
     });
+
+
+const msgSendSuccess = (msg) => {
+    const div = document.createElement('div');
+    div.classList.add('msg-send-success');
+    div.innerHTML = `
+            <span>${msg}</span>
+        `;
+    window.document.body.appendChild(div);
+    let setTimeOut = setTimeout(() => {
+        div.remove();
+    }, 3000);
+
+    div.addEventListener('mouseover', () => {
+        clearTimeout(setTimeOut);
+    });
+
+    div.addEventListener('mouseout', () => {
+        setTimeOut = setTimeout(() => {
+            div.remove();
+        }, 3000);
+    });
+}
 
 /* 방문자 수 */
 const homeCnt = (data) => {
@@ -177,11 +220,5 @@ const makeElem = (data) => {
         profileName.innerHTML = `
             <span>${data.nm}</span>
         `;
-
-        // profileCont.appendChild(profileImg);
-        // profileCont.appendChild(profileCtnt);
-        // profileCont.appendChild(profileName);
-
-
 
 }

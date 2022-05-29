@@ -31,18 +31,18 @@ public class MainMovieApiController {
     @GetMapping
     public List<MovieEntity> mainMovieApi() throws JsonProcessingException {
         List<MovieEntity> movieInfo = new ArrayList();
-        System.out.println("getmapping 자리 : " + titleList);
+//        System.out.println("getmapping 자리 : " + titleList);
         for(int i=1; i <= titleList.size(); i++) {
             movieInfo.add(callMovieApi(titleList.get("title"+ i)));
         }
-        System.out.println("movieInfo : " + movieInfo);
+//        System.out.println("movieInfo : " + movieInfo);
         return movieInfo;
     }
 
     @PostMapping
     public void mainMovieInsertApi(@RequestBody Map<String, String> titles) {
         titleList = (HashMap<String, String>) titles;
-        System.out.println(titleList);
+//        System.out.println(titleList);
     }
 
 }

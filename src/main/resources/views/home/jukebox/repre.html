@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="home/index">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/home/jukebox.css}">
+    <script defer th:src="@{/js/home/jukebox.js}"></script>
+    <script src="https://kit.fontawesome.com/f847c76f7d.js" crossorigin="anonymous"></script>
+    <title>Title</title>
+</head>
+<body>
+    <th:block layout:fragment="content_left">
+        <div>
+            <div>
+                <a th:classappend="${#strings.equals(folder, 'jukebox')} ? 'cur-folder' : ''" th:href="@{/home/jukebox(iuser=${param.iuser})}">전체보기</a>
+            </div>
+            <div>
+                <a th:classappend="${#strings.equals(folder, 'repre')} ? 'cur-folder' : ''" th:href="@{/home/jukebox/repre(iuser=${param.iuser})}">배경음악</a>
+            </div>
+        </div>
+    </th:block>
+
+    <th:block layout:fragment="content_right">
+        <div class="audio-wrap">
+            <div>
+                <span class="player-nm"></span>
+            </div>
+            <audio controls autoplay class="audio-player"></audio>
+        </div>
+        <div>
+            <div class="frow justify-space home-jukebox">
+                <div>
+                    <button id="play">듣기</button>
+                </div>
+                <div th:if="${#strings.equals(loginUserPk, param.iuser)}">
+                    <button class="repre-btn">배경음악 제거</button>
+                </div>
+            </div>
+            <div>
+                <table>
+                    <colgroup>
+                        <col width="5%">
+                        <col width="15%">
+                        <col width="60%">
+                        <col width="20%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" class="jukebox-all-check">
+                        </th>
+                        <th>번호</th>
+                        <th>곡명</th>
+                        <th>아티스트</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <th:block th:each="item : ${data}">
+                        <tr class="music-data" th:data-src="${item.imusic.url}">
+                            <td>
+                                <input type="checkbox" class="jukebox-check">
+                            </td>
+                            <td class="pk" th:text="${item.ijukebox}"></td>
+                            <td class="music-nm" th:text="${item.imusic.nm}"></td>
+                            <td class="artist" th:text="${item.imusic.artist}"></td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

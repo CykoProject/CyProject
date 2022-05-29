@@ -168,8 +168,95 @@ body {
     color: red !important;
 }
 
-.empty-data {
+.cur-folder {
+    font-weight: bold;
+    text-decoration: underline;
+}
 
+.idx-audio {
+    position: absolute;
+    width: 200px;
+    right: 70px;
+}
+
+.hidden-ctnt {
+    display: none;
+    flex-direction: column;
+}
+
+.comment-cnt:hover {
+    cursor: pointer;
+}
+
+.user-img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.user-img img {
+    width: 75px;
+    height: auto;
+}
+
+.comment-wrap {
+    margin-bottom: 15px;
+}
+
+.comment-rdt {
+    color: gray;
+}
+
+.comment-sec {
+    margin-left: 10px;
+}
+
+.comment-sec p {
+    margin-bottom: 5px;
+}
+
+.comment-writer-nm {
+    color: #00aaff;
+    margin-right: 5px;
+}
+
+.cmt-word-break {
+    word-break: break-all;
+    padding: 3px 5px;
+    display: flex;
+}
+
+.cmt-first-child {
+    min-width: 44px;
+}
+
+.input-cmt {
+    margin-left: 5px;
+    margin-right: 5px;
+    display: flex;
+    gap: 10px;
+}
+
+.ctnt {
+    flex: 1;
+    height: 35px;
+    resize: none;
+}
+
+.comment-cnt-wrap {
+    padding: 3px 5px;
+}
+
+.pagination > span {
+    margin-left: 5px;
+}
+
+.selected {
+    color: red;
+    text-decoration: underline;
+}
+
+.hover-pointer:hover {
+    cursor: pointer;
 }
 
 
