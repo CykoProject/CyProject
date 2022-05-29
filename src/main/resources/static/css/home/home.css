@@ -1,3 +1,4 @@
+/* left */
 .profile-img {
     width: 100%;
     height: 10rem;
@@ -30,4 +31,217 @@
     cursor: pointer;
     font-size: 1rem;
     font-weight: 800;
+}
+
+
+/* right */
+.section.right .content {
+    padding: 0.8rem 2rem;
+}
+
+.home-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+}
+
+.home-container h2 {
+    width: 100%;
+    color: #54a2be;
+    font-size: 0.8rem;
+    font-weight: 800;
+    line-height: 1.2rem;
+}
+
+.home-container h2::after {
+    content: "";
+    width: 100%;
+    border-bottom: 0.0625rem solid #dcdcdc;
+    display: block;
+}
+
+.home-container .board {
+    width: 100%;
+    min-height: 7rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.home-container .board .update-list {
+    width: 50%;
+}
+
+.home-container .board .update-list .news {
+    width: 100%;
+    height: 5.6rem;
+    margin-top: 0.2rem;
+}
+
+.home-container .board .update-list .news .default-message {
+    width: 100%;
+    height: 100%;
+    background-color: #f2f2f2;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.home-container .board .update-list .news .default-message p {
+    color: #696969;
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+.home-container .board .board-list {
+    width: 48%;
+    position: relative;
+}
+
+.home-container .board .board-list table {
+    width: 100%;
+    height: 5.8rem;
+    border: 0.0625rem solid #dcdcdc;
+    border-collapse: collapse;
+    position: absolute;
+    bottom: 0;
+}
+
+.home-container .board .board-list table tr {
+    height: 33.333%;
+}
+
+.home-container .board .board-list table tr td {
+    width: 50%;
+    border: 0.0625rem solid #dcdcdc;
+}
+
+.home-container .board .board-list table tr td a {
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+}
+
+
+.home-container .miniroom {
+    width: 100%;
+    min-height: 16rem;
+    position: relative;
+}
+
+.home-container .miniroom .miniroom-cont {
+    width: 100%;
+    height: 14.5rem;
+    background-color: #848a84;
+    position: absolute;
+    bottom: 0;
+}
+
+/* 일촌평 write */
+.home-container .friend-comment {
+    width: 100%;
+    min-height: 5rem;
+}
+
+.home-container .friend-comment .friend-comment-cont {
+    width: 100%;
+    height: auto;
+    /*background-color: #9497a4;*/
+    margin-top: 0.3rem;
+}
+
+.home-container .friend-comment .friend-comment-cont .friend-comment-write {
+    width: 100%;
+    height: 3rem;
+    align-items: center;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+}
+
+#friend-comment-form {
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+#friend-comment-form span {
+    color: #54a2be;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+#friend-comment-form .write-cont {
+    width: 20rem;
+}
+
+#friend-comment-form .write-cont label input {
+    width: 100%;
+    border: 0.0625rem solid #696969;
+    padding: 0.2rem 0.35rem;
+}
+
+#friend-comment-form .btn-cont .board-btn {
+    background-color: #fff;
+}
+
+
+/* 일촌평 list */
+.friend-comment-list > div::after {
+    content: "";
+    width: 100%;
+    border-bottom: 0.0625rem solid #dcdcdc;
+    display: block;
+}
+
+.friend-comment-list div ul {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+}
+
+.friend-comment-list div ul li {
+    font-size: 0.8rem;
+    list-style: none;
+}
+
+.friend-comment-list div ul .message {
+    width: 45%;
+}
+
+.friend-comment-list div ul .writer {
+    width: 25%;
+}
+
+.friend-comment-list div ul .writer a {
+    color: #0f587a;
+}
+
+.friend-comment-list div ul .rdt {
+    width: 18%;
+}
+
+.friend-comment-list div ul div {
+    width: 5%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.friend-comment-list div ul div input {
+    border: 0.0625rem solid #fff;
+    color: #b92020;
+    cursor: pointer;
+    background-color: #fff;
+    padding: 0 0.2rem;
+    font-size: 0.7rem;
 }

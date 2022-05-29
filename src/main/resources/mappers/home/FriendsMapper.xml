@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CyProject.home.model.friends.FriendsMapper">
+    <insert id="insFriends">
+        INSERT INTO `cyworld`.`friends` (`iuser`, `fuser`, `nickname`)
+        VALUES (#{iuser}, #{fuser}, #{nickname})
+    </insert>
+
+    <select id="selFriends" resultType="int">
+        SELECT COUNT(`ifriend`)
+        FROM `cyworld`.`friends`
+        WHERE `iuser` = #{iuser}
+          AND `fuser` = #{fuser}
+          AND `status` = 1
+    </select>
+</mapper>

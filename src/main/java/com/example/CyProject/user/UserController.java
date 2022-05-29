@@ -45,6 +45,7 @@ public class UserController {
         int iuser = userRepository.save(dto.toEntity()).getIuser();
         HomeEntity entity = new HomeEntity();
         entity.setIuser(iuser);
+        entity.setHome_nm(dto.getNm() + "의 미니홈피");
         if(iuser != 0){
             homeRepository.save(entity);
         }

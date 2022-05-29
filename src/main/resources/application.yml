@@ -17,9 +17,12 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3308/cyworld
-    username: root
-    password: koreait
+#    url: jdbc:mariadb://localhost:3308/cyworld
+#    username: root
+#    password: koreait
+    url: jdbc:mariadb://localhost:3306/cyworld
+    username: korea
+    password: zhfldk
 
   jpa:
     open-in-view: true

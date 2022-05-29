@@ -1,15 +1,22 @@
 package com.example.CyProject.home;
 
 import com.example.CyProject.Utils;
+import com.example.CyProject.common.MyFileUtils;
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.friends.FriendsEntity;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeRepository;
+import com.example.CyProject.home.model.photo.PhotoEntity;
+import com.example.CyProject.home.model.photo.PhotoImgEntity;
+import com.example.CyProject.home.model.photo.PhotoImgRepository;
+import com.example.CyProject.home.model.photo.PhotoRepository;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
 import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
+import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +27,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,16 +47,22 @@ public class HomeController {
     @Autowired private VisitRepository visitRepository;
     @Autowired private AuthenticationFacade authenticationFacade; // 로그인 된 회원정보 가져올 수 있는 메소드 있는 클래스
     @Autowired private PageService pageService;
-    @Autowired private ProfileRepository profileRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private HomeService homeService;
+    @Autowired private AuthenticationFacade auth;
+    @Autowired private PhotoRepository photoRepository;
 
     @GetMapping
     public String home(HomeEntity entity, Model model) {
-        int loginUser = authenticationFacade.getLoginUserPk();
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
-        model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
         model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
+
+        FriendsEntity friendsEntity = new FriendsEntity();
+        friendsEntity.setIuser(entity.getIuser());
+        friendsEntity.setFuser(auth.getLoginUserPk());
+
+        model.addAttribute("isFriend", homeService.selFriends(friendsEntity));
+
         return "home/home";
     }
 
@@ -143,9 +159,9 @@ public class HomeController {
 
     @GetMapping("/profile")
     public String profile(HomeEntity entity, Model model) {
-        int loginUser = authenticationFacade.getLoginUserPk();
-        model.addAttribute("loginUser", loginUser);
-        model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        model.addAttribute("loginUserPk", loginUserPk);
+        model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
         return "home/profile/profile";
     }
 
@@ -167,4 +183,46 @@ public class HomeController {
         }
         return "redirect:/home/profile?iuser=" + entity.getIhost();
     }
+
+    @GetMapping("/photo")
+    public String photo(HomeEntity entity, Model model) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        List<PhotoEntity> list = photoRepository.findByIhostOrderByRdtDesc(entity.getIuser());
+
+        model.addAttribute("loginUserPk", loginUserPk);
+        model.addAttribute("list", list);
+        return "home/photo/photo";
+    }
+
+    @GetMapping("/photo/write")
+    public String writePhoto() {
+        return "home/photo/write";
+    }
+
+    @PostMapping("/photo/write")
+    public String writePhotoProc(PhotoEntity entity, MultipartFile imgs) {
+        System.out.println("entity : " + entity);
+
+        entity.setIhost(auth.getLoginUserPk());
+        PhotoEntity resultEntity = photoRepository.save(entity);
+        System.out.println(resultEntity);
+
+        PhotoImgEntity imgEntity = new PhotoImgEntity();
+        imgEntity.setIphoto(resultEntity.getIphoto());
+
+        int result = homeService.writePhoto(imgs, imgEntity);
+
+        return "redirect:/home/photo?iuser=" + entity.getIhost();
+    }
+
+    @GetMapping("/miniroom")
+    public String miniroom(HomeEntity entity, Model model) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        model.addAttribute("loginUserPk", loginUserPk);
+
+        return "/home/miniroom/miniroom";
+    }
+
+
+
 }
