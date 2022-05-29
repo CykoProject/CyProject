@@ -173,6 +173,9 @@ public class HomeRestController {
     @PostMapping("/jukebox/repre")
     public ResultVo updRepreStatus(@RequestBody JukeBoxDto dto) {
         ResultVo vo = new ResultVo();
+
+        System.out.println(dto);
+
         int cnt = 0;
         for(JukeBoxEntity item : dto.getJukeBoxList()) {
             cnt += jukeBoxRepository.updRepreStatus(item.isRepre(), item.getIhost(), item.getIjukebox());

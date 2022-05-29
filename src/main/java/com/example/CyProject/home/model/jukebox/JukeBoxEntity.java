@@ -1,6 +1,7 @@
 package com.example.CyProject.home.model.jukebox;
 
 import com.example.CyProject.shopping.model.bgm.MusicEntity;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,7 +21,7 @@ public class JukeBoxEntity {
 
     @OneToOne
     @JoinColumn(name = "imusic")
-    private MusicEntity imusic;
+    private PurchaseHistoryEntity imusic;
 
     private int ihost;
 

@@ -113,6 +113,7 @@ public class HomeController {
     public String writeDiary(int iuser, String idiary, Model model) {
         int idx = utils.getParseIntParameter(idiary);
         if(idx != 0) {
+            System.out.println("mod");
             model.addAttribute("modData", diaryRepository.findById(idx));
         }
         if(authenticationFacade.getLoginUserPk() != iuser) {
@@ -191,7 +192,7 @@ public class HomeController {
     public String jukeBoxRepreFolder(@RequestParam(value = "iuser") int iuser, Model model) {
         model.addAttribute("folder", "repre");
         model.addAttribute("data", jukeBoxRepository.selRepreList(iuser));
-
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "home/jukebox/repre";
     }
 

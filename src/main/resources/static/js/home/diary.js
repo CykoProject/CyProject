@@ -75,7 +75,7 @@ if(diaryELem) {
             const iboardElem = document.querySelector('#report-iboard');
             const ihostElem = document.querySelector('#diary-ihost');
 
-            const iboard = targetElem.querySelector('#data-idiary').dataset.iboard;
+            const iboard = targetElem.querySelector('#data-iboard').dataset.iboard;
             const ihost = targetElem.querySelector('#data-ihost').dataset.ihost;
 
             iboardElem.innerText = iboard;
@@ -146,6 +146,10 @@ const diaryWriteElem = document.querySelector('#diary-write-elem');
 if(diaryWriteElem) {
     const selectFontElem = diaryWriteElem.querySelector('.select-font');
     const diaryWriteTextareaElem = diaryWriteElem.querySelector('.diary-write-textarea');
+    const selectedFontInit = selectFontElem[selectFontElem.selectedIndex].dataset.font;
+
+    diaryWriteTextareaElem.classList.add(selectedFontInit);
+
     let preFontVal = '';
     selectFontElem.addEventListener('change', () => {
         if(preFontVal != '') {
