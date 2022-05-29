@@ -2,32 +2,55 @@ package com.example.CyProject.home;
 
 import com.example.CyProject.ResultVo;
 import com.example.CyProject.Utils;
+import com.example.CyProject.common.MyFileUtils;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.comment.CommentEntity;
 import com.example.CyProject.home.model.comment.CommentRepository;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
+import com.example.CyProject.home.model.home.HomeMessageEntity;
+import com.example.CyProject.home.model.home.HomeMessageRepository;
 import com.example.CyProject.home.model.home.HomeRepository;
 import com.example.CyProject.home.model.jukebox.JukeBoxDto;
 import com.example.CyProject.home.model.jukebox.JukeBoxEntity;
 import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
 import com.example.CyProject.home.model.report.ReportEntity;
 import com.example.CyProject.home.model.report.ReportRepository;
+import com.example.CyProject.home.model.photo.PhotoEntity;
+import com.example.CyProject.home.model.photo.PhotoImgEntity;
+import com.example.CyProject.home.model.photo.PhotoImgRepository;
+import com.example.CyProject.home.model.photo.PhotoRepository;
 import com.example.CyProject.home.model.visit.VisitDto;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryEntity;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
+import com.example.CyProject.shopping.model.item.ItemCategory;
 import com.example.CyProject.user.model.UserEntity;
+import com.example.CyProject.user.model.UserEntity;
+import com.example.CyProject.user.model.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FilenameUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import javax.management.Query;
 import javax.persistence.EntityManager;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @RestController
 @RequestMapping("/ajax/home")
@@ -40,11 +63,29 @@ public class HomeRestController {
     @Autowired private CommentRepository commentRepository;
     @Autowired private JukeBoxRepository jukeBoxRepository;
     @Autowired private AuthenticationFacade authenticationFacade;
+    @Autowired private PurchaseHistoryRepository purchaseHistoryRepository;
     @Autowired private Utils utils;
+    @Autowired private HomeService homeService;
+    @Autowired private MyFileUtils myFileUtils;
+    @Autowired private HomeMessageRepository homeMessageRepository;
+    @Autowired private PhotoImgRepository photoImgRepository;
+    @Autowired private UserRepository userRepository;
 
     @GetMapping
     public HomeEntity home(HomeEntity entity) {
         return homeRepository.findByIuser(entity.getIuser());
+    }
+
+    @PutMapping("/nm/mod")
+    public ResultVo modHomeNm(@RequestBody HomeEntity entity) {
+        // TODO : home 테이블 `home_nm` 추가
+        ResultVo vo = new ResultVo();
+        vo.setResult(0);
+
+        homeRepository.updHomeNm(entity.getHome_nm(), entity.getIhome());
+        vo.setResult(1);
+
+        return vo;
     }
 
     @GetMapping("/{cg}/cmt/cnt/{iboard}")
@@ -58,6 +99,15 @@ public class HomeRestController {
     @GetMapping("/{cg}/cmt/{iboard}")
     public List<CommentEntity> getCommentList(@PathVariable String cg, @PathVariable int iboard, Pageable pageable) {
         return commentRepository.selCommentWithOutReply(iboard, utils.getCommentCategory(cg), pageable);
+    }
+
+    @GetMapping("/font")
+    public List<PurchaseHistoryEntity> getUserFontList(int iuser) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        if(iuser != loginUserPk) {
+            return null;
+        }
+        return purchaseHistoryRepository.findAllByIcategoryInHisotry(ItemCategory.FONT.getCategory(), authenticationFacade.getLoginUserPk());
     }
 
     @PostMapping("/{cg}/cmt/write")
@@ -123,9 +173,8 @@ public class HomeRestController {
     @PostMapping("/visit/mod")
     public ResultVo visitModProc(@RequestBody VisitEntity entity) {
         ResultVo vo = new ResultVo();
-        String preCtnt = visitRepository.findByIvisit(entity.getIvisit()).getCtnt();
         VisitEntity result = visitRepository.save(entity);
-        if(!preCtnt.equals(result.getCtnt())) {
+        if(result != null) {
             vo.setResult(1);
         }
         return vo;
@@ -161,6 +210,9 @@ public class HomeRestController {
     @PostMapping("/jukebox/repre")
     public ResultVo updRepreStatus(@RequestBody JukeBoxDto dto) {
         ResultVo vo = new ResultVo();
+
+        System.out.println(dto);
+
         int cnt = 0;
         for(JukeBoxEntity item : dto.getJukeBoxList()) {
             cnt += jukeBoxRepository.updRepreStatus(item.isRepre(), item.getIhost(), item.getIjukebox());
@@ -175,5 +227,107 @@ public class HomeRestController {
     public List<JukeBoxEntity> getRepreMusicList(int iuser) {
         List<JukeBoxEntity> list = jukeBoxRepository.selRepreList(iuser);
         return list;
+    }
+
+    @PostMapping("/upload/image")
+    public JSONObject uploadImage(@RequestParam Map<String, Object> paramMap, MultipartRequest request, PhotoImgEntity imgEntity, HttpServletResponse response, Model model) {
+
+        response.setContentType("application/json");
+
+        System.out.println("entity : " + imgEntity);
+//        System.out.println("img : " + imgs[0]);
+
+        MultipartFile uploadImage = request.getFile("upload");
+        System.out.println(uploadImage);
+
+        if (uploadImage == null) {
+            System.out.println("image null");
+            return null;
+        }
+
+//        entity.setIhost(auth.getLoginUserPk());
+//        photoRepository.save(entity);
+
+        String target = "photos/temp/";
+
+        String saveFileName = myFileUtils.transferTo(uploadImage, target);
+
+        JSONObject json = new JSONObject();
+
+        json.put("uploaded", 1);
+        json.put("url", "photos/temp/" + saveFileName);
+        json.put("fileName", saveFileName);
+
+        model.addAttribute("test", json);
+
+//        Map<String, Object> data = new HashMap<String, Object>();
+//
+//        data.put("uploaded", 1);
+//        data.put("url", saveFileName);
+//        data.put("fileName", saveFileName);
+//
+        ObjectMapper mapper = new ObjectMapper();
+//        try {
+//            mapper.writeValue(response.getWriter(), json);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        System.out.println("map : " + json);
+        return json;
+    }
+
+    @GetMapping("/photo")
+    public List<PhotoImgEntity> getPhotoList(@RequestParam int iphoto) {
+        List<PhotoImgEntity> photoList = photoImgRepository.findAllByIphoto(iphoto);
+        return photoList;
+    }
+
+    @GetMapping("profile")
+    public UserEntity getProfile(@RequestParam int iuser) {
+        return userRepository.findByIuser(iuser);
+    }
+
+    @GetMapping("/friendComment")
+    public List<HomeMessageEntity> friendComment(@RequestParam int iuser) {
+        List<HomeMessageEntity> list = homeService.selMessageList(iuser);
+        return list;
+    }
+
+    @PostMapping("/friendComment/write")
+    public ResultVo writeFriendComment(@RequestBody HomeMessageEntity entity) {
+        // TODO : home_message 테이블 `rdt` 추가
+
+        entity.setWriter(authenticationFacade.getLoginUserPk());
+
+        System.out.println("success!! : " + entity);
+
+        ResultVo vo = new ResultVo();
+        vo.setResult(0);
+
+        if (homeService.selMessage(entity) == 0) {
+            homeMessageRepository.save(entity);
+            vo.setResult(1);
+        } else {
+            int updMessage = homeService.updMessage(entity);
+            vo.setResult(updMessage);
+        }
+
+        return vo;
+    }
+
+    @DeleteMapping("/friendComment/del")
+    public ResultVo delFriendComment(HomeMessageEntity entity) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(0);
+
+        HomeMessageEntity data = homeMessageRepository.getById(entity.getImsg());
+        int loginUser = authenticationFacade.getLoginUserPk();
+
+        if (data.getIhost() == loginUser || data.getWriter() == loginUser) {
+            homeMessageRepository.deleteById(entity.getImsg());
+            vo.setResult(1);
+        }
+        return vo;
     }
 }

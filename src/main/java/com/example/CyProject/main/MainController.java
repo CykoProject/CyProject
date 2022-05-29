@@ -3,14 +3,11 @@ package com.example.CyProject.main;
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.home.HomeEntity;
-import com.example.CyProject.home.model.visitor.VisitorEntity;
+import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
-import com.example.CyProject.main.model.CmtEntity;
-import com.example.CyProject.main.model.CmtRepository;
 import com.example.CyProject.message.model.MessageRepository;
-import com.example.CyProject.user.model.UserEntity;
-import com.example.CyProject.user.model.friends.FriendsEntity;
 import com.example.CyProject.user.model.friends.FriendsRepository;
+import com.example.CyProject.user.model.friends.FriendsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,28 +15,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Controller
 @RequestMapping("/")
 public class MainController {
 
-    @Autowired
-    private MainNewsApiService mainNewsApiService;
-    @Autowired
-    private AuthenticationFacade authenticationFacade;
-    @Autowired
-    private MainService mainService;
-    @Autowired
-    private MessageRepository messageRepository;
-    @Autowired
-    private FriendsRepository friendsRepository;
-    @Autowired
-    private Utils utils;
-    @Autowired
-    private VisitorRepository visitorRepository;
-    @Autowired
-    private CmtRepository cmtRepository;
+    @Autowired private AuthenticationFacade authenticationFacade;
+    @Autowired private MainService mainService;
+    @Autowired private MessageRepository messageRepository;
+    @Autowired private FriendsRepository friendsRepository;
+    @Autowired private FriendsService friendsService;
+    @Autowired private VisitorRepository visitorRepository;
+    @Autowired private VisitRepository visitRepository;
+    @Autowired private  Utils utils;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
@@ -48,11 +40,20 @@ public class MainController {
             model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
             model.addAttribute("loginUser", authenticationFacade.getLoginUser());
         }
+        LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(0), LocalTime.of(0,0,0));
+        LocalDateTime endDate = LocalDateTime.of(LocalDate.now(),LocalTime.of(23,59,59));
 
+        if(utils.findHomePk(authenticationFacade.getLoginUserPk()) != 0){
+            model.addAttribute("visit",visitRepository.countByRdtBetween(startDate,endDate));
+            System.out.println("startDate" + startDate);
+            System.out.println("endDate"+ endDate);
+        }
+
+        model.addAttribute("visitor", visitorRepository.todayCount(utils.findHomePk(authenticationFacade.getLoginUserPk())));
+        model.addAttribute("friend", friendsService.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("data", friendsRepository.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("msgCnt", messageRepository.beforeReadMsgCnt(authenticationFacade.getLoginUserPk()));
         model.addAttribute("userData", mainService.userRepository.findByIuser(authenticationFacade.getLoginUserPk()));
-        model.addAttribute("cmt", cmtRepository.findAll());
 
         return "main/main";
     }

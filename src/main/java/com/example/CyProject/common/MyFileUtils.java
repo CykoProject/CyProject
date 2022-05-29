@@ -1,10 +1,15 @@
 package com.example.CyProject.common;
 
+import com.example.CyProject.home.model.photo.PhotoImgEntity;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -50,5 +55,57 @@ public class MyFileUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    // New File Upload -----------------------
+
+    private final String getRandomString() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
+    public List<PhotoImgEntity> uploadFiles(List<MultipartFile> files, int iphoto) {
+
+        /* 업로드 파일 정보를 담을 비어있는 리스트 */
+        List<PhotoImgEntity> attachList = new ArrayList<>();
+
+        /* uploadPath에 해당하는 디렉터리가 존재하지 않으면, 부모 디렉터리를 포함한 모든 디렉터리를 생성 */
+        File dir = new File(uploadImagePath + "/" + iphoto);
+        if (dir.exists() == false) {
+            dir.mkdirs();
+        }
+
+        /* 파일 개수만큼 forEach 실행 */
+        for (MultipartFile file : files) {
+            if(file.getSize() < 1) {
+                continue;
+            }
+            try {
+                /* 파일 확장자 */
+                final String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+                /* 서버에 저장할 파일명 (랜덤 문자열 + 확장자) */
+                final String saveName = getRandomString() + "." + extension;
+
+                /* 업로드 경로에 saveName과 동일한 이름을 가진 파일 생성 */
+                File target = new File(uploadImagePath + "/" + iphoto, saveName);
+                file.transferTo(target);
+
+                /* 파일 정보 저장 */
+                PhotoImgEntity attach = new PhotoImgEntity();
+                attach.setIphoto(iphoto);
+                attach.setImg(saveName);
+
+                /* 파일 정보 추가 */
+                attachList.add(attach);
+
+            } catch (IOException e) {
+                throw new AttachFileException("[" + file.getOriginalFilename() + "] failed to save file...");
+
+            } catch (Exception e) {
+                throw new AttachFileException("[" + file.getOriginalFilename() + "] failed to save file...");
+            }
+        } // end of for
+
+        return attachList;
     }
 }

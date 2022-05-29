@@ -7,8 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+import java.util.List;
+
 public interface PhotoRepository extends JpaRepository<PhotoEntity, Integer> {
 
     @Query("select p from PhotoEntity as p where p.title like CONCAT ('%',:search,'%')")
     List<PhotoEntity> searchPhoto(String search);
+    List<PhotoEntity> findByIhostOrderByRdtDesc(int iuser);
 }

@@ -28,4 +28,7 @@ public interface PurchaseHistoryRepository extends JpaRepository<PurchaseHistory
     @Transactional
     @Query("DELETE from PurchaseHistoryEntity where iuser = :iuser and complete = 0")
     int deletePurchaseFailData(UserEntity iuser);
+
+    @Query("SELECT p FROM PurchaseHistoryEntity p WHERE (p.item_id.icategory = :icategory AND p.iuser.iuser = :iuser)")
+    List<PurchaseHistoryEntity> findAllByIcategoryInHisotry(int icategory, int iuser);
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CyProject.user.model.friends.FriendMapper">
+
+
+    <select id="selectFriendsList" resultType="FriendsVo">
+        SELECT ROW_NUMBER() OVER() AS num, B.nm, A.fuser
+        FROM friends A
+                 INNER JOIN `user` B
+                            ON A.fuser = B.iuser
+        WHERE A.iuser = ${iuser} AND A.`status` = 1
+    </select>
+
+    <select id="selFriends" resultType="int">
+        SELECT COUNT(`ifriend`)
+        FROM `cyworld`.`friends`
+        WHERE `iuser` = #{iuser}
+          AND `fuser` = #{fuser}
+          AND `status` = 1
+    </select>
+</mapper>

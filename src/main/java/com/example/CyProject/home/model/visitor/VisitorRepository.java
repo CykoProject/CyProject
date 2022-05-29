@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VisitorRepository extends JpaRepository<VisitorEntity, Integer> {
 
-    @Query("select u from VisitorEntity u where u.visitorPk.ihome = ?1")
-    String todayCount(int ihome);
+    @Query("select count(u) from VisitorEntity u where u.visitorPk.ihome = ?1 and u.visitorPk.rdt = CURRENT_DATE ")
+    int todayCount(int ihome);
+
+
+
 }

@@ -1,4 +1,4 @@
-package com.example.CyProject.home.model.profile;
+package com.example.CyProject.home.model.photo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,6 @@ import javax.persistence.*;
 public class PhotoImgEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int iphoto;
 
     private String img;
