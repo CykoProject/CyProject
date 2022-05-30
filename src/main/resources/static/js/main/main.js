@@ -438,7 +438,7 @@ if (mainContainerElem) {
                     movieListElem.innerHTML += `
                 <div class="eachMovie" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 200px; height: 287px;">
                 <a href="${link}" style = "text-decoration: none; color: black;" target='_blank'>
-                <img src="${image}" style="width:190px; height:277px;" >
+                <img src="${image}" style="width:150px; height:210px;" >
                 <p style="margin: 5px; font-weight: bold;">${title}</p>
                 <p style="margin: 5px; font-size: small;">평점 : ${userRating}</p>
                 </a>
