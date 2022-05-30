@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'DOSGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/DOSGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
     --background-default : #ffffff;
     --border-color-default: #eaeaea;
@@ -25,13 +32,17 @@ a {
     text-decoration: none;
 }
 
+label input, textarea {
+    outline: none;
+}
+
 .hidden { visibility: hidden; }
 
-.home-container {
-    overflow: scroll;
-    overflow-x: hidden;
-    height: 89%;
-}
+/*.home-container {*/
+/*    overflow: scroll;*/
+/*    overflow-x: hidden;*/
+/*    height: 89%;*/
+/*}*/
 
 .text-align-center {
     text-align: center;
@@ -75,9 +86,44 @@ a {
     width: 100%;
 }
 
-.mb10 {
-    margin-bottom: 10px;
+
+/* 미니홈피 게시판 버튼 */
+.btn-cont {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    margin-bottom: 0.5rem;
 }
+
+.board-btn {
+    border: 0.09rem solid #848a84;
+    border-radius: 0.2rem;
+    display: inline-block;
+    padding: 0rem 0.2rem;
+    margin-left: 0.2rem;
+}
+
+.board-btn a {
+    font-family: 'DOSGothic';
+    font-size: 0.625rem;
+}
+
+.btn-cont .board-btn input {
+    border: none;
+    background-color: #fff;
+
+    font-family: 'DOSGothic';
+    font-size: 0.625rem;
+}
+
+.mt10 { margin-top: 10px; }
+.mt20 { margin-top: 10px; }
+.mt30 { margin-top: 10px; }
+
+.mb10 { margin-bottom: 10px; }
+.mb20 { margin-bottom: 10px; }
+.mb20 { margin-bottom: 10px; }
 
 .cur-pointer:hover {
     cursor: pointer;

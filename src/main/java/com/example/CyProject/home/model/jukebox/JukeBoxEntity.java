@@ -1,6 +1,9 @@
 package com.example.CyProject.home.model.jukebox;
 
 import com.example.CyProject.shopping.model.bgm.MusicEntity;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryEntity;
+import com.example.CyProject.shopping.model.item.ItemEntity;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,9 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "home_jukebox")
-@Getter
-@Setter
-@ToString
+@Data
 public class JukeBoxEntity {
 
     @Id
@@ -20,7 +21,7 @@ public class JukeBoxEntity {
 
     @OneToOne
     @JoinColumn(name = "imusic")
-    private MusicEntity imusic;
+    private ItemEntity imusic;
 
     private int ihost;
 

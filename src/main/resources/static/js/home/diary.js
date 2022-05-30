@@ -75,7 +75,7 @@ if(diaryELem) {
             const iboardElem = document.querySelector('#report-iboard');
             const ihostElem = document.querySelector('#diary-ihost');
 
-            const iboard = targetElem.querySelector('#data-idiary').dataset.iboard;
+            const iboard = targetElem.querySelector('#data-iboard').dataset.iboard;
             const ihost = targetElem.querySelector('#data-ihost').dataset.ihost;
 
             iboardElem.innerText = iboard;
@@ -140,3 +140,51 @@ if(diaryELem) {
     });
     // 댓글 ========================================================================================================
 }
+
+// 다이어리 작성 ====================================================================================================================
+const diaryWriteElem = document.querySelector('#diary-write-elem');
+if(diaryWriteElem) {
+    const selectFontElem = diaryWriteElem.querySelector('.select-font');
+    const diaryWriteTextareaElem = diaryWriteElem.querySelector('.diary-write-textarea');
+    const selectedFontInit = selectFontElem[selectFontElem.selectedIndex].dataset.font;
+
+    diaryWriteTextareaElem.classList.add(selectedFontInit);
+
+    let preFontVal = '';
+    selectFontElem.addEventListener('change', () => {
+        if(preFontVal != '') {
+            diaryWriteTextareaElem.classList.remove(preFontVal);
+        }
+        const selectedOption = selectFontElem[selectFontElem.selectedIndex];
+        const fontVal = selectedOption.dataset.font;
+        preFontVal = fontVal;
+        diaryWriteTextareaElem.classList.add(fontVal);
+    });
+}
+
+// const scrap = document.querySelectorAll('.scrap');
+// if(scrap !== null) {
+//     scrap.forEach(item => {
+//         item.addEventListener('click', (e) => {
+//             const parent = e.target.closest('.diary-data');
+//             const ctnt = parent.querySelector('.diary-ctnt').innerText;
+//             const iscrap = parseInt(parent.querySelector('#data-ihost').dataset.ihost);
+//             const data = {
+//                 ctnt: ctnt,
+//                 iscrap : iscrap
+//             }
+//             fetch('/ajax/home/diary/scrap', {
+//                 method : 'POST',
+//                 headers : {'Content-Type' : 'application/json'},
+//                 body : JSON.stringify(data)
+//             })
+//                 .then(res => res.json())
+//                 .then(data => {
+//                     console.log(data);
+//                 })
+//                 .catch(e => {
+//                     console.log(e);
+//                 });
+//         });
+//     });
+// }

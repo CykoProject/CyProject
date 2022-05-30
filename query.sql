@@ -8,6 +8,8 @@ CREATE OR replace TABLE home_profile(
 	rdt DATETIME DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- *** 2022-05-26 수정 ( font 추가 ) ***
+-- *** 2022-05-26 수정 ( font 제거 ) ***
 CREATE OR replace TABLE home_diary(
 	idiary INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	ihost INT UNSIGNED NOT NULL,
@@ -22,10 +24,11 @@ CREATE OR replace TABLE home_jukebox(
 	repre BOOLEAN DEFAULT FALSE
 );
 
+-- 2022-05-29 수정 --
 CREATE OR replace TABLE home_photos(
 	iphoto INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	ihost INT UNSIGNED NOT NULL,
-	ifile INT UNSIGNED NOT NULL,
+# 	ifile INT UNSIGNED NOT NULL,
 	title TEXT NOT NULL,
 	ctnt TEXT NOT NULL,
 	rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
@@ -33,6 +36,8 @@ CREATE OR replace TABLE home_photos(
 );
 
 -- *** 2022-04-21 수정 ( iminime 추가 ) ***
+-- *** 2022-05-26 수정 ( font 추가 ) ***
+-- *** 2022-05-30 수정 ( font 제거 ) ***
 CREATE OR replace TABLE home_visit(
 	ivisit INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	ihost INT UNSIGNED NOT NULL,
@@ -80,6 +85,7 @@ CREATE OR replace TABLE font(
 );
 -- *** 2022-04-21 mini_room, skin, music, font, mini_me 수정 ( cnt 뺌 )
 
+-- 2022-05-29 home_nm 추가 --
 CREATE OR REPLACE TABLE home( # 미니홈피
    ihome INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
    iuser INT UNSIGNED NOT NULL,
@@ -91,6 +97,7 @@ CREATE OR REPLACE TABLE home( # 미니홈피
    scrap_cnt INT UNSIGNED DEFAULT 0,
    daily_visit INT UNSIGNED default 0,
    total_visit INT UNSIGNED DEFAULT 0,
+    home_nm     VARCHAR(20),
    rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
    # 0 전체공개
    # 1 일촌공개
@@ -113,30 +120,24 @@ CREATE OR REPLACE TABLE `comment` (
    rdt DATETIME DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- 2022-05-29 수정 --
 CREATE OR REPLACE TABLE photos (
-   ifile INT UNSIGNED AUTO_INCREMENT,
-   ihost INT UNSIGNED NOT NULL,
-   img VARCHAR(50),
-   PRIMARY KEY (ifile, img)
+   iphoto BIGINT UNSIGNED,
+#    ihost INT UNSIGNED NOT NULL,
+   img    VARCHAR(50)     NOT NULL,
+    PRIMARY KEY (iphoto, img)
 );
 
-CREATE OR replace TABLE music(
-	imusic INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	nm TEXT NOT NULL,
-	artist TEXT NOT NULL,
-	url TEXT NOT NULL,
-	img TEXT,
-	cnt INT UNSIGNED DEFAULT 0,
-	price INT UNSIGNED NOT null
-);
-
+-- 2022-05-29 profile_img, profile_ctnt 추가 --
 CREATE OR REPLACE TABLE `user`(
    iuser INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
    email VARCHAR(50) NOT NULL,
    nm VARCHAR(5) NOT NULL,
    upw VARCHAR(200),
    provider VARCHAR(10) NOT NULL DEFAULT 'local',
-   img VARCHAR(50), # 미니미
+   img VARCHAR(50), # 미니미,
+    profile_img  VARCHAR(100),
+    profile_ctnt TEXT,
    `point` INT UNSIGNED DEFAULT 0,
    rdt DATE DEFAULT CURRENT_TIMESTAMP()
 );
@@ -213,11 +214,13 @@ CREATE OR replace TABLE report(
 	rdt DATETIME DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- 2022-05-29 rdt 추가 --
 CREATE OR REPLACE TABLE home_message( # 일촌평
 	imsg INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	ihost INT UNSIGNED NOT NULL,
 	ctnt TEXT NOT NULL,
-	writer INT UNSIGNED NOT NULL
+	writer INT UNSIGNED NOT NULL,
+    rdt    DATETIME DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
 );
 
 # -2022-05-13-

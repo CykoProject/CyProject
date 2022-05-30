@@ -1,3 +1,6 @@
+mynoteObj.width = '100%';
+mynoteObj.height = '100px';
+
 const visitElem = document.querySelector('.visit-container');
 if(visitElem) {
     const visit_url = new URL(location.href);
@@ -17,6 +20,7 @@ if(visitElem) {
             }
         });
     }
+
     //============================ 방명록 작성 finish ==========================
 
 
@@ -128,88 +132,13 @@ if(visitElem) {
 
     //============================ 수정 start ==================================
     const visitModArr = document.querySelectorAll('.visit-mod');
-    let cnt = 0;
     visitModArr.forEach(item => {
-        item.addEventListener('click', () => {
-            const superElem = item.closest('.visit-elem');
-
-            if(cnt === 1) {
-                const visitContentsElem = document.querySelector('.visit-contents');
-                const preBox = visitContentsElem.querySelector('.mod-area');
-                const curBox = superElem.querySelector('.mod-area');
-                if(preBox) {
-                    preBox.remove();
-                }
-                if(curBox) {
-                    cnt = 0;
-                    return;
-                }
-            }
-            cnt = 1;
-            const ivisit = superElem.dataset.iboard;
-            const visitCtntElem = superElem.querySelector('.visit-mod-wrap');
-
-
-            const insertVisit = (data) => {
-                const visitData = {
-                    ivisit : data.ivisit,
-                    ihost : data.ihost,
-                    ctnt : data.ctnt.replaceAll("\n", "\r\n"),
-                    iuser : data.iuser,
-                    secret : data.secret,
-                    iminime : data.iminime
-                }
-
-                fetch(`/ajax/home/visit/mod`, {
-                    method : 'POST',
-                    headers : {'Content-Type' : 'application/json'},
-                    body : JSON.stringify(visitData)
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        if(data.result === 1) {
-                            location.reload();
-                        }
-                    })
-                    .catch(e => {
-                        console.error(e);
-                    });
-            }
-
-            const makeVisitMod = (data) => {
-                const div = document.createElement('div');
-                div.classList.add('mod-area');
-                const btnDiv = document.createElement('div');
-                const textArea = document.createElement('textarea');
-                const visitModBtn = document.createElement('button');
-                visitModBtn.classList.add('visit-mod-btn');
-                visitModBtn.innerText = '저장';
-                textArea.value = data.ctnt.replaceAll("<br>", "\r\n");
-                textArea.classList.add('visit-textarea');
-                div.appendChild(textArea)
-                btnDiv.appendChild(visitModBtn);
-                div.appendChild(btnDiv);
-                visitCtntElem.appendChild(div);
-                visitModBtn.addEventListener('click', () => {
-                    console.log(data.ctnt)
-                    data.ctnt = textArea.value;
-                    if(data.ctnt.length === 0) {
-                        alert('1자 이상 작성해 주세요');
-                        return;
-                    }
-                    insertVisit(data);
-                })
-            }
-
-            fetch(`/ajax/home/visit/mod?ivisit=${ivisit}`)
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    makeVisitMod(data);
-                })
-                .catch(e => {
-                    console.error(e);
-                });
+        item.addEventListener('click', (e) => {
+            const parent = e.target.closest('.visit-elem');
+            const iboard = parent.querySelector('#data-iboard').dataset.iboard;
+            const iuser = e.target.dataset.iuser;
+            const ihost = new URL(location.href).searchParams.get('iuser')
+            location.href = `/home/visit/mod?iuser=${ihost}&writer=${iuser}&iboard=${iboard}`;
         });
     });
     //============================ 수정 finish ===================================
@@ -230,7 +159,7 @@ if(visitElem) {
             const parent = item.closest('.comment-container');
             const ctntElem = parent.querySelector('.hidden-ctnt');
             if(ctntElem.style.display === 'none' || ctntElem.style.display === '') {
-                ctntElem.style.display = 'flex';
+                ctntElem.style.display = 'block';
             } else {
                 ctntElem.style.display = 'none';
             }

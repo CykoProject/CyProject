@@ -34,7 +34,7 @@
                 <div>
                     <button id="play">듣기</button>
                 </div>
-                <div>
+                <div th:if="${#strings.equals(loginUserPk, param.iuser)}">
                     <button class="repre-btn">배경음악 등록</button>
                 </div>
             </div>
@@ -59,7 +59,7 @@
 
                     <tbody>
                     <th:block th:each="item : ${data}">
-                        <tr class="music-data" th:data-src="${item.imusic.url}">
+                        <tr class="music-data" th:data-src="${item.imusic.file}">
                             <td>
                                 <input type="checkbox" class="jukebox-check">
                             </td>

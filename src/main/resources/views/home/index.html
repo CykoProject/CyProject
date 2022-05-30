@@ -4,6 +4,7 @@
 
 <head>
     <title></title>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/home/index.css}">
     <script defer th:src="@{/js/home/common.js}"></script>
@@ -14,19 +15,30 @@
         <div class="home-bg">
             <div class="section left">
                 <div class="header cnt">
-                    <p>TODAY : 11 | TOTAL : 111</p>
                 </div>
                 <div class="content">
-                    <th:block layout:fragment="content_left">
+                    <div class="profile-container">
+                        <div class="profile-img">
 
-                    </th:block>
+                        </div>
+                        <div class="profile-ctnt">
+
+                        </div>
+
+                        <div class="profile-history">
+                            <a href="#">
+                                <p><span>&#9654;</span> HISTORY</p>
+                            </a>
+                        </div>
+                        <div class="profile-name">
+
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="section right">
-                <div class="header title">
-                    <h1>~~의 미니홈피</h1>
-                </div>
+                <div class="header title"></div>
                 <div class="content">
                     <th:block layout:fragment="content_right">
 
@@ -37,6 +49,9 @@
                 <a th:href="@{/home(iuser=${param.iuser})}" class="tab1 home"><div>홈</div></a>
                 <a th:href="@{/home/profile(iuser=${param.iuser})}" class="tab2 profile"><div>프로필</div></a>
             </div>
+        </div>
+        <div class="audio-section">
+            <span>배경음악듣기</span>
         </div>
     </div>
 </body>

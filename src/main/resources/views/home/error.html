@@ -3,9 +3,75 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/home/error.css}">
     <title>Title</title>
 </head>
 <body>
-    <strong th:text="${err}"></strong>
+
+<div class="background">
+    <div class="box" th:if="${#strings.isEmpty(status)}">
+        <div class="friend" th:if="${#strings.equals(err, '일촌공개 홈피입니다.')}">
+            <a class="friend-a">일촌신청</a>
+        </div>
+        <div class="img-box">
+            <img th:src="@{/img/error.png}">
+        </div>
+        <div>
+            <strong th:text="${err}"></strong>
+        </div>
+    </div>
+
+    <div class="box" th:unless="${#strings.isEmpty(status)}">
+        <div th:if="${status == true}">
+            <strong th:text="${user.nm}" style="color: #00aaff"></strong>
+            <strong th:text="|님에게 일촌을 신청했습니다.|"></strong>
+        </div>
+        <strong th:if="${status == false}">로그인 후 이용해주세요.</strong>
+    </div>
+
+    <div class="hidden">
+        <lable for="nickname">
+            <span>닉네임 : </span>
+            <input name="nickname" id="nickname">
+        </lable>
+        <div class="save-btn">
+            <button>신청</button>
+        </div>
+    </div>
+</div>
+<script>
+    const addFriend = document.querySelector('.friend');
+    const friendAElem = document.querySelector('.friend-a');
+    const nicknameElem = document.querySelector('.hidden');
+    const background = document.querySelector('.background');
+    const box = document.querySelector('.box');
+
+    addFriend.addEventListener('click', () => {
+        if(nicknameElem.style.display === '' || nicknameElem.style.display === 'none') {
+            nicknameElem.style.display = 'block';
+            background.style.background = 'rgba(0, 0, 0, 0.8)';
+            box.style.visibility = 'hidden';
+
+            background.addEventListener('click', (e) => {
+                if(e.target.classList.contains('background')) {
+                    nicknameElem.style.display = 'none';
+                    background.style.background = '';
+                    box.style.visibility = '';
+                }
+            });
+
+            const saveBtn = document.querySelector('.save-btn');
+            saveBtn.addEventListener('click', () => {
+                const url = new URL(location.href);
+                const searchParams = url.searchParams;
+                const iuser = searchParams.get('iuser');
+
+                const nickname = document.querySelector('#nickname').value;
+
+                location.href = `/home/friend?iuser=${iuser}&nickname=${nickname}`;
+            });
+        }
+    });
+</script>
 </body>
 </html>

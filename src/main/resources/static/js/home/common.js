@@ -18,7 +18,6 @@ const option = `width = ${popupWidth}px
         , top = ${popY}
         , scrollbars = no
 `;
-const audioPopup = window.open(`/home/audio?iuser=${pk}`, 'audio', option);
 
 const tab_list_css = [
     'tab3','tab4', 'tab5', 'tab6', 'tab7', 'tab8'
@@ -80,6 +79,8 @@ fetch(`/ajax/home?iuser=${iuser}`)
     .then(data => {
         console.log(data);
         addTabMenu(data);
+        homeCnt(data);
+        homeName(data);
     })
     .catch(e => {
         console.error(e);
@@ -106,4 +107,123 @@ const msgSendSuccess = (msg) => {
             div.remove();
         }, 3000);
     });
+}
+
+const audioPlayElem = document.querySelector('.audio-section');
+let audioPopup;
+audioPlayElem.addEventListener('click', () => {
+    audioPopup = window.open(`/home/audio?iuser=${pk}`, 'audio', option);
+});
+
+/* 방문자 수 */
+const homeCnt = (data) => {
+    const ctnElem = document.querySelector('.cnt');
+    ctnElem.innerHTML = `
+        <p>TODAY : ${data.daily_visit} | TOTAL : ${data.total_visit}</p>
+    `;
+}
+
+/* 홈 이름 */
+const homeName = (data) => {
+    const titleElem = document.querySelector('.title');
+    titleElem.innerHTML = `
+        <h1>
+            <a href="/home?iuser=${data.iuser}">${data.home_nm}</a>
+        </h1>
+    `
+
+    if (data.iuser == loginUserPk) {
+        const modBtn = document.createElement('input');
+        modBtn.type = 'button';
+        modBtn.value = '수정';
+        modBtn.classList.add('modBtn');
+
+        modBtn.addEventListener('click', () => {
+            const modInput = document.createElement('input');
+            modInput.value = data.home_nm;
+
+            const saveBtn = document.createElement('input')
+            saveBtn.type = 'button';
+            saveBtn.value = '저장';
+
+            saveBtn.addEventListener('click', () => {
+                const param = {
+                    ihome: data.ihome,
+                    home_nm: modInput.value
+                }
+                fetch('/ajax/home/nm/mod', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(param)
+                })
+                    .then(res => res.json())
+                    .then(result => {
+                        switch (result.result) {
+                            case 0:
+                                alert('이름 변경에 실패하였습니다.')
+                                break;
+                            case 1:
+                                homeName(data);
+                                location.reload();
+                                break;
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            });
+
+            const cancelBtn = document.createElement('input');
+            cancelBtn.type = 'button';
+            cancelBtn.value = '취소';
+            cancelBtn.addEventListener('click', () => {
+                titleElem.innerText = `${data.home_nm}`;
+                homeName(data);
+            });
+
+            titleElem.innerHTML = null;
+            titleElem.appendChild(modInput);
+            titleElem.appendChild(saveBtn);
+            titleElem.appendChild(cancelBtn);
+
+        });
+
+        titleElem.appendChild(modBtn);
+    }
+
+
+    return titleElem;
+}
+
+/* 프로필 */
+fetch(`/ajax/home/profile?iuser=${iuser}`)
+.then(res => res.json())
+.then(data => {
+    console.log(data);
+    makeElem(data);
+})
+.catch(e => {
+    console.log(e);
+})
+
+const makeElem = (data) => {
+    const profileCont = document.querySelector('.profile-container');
+
+    const profileImg = document.querySelector('.profile-img');
+    const profileCtnt = document.querySelector('.profile-ctnt');
+    const profileName = document.querySelector('.profile-name');
+
+
+        profileImg.innerHTML = `
+            <img src="/pic/profile/${data.iuser}/${data.profile_img}" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'"></img>
+        `;
+
+        profileCtnt.innerHTML = `
+            <span>${data.profile_ctnt}</span>
+        `;
+
+        profileName.innerHTML = `
+            <span>${data.nm}</span>
+        `;
+
 }
