@@ -1,4 +1,11 @@
+.test {
+    position: relative;
+}
 
 .f-header{
     display: flex;
+}
+
+.friend-modal {
+
 }

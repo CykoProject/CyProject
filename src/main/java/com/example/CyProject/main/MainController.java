@@ -18,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLEncoder;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -91,17 +93,18 @@ public class MainController {
 
     @GetMapping("/friendfind")
     public String friendfind(Model model, @RequestParam(required = false) String search){
-        model.addAttribute("loginUserPk",authenticationFacade.getLoginUserPk());
         if(search != null) {
-            List<UserEntity> findSearch = userRepository.findByEmailOrNmContaining(search, search);
+            List<UserEntity> findSearch = userRepository.findByEmailOrNmOrCellphoneContaining(search, search,search);
             model.addAttribute("select",findSearch);
         }
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "main/friendfind";
     }
 
     @PostMapping("/friendfind")
-    public String findselect(String search){
-        System.out.println(search);
-        return "redirect:/friendfind?search=" + search;
+    public String findselect(String search, int category) throws Exception{
+        search = URLEncoder.encode(search, "UTF-8");
+
+        return "redirect:/friendfind?search=" + search + "&category=" + category;
     }
 }
