@@ -1,8 +1,9 @@
 .shopping-cart-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    min-height: 80vh;
+    margin-bottom: 10px;
 }
 
 .cart-items-select {

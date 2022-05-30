@@ -386,11 +386,11 @@ if (location.href.indexOf("search") === -1) {
 
 //장바구니 넣기
 let addCart = document.querySelectorAll(".add-cart");
-
+let iUser;
 if (document.querySelector("#loginUserPk").dataset.iuser == null) {
-    let iUser = 0;
+    iUser = 0;
 } else {
-    let iUser = document.querySelector("#loginUserPk").dataset.iuser;
+    iUser = document.querySelector("#loginUserPk").dataset.iuser;
 }
 
 const msgAlarm = () => {
