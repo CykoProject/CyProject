@@ -170,6 +170,7 @@ public class HomeController {
             return authenticationFacade.loginChk("redirect:/home/visit?iuser=" + entity.getIhost());
         }
         visitRepository.save(entity);
+        System.out.println(entity);
         return authenticationFacade.loginChk("redirect:/home/visit?iuser=" + entity.getIhost());
     }
     // 방명록 ============================================================================================================

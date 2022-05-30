@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v6.1.1/js/all.js" integrity="sha384-xBXmu0dk1bEoiwd71wOonQLyH+VpgR1XcDH3rtxrLww5ajNTuMvBdL5SOiFZnNdp" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
+    <script th:src="@{/js/main/friendfind.js}" defer></script>
+
 </head>
 <body>
 
@@ -54,8 +56,9 @@
                             </button>
                         </div>
                         <div>
-                            <p>일촌 신청</p>
-                            <div></div>
+                            <button class="friend-find" th:data-iuser="${loginUserPk}">
+                                일촌 신청
+                            </button>
                         </div>
                         <div>
                             <p>일촌 확인</p>

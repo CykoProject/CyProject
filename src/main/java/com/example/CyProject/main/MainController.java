@@ -6,9 +6,12 @@ import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.message.model.MessageRepository;
+import com.example.CyProject.user.model.UserEntity;
+import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import com.example.CyProject.user.model.friends.FriendsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -32,6 +35,7 @@ public class MainController {
     @Autowired private VisitorRepository visitorRepository;
     @Autowired private VisitRepository visitRepository;
     @Autowired private  Utils utils;
+    @Autowired private UserRepository userRepository;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
@@ -40,11 +44,11 @@ public class MainController {
             model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
             model.addAttribute("loginUser", authenticationFacade.getLoginUser());
         }
-        LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(0), LocalTime.of(0,0,0));
-        LocalDateTime endDate = LocalDateTime.of(LocalDate.now(),LocalTime.of(23,59,59));
 
         if(utils.findHomePk(authenticationFacade.getLoginUserPk()) != 0){
-            model.addAttribute("visit",visitRepository.countByRdtBetween(startDate,endDate));
+            LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(0), LocalTime.of(0,0,0));
+            LocalDateTime endDate = LocalDateTime.of(LocalDate.now(),LocalTime.of(23,59,59));
+            model.addAttribute("visit",visitRepository.countByIhostAndRdtBetween(authenticationFacade.getLoginUserPk(),startDate,endDate));
             System.out.println("startDate" + startDate);
             System.out.println("endDate"+ endDate);
         }
@@ -83,5 +87,21 @@ public class MainController {
     public String point() {
 
         return "main/point";
+    }
+
+    @GetMapping("/friendfind")
+    public String friendfind(Model model, @RequestParam(required = false) String search){
+        model.addAttribute("loginUserPk",authenticationFacade.getLoginUserPk());
+        if(search != null) {
+            List<UserEntity> findSearch = userRepository.findByEmailOrNmContaining(search, search);
+            model.addAttribute("select",findSearch);
+        }
+        return "main/friendfind";
+    }
+
+    @PostMapping("/friendfind")
+    public String findselect(String search){
+        System.out.println(search);
+        return "redirect:/friendfind?search=" + search;
     }
 }
