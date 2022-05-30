@@ -24,11 +24,6 @@ public class DiaryEntity {
     private int ihost;
     private String ctnt;
 
-    @OneToOne
-    @JoinColumn(name = "ifont")
-    @NotFound(action = NotFoundAction.IGNORE)
-    private ItemEntity ifont;
-
     @Column(insertable = false, updatable = false)
     private LocalDateTime rdt;
 }

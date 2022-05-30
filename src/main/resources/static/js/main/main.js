@@ -7,7 +7,7 @@ let popup;
 const openUp = (iuser) => {
     const popupWidth = 1189;
     const popupHeight = 600;
-    const popX = 0;
+    const popX = (window.screen.width / 2) - (popupWidth / 2);
     const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
     const option = `width = ${popupWidth}px
         , height = ${popupHeight}px

@@ -168,8 +168,10 @@ if(diaryWriteElem) {
 //         item.addEventListener('click', (e) => {
 //             const parent = e.target.closest('.diary-data');
 //             const ctnt = parent.querySelector('.diary-ctnt').innerText;
+//             const iscrap = parseInt(parent.querySelector('#data-ihost').dataset.ihost);
 //             const data = {
-//                 ctnt: '[스크랩] ' + ctnt
+//                 ctnt: ctnt,
+//                 iscrap : iscrap
 //             }
 //             fetch('/ajax/home/diary/scrap', {
 //                 method : 'POST',
