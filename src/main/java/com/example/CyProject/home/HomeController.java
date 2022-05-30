@@ -228,9 +228,9 @@ public class HomeController {
     }
 
     @GetMapping("/visit/mod")
-    public String modVisit(int iuser, int iboard, Model model) {
+    public String modVisit(int iuser, int writer, int iboard, Model model) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
-        if(iuser != loginUserPk) {
+        if(writer != loginUserPk) {
             return "redirect:/";
         }
         model.addAttribute("modData", visitRepository.findByIvisit(iboard));

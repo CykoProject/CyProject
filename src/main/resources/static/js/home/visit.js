@@ -137,7 +137,8 @@ if(visitElem) {
             const parent = e.target.closest('.visit-elem');
             const iboard = parent.querySelector('#data-iboard').dataset.iboard;
             const iuser = e.target.dataset.iuser;
-            location.href = `/home/visit/mod?iuser=${iuser}&iboard=${iboard}`;
+            const ihost = new URL(location.href).searchParams.get('iuser')
+            location.href = `/home/visit/mod?iuser=${ihost}&writer=${iuser}&iboard=${iboard}`;
         });
     });
     //============================ 수정 finish ===================================
