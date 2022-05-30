@@ -29,6 +29,8 @@ import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepo
 import com.example.CyProject.shopping.model.item.ItemCategory;
 import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.friends.FriendsEntity;
+import com.example.CyProject.user.model.friends.FriendsRepository;
+import com.example.CyProject.user.model.friends.FriendsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -76,6 +78,9 @@ public class HomeController {
     @Autowired private AuthenticationFacade auth;
     @Autowired private PhotoRepository photoRepository;
 
+    @Autowired private FriendsRepository friendsRepository;
+    @Autowired private FriendsService friendsService;
+
     @GetMapping
     public String home(HomeEntity entity, Model model) {
         int homeScope = authenticationFacade.isHomeVisitScope(entity.getIuser());
@@ -98,6 +103,39 @@ public class HomeController {
         model.addAttribute("isFriend", homeService.selFriends(friendsEntity));
 
         return "home/home";
+    }
+
+    @GetMapping("/friend")
+    public String addFriend(int iuser, String nickname, Model model) {
+        int loginUserPk = auth.getLoginUserPk();
+        boolean status = false;
+
+        UserEntity user = new UserEntity();
+        if(loginUserPk > 0) {
+            FriendsEntity friend = new FriendsEntity();
+            user.setIuser(iuser);
+            friend.setIuser(loginUserPk);
+            friend.setFuser(user);
+            friend.setNickname(nickname);
+            friend.setStatus(0);
+
+            if(friendsService.isFriend(loginUserPk, iuser)) {
+                friendsRepository.save(friend);
+            }
+
+            user = userRepository.findByIuser(iuser);
+            user.setUpw(null);
+            user.setProvider(null);
+            user.setEmail(null);
+            user.setRole(null);
+
+            status = true;
+        }
+
+
+        model.addAttribute("status", status);
+        model.addAttribute("user", user);
+        return "home/error";
     }
 // ======================= 방명록, 다이어리, 주크박스 =====================================================================================
 
@@ -187,6 +225,17 @@ public class HomeController {
         model.addAttribute("pageData", pageEntity);
 
         return "home/visit/visit";
+    }
+
+    @GetMapping("/visit/mod")
+    public String modVisit(int iuser, int iboard, Model model) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        if(iuser != loginUserPk) {
+            return "redirect:/";
+        }
+        model.addAttribute("modData", visitRepository.findByIvisit(iboard));
+        model.addAttribute("loginUserPk", loginUserPk);
+        return "home/visit/write";
     }
 
     @PostMapping("/visit/write")

@@ -1,3 +1,6 @@
+mynoteObj.width = '100%';
+mynoteObj.height = '100px';
+
 const visitElem = document.querySelector('.visit-container');
 if(visitElem) {
     const visit_url = new URL(location.href);
@@ -15,19 +18,6 @@ if(visitElem) {
                 e.preventDefault();
                 alert('1자 이상 작성해 주세요.');
             }
-        });
-        // 글꼴변경
-        const fontElem = document.querySelector('.font-select');
-        let preFontVal = '';
-        fontElem.addEventListener('change', () => {
-            const selectedOptionElem = fontElem[fontElem.selectedIndex];
-            const fontFileVal = selectedOptionElem.dataset.font;
-            const visitTextAreaElem = document.querySelector('.visit-textarea');
-            if(preFontVal != '') {
-                visitTextAreaElem.classList.remove(preFontVal);
-            }
-            visitTextAreaElem.classList.add(fontFileVal);
-            preFontVal = fontFileVal;
         });
     }
 
@@ -142,148 +132,12 @@ if(visitElem) {
 
     //============================ 수정 start ==================================
     const visitModArr = document.querySelectorAll('.visit-mod');
-    let cnt = 0;
     visitModArr.forEach(item => {
-        item.addEventListener('click', () => {
-            const superElem = item.closest('.visit-elem');
-
-            if(cnt === 1) {
-                const visitContentsElem = document.querySelector('.visit-contents');
-                const preBox = visitContentsElem.querySelector('.mod-area');
-                const curBox = superElem.querySelector('.mod-area');
-                if(preBox) {
-                    preBox.remove();
-                }
-                if(curBox) {
-                    cnt = 0;
-                    return;
-                }
-            }
-            cnt = 1;
-            const ivisit = superElem.dataset.iboard;
-            const visitCtntElem = superElem.querySelector('.visit-mod-wrap');
-
-            const insertVisit = (data, font) => {
-                let ifont = null;
-                if(parseInt(font) !== 0) {
-                    ifont = {item_id : parseInt(font)};
-                }
-                const visitData = {
-                    ivisit : data.ivisit,
-                    ihost : data.ihost,
-                    ctnt : data.ctnt.replaceAll("\n", "\r\n"),
-                    iuser : data.iuser,
-                    secret : data.secret,
-                    iminime : data.iminime,
-                    ifont : ifont
-                }
-
-                console.log(visitData);
-
-                fetch(`/ajax/home/visit/mod`, {
-                    method : 'POST',
-                    headers : {'Content-Type' : 'application/json'},
-                    body : JSON.stringify(visitData)
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        if(data.result === 1) {
-                            location.reload();
-                        }
-                    })
-                    .catch(e => {
-                        console.error(e);
-                    });
-            }
-
-            const getUserFontList = (iuser, modData) => {
-                fetch(`/ajax/home/font?iuser=${iuser}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        setVisitModElem(data, modData);
-                    })
-                    .catch(e => {
-                        console.error(e);
-                    });
-
-            }
-
-            const selFont = (selectElem, textarea) => {
-                selectElem.addEventListener('change', () => {
-                    const fontFile = selectElem[selectElem.selectedIndex].dataset.file;
-
-                    let preFont = '';
-                    textarea.classList.forEach(item => {
-                        if(item !== 'visit-textarea') {
-                            preFont = item;
-                        }
-                    });
-                    if(preFont !== '') {
-                        textarea.classList.remove(preFont);
-                    }
-                    if(fontFile !== undefined) {
-                        textarea.classList.add(fontFile);
-                    }
-                });
-            }
-
-            const setVisitModElem = (fontData, data) => {
-                const div = document.createElement('div');
-                div.classList.add('mod-area');
-
-                const selectElem = document.createElement('select');
-                selectElem.classList.add('select-font')
-                const option = document.createElement('option');
-                option.value = 0;
-                option.innerText = '글꼴선택';
-                selectElem.appendChild(option);
-                fontData.forEach(item => {
-                    const option = document.createElement('option');
-                    option.value = item.item_id.item_id;
-                    option.innerText = item.item_id.nm;
-                    option.dataset.file = item.item_id.file;
-
-                    selectElem.appendChild(option);
-                });
-
-                div.appendChild(selectElem);
-
-                const btnDiv = document.createElement('div');
-                const textArea = document.createElement('textarea');
-                const visitModBtn = document.createElement('button');
-                visitModBtn.classList.add('visit-mod-btn');
-                visitModBtn.innerText = '저장';
-                textArea.value = data.ctnt.replaceAll("<br>", "\r\n");
-                textArea.classList.add('visit-textarea');
-                div.appendChild(textArea)
-                btnDiv.appendChild(visitModBtn);
-                div.appendChild(btnDiv);
-                visitCtntElem.appendChild(div);
-                visitModBtn.addEventListener('click', () => {
-                    data.ctnt = textArea.value;
-                    if(data.ctnt.length === 0) {
-                        alert('1자 이상 작성해 주세요');
-                        return;
-                    }
-                    const font = selectElem[selectElem.selectedIndex].value;
-                    insertVisit(data, font);
-                });
-
-                selFont(selectElem, textArea);
-            }
-
-            const makeVisitMod = (data) => {
-                getUserFontList(data.iuser.iuser, data);
-            }
-
-            fetch(`/ajax/home/visit/mod?ivisit=${ivisit}`)
-                .then(res => res.json())
-                .then(data => {
-                    makeVisitMod(data);
-                })
-                .catch(e => {
-                    console.error(e);
-                });
+        item.addEventListener('click', (e) => {
+            const parent = e.target.closest('.visit-elem');
+            const iboard = parent.querySelector('#data-iboard').dataset.iboard;
+            const iuser = e.target.dataset.iuser;
+            location.href = `/home/visit/mod?iuser=${iuser}&iboard=${iboard}`;
         });
     });
     //============================ 수정 finish ===================================

@@ -16,6 +16,13 @@ import java.time.LocalDateTime;
 @ToString
 public class FriendsEntity {
 
+    /*
+        TODO
+            iuser, fuser primary key
+            ifriend 삭제
+     */
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ifriend;

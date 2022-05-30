@@ -76,16 +76,15 @@ public class HomeRestController {
         return homeRepository.findByIuser(entity.getIuser());
     }
 
-
-//    @PostMapping("/diary/scrap")
-//    public int diaryScrap(@RequestBody DiaryEntity entity) {
-//        int loginUserPk = authenticationFacade.getLoginUserPk();
-//        if(loginUserPk > 0) {
-//            entity.setIhost(loginUserPk);
-//            diaryRepository.save(entity);
-//        }
-//        return 1;
-//    }
+    @PostMapping("/diary/scrap")
+    public int diaryScrap(@RequestBody DiaryEntity entity) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        if(loginUserPk > 0) {
+            entity.setIhost(loginUserPk);
+            diaryRepository.save(entity);
+        }
+        return 1;
+    }
 
     @PutMapping("/nm/mod")
     public ResultVo modHomeNm(@RequestBody HomeEntity entity) {
@@ -115,9 +114,7 @@ public class HomeRestController {
     @GetMapping("/font")
     public List<PurchaseHistoryEntity> getUserFontList(int iuser) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
-        if(iuser != loginUserPk) {
-            return null;
-        }
+        
         return purchaseHistoryRepository.findAllByIcategoryInHisotry(ItemCategory.FONT.getCategory(), authenticationFacade.getLoginUserPk());
     }
 
