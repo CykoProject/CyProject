@@ -5,7 +5,9 @@
       layout:decorate="home/index">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/home/diary.css}">
     <script defer th:src="@{/js/home/diary.js}"></script>
+    <script defer th:src="@{/js/mynote.js}"></script>
     <title>Title</title>
 </head>
 <body>
@@ -16,28 +18,20 @@
     <th:block layout:fragment="content_right">
         <div id="diary-write-elem">
             <div>
-                <a href="javascript:history.back();">이전 페이지로 이동</a>
+
             </div>
-            <form th:method="post" th:action="@{/home/diary/write}">
+            <form class="diary-form" th:method="post" th:action="@{/home/diary/write}">
                 <input type="hidden" name="ihost" th:value="${#strings.equals(loginUserPk, param.iuser)} ? ${loginUserPk} : 0">
                 <input type="hidden" name="idiary" th:if="${param.idiary != null}" th:value="${param.idiary}">
-                <div>
-                    <select class="select-font" name="ifont">
-                        <option value="0">글꼴선택</option>
-                        <th:block th:each="font : ${font}">
-                            <span th:text="${modData}"></span>
-                            <option th:if="${!#strings.isEmpty(modData)}" th:selected="${#strings.equals(modData.get().getIfont().item_id, font.item_id.item_id)}" th:data-font="${font.item_id.file}" th:value="${font.item_id.item_id}" th:text="${font.item_id.nm}"></option>
-                            <option th:if="${#strings.isEmpty(modData)}" th:data-font="${font.item_id.file}" th:value="${font.item_id.item_id}" th:text="${font.item_id.nm}"></option>
-
-                        </th:block>
-                    </select>
+                <div class="back-btn">
+                    <a href="javascript:history.back();">다이어리</a>
                 </div>
                 <div>
-                    <textarea class="diary-write-textarea" name="ctnt" placeholder="내용" th:if="${modData == null}"></textarea>
-                    <textarea class="diary-write-textarea" name="ctnt" placeholder="내용" th:if="${modData != null}" th:text="${modData.get().getCtnt()}"></textarea>
+                    <textarea class="diary-write-textarea my-note" name="ctnt" placeholder="내용" th:if="${modData == null}"></textarea>
+                    <textarea class="diary-write-textarea my-note" name="ctnt" placeholder="내용" th:if="${modData != null}" th:text="${modData.get().getCtnt()}"></textarea>
                 </div>
-                <div>
-                    <input type="submit" value="save">
+                <div class="diary-save">
+                    <input type="submit" class="submit-btn" value="save">
                 </div>
             </form>
         </div>

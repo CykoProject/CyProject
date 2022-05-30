@@ -161,3 +161,30 @@ if(diaryWriteElem) {
         diaryWriteTextareaElem.classList.add(fontVal);
     });
 }
+
+// const scrap = document.querySelectorAll('.scrap');
+// if(scrap !== null) {
+//     scrap.forEach(item => {
+//         item.addEventListener('click', (e) => {
+//             const parent = e.target.closest('.diary-data');
+//             const ctnt = parent.querySelector('.diary-ctnt').innerText;
+//             const iscrap = parseInt(parent.querySelector('#data-ihost').dataset.ihost);
+//             const data = {
+//                 ctnt: ctnt,
+//                 iscrap : iscrap
+//             }
+//             fetch('/ajax/home/diary/scrap', {
+//                 method : 'POST',
+//                 headers : {'Content-Type' : 'application/json'},
+//                 body : JSON.stringify(data)
+//             })
+//                 .then(res => res.json())
+//                 .then(data => {
+//                     console.log(data);
+//                 })
+//                 .catch(e => {
+//                     console.log(e);
+//                 });
+//         });
+//     });
+// }

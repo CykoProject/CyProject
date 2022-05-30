@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <script defer th:src="@{/js/home/visit.js}"></script>
+    <script defer th:src="@{/js/mynote.js}"></script>
     <title>Title</title>
 </head>
 <body>
@@ -15,24 +16,28 @@
 
 <th:block layout:fragment="content_right">
     <div class="visit-write">
-        <div>
-            <a href="javascript:history.back();">이전 페이지로 이동</a>
-        </div>
         <form class="visitFrm" th:method="post" th:action="@{/home/visit/write}">
             <input type="hidden" name="iuser" th:value="${loginUserPk}">
             <input type="hidden" name="ihost" th:value="${param.iuser}">
-            <input type="hidden" name="ivisit" th:if="${modData != null}" th:value="${modData.get().getIvisit()}">
-            <div>
-                <span>비밀로하기</span>
-                <input type="checkbox" name="secret" th:value="true" th:if="${modData != null}" th:checked="${modData.get().isSecret() == true}">
-                <input type="checkbox" name="secret" th:value="true" th:if="${modData == null}">
+            <input type="hidden" name="ivisit" th:if="${modData != null}" th:value="${modData.getIvisit()}">
+            <div class="frow justify-space">
+                <div class="back-btn">
+                    <a href="javascript:history.back();">방명록</a>
+                </div>
 
+                <div>
+                    <label for="secret">
+                        <input type="checkbox" id="secret" name="secret" th:value="true" th:if="${modData != null}" th:checked="${modData.isSecret() == true}">
+                        <input type="checkbox" id="secret" name="secret" th:value="true" th:if="${modData == null}">
+                        <span>비밀로하기</span>
+                    </label>
+                </div>
             </div>
             <div>
-                <textarea name="ctnt" placeholder="내용" th:if="${modData != null}" th:text="${modData.get().getCtnt()}"></textarea>
-                <textarea name="ctnt" placeholder="내용" th:if="${modData == null}"></textarea>
+                <textarea class="my-note" name="ctnt" placeholder="내용" th:if="${modData != null}" th:text="${modData.getCtnt()}"></textarea>
+                <textarea class="my-note" name="ctnt" placeholder="내용" th:if="${modData == null}"></textarea>
             </div>
-            <div>
+            <div class="text-align-right mt10">
                 <input type="submit" value="save">
             </div>
         </form>

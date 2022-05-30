@@ -40,7 +40,7 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 30MB
-      location: C:\Users\USER\Desktop\Class\ETC
+      location: C:\Users\user\Desktop\java\CyProject\img
 
   mail:
     host: smtp.gmail.com

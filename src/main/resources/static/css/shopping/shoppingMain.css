@@ -253,6 +253,23 @@
 
 .pagination {
     margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+.prev {
+    margin-right: 5px;
+}
+
+.prev:hover {
+    cursor: pointer;
+}
+
+.next {
+    margin-left: 5px;
+}
+
+.next:hover {
+    cursor: pointer;
 }
 
 .number {
