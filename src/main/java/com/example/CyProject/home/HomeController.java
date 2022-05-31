@@ -315,9 +315,9 @@ public class HomeController {
 
     @GetMapping("/profile")
     public String profile(HomeEntity entity, Model model) {
-        int loginUserPk = authenticationFacade.getLoginUserPk();
-        model.addAttribute("loginUserPk", loginUserPk);
-        model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
+        int loginUser = authenticationFacade.getLoginUserPk();
+        model.addAttribute("loginUser", loginUser);
+        model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
         return "home/profile/profile";
     }
 

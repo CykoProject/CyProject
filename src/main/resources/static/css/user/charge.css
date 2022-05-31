@@ -1,17 +1,17 @@
 #point-contain {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    padding-bottom: 30px;
 }
 
 .point-history {
-    display: flex;
-    justify-content: center;
+    padding-left: 70px;
 }
 
 #points {
-    padding: 30px;
+    padding: 20px;
 }
 
 .form-check {
@@ -23,7 +23,7 @@
 }
 
 .money {
-    padding: 10px;
+    padding: 5px;
 }
 
 .money-btn {
