@@ -17,5 +17,8 @@ public interface FriendsRepository extends JpaRepository<FriendsEntity, Integer>
     @Query("SELECT f FROM FriendsEntity f WHERE f.iuser = ?1 AND f.status = 1")
     List<FriendsEntity> selectFriendsList(int iuser);
 
+    @Query("SELECT count(f) FROM FriendsEntity f WHERE f.fuser.iuser = ?1 AND f.status = 0")
+    int countByReceiver(int receiver);
+
     int countAllByIuserAndFuser(int iuser, UserEntity fuser);
 }

@@ -8,7 +8,8 @@ import org.springframework.data.domain.PageRequest;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VisitDto {
+public class
+VisitDto {
     private int ivisit;
     private int ihost;
     private UserEntity iuser;

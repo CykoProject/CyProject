@@ -37,5 +37,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Query("UPDATE UserEntity set point = ?1 WHERE iuser = ?2")
     int updDotori(int point, int iuser);
 
+    List<UserEntity> findByEmailOrNmOrCellphoneContaining(String email, String nm, String cellphone);
 
 }

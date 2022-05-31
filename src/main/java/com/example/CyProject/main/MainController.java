@@ -6,18 +6,22 @@ import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.home.model.visitor.VisitorInterFace;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
-import com.example.CyProject.main.model.CmtRepository;
 import com.example.CyProject.message.model.MessageRepository;
+import com.example.CyProject.user.model.UserEntity;
+import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import com.example.CyProject.user.model.friends.FriendsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLEncoder;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -41,16 +45,16 @@ public class MainController {
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String main(Model model, @RequestParam(required = false) String error, @PageableDefault(size=10) Pageable pageable) {
+    public String main(Model model, @RequestParam(required = false) String error) {
         if(!"true".equals(error) || error == null) {
             model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
             model.addAttribute("loginUser", authenticationFacade.getLoginUser());
         }
-        LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(0), LocalTime.of(0,0,0));
-        LocalDateTime endDate = LocalDateTime.of(LocalDate.now(),LocalTime.of(23,59,59));
 
         if(utils.findHomePk(authenticationFacade.getLoginUserPk()) != 0){
-            model.addAttribute("visit",visitRepository.countByRdtBetween(startDate,endDate));
+            LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(0), LocalTime.of(0,0,0));
+            LocalDateTime endDate = LocalDateTime.of(LocalDate.now(),LocalTime.of(23,59,59));
+            model.addAttribute("visit",visitRepository.countByIhostAndRdtBetween(authenticationFacade.getLoginUserPk(),startDate,endDate));
             System.out.println("startDate" + startDate);
             System.out.println("endDate"+ endDate);
         }
@@ -91,5 +95,22 @@ public class MainController {
     public String point() {
 
         return "main/point";
+    }
+
+    @GetMapping("/friendfind")
+    public String friendfind(Model model, @RequestParam(required = false) String search){
+        if(search != null) {
+            List<UserEntity> findSearch = userRepository.findByEmailOrNmOrCellphoneContaining(search, search,search);
+            model.addAttribute("select",findSearch);
+        }
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
+        return "main/friendfind";
+    }
+
+    @PostMapping("/friendfind")
+    public String findselect(String search, int category) throws Exception{
+        search = URLEncoder.encode(search, "UTF-8");
+
+        return "redirect:/friendfind?search=" + search + "&category=" + category;
     }
 }
