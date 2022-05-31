@@ -6,6 +6,7 @@ import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
 import com.example.CyProject.shopping.CartApiController;
 import com.example.CyProject.shopping.model.cart.CartRepository;
 import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseInterface;
 import com.example.CyProject.shopping.model.item.ItemEntity;
 import com.example.CyProject.shopping.model.order.OrderInfoRepository;
 import com.example.CyProject.user.model.UserEntity;
@@ -67,17 +68,23 @@ public class KakaoPayController {
         List<ItemEntity> itemIdList = new ArrayList<>();
         itemIdList.addAll(purchaseHistoryRepository.purchaseItemIdList(userEntity));
 
-        System.out.println("성공시 itemid : " + itemIdList);
+        List<PurchaseInterface> bgmIdList = new ArrayList<>();
+        bgmIdList.addAll(purchaseHistoryRepository.purchaseBgmIdList(userEntity));
 
+        for (PurchaseInterface item : bgmIdList) {
+            JukeBoxEntity entity = new JukeBoxEntity();
+            entity.setIhost(authenticationFacade.getLoginUserPk());
+            ItemEntity itemEntity = new ItemEntity();
+            itemEntity.setItem_id(item.getItem_id());
+            entity.setImusic(itemEntity);
+            jukeBoxRepository.save(entity);
+        }
         for(ItemEntity item : itemIdList) {
 //            ItemEntity itemEntity = new ItemEntity();
 //            itemEntity.setItem_id(itemEntity.getItem_id());
-            JukeBoxEntity entity = new JukeBoxEntity();
-            entity.setIhost(authenticationFacade.getLoginUserPk());
-            entity.setImusic(item);
-            jukeBoxRepository.save(entity);
             cartRepository.deleteByIuserAndItemid(userEntity, item);
         }
+
         System.out.println("구매 아이템 카트 삭제");
 
 

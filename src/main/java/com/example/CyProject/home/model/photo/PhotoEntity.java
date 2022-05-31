@@ -19,9 +19,7 @@ public class PhotoEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int iphoto;
 
-    @OneToOne
-    @JoinColumn(name = "ihost")
-    private UserEntity ihost;
+    private int ihost;
 
     private int ifile;
     private String title;

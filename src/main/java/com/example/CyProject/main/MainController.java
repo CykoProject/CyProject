@@ -2,10 +2,13 @@ package com.example.CyProject.main;
 
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.photo.PhotoInterface;
+import com.example.CyProject.home.model.photo.PhotoRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.home.model.visitor.VisitorService;
 import com.example.CyProject.main.model.CmtRepository;
+import com.example.CyProject.main.model.top.TopHelper;
 import com.example.CyProject.main.model.top.TopService;
 import com.example.CyProject.message.model.MessageRepository;
 import com.example.CyProject.user.model.UserRepository;
@@ -21,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -38,6 +43,7 @@ public class MainController {
     @Autowired private UserRepository userRepository;
     @Autowired private VisitorService visitorService;
     @Autowired private TopService topService;
+    @Autowired private PhotoRepository photoRepository;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
@@ -53,7 +59,6 @@ public class MainController {
             model.addAttribute("visit",visitRepository.countByRdtBetween(startDate,endDate));
         }
 
-
         model.addAttribute("bestVisitor", topService.toListVisitorVo(visitorRepository.getBestVisitor()));
         model.addAttribute("cmt", cmtRepository.findAllByOrderByRdtDesc(pageable));
         model.addAttribute("visitor", visitorRepository.todayCount(utils.findHomePk(authenticationFacade.getLoginUserPk())));
@@ -61,6 +66,9 @@ public class MainController {
         model.addAttribute("data", friendsRepository.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("msgCnt", messageRepository.beforeReadMsgCnt(authenticationFacade.getLoginUserPk()));
         model.addAttribute("userData", mainService.userRepository.findByIuser(authenticationFacade.getLoginUserPk()));
+        model.addAttribute("photoTop", mainService.photoTop());
+        model.addAttribute("diaryTop", mainService.diaryTop());
+        model.addAttribute("sumTop", mainService.sumTop());
 
         return "main/main";
     }

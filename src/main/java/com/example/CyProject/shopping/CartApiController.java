@@ -3,6 +3,7 @@ package com.example.CyProject.shopping;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.jukebox.JukeBoxEntity;
 import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseInterface;
 import com.example.CyProject.shopping.model.order.OrderItemsDto;
 import com.example.CyProject.shopping.model.cart.CartDto;
 import com.example.CyProject.shopping.model.cart.CartRepository;
@@ -202,14 +203,21 @@ public class CartApiController {
 
         System.out.println("성공시 itemid : " + itemIdList);
 
+        List<PurchaseInterface> bgmIdList = new ArrayList<>();
+        bgmIdList.addAll(purchaseHistoryRepository.purchaseBgmIdList(userEntity));
+
+        for (PurchaseInterface item : bgmIdList) {
+            JukeBoxEntity entity = new JukeBoxEntity();
+            entity.setIhost(authenticationFacade.getLoginUserPk());
+            ItemEntity itemEntity = new ItemEntity();
+            itemEntity.setItem_id(item.getItem_id());
+            entity.setImusic(itemEntity);
+            jukeBoxRepository.save(entity);
+        }
+
         for(ItemEntity item : itemIdList) {
 //            ItemEntity itemEntity = new ItemEntity();
 //            itemEntity.setItem_id(itemEntity.getItem_id());
-            JukeBoxEntity entity = new JukeBoxEntity();
-            entity.setIhost(authenticationFacade.getLoginUserPk());
-            entity.setImusic(item);
-            System.out.println(entity);
-            jukeBoxRepository.save(entity);
             cartRepository.deleteByIuserAndItemid(userEntity, item);
         }
         System.out.println("구매 아이템 카트 삭제");
