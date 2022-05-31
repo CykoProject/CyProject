@@ -47,7 +47,7 @@ public class FriendsWebSocketHandler extends TextWebSocketHandler {
                 entity.setFuser(userEntity);
                 entity.setNickname(nickname);
 
-                if(friendsService.isFriend(sender, receiver, nickname)) {
+                if(friendsService.isFriend(sender, receiver)) {
                     friendsRepository.save(entity);
                 }
 

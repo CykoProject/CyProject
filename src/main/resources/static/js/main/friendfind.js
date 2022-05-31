@@ -56,7 +56,7 @@ if(findGo){
 
 const fHeaderElem = document.querySelector('#friend-find');
 if(fHeaderElem || loginUserElem) {
-   const addFriend = document.querySelector('#add-friend');
+   const addFriend = document.querySelectorAll('#add-friend');
    const iuser = parseInt(document.querySelector('#loginUserPk').dataset.iuser);
 
    const setAddFriendCount = (cnt) => {
@@ -87,11 +87,14 @@ if(fHeaderElem || loginUserElem) {
    fws.onmessage = fMsg;
    fws.onclose = fClose;
 
-   if(addFriend) {
-      addFriend.addEventListener('click', () => {
-         const fuser = parseInt(document.querySelector('#fuser').dataset.fuser);
-         const nmInput = document.querySelector('#nickname');
-         fws.send(`add=${iuser},${fuser},${nmInput.value}`);
+   if(addFriend.length > 0) {
+      addFriend.forEach(item => {
+         item.addEventListener('click', () => {
+            const fuser = parseInt(document.querySelector('#fuser').dataset.fuser);
+            const nmInput = document.querySelector('#nickname');
+            fws.send(`add=${iuser},${fuser},${nmInput.value}`);
+            console.log('성ㄱ')
+         });
       });
    }
 }
