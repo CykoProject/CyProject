@@ -4,8 +4,8 @@
 }
 
 body {
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 .header {
@@ -616,6 +616,10 @@ body {
 .webtoon-list {
     display: flex;
     justify-content: space-around;
+}
+
+.eachWebtoon {
+    max-width: 100px;
 }
 
 .main-movie {
