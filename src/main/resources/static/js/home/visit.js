@@ -9,6 +9,21 @@ if(visitElem) {
     const loginUserPk = parseInt(document.querySelector('.data-pk').dataset.loginuser);
 
     //============================ 방명록 작성 start ==========================
+    const visitWriteBtn = document.querySelector('.board-btn');
+    if(visitWriteBtn) {
+        const visitWriteElem = document.querySelector('.visit-write');
+        const modalCancelBtn = document.querySelector('#modal-cancel');
+        visitWriteBtn.addEventListener('click', (e) => {
+            if(visitWriteElem.style.display === '' || visitWriteElem.style.display === 'none') {
+                visitWriteElem.style.display = 'block';
+            }
+        });
+
+        modalCancelBtn.addEventListener('click', () => {
+            visitWriteElem.style.display = 'none';
+        });
+    }
+
     if(loginUserPk) {
         const insVisitBtn = document.querySelector('.ins-visit');
         insVisitBtn.addEventListener('click', (e) => {
