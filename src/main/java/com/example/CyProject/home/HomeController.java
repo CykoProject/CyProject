@@ -9,6 +9,8 @@ import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.diary.DiaryRepository;
 import com.example.CyProject.home.model.home.HomeRepository;
+import com.example.CyProject.home.model.miniroom.MiniroomEntity;
+import com.example.CyProject.home.model.miniroom.MiniroomRepository;
 import com.example.CyProject.home.model.photo.PhotoEntity;
 import com.example.CyProject.home.model.photo.PhotoImgEntity;
 import com.example.CyProject.home.model.photo.PhotoImgRepository;
@@ -37,6 +39,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -75,6 +78,8 @@ public class HomeController {
     @Autowired private Utils utils;
     @Autowired private AuthenticationFacade auth;
     @Autowired private PhotoRepository photoRepository;
+    @Autowired private MiniroomRepository miniroomRepository;
+    @Autowired private PhotoImgRepository photoImgRepository;
 
     @GetMapping
     public String home(HomeEntity entity, Model model) {
@@ -90,6 +95,17 @@ public class HomeController {
         int success = visitorService.saveVisitor(loginUser, ihomePk);
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
+
+        UserEntity user = userRepository.findByIuser(entity.getIuser());
+        List<PhotoEntity> news = photoRepository.findTop4ByIhostAndRdtBetweenOrderByRdtDesc(user, LocalDateTime.now().minusWeeks(1), LocalDateTime.now());
+        model.addAttribute("news", news);
+
+        if (miniroomRepository.countByIhostAndRepre(entity.getIuser(), true) > 0) {
+            model.addAttribute("isRoom", 1);
+            model.addAttribute("myRoom", miniroomRepository.findByIhostAndRepre(entity.getIuser(), true));
+        } else {
+            model.addAttribute("isRoom", 0);
+        }
 
         FriendsEntity friendsEntity = new FriendsEntity();
         friendsEntity.setIuser(entity.getIuser());
@@ -241,8 +257,10 @@ public class HomeController {
 
     @PostMapping("/manage/tab")
     public String manageTabProc(HomeEntity entity, HttpSession hs) {
-        int ihome = homeRepository.findByIuser(entity.getIuser()).getIhome();
+        HomeEntity home = homeRepository.findByIuser(entity.getIuser());
+        int ihome = home.getIhome();
         entity.setIhome(ihome);
+        entity.setHome_nm(home.getHome_nm());
         try{
             if(entity.getIuser() == authenticationFacade.getLoginUserPk()) {
                 homeRepository.save(entity);
@@ -294,40 +312,100 @@ public class HomeController {
     @GetMapping("/photo")
     public String photo(HomeEntity entity, Model model) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
-        List<PhotoEntity> list = photoRepository.findByIhostOrderByRdtDesc(entity.getIuser());
+        List<PhotoEntity> list = photoRepository.findByIhostOrderByRdtDesc(userRepository.findByIuser(entity.getIuser()));
 
         model.addAttribute("loginUserPk", loginUserPk);
         model.addAttribute("list", list);
+
+        FriendsEntity friendsEntity = new FriendsEntity();
+        friendsEntity.setIuser(entity.getIuser());
+        friendsEntity.setFuser(userRepository.findByIuser(auth.getLoginUserPk()));
+
+        model.addAttribute("isFriend", homeService.selFriends(friendsEntity));
+
         return "home/photo/photo";
     }
 
     @GetMapping("/photo/write")
-    public String writePhoto() {
+    public String writePhoto(String iphoto, int iuser, Model model) {
+        int parseIphoto = utils.getParseIntParameter(iphoto);
+
+        if (parseIphoto != 0) {
+            System.out.println("mod");
+            model.addAttribute("data", photoRepository.findById(parseIphoto));
+            model.addAttribute("fileData", photoImgRepository.findAllByIphoto(parseIphoto));
+        }
+
+        if (iuser != authenticationFacade.getLoginUserPk()) {
+            return "redirect:/home/diary?iuser=" + iuser;
+        }
+
+        model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
+
         return "home/photo/write";
     }
 
     @PostMapping("/photo/write")
     public String writePhotoProc(PhotoEntity entity, MultipartFile imgs) {
-        System.out.println("entity : " + entity);
+        if (entity.getIphoto() != 0) {
+            // 수정
+            if (!imgs.isEmpty()) {
+                // 이미지 수정 O
+                photoImgRepository.deleteAllByIphoto(entity.getIphoto());
 
-        entity.setIhost(auth.getLoginUserPk());
-        PhotoEntity resultEntity = photoRepository.save(entity);
-        System.out.println(resultEntity);
+                PhotoImgEntity imgEntity = new PhotoImgEntity();
+                imgEntity.setIphoto(entity.getIphoto());
+                homeService.writePhoto(imgs, imgEntity);
+            }
+            photoRepository.save(entity);
+        } else {
+            // 새글 작성
+            entity.setIhost(userRepository.findByIuser(auth.getLoginUserPk()));
+            PhotoEntity resultEntity = photoRepository.save(entity);
 
-        PhotoImgEntity imgEntity = new PhotoImgEntity();
-        imgEntity.setIphoto(resultEntity.getIphoto());
+            PhotoImgEntity imgEntity = new PhotoImgEntity();
+            imgEntity.setIphoto(resultEntity.getIphoto());
 
-        int result = homeService.writePhoto(imgs, imgEntity);
+            homeService.writePhoto(imgs, imgEntity);
+        }
 
-        return "redirect:/home/photo?iuser=" + entity.getIhost();
+        return "redirect:/home/photo?iuser=" + entity.getIhost().getIuser();
     }
 
     @GetMapping("/miniroom")
     public String miniroom(HomeEntity entity, Model model) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
         model.addAttribute("loginUserPk", loginUserPk);
+        model.addAttribute("miniroomList", miniroomRepository.findAllByIhost(entity.getIuser()));
+
+        if (miniroomRepository.countByIhostAndRepre(entity.getIuser(), true) > 0) {
+            model.addAttribute("isRoom", 1);
+            model.addAttribute("myRoom", miniroomRepository.findByIhostAndRepre(entity.getIuser(), true));
+        } else {
+            model.addAttribute("isRoom", 0);
+        }
 
         return "/home/miniroom/miniroom";
+    }
+
+    @PostMapping("/miniroom")
+    public String miniroomProc(HomeEntity entity, @RequestParam(value = "myroom") int myroom) {
+        System.out.println("myroom : " + myroom);
+
+        if (miniroomRepository.countByIhostAndRepre(entity.getIuser(), true) > 0) {
+            MiniroomEntity prevRoom = miniroomRepository.findByIhostAndRepre(entity.getIuser(), true);
+            prevRoom.setRepre(false);
+            System.out.println("prevRoom : " + prevRoom);
+            miniroomRepository.save(prevRoom);
+        }
+
+        MiniroomEntity currentRoom = miniroomRepository.findByItemIdInMyroom(entity.getIuser(), myroom);
+        System.out.println("currentRoom : " + currentRoom);
+        currentRoom.setRepre(true);
+        System.out.println("changeRoom : " + currentRoom);
+        miniroomRepository.save(currentRoom);
+
+        return "redirect:/home/miniroom?iuser=" + entity.getIuser();
     }
 
 

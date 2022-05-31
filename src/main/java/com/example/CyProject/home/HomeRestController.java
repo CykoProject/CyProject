@@ -70,6 +70,7 @@ public class HomeRestController {
     @Autowired private HomeMessageRepository homeMessageRepository;
     @Autowired private PhotoImgRepository photoImgRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private PhotoRepository photoRepository;
 
     @GetMapping
     public HomeEntity home(HomeEntity entity) {
@@ -78,7 +79,6 @@ public class HomeRestController {
 
     @PutMapping("/nm/mod")
     public ResultVo modHomeNm(@RequestBody HomeEntity entity) {
-        // TODO : home 테이블 `home_nm` 추가
         ResultVo vo = new ResultVo();
         vo.setResult(0);
 
@@ -283,6 +283,23 @@ public class HomeRestController {
         return photoList;
     }
 
+    @DeleteMapping("/photo/del")
+    public ResultVo delPhoto(PhotoEntity entity) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(0);
+
+        PhotoEntity delEntity = photoRepository.getById(entity.getIhost().getIuser());
+
+        if (authenticationFacade.getLoginUserPk() == delEntity.getIphoto()) {
+            photoRepository.deleteById(entity.getIphoto());
+            photoImgRepository.deleteAllByIphoto(entity.getIphoto());
+
+            vo.setResult(1);
+        }
+
+        return vo;
+    }
+
     @GetMapping("profile")
     public UserEntity getProfile(@RequestParam int iuser) {
         return userRepository.findByIuser(iuser);
@@ -296,8 +313,6 @@ public class HomeRestController {
 
     @PostMapping("/friendComment/write")
     public ResultVo writeFriendComment(@RequestBody HomeMessageEntity entity) {
-        // TODO : home_message 테이블 `rdt` 추가
-
         entity.setWriter(authenticationFacade.getLoginUserPk());
 
         System.out.println("success!! : " + entity);

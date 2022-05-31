@@ -16,20 +16,28 @@
 
     </th:block>
     <th:block layout:fragment="content_right">
-        <div>
+        <div class="photo-write-container">
             <form id="photo-form" th:method="post" th:action="@{/home/photo/write}" enctype="multipart/form-data">
-                <input type="hidden" name="ihost" th:value="${param.iuser}">
+                <input type="hidden" name="ihost" th:value="${#strings.equals(loginUserPk, param.iuser)} ? ${loginUserPk} : 0">
+                <input type="hidden" name="iphoto" th:if="${param.iphoto != null}" th:value="${param.iphoto}">
                 <div class="write-cont">
                     <label class="title">
-                        <input type="text" name="title" placeholder="제목">
+                        <input type="text" name="title" placeholder="제목" th:if="${data == null}">
+                        <input type="text" name="title" placeholder="제목" th:if="${data != null}" th:value="${data.get().getTitle()}">
                     </label>
-                    <label class="imgs" for="file">
-                        이미지 <input id="file" type="file" name="imgs" accept="image/*" multiple>
+                    <label th:if="${fileData != null}" for="fileData" th:each="item : ${fileData}">
+                        이미지 <input id="fileData" class="file" type="file" name="imgs" accept="image/*" multiple>
+                        <input class="img-name" type="text" th:value="${item.img}" disabled>
+                        <div class="board-btn">첨부</div>
+                    </label>
+                    <label th:if="${fileData == null}" class="imgs" for="file">
+                        이미지 <input id="file" class="file" type="file" name="imgs" accept="image/*" multiple>
                         <input class="img-name" type="text" disabled>
                         <div class="board-btn">첨부</div>
                     </label>
                     <label class="ctnt">
-                        <textarea name="ctnt" placeholder="내용"></textarea>
+                        <textarea name="ctnt" placeholder="내용" th:if="${data == null}"></textarea>
+                        <textarea name="ctnt" placeholder="내용" th:if="${data != null}" th:text="${data.get().getCtnt()}"></textarea>
                         <div contentEditable="true" class="ctnt">
 
                         </div>
@@ -41,7 +49,7 @@
                 </div>
                 <div class="btn-cont">
                     <div class="board-btn">
-                        <a href="#">목록</a>
+                        <a href="javascript:history.back();">목록</a>
                     </div>
                     <div class="board-btn">
                         <input type="submit" name="save" th:value="확인">

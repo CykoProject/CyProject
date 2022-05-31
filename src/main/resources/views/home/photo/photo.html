@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="home/index">
+      layout:decorate="home/index" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/home/photo.css}">
@@ -13,9 +13,6 @@
     <th:block layout:fragment="content_right">
         <div class="photo-container">
             <div class="btn-cont" th:if="${#strings.equals(loginUserPk, param.iuser)}">
-                <div class="board-btn">
-                    <a th:href="@{/}">삭제</a>
-                </div>
                 <div class="board-btn write-btn">
                     <a th:href="@{/home/photo/write(iuser=${param.iuser})}">사진 등록</a>
                 </div>
@@ -26,7 +23,7 @@
                         <div class="data-iphoto" th:data-iphoto="${item.iphoto}" hidden></div>
                         <div class="title" th:text="${item.title}"></div>
                         <div class="info">
-                            <div class="writer" th:text="${item.ihost}"></div>
+                            <div class="writer" th:text="${item.ihost.nm}"></div>
                             <div class="stretch"></div>
                             <div class="rdt" th:text="${item.rdt}"></div>
                             <div>스크랩 <span th:text="${item.scrap}"></span></div>
@@ -34,6 +31,21 @@
                         <div class="content">
                             <div class="imgCont"></div>
                             <div th:text="${item.ctnt}"></div>
+                        </div>
+                    </div>
+                    <div class="btn-cont input-btn">
+                        <div th:if="${#strings.equals(loginUserPk, param.iuser)}">
+                            <label class="board-btn">
+                                <input class="mod-btn" type="button" th:data-iphoto="${item.iphoto}">수정</input>
+                            </label>
+                            <label class="board-btn">
+                                <input class="del-btn" type="button" th:data-iphoto="${item.iphoto}">삭제</input>
+                            </label>
+                        </div>
+                        <div th:if="${isFriend == 1}">
+                            <label class="board-btn">
+                                <input class="scrap-btn" type="button" th:data-iphoto="${item.iphoto}">스크랩</input>
+                            </label>
                         </div>
                     </div>
                 </div>

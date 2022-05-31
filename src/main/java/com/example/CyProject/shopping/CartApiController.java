@@ -3,6 +3,8 @@ package com.example.CyProject.shopping;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.jukebox.JukeBoxEntity;
 import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
+import com.example.CyProject.home.model.miniroom.MiniroomEntity;
+import com.example.CyProject.home.model.miniroom.MiniroomRepository;
 import com.example.CyProject.shopping.model.order.OrderItemsDto;
 import com.example.CyProject.shopping.model.cart.CartDto;
 import com.example.CyProject.shopping.model.cart.CartRepository;
@@ -43,6 +45,8 @@ public class CartApiController {
     PointHistoryRepository pointHistoryRepository;
     @Autowired
     JukeBoxRepository jukeBoxRepository;
+    @Autowired
+    MiniroomRepository miniroomRepository;
 
     @PostMapping("/add")
     public int saveItem(@RequestBody CartDto dto) {
@@ -203,6 +207,15 @@ public class CartApiController {
         System.out.println("성공시 itemid : " + itemIdList);
 
         for(ItemEntity item : itemIdList) {
+            if (item.getIcategory() == 5) {
+                MiniroomEntity miniroomEntity = new MiniroomEntity();
+                miniroomEntity.setIhost(authenticationFacade.getLoginUserPk());
+                miniroomEntity.setMyroom(item);
+                if (miniroomRepository.countByIhostAndMyroom(miniroomEntity.getIhost(), miniroomEntity.getMyroom()) == 0) {
+                    miniroomRepository.save(miniroomEntity);
+                }
+            }
+
 //            ItemEntity itemEntity = new ItemEntity();
 //            itemEntity.setItem_id(itemEntity.getItem_id());
             JukeBoxEntity entity = new JukeBoxEntity();

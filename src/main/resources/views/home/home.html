@@ -17,9 +17,14 @@
                 <div class="update-list">
                     <h2>Updated news</h2>
                     <div class="news">
-                        <div class="default-message">
+                        <div class="default-message" th:if="${news.isEmpty()}">
                             <p>등록된 게시물이 없습니다.</p>
                             <p>소식이 뜸한 친구에게 마음의 한마디를 남겨주세요.</p>
+                        </div>
+                        <div class="news-list" th:if="${!news.isEmpty()}">
+                            <div class="news-item" th:each="item : ${news}">
+                                <div th:text="${item.getTitle()}"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,7 +49,14 @@
             </div>
             <div class="miniroom">
                 <h2>Miniroom</h2>
-                <div class="miniroom-cont"></div>
+                <div class="miniroom-cont">
+                    <div th:if="${isRoom == 0}">
+                        <img th:src="@{/img/miniroom/miniroom_gray.jpg}">
+                    </div>
+                    <div th:unless="${isRoom == 0}">
+                        <img th:src="@{${myRoom.myroom.file}}" onerror="this.onerror=null; this.src='/img/miniroom/miniroom_blue.jpg'">
+                    </div>
+                </div>
             </div>
             <div class="friend-comment">
                 <h2>What friends say</h2>

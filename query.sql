@@ -48,10 +48,11 @@ CREATE OR replace TABLE home_visit(
 	rdt DATETIME DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- 2022-05-30 my_room -> myroom 이름 수정 --
 CREATE OR replace TABLE home_mini_room(
 	iroom INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	ihost INT UNSIGNED NOT NULL,
-	my_room INT UNSIGNED NOT NULL,
+	myroom INT UNSIGNED NOT NULL,
 	repre BOOLEAN DEFAULT FALSE
 );
 
@@ -234,6 +235,8 @@ CREATE OR REPLACE TABLE home_message( # 일촌평
 );
 
 # -2022-05-13-
+-- 2022-05-30 CHECK(itemcategory <= 5) 수정 --
+-- ++ item_category 테이블에 5번 미니룸 데이터 추가 --
 CREATE OR REPLACE TABLE item (
                                  item_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
                                  nm VARCHAR(50) NOT NULL,
@@ -242,7 +245,7 @@ CREATE OR REPLACE TABLE item (
                                  icategory INT UNSIGNED,
                                  `file` VARCHAR(200),
                                  rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
-                                 CHECK(icategory <= 4)
+                                 CHECK(icategory <= 5)
 );
 
 CREATE OR REPLACE TABLE item_like (
@@ -284,4 +287,13 @@ CREATE OR REPLACE table order_info(
                                       quantity INT UNSIGNED,
                                       rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
                                       FOREIGN KEY (iuser) REFERENCES user(iuser)
-)
+);
+
+
+
+/* item 테이블에 미니룸 상품 테스트 데이터로 쓰면 됩니다 */
+INSERT INTO `cyworld`.`item` (`nm`, `artist`, `price`, `icategory`, `file`)
+VALUES ('orange', 'test', 5, 5, '/img/miniroom/miniroom_orange.jpg'),
+  ('yellow', 'test', 5, 5, '/img/miniroom/miniroom_yellow.jpg'),
+  ('green', 'test', 5, 5, '/img/miniroom/miniroom_green.jpg'),
+  ('blue', 'test', 5, 5, '/img/miniroom/miniroom_blue.jpg');
