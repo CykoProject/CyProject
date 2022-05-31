@@ -2,10 +2,13 @@ package com.example.CyProject.main;
 
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.photo.PhotoInterface;
+import com.example.CyProject.home.model.photo.PhotoRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.home.model.visitor.VisitorService;
 import com.example.CyProject.main.model.CmtRepository;
+import com.example.CyProject.main.model.top.TopHelper;
 import com.example.CyProject.main.model.top.TopService;
 import com.example.CyProject.message.model.MessageRepository;
 import com.example.CyProject.user.model.UserEntity;
@@ -43,6 +46,7 @@ public class MainController {
     @Autowired private UserRepository userRepository;
     @Autowired private VisitorService visitorService;
     @Autowired private TopService topService;
+    @Autowired private PhotoRepository photoRepository;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
@@ -66,6 +70,9 @@ public class MainController {
         model.addAttribute("data", friendsRepository.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("msgCnt", messageRepository.beforeReadMsgCnt(authenticationFacade.getLoginUserPk()));
         model.addAttribute("userData", mainService.userRepository.findByIuser(authenticationFacade.getLoginUserPk()));
+        model.addAttribute("photoTop", mainService.photoTop());
+        model.addAttribute("diaryTop", mainService.diaryTop());
+        model.addAttribute("sumTop", mainService.sumTop());
 
         return "main/main";
     }
@@ -118,10 +125,3 @@ public class MainController {
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "main/friendfind";
     }
-
-    @PostMapping("/friendfind")
-    public String findselect(String search, int category) throws Exception{
-        search = URLEncoder.encode(search, "UTF-8");
-        return "redirect:/friendfind?search=" + search + "&category=" + category;
-    }
-}
