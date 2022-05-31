@@ -9,24 +9,27 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
-<title>내 정보 수정</title>
+<title>포인트 충전</title>
 <body>
 <th:block layout:fragment="container">
+    <h3 style="text-align: center">포인트 충전</h3>
     <div id="point-contain">
-        <div id="points">
-            현재 보유 도토리 : <label th:text="${#numbers.formatInteger(dotori, 0, 'COMMA') + '개'}"></label>
-        </div>
-        <div class="form-check">
-            <div>
-                <div class="money"><input type="radio" name="money" value="1000">10개</div>
-                <div class="money"><input type="radio" name="money" value="5000">50개</div>
-                <div class="money"><input type="radio" name="money" value="10000">100개</div>
-                <div class="money"><input type="radio" name="money" value="20000">200개</div>
-                <div class="money"><input type="radio" name="money" value="50000">500개</div>
+        <div>
+            <div id="points">
+                현재 보유 도토리 : <label th:text="${#numbers.formatInteger(dotori, 0, 'COMMA') + '개'}"></label>
             </div>
-            <div class="money-btn">
-                <button type="button" class="btn" id="charge_kakao">충전하기</button>
-                <button type="reset" class="btn"><a class="cancel" href="/user/mypage">취소</a></button>
+            <div class="form-check">
+                <div>
+                    <div class="money"><input type="radio" name="money" value="1000">10개</div>
+                    <div class="money"><input type="radio" name="money" value="5000">50개</div>
+                    <div class="money"><input type="radio" name="money" value="10000">100개</div>
+                    <div class="money"><input type="radio" name="money" value="20000">200개</div>
+                    <div class="money"><input type="radio" name="money" value="50000">500개</div>
+                </div>
+                <div class="money-btn">
+                    <button type="button" class="btn" id="charge_kakao">충전하기</button>
+                    <button type="reset" class="btn"><a class="cancel" href="/user/mypage">취소</a></button>
+                </div>
             </div>
         </div>
         <div class="point-history">
