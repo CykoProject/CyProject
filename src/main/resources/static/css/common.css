@@ -124,6 +124,7 @@ label input, textarea {
 .mb10 { margin-bottom: 10px; }
 .mb20 { margin-bottom: 10px; }
 .mb20 { margin-bottom: 10px; }
+.mh80vh { min-height: 80vh; }
 
 .cur-pointer:hover {
     cursor: pointer;

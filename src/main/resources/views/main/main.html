@@ -152,6 +152,39 @@
     </div>
 
     <div class="main-container">
+            <div class="main-container-img">
+                <img src="https://file2.nocutnews.co.kr/newsroom/image/2019/10/22/20191022192942863345_0_333_360.jpg"
+                     alt=""/>
+                <div class="main-cmt-container">
+                    <div class="main-cmt-top">
+                        <h5>한 마디</h5>
+                        <div>
+                            <div class="main-cmt-list">
+                                <div class="main-cmt-each" th:each="list : ${cmt}">
+                                    <span th:text="${list.ctnt}"></span><span th:text="${list.iuser.getNm()}"></span>
+                                </div>
+                            </div>
+                            <div class="main-cmt-bottom">
+                                <input type="text" class="main-cmt-ctnt" placeholder="20자 이내로 한 마디 해주세요.">
+                                <button class="main-cmt-button">등록</button>
+                            </div>
+                            <div class="pagination">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="news-container">
+                <div class="news-top">
+                    <h5>뉴스</h5>
+                    <div>
+                        <input type="text" class="news-search" placeholder="뉴스를 검색하세요.">
+                        <button class="news-search-button">검색</button>
+                    </div>
+                </div>
+                <div class="main-news-div">
+                    <div class="main-news-blank"></div>
+                <div class="main-news">
 
         <div class="main-container-img">
             <img src="https://www.kukinews.com/data/kuk/image/2021/04/13/kuk202104130381.680x.0.jpg" alt=""/>
@@ -162,6 +195,7 @@
                 <div>
                     <input type="text" class="news-search" placeholder="뉴스를 검색하세요.">
                     <button class="news-search-button">검색</button>
+                </div>
                 </div>
             </div>
             <div class="main-news">
