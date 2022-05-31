@@ -315,9 +315,9 @@ public class HomeController {
 
     @GetMapping("/profile")
     public String profile(HomeEntity entity, Model model) {
-        int loginUser = authenticationFacade.getLoginUserPk();
-        model.addAttribute("loginUser", loginUser);
-        model.addAttribute("data", profileRepository.findTop1ByIhostOrderByRdtDesc(entity.getIuser()));
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        model.addAttribute("loginUserPk", loginUserPk);
+        model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
         return "home/profile/profile";
     }
 
@@ -359,9 +359,7 @@ public class HomeController {
     public String writePhotoProc(PhotoEntity entity, MultipartFile imgs) {
         System.out.println("entity : " + entity);
 
-        UserEntity entity1 = new UserEntity();
-        entity1.setIuser(auth.getLoginUserPk());
-        entity.setIhost(entity1);
+        entity.setIhost(auth.getLoginUserPk());
         PhotoEntity resultEntity = photoRepository.save(entity);
         System.out.println(resultEntity);
 
@@ -380,7 +378,4 @@ public class HomeController {
 
         return "/home/miniroom/miniroom";
     }
-
-
-
 }
