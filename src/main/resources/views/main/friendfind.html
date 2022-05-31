@@ -1,0 +1,68 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head lang="en" xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8">
+    <script defer th:src="@{/js/main/main.js}"></script>
+    <script th:src="@{/js/main/friendfind.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/main/friendfind.css}">
+    <title>친구찾기</title>
+</head>
+<body>
+<div class="test">
+    <div id="friend-find">
+        <div th:data-iuser="${loginUserPk}" id="loginUserPk"></div>
+        <h1>친구찾기</h1>
+        <div class="f-header">
+            <h3><a href="/friendfind">친구찾기</a></h3><h3>/</h3>
+            <h3><a th:href="@{/friendfind(category=1)}" >신청현황</a></h3>
+        </div>
+        <div>
+            <form action="/friendfind" method="POST" role="search">
+                <div>
+                    <input type="hidden" name="category" value="1">
+                    <input id="find_user" name="search" type="text" placeholder="이메일을 입력해주세요.">
+                    <button>
+                        찾기
+                    </button>
+                </div>
+            </form>
+            <div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>이름</th>
+                        <th>이메일</th>
+                        <th>휴대폰번호</th>
+                        <th>친구요청</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${select}">
+                        <div th:data-fuser="${item.iuser}" id="fuser"></div>
+                        <td th:text="${item.iuser}"></td>
+                        <td th:text="${item.nm}"></td>
+                        <td th:text="${item.email}"></td>
+                        <td th:text="${item.cellphone}"></td>
+                        <td><button id="add-friend">신청</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div th:if="${#strings.equals(param.category, 1)}">
+            신청현황
+        </div>
+    </div>
+
+    <div class="friend-modal">
+        <div>
+            <label for="nickname">
+                닉네임:
+                <input type="text" id="nickname">
+            </label>
+        </div>
+    </div>
+</div>
+</body>
+</html>

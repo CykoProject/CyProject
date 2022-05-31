@@ -233,6 +233,17 @@ body {
     padding-right: 20px;
 }
 
+
+.friend-find {
+    width: 100%;
+    display: flex;
+    background-color: white;
+    border: 0;
+    outline: 0;
+    margin-bottom: 11px;
+    cursor: pointer;
+}
+
 .profile-info-bottom {
     display: flex;
     flex-direction: column;
