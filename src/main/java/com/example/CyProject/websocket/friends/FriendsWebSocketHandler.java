@@ -38,16 +38,14 @@ public class FriendsWebSocketHandler extends TextWebSocketHandler {
                 String[] userArr = strArr[1].split(",");
                 int sender = Integer.parseInt(userArr[0]);
                 int receiver = Integer.parseInt(userArr[1]);
-//                String nickname = userArr[2];
+                String nickname = userArr[2];
 
                 FriendsEntity entity = new FriendsEntity();
                 UserEntity userEntity = new UserEntity();
                 entity.setIuser(sender);
-
                 userEntity.setIuser(receiver);
                 entity.setFuser(userEntity);
-                
-                entity.setNickname("아무거나");
+                entity.setNickname(nickname);
 
                 if(friendsService.isFriend(sender, receiver)) {
                     friendsRepository.save(entity);
