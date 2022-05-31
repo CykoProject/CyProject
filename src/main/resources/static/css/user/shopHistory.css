@@ -1,0 +1,29 @@
+.shopHistory {
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+
+.history-id {
+    text-align: center;
+    width: 70px;
+}
+
+.history-nm, .history-file {
+     text-align: center;
+     width: 120px;
+ }
+
+.history-rdt {
+    text-align: center;
+    width: 200px;
+}
+
+.shopHistory td {
+    text-align: center;
+    padding: 7px;
+}
+
+.shopHistory th {
+    padding-bottom: 10px;
+}
