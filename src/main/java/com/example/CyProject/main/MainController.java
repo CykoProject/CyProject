@@ -101,7 +101,6 @@ public class MainController {
         }
         List<FriendsEntity> selectFuser = friendsRepository.selectfuserFriends(authenticationFacade.getLoginUserPk());
         List<UserEntity> senderData = new ArrayList<>();
-        List<FriendsEntity> senderDataf = new ArrayList<>();
         for(FriendsEntity item : selectFuser) {
             senderData.add(friendsService.getUserData(item.getIuser()));
         }
@@ -112,8 +111,8 @@ public class MainController {
     }
 
     @PostMapping("/friendfind")
-    public String findselect(String search) throws Exception{
+    public String findselect(String search, int category) throws Exception{
         search = URLEncoder.encode(search, "UTF-8");
-        return "redirect:/friendfind?search=" + search;
+        return "redirect:/friendfind?search=" + search + "&category=" + category;
     }
 }

@@ -7,7 +7,11 @@ h2 { margin-top: 200px; margin-bottom: 30px; font-family: 'Noto Sans KR', sans-s
 input { padding-left: 10px; }
 
 #find_email_Bth{
-    margin-left: 100px; background-color: orange; width: 200px; height: 50px; border-radius: 7px ; font-size: 19px; border-width: thin; font-family: 'Noto Sans KR', sans-serif; color: white; border: 1px solid orange;
+    margin-left: 100px; background-color: orange;
+    width: 200px; height: 50px; border-radius: 7px ;
+    font-size: 19px; border-width: thin;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: white; border: 1px solid orange;
 }
 
 .t_bottom{ margin-bottom: 25px;}

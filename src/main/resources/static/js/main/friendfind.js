@@ -1,9 +1,10 @@
 const findBth = document.querySelector('.friend-find');
 const findGo = document.querySelector('.find-go-to');
+
 let popupfind;
 
 const selectFind = (iuser) => {
-   const popupWidth = 1189;
+   const popupWidth = 400;
    const popupHeight = 600;
    const popX = 0;
    const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
@@ -21,7 +22,7 @@ const selectFind = (iuser) => {
    }
 }
 const findGoto = (iuser) => {
-   const popupWidth = 1189;
+   const popupWidth = 400;
    const popupHeight = 600;
    const popX = 0;
    const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
@@ -33,13 +34,12 @@ const findGoto = (iuser) => {
         `;
 
    if(iuser > 0) {
-      const icategory = 1;
+      const icategory = 2;
       popupfind = window.open(`/friendfind?category=${icategory}`, 'friendfind', option);
    } else {
       location.href = '/user/login';
    }
 }
-
 
 if(findBth){
    findBth.addEventListener('click',()=>{
