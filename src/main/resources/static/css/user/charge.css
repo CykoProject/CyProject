@@ -1,0 +1,58 @@
+#point-contain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.point-history {
+    display: flex;
+    justify-content: center;
+}
+
+#points {
+    padding: 30px;
+}
+
+.form-check {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.money {
+    padding: 10px;
+}
+
+.money-btn {
+    padding: 30px;
+}
+
+.btn {
+    color: white;
+    background-color: orange;
+    border: solid orange;
+    padding: 7px;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.cancel {
+    color: white;
+}
+
+.empty {
+    text-align: center;
+}
+
+table {
+     width: 400px;
+ }
+
+td {
+    text-align: center;
+}

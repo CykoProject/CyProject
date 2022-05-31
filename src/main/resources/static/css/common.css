@@ -38,11 +38,11 @@ label input, textarea {
 
 .hidden { visibility: hidden; }
 
-.home-container {
-    overflow: scroll;
-    overflow-x: hidden;
-    height: 89%;
-}
+/*.home-container {*/
+/*    overflow: scroll;*/
+/*    overflow-x: hidden;*/
+/*    height: 89%;*/
+/*}*/
 
 .text-align-center {
     text-align: center;
@@ -117,9 +117,14 @@ label input, textarea {
     font-size: 0.625rem;
 }
 
-.mb10 {
-    margin-bottom: 10px;
-}
+.mt10 { margin-top: 10px; }
+.mt20 { margin-top: 10px; }
+.mt30 { margin-top: 10px; }
+
+.mb10 { margin-bottom: 10px; }
+.mb20 { margin-bottom: 10px; }
+.mb20 { margin-bottom: 10px; }
+.mh80vh { min-height: 80vh; }
 
 .cur-pointer:hover {
     cursor: pointer;

@@ -31,4 +31,7 @@ public interface PurchaseHistoryRepository extends JpaRepository<PurchaseHistory
 
     @Query("SELECT p FROM PurchaseHistoryEntity p WHERE (p.item_id.icategory = :icategory AND p.iuser.iuser = :iuser)")
     List<PurchaseHistoryEntity> findAllByIcategoryInHisotry(int icategory, int iuser);
+
+    @Query("select item_id from PurchaseHistoryEntity where complete = 1 and iuser = :iuser")
+    List<ItemEntity> purchaseItemList(UserEntity iuser);
 }

@@ -4,16 +4,26 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="main/index">
 <head>
-
+    <link rel="stylesheet" th:href="@{/css/user/mypage.css}">
 </head>
 <title>내 정보 수정</title>
 <body>
 <th:block layout:fragment="container">
+    <div class="mypage-container">
     <div class="mypage">
-        <button><a href="/user/change_upw">비밀번호 변경</a></button>
+        <h1>내 정보</h1>
+        <div class="mypage-detail">
+            <label>이메일 : <div th:text="${loginUser.email}"></div></label>
+            <label>연락처 : <div th:text="${loginUser.cellphone}"></div></label>
+            <label>이름 : <div th:text="${loginUser.nm}"></div></label>
+            <label>보유 도토리 : <div th:text="${loginUser.point}"></div></label>
+        </div>
+        <div class="btns">
+            <button class="btn"><a href="/user/change_upw">비밀번호 변경</a></button>
+            <button class="btn"><a href="/user/charge">포인트 충전</a></button>
+            <button class="btn"><a href="/user/shopHistory">구매 내역</a></button>
+        </div>
     </div>
-    <div>
-        <button><a href="/user/charge">포인트 충전</a></button>
     </div>
 </th:block>
 

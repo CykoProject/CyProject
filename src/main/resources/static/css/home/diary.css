@@ -91,11 +91,6 @@
     resize: none;
 }
 
-.top-menu {
-    display: flex;
-    justify-content: space-between;
-}
-
 .diary-save {
     text-align: right;
 }

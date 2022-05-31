@@ -386,7 +386,12 @@ if (location.href.indexOf("search") === -1) {
 
 //장바구니 넣기
 let addCart = document.querySelectorAll(".add-cart");
-let iUser = document.querySelector("#loginUserPk").dataset.iuser;
+let iUser;
+if (document.querySelector("#loginUserPk").dataset.iuser == null) {
+    iUser = 0;
+} else {
+    iUser = document.querySelector("#loginUserPk").dataset.iuser;
+}
 
 const msgAlarm = () => {
     const divElem = document.createElement('div');
@@ -461,6 +466,8 @@ if (currentUrl.includes("search")) {
             localStorage.setItem('sort', sortStatus);
         }
         location.href = currentUrl + '&page=' + i;
+
+        makePagingNumber();
     }
 
 } else {
@@ -478,22 +485,101 @@ if (currentUrl.includes("search")) {
 }
 
 
+let pagingNum = Math.ceil(resultsCount/5);
+let pagingDefaultNum = 5;
 
+let pagingCurrentNum = 1;
+if (new URL(location.href).searchParams.get("page")) {
+    pagingCurrentNum = parseInt(getParameterByName("page")) - 1;
+}
+
+
+let pagingUnit = 1;
+if (new URL(location.href).searchParams.get("page")) {
+    pagingUnit = Math.floor(parseInt(getParameterByName("page"))/pagingDefaultNum) + 1;
+}
+
+let maxPage = pagingUnit * pagingDefaultNum;
+let minPage = ((pagingUnit - 1) * pagingDefaultNum) + 1;
+
+if (getParameterByName("page")) {
+    pagingCurrentNum = parseInt(getParameterByName("page")) + 1;
+    maxPage = (Math.ceil(pagingCurrentNum/pagingDefaultNum)) * pagingDefaultNum
+    minPage = maxPage - 4;
+
+    console.log(minPage)
+    console.log(maxPage)
+}
 
 const makePagingNumber = () => {
-    for (let i = 1; i <= Math.ceil(resultsCount/5); i++) {
+    console.log(pagingCurrentNum);
+    console.log(maxPage);
+    paginationElem.innerHTML = '';
+    if (pagingUnit == 1) {
+        paginationElem.innerHTML += `
+    <p class="prev" style="pointer-events:none"><</p>
+    `
+    } else  {
+        paginationElem.innerHTML += `
+    <p class="prev"><</p>
+    `
+    }
+    for (let i = minPage; i <= (pagingNum > maxPage ? maxPage : pagingNum); i++) {
         paginationElem.innerHTML += `
         <span onclick="goToNumber(${i-1})" class="number">${i}</span>
         `;
     }
+    if (maxPage >= pagingNum) {
+        paginationElem.innerHTML += `
+    <p class="next" style="pointer-events:none">></p>
+    `
+    } else {
+        paginationElem.innerHTML += `
+    <p class="next">></p>
+    `
+    }
+    let prevBtn = paginationElem.querySelector(".prev");
+    let nextBtn = paginationElem.querySelector(".next");
+
+    if (pagingUnit > 1) {
+        prevBtn.addEventListener("click", ()=> {
+            console.log("prev")
+            pagingUnit--;
+            pagingCurrentNum = ((pagingUnit-1)*pagingDefaultNum) + 1;
+            maxPage = pagingUnit * pagingDefaultNum;
+
+            paginationElem.innerHTML = '';
+            goToNumber(pagingCurrentNum-1);
+        })
+    }
+if (pagingNum > maxPage) {
+    nextBtn.addEventListener("click", ()=> {
+        console.log("next")
+        pagingUnit++;
+        pagingCurrentNum = ((pagingUnit-1)*pagingDefaultNum) + 1;
+        maxPage = pagingUnit * pagingDefaultNum;
+
+        paginationElem.innerHTML = '';
+        goToNumber(pagingCurrentNum-1);
+    })
+}
+
     document.querySelectorAll(".number")[0].style.fontWeight= "bold";
     document.querySelectorAll(".number")[0].style.fontSize = "large";
     if(new URL(location.href).searchParams.get("page")) {
         document.querySelectorAll(".number")[0].style.fontWeight= "";
         document.querySelectorAll(".number")[0].style.fontSize = "";
         let i = new URL(location.href).searchParams.get("page");
-        document.querySelectorAll(".number")[i].style.fontWeight= "bold";
-        document.querySelectorAll(".number")[i].style.fontSize = "large";
+        console.log(i)
+        document.querySelectorAll(".number").forEach((item)=> {
+            if(item.textContent == parseInt(i) + 1) {
+                item.style.fontWeight= "bold";
+                item.style.fontSize = "large";
+            }
+        })
+        // console.log(((pagingUnit-1)*pagingDefaultNum))
+        // document.querySelectorAll(".number")[i-((pagingUnit-1)*pagingDefaultNum)].style.fontWeight= "bold";
+        // document.querySelectorAll(".number")[i-((pagingUnit-1)*pagingDefaultNum)].style.fontSize = "large";
     }
 }
 makePagingNumber();

@@ -208,3 +208,7 @@
 .number:hover {
     cursor: pointer;
 }
+
+.search-container {
+    min-height: 80vh;
+}

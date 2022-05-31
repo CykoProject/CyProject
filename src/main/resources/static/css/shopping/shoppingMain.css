@@ -88,6 +88,8 @@
     display: flex;
     width: 80%;
     margin: auto;
+    min-height: 80vh;
+    margin-bottom: 10px;
 }
 
 .shopping-left {
@@ -193,7 +195,7 @@
 .footer-wrapper {
     position: relative;
     width: 100%;
-    min-height: 20vh;
+    min-height: 8vh;
 }
 
 .footer {
@@ -204,7 +206,7 @@
     color: white;
     bottom: 0;
     position: absolute;
-    height: 90px;
+    height: 8vh;
     width: 100%;
 }
 
@@ -253,6 +255,23 @@
 
 .pagination {
     margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+.prev {
+    margin-right: 5px;
+}
+
+.prev:hover {
+    cursor: pointer;
+}
+
+.next {
+    margin-left: 5px;
+}
+
+.next:hover {
+    cursor: pointer;
 }
 
 .number {

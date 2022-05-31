@@ -6,6 +6,7 @@ import com.example.CyProject.ResultVo;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.home.HomeRepository;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
 import com.example.CyProject.user.model.UserDto;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
@@ -13,12 +14,14 @@ import com.example.CyProject.user.model.points.PointHistoryEntity;
 import com.example.CyProject.user.model.points.PointHistoryRepository;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.print.Pageable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +36,7 @@ public class UserController {
     @Autowired private UserRepository userRepository;
     @Autowired private HomeRepository homeRepository;
     @Autowired private PointHistoryRepository pointHistoryRepository;
+    @Autowired private PurchaseHistoryRepository purchaseHistoryRepository;
     @Autowired private AuthenticationFacade auth;
     @Autowired private UserService service;
 
@@ -149,6 +153,12 @@ public class UserController {
         entity.setReason("도토리 충전");
         entity.setRdt(rdt);
         pointHistoryRepository.save(entity);
+    }
+
+    @GetMapping("/shopHistory")
+    public String shopHistory(Model model) {
+        model.addAttribute("purchase", purchaseHistoryRepository.purchaseItemList(auth.getLoginUser()));
+        return "user/shopHistory";
     }
 
     @GetMapping("/change_upw")

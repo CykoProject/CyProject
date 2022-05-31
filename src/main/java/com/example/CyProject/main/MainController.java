@@ -5,6 +5,7 @@ import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
+import com.example.CyProject.main.model.CmtRepository;
 import com.example.CyProject.message.model.MessageRepository;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import com.example.CyProject.user.model.friends.FriendsService;
@@ -31,11 +32,12 @@ public class MainController {
     @Autowired private FriendsService friendsService;
     @Autowired private VisitorRepository visitorRepository;
     @Autowired private VisitRepository visitRepository;
-    @Autowired private  Utils utils;
+    @Autowired private Utils utils;
+    @Autowired private CmtRepository cmtRepository;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String main(Model model, @RequestParam(required = false) String error) {
+    public String main(Model model, @RequestParam(required = false) String error, @PageableDefault(size=10) Pageable pageable) {
         if(!"true".equals(error) || error == null) {
             model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
             model.addAttribute("loginUser", authenticationFacade.getLoginUser());
@@ -49,6 +51,7 @@ public class MainController {
             System.out.println("endDate"+ endDate);
         }
 
+        model.addAttribute("cmt", cmtRepository.findAllByOrderByRdtDesc(pageable));
         model.addAttribute("visitor", visitorRepository.todayCount(utils.findHomePk(authenticationFacade.getLoginUserPk())));
         model.addAttribute("friend", friendsService.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("data", friendsRepository.selectFriendsList(authenticationFacade.getLoginUserPk()));
