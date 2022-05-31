@@ -30,12 +30,6 @@
                             <strong>일촌ON</strong>
                             <strong id="online-friends-cnt"></strong>
                         </div>
-                        <div>
-                            <button class="visit-go-to" th:data-iuser="${loginUserPk}">
-                                <p>방명록</p>
-                                <div th:text="|${visit} 개|"></div>
-                                <div>test</div>
-                            </button>
                         <div class="t-2">
                             <strong><a th:href="@{/msg/inbox}">쪽지</a></strong>
                             <strong id="msg-notice" th:text="${msgCnt}"></strong>
@@ -46,8 +40,6 @@
                             <p th:text="|${loginUser.getPoint()}개|"></p>
                             <p class="p-1"><a href="/user/charge">충전</a></p>
                         </div>
-                        <div>
-                            <p>일촌<div id="friend-cnt"></div>확인</p>
                     </div>
                     <div class="profile-info-main">
                         <div class="profile-info-img">
