@@ -18,15 +18,15 @@
         </div>
         <div class="form-check">
             <div>
-                <label><input type="radio" name="money" value="1000">10개</label><br>
-                <label><input type="radio" name="money" value="5000">50개</label><br>
-                <label><input type="radio" name="money" value="10000">100개</label><br>
-                <label><input type="radio" name="money" value="20000">200개</label><br>
-                <label><input type="radio" name="money" value="50000">500개</label>
+                <div class="money"><input type="radio" name="money" value="1000">10개</div>
+                <div class="money"><input type="radio" name="money" value="5000">50개</div>
+                <div class="money"><input type="radio" name="money" value="10000">100개</div>
+                <div class="money"><input type="radio" name="money" value="20000">200개</div>
+                <div class="money"><input type="radio" name="money" value="50000">500개</div>
             </div>
-            <div>
+            <div class="money-btn">
                 <button type="button" class="btn" id="charge_kakao">충전하기</button>
-                <button type="reset" class="btn"><a href="/user/mypage">취소</a></button>
+                <button type="reset" class="btn"><a class="cancel" href="/user/mypage">취소</a></button>
             </div>
         </div>
         <div class="point-history">
@@ -36,11 +36,12 @@
                     <th>내역</th>
                     <th>등록일시</th>
                 </tr>
-                <tr th:each="history : ${history}">
-                    <td th:text="${history.changed_point}"></td>
-                    <td th:text="${history.reason}"></td>
-                    <td th:text="${history.rdt}"></td>
+                <tr th:each="item : ${history}">
+                    <td th:text="${item.changed_point}"></td>
+                    <td th:text="${item.reason}"></td>
+                    <td th:text="${#temporals.format(item.rdt, 'yyyy-MM-dd HH:mm')}"></td>
                 </tr>
+                <tr th:if="${history.isEmpty()}"><td class="empty" colspan="3">포인트 내역이 없습니다.</td></tr>
             </table>
         </div>
     </div>
