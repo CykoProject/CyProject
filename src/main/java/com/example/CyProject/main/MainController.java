@@ -4,9 +4,11 @@ import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
+import com.example.CyProject.home.model.visitor.VisitorInterFace;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.main.model.CmtRepository;
 import com.example.CyProject.message.model.MessageRepository;
+import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import com.example.CyProject.user.model.friends.FriendsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -34,6 +37,7 @@ public class MainController {
     @Autowired private VisitRepository visitRepository;
     @Autowired private Utils utils;
     @Autowired private CmtRepository cmtRepository;
+    @Autowired private UserRepository userRepository;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
@@ -51,6 +55,7 @@ public class MainController {
             System.out.println("endDate"+ endDate);
         }
 
+//        model.addAttribute("bestVisitor", visitorRepository.getBestVisitor());
         model.addAttribute("cmt", cmtRepository.findAllByOrderByRdtDesc(pageable));
         model.addAttribute("visitor", visitorRepository.todayCount(utils.findHomePk(authenticationFacade.getLoginUserPk())));
         model.addAttribute("friend", friendsService.selectFriendsList(authenticationFacade.getLoginUserPk()));
