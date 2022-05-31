@@ -438,7 +438,7 @@ if(mainContainerElem) {
                     movieListElem.innerHTML += `
                 <div class="eachMovie" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 200px; height: 287px;">
                 <a href="${link}" style = "text-decoration: none; color: black;" target='_blank'>
-                <img src="${image}" style="width:190px; height:277px;" >
+                <img src="${image}" style="width:150px; height:210px;" >
                 <p style="margin: 5px; font-weight: bold;">${title}</p>
                 <p style="margin: 5px; font-size: small;">평점 : ${userRating}</p>
                 </a>
@@ -508,7 +508,226 @@ if(mainContainerElem) {
     });
 // 인포윈도우를 지도에 표시한다
     infowindow.open(map, marker)
+  
+    let mainCmtBtn = document.querySelector(".main-cmt-button");
+    let mainCmtElem = document.querySelector(".main-cmt-list");
+    let mainCmtPagingElem = document.querySelector(".pagination");
+    let pagingNum;
+    let pagingDefaultNum = 5;
+    let pagingCurrentNum = 1;
+    let pagingUnit = 1;
 
+    let maxPage = pagingUnit * pagingDefaultNum;
+    let minPage = ((pagingUnit - 1) * pagingDefaultNum) + 1;
+
+//한 마디 페이지 정보 불러오기
+    function callPageInfo(pagingNum) {
+        fetch(`/cmt?page=${pagingNum}`)
+            .then(res => res.json())
+            .then(data => {
+                mainCmtElem.innerHTML = ``;
+                data.forEach((item) => {
+                    mainCmtElem.innerHTML += `<div class="main-cmt-each">
+                            <span>${item.ctnt}</span><span>${item.iuser.nm}</span>
+                            </div>
+                            `
+                })
+            })
+    }
+
+    function pagingCount() {
+        fetch("/cmt/count")
+            .then(res => res.json())
+            .then(data => {
+                pagingNum = Math.ceil(data / 10); // 11
+                mainCmtPagingElem.innerHTML = '';
+                if (pagingNum > pagingDefaultNum) {
+                    mainCmtPagingElem.innerHTML += `
+                        <p class="prev"><</p>
+                        `;
+
+                    for (let i = pagingCurrentNum; i <= (maxPage <= pagingNum ? maxPage : pagingNum); i++) {
+                        mainCmtPagingElem.innerHTML += `
+                        <p class="number">${i}</p>
+                        `
+                    }
+                    mainCmtPagingElem.innerHTML += `
+                        <p class="next">></p>
+                        `
+                    let prevBtn = document.querySelector(".prev");
+                    let nextBtn = document.querySelector(".next");
+
+                    if (pagingCurrentNum > 5) {
+                        prevBtn.addEventListener("click", () => {
+                            nextBtn.style.pointerEvents = "auto";
+                            pagingUnit--;
+                            maxPage = pagingUnit * pagingDefaultNum;
+                            minPage = ((pagingUnit - 1) * pagingDefaultNum) + 1;
+                            pagingCurrentNum = minPage;
+                            console.log(pagingCurrentNum);
+                            pagingCount();
+                            callPageInfo(minPage-1);
+                        })
+                    } else {
+                        prevBtn.style.pointerEvents = "none";
+                    }
+
+                    if (maxPage < pagingNum) {
+                        nextBtn.addEventListener("click", () => {
+                            prevBtn.style.pointerEvents = "auto";
+                            pagingUnit++;
+                            maxPage = pagingUnit * pagingDefaultNum;
+                            minPage = ((pagingUnit - 1) * pagingDefaultNum) + 1;
+                            pagingCurrentNum = minPage;
+                            console.log(pagingCurrentNum);
+                            pagingCount();
+                            callPageInfo(minPage-1);
+                        })
+                    } else {
+                        nextBtn.style.pointerEvents = "none";
+                    }
+
+
+                } else {
+                    for (let i = 1; i <= pagingNum; i++) {
+                        mainCmtPagingElem.innerHTML += `
+                        <p class="number">${i}</p>
+                        `
+                    }
+                }
+                let pagingNumElem = document.querySelectorAll(".number")
+                pagingNumElem[0].style.fontSize = "18px";
+                pagingNumElem[0].style.fontWeight = "bold";
+
+                pagingNumElem.forEach((item) => {
+                    item.addEventListener("click", () => {
+                        pagingNumElem.forEach((item) => {
+                            item.style = '';
+                        })
+                        let pagingNum = parseInt(item.textContent) - 1;
+                        console.log(pagingNum);
+
+                        callPageInfo(pagingNum);
+                        item.style.fontSize = "18px";
+                        item.style.fontWeight = "bold";
+                    })
+                })
+            })
+
+    }
+
+    pagingCount();
+
+    mainCmtBtn.addEventListener('click', () => {
+        let ctnt = document.querySelector(".main-cmt-ctnt").value;
+        if (!loginUserElem) {
+            alert("로그인 후 서비스를 이용할 수 있어요")
+            return;
+        }
+        if (ctnt.length > 20) {
+            alert("20자 이내로 작성해 주세요")
+            return;
+        }
+        fetch("/cmt/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: ctnt,
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                fetch("/cmt")
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        mainCmtElem.innerHTML = ``;
+                        data.forEach((item) => {
+                            mainCmtElem.innerHTML += `<div class="main-cmt-each">
+                            <span>${item.ctnt}</span><span>${item.iuser.nm}</span>
+                            </div>
+                            `
+                        })
+                        fetch("/cmt/count")
+                            .then(res => res.json())
+                            .then(data => {
+                                console.log(data);
+                                pagingNum = Math.ceil(data / 10);
+                                console.log(pagingNum);
+                                mainCmtPagingElem.innerHTML = '';
+                                if (pagingNum > pagingDefaultNum) {
+                                    mainCmtPagingElem.innerHTML += `
+                        <p class="prev"><</p>
+                        `
+                                    for (let i = 1; i <= pagingNum; i++) {
+                                        mainCmtPagingElem.innerHTML += `
+                        <p class="number">${i}</p>
+                        `
+                                    }
+                                    mainCmtPagingElem.innerHTML += `
+                        <p class="next">></p>
+                        `
+                                } else {
+                                    for (let i = 1; i <= pagingNum; i++) {
+                                        mainCmtPagingElem.innerHTML += `
+                        <p class="number">${i}</p>
+                        `
+                                    }
+                                }
+                                let pagingNumElem = document.querySelectorAll(".number")
+
+                                pagingNumElem[0].style.fontSize = "18px";
+                                pagingNumElem[0].style.fontWeight = "bold";
+
+                                pagingNumElem.forEach((item) => {
+                                    item.addEventListener("click", () => {
+                                        pagingNumElem.forEach((item) => {
+                                            item.style = '';
+                                        })
+                                        let pagingNum = parseInt(item.textContent) - 1;
+                                        console.log(pagingNum);
+                                        fetch(`/cmt?page=${pagingNum}`)
+                                            .then(res => res.json())
+                                            .then(data => {
+                                                mainCmtElem.innerHTML = ``;
+                                                data.forEach((item) => {
+                                                    mainCmtElem.innerHTML += `<div class="main-cmt-each">
+                            <span>${item.ctnt}</span><span>${item.iuser.nm}</span>
+                            </div>
+                            `
+                                                })
+                                                item.style.fontSize = "18px";
+                                                item.style.fontWeight = "bold";
+                                            })
+                                    })
+                                })
+                            })
+                        document.querySelector(".main-cmt-ctnt").value = '';
+                    })
+            })
+            .catch(e => console.error(e))
+    })
+
+    let pagingNumElem = document.querySelectorAll(".number")
+
+    pagingNumElem.forEach((item) => {
+        item.addEventListener("click", () => {
+            let pagingNum = parseInt(item.textContent) - 1;
+            console.log(pagingNum);
+            fetch(`/cmt?page=${pagingNum}`)
+                .then(res => res.json())
+                .then(data => {
+                    mainCmtElem.innerHTML = ``;
+                    data.forEach((item) => {
+                        mainCmtElem.innerHTML += `<div class="main-cmt-each">
+                            <span>${item.ctnt}</span><span>${item.iuser.nm}</span>
+                            </div>
+                            `
+                    })
+                })
+        })
+    })
 
 //회원가입 페이지 이동
     const join_section = document.querySelector('.join-section');
