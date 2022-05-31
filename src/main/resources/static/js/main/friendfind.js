@@ -1,4 +1,5 @@
 const findBth = document.querySelector('.friend-find');
+const findGo = document.querySelector('.find-go-to');
 let popupfind;
 
 const selectFind = (iuser) => {
@@ -19,11 +20,37 @@ const selectFind = (iuser) => {
       location.href = '/user/login';
    }
 }
+const findGoto = (iuser) => {
+   const popupWidth = 1189;
+   const popupHeight = 600;
+   const popX = 0;
+   const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
+   const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+        `;
+
+   if(iuser > 0) {
+      const icategory = 1;
+      popupfind = window.open(`/friendfind?category=${icategory}`, 'friendfind', option);
+   } else {
+      location.href = '/user/login';
+   }
+}
+
 
 if(findBth){
    findBth.addEventListener('click',()=>{
       const iuser = parseInt(document.querySelector('#loginUserPk').dataset.iuser);
       selectFind(iuser);
+   });
+}
+if(findGo){
+   findGo.addEventListener('click', ()=>{
+      const iuser = parseInt(document.querySelector('#loginUserPk').dataset.iuser);
+      findGoto(iuser);
    });
 }
 
@@ -63,7 +90,8 @@ if(fHeaderElem || loginUserElem) {
    if(addFriend) {
       addFriend.addEventListener('click', () => {
          const fuser = parseInt(document.querySelector('#fuser').dataset.fuser);
-         fws.send(`add=${iuser},${fuser}`);
+         const nmInput = document.querySelector('#nickname');
+         fws.send(`add=${iuser},${fuser},${nmInput.value}`);
       });
    }
 }

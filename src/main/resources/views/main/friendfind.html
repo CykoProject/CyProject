@@ -11,9 +11,8 @@
 <div class="test">
     <div id="friend-find">
         <div th:data-iuser="${loginUserPk}" id="loginUserPk"></div>
-        <h1>친구찾기</h1>
+        <h1><a href="/friendfind">친구찾기</a></h1>
         <div class="f-header">
-            <h3><a href="/friendfind">친구찾기</a></h3><h3>/</h3>
             <h3><a th:href="@{/friendfind(category=1)}" >신청현황</a></h3>
         </div>
         <div>
@@ -51,7 +50,53 @@
             </div>
         </div>
         <div th:if="${#strings.equals(param.category, 1)}">
-            신청현황
+            <div>
+                <div>
+                    <h3>친구요청</h3>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>이름</th>
+                            <th>이메일</th>
+                            <th>휴대폰번호</th>
+                            <th>친구요청</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <h3>친구받기</h3>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>이름</th>
+                            <th>이메일</th>
+                            <th>휴대폰번호</th>
+                            <th>닉네임</th>
+                            <th>친구요청</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${selectfuser}">
+                            <td th:text="${item.iuser}"></td>
+                            <td th:text="${item.nm}"></td>
+                            <td th:text="${item.email}"></td>
+                            <td th:text="${item.cellphone}"></td>
+                            <td th:text="${item.nickname}"></td>
+                            <td>
+                                <button>수락</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 

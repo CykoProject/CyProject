@@ -8,6 +8,7 @@ import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.message.model.MessageRepository;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
+import com.example.CyProject.user.model.friends.FriendsEntity;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import com.example.CyProject.user.model.friends.FriendsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -97,14 +99,21 @@ public class MainController {
             List<UserEntity> findSearch = userRepository.findByEmailOrNmOrCellphoneContaining(search, search,search);
             model.addAttribute("select",findSearch);
         }
+        List<FriendsEntity> selectFuser = friendsRepository.selectfuserFriends(authenticationFacade.getLoginUserPk());
+        List<UserEntity> senderData = new ArrayList<>();
+        List<FriendsEntity> senderDataf = new ArrayList<>();
+        for(FriendsEntity item : selectFuser) {
+            senderData.add(friendsService.getUserData(item.getIuser()));
+        }
+        model.addAttribute("selectfuser",senderData);
+        System.out.println(selectFuser);
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "main/friendfind";
     }
 
     @PostMapping("/friendfind")
-    public String findselect(String search, int category) throws Exception{
+    public String findselect(String search) throws Exception{
         search = URLEncoder.encode(search, "UTF-8");
-
-        return "redirect:/friendfind?search=" + search + "&category=" + category;
+        return "redirect:/friendfind?search=" + search;
     }
 }
