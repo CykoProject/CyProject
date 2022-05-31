@@ -52,7 +52,7 @@
                                 </span>
                                 <span th:if="${!#strings.equals(loginUserPk, param.iuser)}">
                                     <span th:if="${#strings.equals(loginUserPk, param.iuser)}">|</span>
-                                    <a href="#" th:if="${!#strings.equals(param.iuser, loginUserPk) && !#strings.equals(loginUserPk, '0')}" class="diary-report">신고</a>
+<!--                                    <a href="#" th:if="${!#strings.equals(param.iuser, loginUserPk) && !#strings.equals(loginUserPk, '0')}" class="diary-report">신고</a>-->
                                 </span>
                             </div>
                         </div>
@@ -107,24 +107,24 @@
             <a th:href="@{/home/diary(iuser=${param.iuser}, page=${pageData.lastPage + 1}, searchRdt=${param.searchRdt})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
         </div>
 
-        <div class="diary-report-modal">
-            <div class="diary-report-ctnt">
-                <div>
-                    <span>글 번호 : </span>
-                    <span id="report-iboard"></span>
-                    <input type="hidden" id="diary-ihost">
-                </div>
-                <div>
-                    <textarea class="diary-report-textarea" placeholder="신고사유"></textarea>
-                </div>
-                <div>
-                    <button id="report-submit-btn">제출</button>
-                </div>
-            </div>
-            <div class="diary-report-close">
-                x
-            </div>
-        </div>
+<!--        <div class="diary-report-modal">-->
+<!--            <div class="diary-report-ctnt">-->
+<!--                <div>-->
+<!--                    <span>글 번호 : </span>-->
+<!--                    <span id="report-iboard"></span>-->
+<!--                    <input type="hidden" id="diary-ihost">-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <textarea class="diary-report-textarea" placeholder="신고사유"></textarea>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <button id="report-submit-btn">제출</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="diary-report-close">-->
+<!--                x-->
+<!--            </div>-->
+<!--        </div>-->
     </th:block>
 </body>
 </html>
