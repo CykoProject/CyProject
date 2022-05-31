@@ -1,11 +1,108 @@
-.test {
-    position: relative;
+#friend-find{
+    width: 100%;
+    height: 100%;
 }
 
-.f-header{
+.input-container{
     display: flex;
+    height: 50px;
+}
+.f-header{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+}
+.f-header a{
+    font-size: 17px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: black;
 }
 
-.friend-modal {
-
+.hd-1{
+    margin: auto;
+    text-align: center;
+    height: 15%;
+    padding-top: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
 }
+
+.hd-1 > a{
+    color: black;
+}
+.find-input-header {
+    width: 250px;
+    height: 40px;
+    font-size: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    border-radius: 5px; border-width: thin; border: 1px solid gray;
+    margin-top: 5px;
+}
+
+#find_user{
+    width: 75%;
+    height: 90%;
+    margin-top: 2px;
+    padding-left: 10px;
+    border: 0 solid black;
+    outline: none;
+}
+.findadd-bth{
+    background-color: orange;
+    color: white;
+    width: 50px;
+    height: 30px;
+    border-radius: 7px;
+    font-family: 'Noto Sans KR', sans-serif;
+    border: 1px solid orange;
+}
+
+.label-1{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    border-width: thin;
+    font-weight: bold;
+}
+.label-2{
+    font-size: 12px;
+}
+.each-nm{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    text-align: right;
+}
+
+.each-email{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    text-align: left;
+}
+
+.each-cellphone{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    text-align: left;
+}
+
+.table-container{
+    width: 100%;
+    height: 64%;
+    border-radius: 5px; border-width: thin; border: 1px solid gray;
+}
+
+#add-friend{
+    background-color: orange;
+    color: white;
+    width: 50px;
+    height: 30px;
+    border-radius: 7px;
+    font-family: 'Noto Sans KR', sans-serif;
+    border: 1px solid orange;
+}
+
+
+
+
+
+
+
+

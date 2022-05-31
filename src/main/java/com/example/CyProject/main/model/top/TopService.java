@@ -8,13 +8,12 @@ import java.util.List;
 @Service
 public class TopService {
 
-    public List<TopVo> toListVisitorVo(List<TopHelper> list) {
+    public List<TopVo> toTopFiveList(List<TopHelper> list) {
         List<TopVo> result = new ArrayList<>();
 
         for(TopHelper item : list) {
             result.add(item.toVisitorVo());
         }
-
         return result;
     }
 }
