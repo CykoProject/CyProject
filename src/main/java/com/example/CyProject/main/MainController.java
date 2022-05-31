@@ -26,8 +26,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/")
@@ -60,8 +58,8 @@ public class MainController {
             model.addAttribute("visit",visitRepository.countByIhostAndRdtBetween(authenticationFacade.getLoginUserPk(),startDate,endDate));
         }
 
-
-        model.addAttribute("bestVisitor", topService.toListVisitorVo(visitorRepository.getBestVisitor()));
+        model.addAttribute("bestFriends", topService.toTopFiveList(friendsRepository.getBestFriends()));
+        model.addAttribute("bestVisitor", topService.toTopFiveList(visitorRepository.getBestVisitor()));
         model.addAttribute("cmt", cmtRepository.findAllByOrderByRdtDesc(pageable));
         model.addAttribute("visitor", visitorRepository.todayCount(utils.findHomePk(authenticationFacade.getLoginUserPk())));
         model.addAttribute("friend", friendsService.selectFriendsList(authenticationFacade.getLoginUserPk()));
