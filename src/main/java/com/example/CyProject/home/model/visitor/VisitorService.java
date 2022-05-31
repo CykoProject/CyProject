@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 @Service
 public class VisitorService {
@@ -29,7 +27,7 @@ public class VisitorService {
         VisitorEntity visitorEntity = new VisitorEntity();
         visitorEntity.setVisitorPk(visitorPk);
         VisitorEntity entity = visitorRepository.save(visitorEntity);
-        if(entity != null) {
+        if (entity != null) {
             result++;
         }
 

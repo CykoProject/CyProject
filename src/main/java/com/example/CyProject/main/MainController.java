@@ -2,11 +2,11 @@ package com.example.CyProject.main;
 
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
-import com.example.CyProject.home.model.home.HomeEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
-import com.example.CyProject.home.model.visitor.VisitorInterFace;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
+import com.example.CyProject.home.model.visitor.VisitorService;
 import com.example.CyProject.main.model.CmtRepository;
+import com.example.CyProject.main.model.top.TopService;
 import com.example.CyProject.message.model.MessageRepository;
 import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.friends.FriendsRepository;
@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -38,6 +36,8 @@ public class MainController {
     @Autowired private Utils utils;
     @Autowired private CmtRepository cmtRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private VisitorService visitorService;
+    @Autowired private TopService topService;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
@@ -51,11 +51,10 @@ public class MainController {
 
         if(utils.findHomePk(authenticationFacade.getLoginUserPk()) != 0){
             model.addAttribute("visit",visitRepository.countByRdtBetween(startDate,endDate));
-            System.out.println("startDate" + startDate);
-            System.out.println("endDate"+ endDate);
         }
 
-//        model.addAttribute("bestVisitor", visitorRepository.getBestVisitor());
+
+        model.addAttribute("bestVisitor", topService.toListVisitorVo(visitorRepository.getBestVisitor()));
         model.addAttribute("cmt", cmtRepository.findAllByOrderByRdtDesc(pageable));
         model.addAttribute("visitor", visitorRepository.todayCount(utils.findHomePk(authenticationFacade.getLoginUserPk())));
         model.addAttribute("friend", friendsService.selectFriendsList(authenticationFacade.getLoginUserPk()));
