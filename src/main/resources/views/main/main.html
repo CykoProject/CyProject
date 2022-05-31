@@ -142,7 +142,6 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
 
         <div class="service">
@@ -192,9 +191,9 @@
                 </div>
                 <div class="main-news-div">
                     <div class="main-news-blank"></div>
-                <div class="main-news">
+                    <div class="main-news">
 
-                </div>
+                    </div>
                 </div>
             </div>
             <div class="main-webtoons">
@@ -207,8 +206,8 @@
                 </div>
                 <div class="webtoon-list">
 
+                </div>
             </div>
-        </div>
 
         <div class="main-movie">
             <div class="movie-top">
@@ -225,38 +224,66 @@
         </div>
     </div>
 
-    <div class="right-container">
-        <div class="top-visitor">
+        <div class="right-container">
             <h3>방문자 TOP</h3>
-            <p>유영</p>
-            <p>수아</p>
-            <p>동규</p>
-            <p>언수</p>
-            <p>주영</p>
-        </div>
-        <div class="top-content">
-            <h3>게시글 TOP</h3>
-            <p>피카츄</p>
-            <p>라이츄</p>
-            <p>파이리</p>
-            <p>꼬부기</p>
-            <p>버터플</p>
+            <div class="top-visitor">
+                <div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>회원</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item ,index : ${bestVisitor}">
+                        <td class="just-center">
+                            <span th:text="${index.count}"></span>
+                        </td>
+                        <td>
+                            <div class="top-visitor-wrap">
+                                <div class="top-visitor-img-wrap">
+                                    <img class="top-visitor-img" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'" th:src="@{/pic/profile/{iuser}/{img} (iuser=${item.iuser}, img=${item.img})}">
+                                </div>
+                                <div class="top-visitor-user-data" th:data-iuser="${item.iuser}">
+                                    <p th:text="${item.nm}"></p>
+                                    <p th:text="${item.email}"></p>
+                                    <div>
+                                        <span>방문자 수 : </span>
+                                        <span th:text="${item.cnt}"></span>
+                                    </div>
+                                    <p class="go-home-visitor cur-pointer">미니홈피방문</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <div class="top-content">
+                <h3>게시글 TOP</h3>
+                <p>피카츄</p>
+                <p>라이츄</p>
+                <p>파이리</p>
+                <p>꼬부기</p>
+                <p>버터플</p>
 
-        </div>
+            </div>
 
-        <div class="top-friend">
             <h3>친구 TOP</h3>
-            <p>유영</p>
-            <p>수아</p>
-            <p>동규</p>
-            <p>언수</p>
-            <p>주영</p>
+            <div class="top-friend">
+                <p>유영</p>
+                <p>수아</p>
+                <p>동규</p>
+                <p>언수</p>
+                <p>주영</p>
+
+            </div>
 
         </div>
 
     </div>
-
-</div>
 </th:block>
 
 <script src="../../static/js/main/main.js"></script>
