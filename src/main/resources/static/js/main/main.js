@@ -197,9 +197,10 @@ if (loginUserElem) {
 }
 
 
+
 //게시글, 친구 검색
 const mainContainerElem = document.querySelector('.container');
-if (mainContainerElem) {
+if(mainContainerElem) {
     const headerSearchBtn = document.querySelector(".search-btn");
     headerSearchBtn.addEventListener("click", () => {
         let headerSelectVal = document.querySelector(".search-conditions").value;
@@ -298,7 +299,7 @@ if (mainContainerElem) {
                     const writer = data[i].writer;
                     const userRating = data[i].userRating;
                     webtoonElem.innerHTML += `
-                <div class="eachWebtoon" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 100px; height: 120px; border: solid 1px #b2b2b2; padding: 5px;">
+                <div class="eachWebtoon" style="display: flex; flex-direction: column; text-align: center; padding: 5px; max-width: 100px; height: 120px; border: solid 1px #b2b2b2; padding: 5px;">
                 <a href="${link}" style = "text-decoration: none; color: black;" target='_blank'>
                 <img src="${image}" style="width:100px; height:120px;" >
                 <p style="margin: 5px; font-weight: bold;">${title}</p>
@@ -446,9 +447,9 @@ if (mainContainerElem) {
                     const link = data[i].link;
                     const userRating = data[i].userRating;
                     movieListElem.innerHTML += `
-                <div class="eachMovie" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 200px; height: 287px;">
+                <div class="eachMovie" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 120px; height: 150px;">
                 <a href="${link}" style = "text-decoration: none; color: black;" target='_blank'>
-                <img src="${image}" style="width:150px; height:210px;" >
+                <img src="${image}" style="width:120px; height:170px;" >
                 <p style="margin: 5px; font-weight: bold;">${title}</p>
                 <p style="margin: 5px; font-size: small;">평점 : ${userRating}</p>
                 </a>
@@ -741,9 +742,8 @@ if (mainContainerElem) {
     })
 
 //회원가입 페이지 이동
-    const
-        join_section = document.querySelector('.join-section');
-    if (join_section) {
+    const join_section = document.querySelector('.join-section');
+    if(join_section) {
         join_section.addEventListener('click', () => {
             location.href = `/user/join`
         });
@@ -776,19 +776,19 @@ if (mainContainerElem) {
     }
 
     const chk = () => {
-        if (loginSave.checked) {
+        if(loginSave.checked) {
             setCookie('c_userid', frm.email.value, '100');
         } else {
             setCookie('c_userid', '', '100');
         }
     }
 
-    login_save_Bth.addEventListener('click', () => {
+    login_save_Bth.addEventListener('click', ()=> {
         chk();
     });
 
     let id = getCookie('c_userid');
-    if (id === null || typeof id === 'undefined' || id === '') {
+    if(id === null || typeof id === 'undefined' || id === ''){
         id = '';
     } else {
         frm.email.value = id;

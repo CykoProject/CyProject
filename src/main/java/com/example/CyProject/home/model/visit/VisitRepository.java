@@ -21,6 +21,6 @@ public interface VisitRepository extends JpaRepository<VisitEntity, Integer> {
 
     int countAllByIhost(int ihost);
 
-    int countByRdtBetween(LocalDateTime startDate, LocalDateTime endDate);
+    int countByIhostAndRdtBetween(int ihost, LocalDateTime startDate, LocalDateTime endDate);
 
 }
