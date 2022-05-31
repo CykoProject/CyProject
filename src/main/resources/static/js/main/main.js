@@ -187,9 +187,10 @@ if (loginUserElem) {
 }
 
 
+
 //게시글, 친구 검색
 const mainContainerElem = document.querySelector('.container');
-if (mainContainerElem) {
+if(mainContainerElem) {
     const headerSearchBtn = document.querySelector(".search-btn");
     headerSearchBtn.addEventListener("click", () => {
         let headerSelectVal = document.querySelector(".search-conditions").value;
@@ -731,9 +732,8 @@ callPageInfo(pagingNum);
     })
 
 //회원가입 페이지 이동
-    const
-        join_section = document.querySelector('.join-section');
-    if (join_section) {
+    const join_section = document.querySelector('.join-section');
+    if(join_section) {
         join_section.addEventListener('click', () => {
             location.href = `/user/join`
         });
@@ -766,19 +766,19 @@ callPageInfo(pagingNum);
     }
 
     const chk = () => {
-        if (loginSave.checked) {
+        if(loginSave.checked) {
             setCookie('c_userid', frm.email.value, '100');
         } else {
             setCookie('c_userid', '', '100');
         }
     }
 
-    login_save_Bth.addEventListener('click', () => {
+    login_save_Bth.addEventListener('click', ()=> {
         chk();
     });
 
     let id = getCookie('c_userid');
-    if (id === null || typeof id === 'undefined' || id === '') {
+    if(id === null || typeof id === 'undefined' || id === ''){
         id = '';
     } else {
         frm.email.value = id;

@@ -6,17 +6,23 @@
 
 .mypage-detail {
     width: 400px;
-    text-align: center;
+    text-align: right;
     padding: 50px;
 }
 
 .mypage-detail label {
     display: flex;
     text-align: start;
+    font-size: 10px;
+    color: gray;
+    padding-bottom: 3px;
 }
 
 .mypage-detail div {
-    text-align: right;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 20px;
+    padding-bottom: 10px;
 }
 
 .btns {
@@ -32,6 +38,7 @@
     font-size: 12px;
     border-radius: 10px;
     margin-left: 10px;
+    margin-bottom: 30px;
 }
 
 h1 {
