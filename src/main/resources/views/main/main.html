@@ -30,6 +30,12 @@
                             <strong>일촌ON</strong>
                             <strong id="online-friends-cnt"></strong>
                         </div>
+                        <div>
+                            <button class="visit-go-to" th:data-iuser="${loginUserPk}">
+                                <p>방명록</p>
+                                <div th:text="|${visit} 개|"></div>
+                                <div>test</div>
+                            </button>
                         <div class="t-2">
                             <strong><a th:href="@{/msg/inbox}">쪽지</a></strong>
                             <strong id="msg-notice" th:text="${msgCnt}"></strong>
