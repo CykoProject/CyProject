@@ -123,10 +123,12 @@ public class HomeService {
     }
 
     public boolean insPhoto(PhotoEntity entity) {
-        entity.setIhost(auth.getLoginUserPk());
+        UserEntity entity1 = new UserEntity();
+        entity1.setIuser(auth.getLoginUserPk());
+        entity.setIhost(entity1);
         PhotoEntity result = photoRepository.save(entity);
 
-        return result.getIhost() != 0;
+        return result.getIhost() != null;
     }
 
     public boolean insPhoto(PhotoEntity entity, List<MultipartFile> files) {

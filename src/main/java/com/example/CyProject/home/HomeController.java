@@ -359,7 +359,9 @@ public class HomeController {
     public String writePhotoProc(PhotoEntity entity, MultipartFile imgs) {
         System.out.println("entity : " + entity);
 
-        entity.setIhost(auth.getLoginUserPk());
+        UserEntity entity1 = new UserEntity();
+        entity1.setIuser(auth.getLoginUserPk());
+        entity.setIhost(entity1);
         PhotoEntity resultEntity = photoRepository.save(entity);
         System.out.println(resultEntity);
 

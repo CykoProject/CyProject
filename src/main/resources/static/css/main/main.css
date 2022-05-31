@@ -72,7 +72,7 @@ body {
 
 .container {
     display: flex;
-    padding-bottom: 90px;
+    padding-bottom: 13vh;
 }
 
 .left-container {

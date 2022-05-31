@@ -1,5 +1,6 @@
 package com.example.CyProject.home.model.diary;
 
+import com.example.CyProject.home.model.photo.PhotoEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
 import org.apache.tomcat.jni.Local;
 import org.springframework.data.domain.Page;
@@ -22,4 +23,7 @@ public interface DiaryRepository extends JpaRepository<DiaryEntity, Integer> {
 
     @Query("select d from DiaryEntity as d where d.ctnt like CONCAT ('%',:search,'%')")
     List<DiaryEntity> searchDiary(String search);
+
+    @Query("select count(d.idiary), d.ihost from DiaryEntity d group by d.ihost")
+    List<DiaryEntity> countDiaryByUser();
 }

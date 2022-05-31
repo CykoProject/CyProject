@@ -2,11 +2,16 @@ package com.example.CyProject.main;
 
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
-import com.example.CyProject.home.model.home.HomeEntity;
+import com.example.CyProject.home.model.diary.DiaryRepository;
+import com.example.CyProject.home.model.photo.PhotoInterface;
+import com.example.CyProject.home.model.photo.PhotoRepository;
+import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.main.model.CmtRepository;
 import com.example.CyProject.message.model.MessageRepository;
+import com.example.CyProject.user.model.UserEntity;
+import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import com.example.CyProject.user.model.friends.FriendsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -34,6 +40,10 @@ public class MainController {
     @Autowired private VisitRepository visitRepository;
     @Autowired private Utils utils;
     @Autowired private CmtRepository cmtRepository;
+    @Autowired private PhotoRepository photoRepository;
+    @Autowired private ProfileRepository profileRepository;
+    @Autowired private DiaryRepository diaryRepository;
+    @Autowired private UserRepository userRepository;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
@@ -57,6 +67,17 @@ public class MainController {
         model.addAttribute("data", friendsRepository.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("msgCnt", messageRepository.beforeReadMsgCnt(authenticationFacade.getLoginUserPk()));
         model.addAttribute("userData", mainService.userRepository.findByIuser(authenticationFacade.getLoginUserPk()));
+
+//        System.out.println("사진첩 갯수 : " + photoRepository.countPhotoByUser().toString());
+        List<PhotoInterface> list = photoRepository.countPhotoByUser();
+        UserEntity entity = new UserEntity();
+
+        System.out.println(list.size());
+        System.out.println(list.get(0).getCnt());
+        System.out.println(list.get(0).getIhost());
+
+//        System.out.println("프로필 갯수 : " + profileRepository.findAll());
+//        System.out.println("다이어리 갯수 : " + diaryRepository.findAll());
 
         return "main/main";
     }
