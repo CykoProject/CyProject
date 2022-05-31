@@ -1,19 +1,23 @@
 package com.example.CyProject.home.model.visitor;
 
 
+import com.example.CyProject.main.model.top.TopHelper;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface VisitorRepository extends JpaRepository<VisitorEntity, Integer> {
 
-    String bestVisitorSql = "SELECT iuser, COUNT(iuser) AS cnt" +
-            " FROM home_visitor" +
-            " GROUP BY iuser" +
+    String bestVisitorSql = "SELECT count(A.ihome) AS cnt, B.nm, B.email, B.iuser, B.profile_img AS img" +
+            " FROM home A" +
+            " left JOIN `user` B" +
+            " ON A.iuser = B.iuser" +
+            " INNER JOIN home_visitor C" +
+            " ON C.ihome = A.ihome" +
+            " GROUP BY B.iuser" +
             " ORDER BY cnt DESC" +
             " LIMIT 5";
 
@@ -21,5 +25,5 @@ public interface VisitorRepository extends JpaRepository<VisitorEntity, Integer>
     int todayCount(int ihome);
 
     @Query(value = bestVisitorSql, nativeQuery = true)
-    List<VisitorInterFace> getBestVisitor();
+    List<TopHelper> getBestVisitor();
 }

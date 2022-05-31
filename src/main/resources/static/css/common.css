@@ -139,6 +139,7 @@ label input, textarea {
 }
 
 .just-center {
+    display: flex;
     justify-content: center;
 }
 
