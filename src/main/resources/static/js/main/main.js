@@ -7,7 +7,7 @@ let popup;
 const openUp = (iuser) => {
     const popupWidth = 1189;
     const popupHeight = 600;
-    const popX = 0;
+    const popX = (window.screen.width / 2) - (popupWidth / 2);
     const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
     const option = `width = ${popupWidth}px
         , height = ${popupHeight}px
@@ -16,7 +16,7 @@ const openUp = (iuser) => {
         , scrollbars = no
         `;
 
-    if(iuser > 0) {
+    if (iuser > 0) {
         popup = window.open(`/home?iuser=${iuser}`, 'home', option);
     } else {
         location.href = '/user/login';
@@ -34,25 +34,26 @@ const openVisit = (iuser) => {
         , scrollbars = no
         `;
 
-    if(iuser > 0) {
+    if (iuser > 0) {
         popup = window.open(`/home/visit?iuser=${iuser}`, 'home', option);
     } else {
         location.href = '/user/login';
     }
 }
 
-if(goHome) {
+if (goHome) {
     goHome.addEventListener('click', () => {
         openUp(goHome.dataset.iuser);
     });
 }
-if(goVisit){
-    goVisit.addEventListener('click', ()=>{
+if (goVisit) {
+    goVisit.addEventListener('click', () => {
         openVisit(goVisit.dataset.iuser);
     })
 }
 
-if(goFriendHome.length > 0) {
+
+if (goFriendHome.length > 0) {
     goFriendHome.forEach(item => {
         item.addEventListener('click', (e) => {
             openUp(e.target.dataset.iuser);
@@ -62,13 +63,13 @@ if(goFriendHome.length > 0) {
 
 // WebSocket with Stomp ==================================
 const loginUserElem = document.querySelector('#loginUserPk');
-if(loginUserElem) {
+if (loginUserElem) {
     const loginUserPk = parseInt(loginUserElem.dataset.iuser);
     if (loginUserPk > 0) {
 
         const makeCnt = (iuser, cnt, logout) => {
             const onlineCnt = document.querySelector('#online-friends-cnt');
-            if(onlineCnt) {
+            if (onlineCnt) {
                 if (logout != null && logout != undefined && logout != '') {
                     if (loginUserPk === parseInt(iuser)) {
                         const preCnt = parseInt(onlineCnt.innerText);
@@ -129,7 +130,7 @@ if(loginUserElem) {
         ws.onmessage = onMessage;
 
         const logoutBtnElem = document.querySelector('.logout-btn');
-        if(logoutBtnElem) {
+        if (logoutBtnElem) {
             logoutBtnElem.addEventListener('click', () => {
                 onClose();
             });
@@ -151,7 +152,7 @@ if(loginUserElem) {
             if (status.includes('msgCnt')) {
                 makeMsgCnt(data['msgCnt']);
                 msgAlarm();
-            } else if(status.includes('logout')) {
+            } else if (status.includes('logout')) {
                 const logoutData = data['logout'];
                 for (let i in logoutData) {
                     const iuser = parseInt(i);
@@ -508,7 +509,8 @@ if(mainContainerElem) {
     });
 // 인포윈도우를 지도에 표시한다
     infowindow.open(map, marker)
-  
+
+//한 마디
     let mainCmtBtn = document.querySelector(".main-cmt-button");
     let mainCmtElem = document.querySelector(".main-cmt-list");
     let mainCmtPagingElem = document.querySelector(".pagination");
