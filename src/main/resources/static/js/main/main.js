@@ -288,7 +288,7 @@ if(mainContainerElem) {
                     const writer = data[i].writer;
                     const userRating = data[i].userRating;
                     webtoonElem.innerHTML += `
-                <div class="eachWebtoon" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 100px; height: 120px; border: solid 1px #b2b2b2; padding: 5px;">
+                <div class="eachWebtoon" style="display: flex; flex-direction: column; text-align: center; padding: 5px; max-width: 100px; height: 120px; border: solid 1px #b2b2b2; padding: 5px;">
                 <a href="${link}" style = "text-decoration: none; color: black;" target='_blank'>
                 <img src="${image}" style="width:100px; height:120px;" >
                 <p style="margin: 5px; font-weight: bold;">${title}</p>
@@ -436,9 +436,9 @@ if(mainContainerElem) {
                     const link = data[i].link;
                     const userRating = data[i].userRating;
                     movieListElem.innerHTML += `
-                <div class="eachMovie" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 200px; height: 287px;">
+                <div class="eachMovie" style="display: flex; flex-direction: column; text-align: center; padding: 5px; width: 120px; height: 150px;">
                 <a href="${link}" style = "text-decoration: none; color: black;" target='_blank'>
-                <img src="${image}" style="width:150px; height:210px;" >
+                <img src="${image}" style="width:120px; height:170px;" >
                 <p style="margin: 5px; font-weight: bold;">${title}</p>
                 <p style="margin: 5px; font-size: small;">평점 : ${userRating}</p>
                 </a>
