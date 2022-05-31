@@ -18,7 +18,7 @@ public interface PhotoRepository extends JpaRepository<PhotoEntity, Integer> {
     List<PhotoEntity> searchPhoto(String search);
     List<PhotoEntity> findByIhostOrderByRdtDesc(int iuser);
 
-    @Query(value = "select count(iphoto) as cnt, ihost as ihost from home_photos group by ihost order by cnt desc", nativeQuery = true)
+    @Query(value = "select count(p.iphoto) as cnt, u.iuser, u.nm, u.email as ihost from home_photos as p inner join user as u on  group by ihost order by cnt desc", nativeQuery = true)
     List<PhotoInterface> countPhotoByUser();
 
 //    List<PhotoEntity> findAllByIhost(UserEntity entity);

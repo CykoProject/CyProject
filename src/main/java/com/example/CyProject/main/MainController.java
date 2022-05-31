@@ -75,7 +75,7 @@ public class MainController {
         System.out.println(list.size());
         System.out.println(list.get(0).getCnt());
         System.out.println(list.get(0).getIhost());
-
+        System.out.println(userRepository.findByIuser(list.get(0).getIhost()));
 //        System.out.println("프로필 갯수 : " + profileRepository.findAll());
 //        System.out.println("다이어리 갯수 : " + diaryRepository.findAll());
 
