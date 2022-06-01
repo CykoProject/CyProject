@@ -62,7 +62,7 @@ if(jukebox) {
             }
         });
 
-        audioPlayer.src = '/pic/bgm/'+playList[cnt].url;
+        audioPlayer.src = '/pic/shopping'+playList[cnt].url;
         playerNmElem.innerText = playList[cnt].nm + ' - ' + playList[cnt].artist;
         audioPlayer.play();
         ++cnt;
@@ -70,13 +70,13 @@ if(jukebox) {
 
     audioPlayer.addEventListener('ended', () => {
         if(cnt < playList.length) {
-            audioPlayer.src = '/pic/bgm/' + playList[cnt].url;
+            audioPlayer.src = '/pic/shopping' + playList[cnt].url;
             playerNmElem.innerText = playList[cnt].nm + ' - ' + playList[cnt].artist;
             audioPlayer.play();
             cnt++;
         } else if(cnt === playList.length && loop) {
             cnt = 0;
-            audioPlayer.src = '/pic/bgm/' + playList[cnt].url;
+            audioPlayer.src = '/pic/shopping' + playList[cnt].url;
             playerNmElem.innerText = playList[cnt].nm + ' - ' + playList[cnt].artist;
             audioPlayer.play();
             cnt++;

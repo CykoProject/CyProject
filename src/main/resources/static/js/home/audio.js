@@ -33,7 +33,7 @@ if(repreAudioElem) {
                     musicData.imusic = item.imusic.item_id;
                     musicData.nm = item.imusic.nm;
                     musicData.artist = item.imusic.artist;
-                    musicData.url = '/pic/bgm/' + item.imusic.file;
+                    musicData.url = '/pic/shopping' + item.imusic.file;
                     musicData.idx = idx++;
                     playList.push(musicData);
                 });
