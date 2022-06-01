@@ -55,10 +55,10 @@
                 <h2>Miniroom</h2>
                 <div class="miniroom-cont">
                     <div th:if="${isRoom == 0}">
-                        <img th:src="@{/img/miniroom/miniroom_gray.jpg}">
+                        <img th:src="@{/img/miniroom_default.jpg}">
                     </div>
                     <div th:unless="${isRoom == 0}">
-                        <img th:src="@{${myRoom.myroom.file}}" onerror="this.onerror=null; this.src='/img/miniroom/miniroom_blue.jpg'">
+                        <img th:src="@{/pic/shopping/{img} (img=${myRoom.myroom.img})}" onerror="this.onerror=null; this.src='/img/miniroom_default.jpg'">
                     </div>
                 </div>
             </div>
