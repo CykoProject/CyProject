@@ -18,7 +18,9 @@ public class ProfileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int iprofile;
 
+
     private int ihost;
+
     private String ctnt;
 
     private String img;

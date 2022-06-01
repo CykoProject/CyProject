@@ -18,13 +18,19 @@
 
     <th:block layout:fragment="content_right">
         <div class="diary-write">
-            <div>
+            <div class="frow">
                 <input type="date" class="diary-calendar">
-                <button class="date-search-btn">검색</button>
-                <a th:href="@{/home/diary(iuser=${param.iuser})}"><button class="date-search-reset">전체검색</button></a>
+                <div class="board-btn">
+                    <a href="#" class="date-search-btn">검색</a>
+                </div>
+                <div class="board-btn">
+                    <a th:href="@{/home/diary(iuser=${param.iuser})}" class="date-search-reset">전체검색</a>
+                </div>
             </div>
             <th:block th:if="${#strings.equals(loginUserPk, param.iuser)}">
-                <a th:href="@{/home/diary/write(iuser=${param.iuser})}">글쓰기</a>
+                <div class="board-btn">
+                    <a th:href="@{/home/diary/write(iuser=${param.iuser})}">글쓰기</a>
+                </div>
             </th:block>
         </div>
         <div class="home-container">
@@ -46,7 +52,7 @@
                                 </span>
                                 <span th:if="${!#strings.equals(loginUserPk, param.iuser)}">
                                     <span th:if="${#strings.equals(loginUserPk, param.iuser)}">|</span>
-                                    <a href="#" th:if="${!#strings.equals(param.iuser, loginUserPk) && !#strings.equals(loginUserPk, '0')}" class="diary-report">신고</a>
+<!--                                    <a href="#" th:if="${!#strings.equals(param.iuser, loginUserPk) && !#strings.equals(loginUserPk, '0')}" class="diary-report">신고</a>-->
                                 </span>
                             </div>
                         </div>
@@ -54,9 +60,13 @@
                             <div class="time-div">
                                 <span th:text="${#temporals.format(item.rdt, 'HH:mm')}"></span>
                             </div>
-                            <div>
-                                <span th:classappend="${item.ifont != null ? item.ifont.file : ''}" th:utext="${item.ctnt}" class="diary-ctnt"></span>
+                            <div class="cmt-word-break">
+<!--                                <div><a th:if="${item.iscrap > 0}" th:href="@{/home(iuser=${item.iscrap})}"><span class="color-sky">[스크랩] </span></a></div>-->
+                                <span th:utext="${item.ctnt}" class="diary-ctnt"></span>
                             </div>
+<!--                            <div class="scrap-div" th:if="${!#strings.equals(loginUserPk, param.iuser)}">-->
+<!--                                <span class="scrap">스크랩</span>-->
+<!--                            </div>-->
                         </div>
                     </div>
 
@@ -97,24 +107,24 @@
             <a th:href="@{/home/diary(iuser=${param.iuser}, page=${pageData.lastPage + 1}, searchRdt=${param.searchRdt})}" th:if="${pageData.lastPage < pageData.maxPage}" th:text="'>'"></a>
         </div>
 
-        <div class="diary-report-modal">
-            <div class="diary-report-ctnt">
-                <div>
-                    <span>글 번호 : </span>
-                    <span id="report-iboard"></span>
-                    <input type="hidden" id="diary-ihost">
-                </div>
-                <div>
-                    <textarea class="diary-report-textarea" placeholder="신고사유"></textarea>
-                </div>
-                <div>
-                    <button id="report-submit-btn">제출</button>
-                </div>
-            </div>
-            <div class="diary-report-close">
-                x
-            </div>
-        </div>
+<!--        <div class="diary-report-modal">-->
+<!--            <div class="diary-report-ctnt">-->
+<!--                <div>-->
+<!--                    <span>글 번호 : </span>-->
+<!--                    <span id="report-iboard"></span>-->
+<!--                    <input type="hidden" id="diary-ihost">-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <textarea class="diary-report-textarea" placeholder="신고사유"></textarea>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <button id="report-submit-btn">제출</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="diary-report-close">-->
+<!--                x-->
+<!--            </div>-->
+<!--        </div>-->
     </th:block>
 </body>
 </html>

@@ -47,11 +47,6 @@ td {
     margin-top: 10px;
 }
 
-.manage_container {
-    overflow-y: scroll;
-    height: 99%;
-}
-
 .manage-content {
     display: flex;
     justify-content: space-between;

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/index">
+<head>
+    <link rel="stylesheet" th:href="@{/css/user/shopHistory.css}">
+</head>
+<title>구매 내역</title>
+<body>
+<th:block layout:fragment="container">
+    <h3 style="text-align: center">구매 내역</h3>
+    <div class="shopHistory">
+        <table>
+            <tr>
+                <th class="history-id">상품번호</th>
+                <th class="history-nm">상품명</th>
+                <th class="history-file">상품사진</th>
+                <th class="history-rdt">구매일시</th>
+            </tr>
+            <tr th:each="item : ${purchase}">
+                <td th:text="${item.item_id}"></td>
+                <td th:text="${item.nm}"></td>
+                <td><img th:src="${item.file}"></td>
+                <td class="history-rdt" th:text="${item.rdt}"></td>
+            </tr>
+        </table>
+    </div>
+</th:block>
+
+</body>
+</html>

@@ -24,6 +24,9 @@ public interface PurchaseHistoryRepository extends JpaRepository<PurchaseHistory
     @Query("select distinct item_id from PurchaseHistoryEntity where complete = 0 and iuser = :iuser")
     List<ItemEntity> purchaseItemIdList(UserEntity iuser);
 
+    @Query(value = "select distinct p.item_id from purchase_history as p inner join item as i on p.item_id = i.item_id where p.complete = 0 and p.iuser = :iuser and i.icategory = 1", nativeQuery = true)
+    List<PurchaseInterface> purchaseBgmIdList(UserEntity iuser);
+
     @Modifying
     @Transactional
     @Query("DELETE from PurchaseHistoryEntity where iuser = :iuser and complete = 0")
@@ -31,4 +34,7 @@ public interface PurchaseHistoryRepository extends JpaRepository<PurchaseHistory
 
     @Query("SELECT p FROM PurchaseHistoryEntity p WHERE (p.item_id.icategory = :icategory AND p.iuser.iuser = :iuser)")
     List<PurchaseHistoryEntity> findAllByIcategoryInHisotry(int icategory, int iuser);
+
+    @Query("select distinct item_id from PurchaseHistoryEntity where complete = 1 and iuser = :iuser")
+    List<ItemEntity> purchaseItemList(UserEntity iuser);
 }

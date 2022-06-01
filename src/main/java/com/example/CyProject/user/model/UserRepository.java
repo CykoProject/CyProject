@@ -19,6 +19,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     UserEntity findByIuser(int iuser);
     UserEntity findByCellphone(String cellphone);
 
+    @Query("SELECT u.iuser FROM UserEntity u")
+    List<Integer> findAllIuser();
+
     @Modifying
     @Transactional
     @Query("UPDATE UserEntity set upw = ?1 WHERE email = ?2")
@@ -34,5 +37,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Query("UPDATE UserEntity set point = ?1 WHERE iuser = ?2")
     int updDotori(int point, int iuser);
 
+    List<UserEntity> findByEmailOrNmOrCellphoneContaining(String email, String nm, String cellphone);
 
 }

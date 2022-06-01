@@ -2,6 +2,7 @@ package com.example.CyProject.home.model.photo;
 
 import com.example.CyProject.user.model.UserEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.example.CyProject.user.model.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class PhotoEntity {
+public class PhotoEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

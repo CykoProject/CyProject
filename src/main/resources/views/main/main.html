@@ -5,9 +5,14 @@
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v6.1.1/js/all.js" integrity="sha384-xBXmu0dk1bEoiwd71wOonQLyH+VpgR1XcDH3rtxrLww5ajNTuMvBdL5SOiFZnNdp" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR:wght@300&display=swap"
+          rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v6.1.1/js/all.js"
+            integrity="sha384-xBXmu0dk1bEoiwd71wOonQLyH+VpgR1XcDH3rtxrLww5ajNTuMvBdL5SOiFZnNdp"
+            crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
+    <script th:src="@{/js/main/friendfind.js}" defer></script>
+
 </head>
 <body>
 
@@ -51,15 +56,19 @@
                             <button class="visit-go-to" th:data-iuser="${loginUserPk}">
                                 <p>방명록</p>
                                 <div th:text="|${visit} 개|"></div>
+
                             </button>
                         </div>
                         <div>
-                            <p>일촌 신청</p>
-                            <div></div>
+                            <button class="friend-find">
+                                일촌 신청
+                            </button>
                         </div>
                         <div>
-                            <p>일촌 확인</p>
-                            <div></div>
+                            <button class="find-go-to">
+                                <p>일촌 <div id="friend-cnt"></div>확인</p>
+                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -93,7 +102,7 @@
                     </div>
                 </div>
                 <div class="join-section">
-                    <button><a class="join-btn" href="/user/join">회원가입</a></button>
+                    <button><a class="join-btn" th:href="@{/user/join}">회원가입</a></button>
                 </div>
                 <div class="find-email-upw">
                     <div class="find-email">
@@ -133,7 +142,6 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
 
         <div class="service">
@@ -151,33 +159,55 @@
 
     <div class="main-container">
 
-        <div class="main-container-img">
-            <img src="https://www.kukinews.com/data/kuk/image/2021/04/13/kuk202104130381.680x.0.jpg" alt=""/>
-        </div>
-        <div class="news-container">
-            <div class="news-top">
-                <h5>뉴스</h5>
-                <div>
-                    <input type="text" class="news-search" placeholder="뉴스를 검색하세요.">
-                    <button class="news-search-button">검색</button>
+            <div class="main-container-img">
+                <img src="https://file2.nocutnews.co.kr/newsroom/image/2019/10/22/20191022192942863345_0_333_360.jpg"
+                     alt=""/>
+                <div class="main-cmt-container">
+                    <div class="main-cmt-top">
+                        <h5>한 마디</h5>
+                        <div>
+                            <div class="main-cmt-list">
+                                <div class="main-cmt-each" th:each="list : ${cmt}">
+                                    <span th:text="${list.ctnt}"></span><span th:text="${list.iuser.getNm()}"></span>
+                                </div>
+                            </div>
+                            <div class="main-cmt-bottom">
+                                <input type="text" class="main-cmt-ctnt" placeholder="20자 이내로 한 마디 해주세요.">
+                                <button class="main-cmt-button">등록</button>
+                            </div>
+                            <div class="pagination">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="main-news">
+            <div class="news-container">
+                <div class="news-top">
+                    <h5>뉴스</h5>
+                    <div>
+                        <input type="text" class="news-search" placeholder="뉴스를 검색하세요.">
+                        <button class="news-search-button">검색</button>
+                    </div>
+                </div>
+                <div class="main-news-div">
+                    <div class="main-news-blank"></div>
+                    <div class="main-news">
 
-            </div>
-        </div>
-        <div class="main-webtoons">
-            <div class="webtoon-top">
-                <h5>오늘의 웹툰</h5>
-                <div class="webtoon-move-btn">
-                    <button class="webtoon-prev-btn">이전</button>
-                    <button class="webtoon-next-btn">다음</button>
+                    </div>
                 </div>
             </div>
-            <div class="webtoon-list">
+            <div class="main-webtoons">
+                <div class="webtoon-top">
+                    <h5>오늘의 웹툰</h5>
+                    <div class="webtoon-move-btn">
+                        <button class="webtoon-prev-btn">이전</button>
+                        <button class="webtoon-next-btn">다음</button>
+                    </div>
+                </div>
+                <div class="webtoon-list">
 
+                </div>
             </div>
-        </div>
 
         <div class="main-movie">
             <div class="movie-top">
@@ -194,38 +224,120 @@
         </div>
     </div>
 
-    <div class="right-container">
-        <div class="top-visitor">
+        <div class="right-container">
             <h3>방문자 TOP</h3>
-            <p>유영</p>
-            <p>수아</p>
-            <p>동규</p>
-            <p>언수</p>
-            <p>주영</p>
-        </div>
-        <div class="top-content">
-            <h3>게시글 TOP</h3>
-            <p>피카츄</p>
-            <p>라이츄</p>
-            <p>파이리</p>
-            <p>꼬부기</p>
-            <p>버터플</p>
+            <div class="top-visitor">
+                <div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>회원</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item ,index : ${bestVisitor}">
+                        <td class="just-center">
+                            <span th:text="${index.count}"></span>
+                        </td>
+                        <td>
+                            <div class="top-visitor-wrap">
+                                <div class="top-visitor-img-wrap">
+                                    <img class="top-visitor-img" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'" th:src="@{/pic/profile/{iuser}/{img} (iuser=${item.iuser}, img=${item.img})}">
+                                </div>
+                                <div class="top-visitor-user-data" th:data-iuser="${item.iuser}">
+                                    <p th:text="${item.nm}"></p>
+                                    <p th:text="${item.email}" style="font-size: 0.8rem;"></p>
+                                    <div>
+                                        <span>방문자 수 : </span>
+                                        <span th:text="${item.cnt}"></span>
+                                    </div>
+                                    <p class="go-home-visitor cur-pointer">미니홈피방문</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <h3>게시물 TOP</h3>
+            <div class="top-visitor">
+                <div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>순위</th>
+                            <th>회원</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item ,index : ${sumTop}">
+                            <td class="just-center">
+                                <span th:text="${index.count}"></span>
+                            </td>
+                            <td>
+                                <div class="top-visitor-wrap">
+                                    <div class="top-visitor-img-wrap">
+                                        <img class="top-visitor-img" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'" th:src="${item.img}">
+                                    </div>
+                                    <div class="top-visitor-user-data" th:data-iuser="${item.iuser}">
+                                        <p th:text="${item.nm}"></p>
+                                        <p th:text="${item.email}" style="font-size: 0.8rem;"></p>
+                                        <div>
+                                            <span>게시물 수 : </span>
+                                            <span th:text="${item.cnt}"></span>
+                                        </div>
+                                        <p class="go-home-visitor cur-pointer">미니홈피방문</p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-        </div>
-
-        <div class="top-friend">
             <h3>친구 TOP</h3>
-            <p>유영</p>
-            <p>수아</p>
-            <p>동규</p>
-            <p>언수</p>
-            <p>주영</p>
+            <div class="top-friend">
+                <div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>순위</th>
+                            <th>회원</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item ,index : ${bestFriends}">
+                            <td class="just-center">
+                                <span th:text="${index.count}"></span>
+                            </td>
+                            <td>
+                                <div class="top-visitor-wrap">
+                                    <div class="top-visitor-img-wrap">
+                                        <img class="top-visitor-img" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'" th:src="@{/pic/profile/{iuser}/{img} (iuser=${item.iuser}, img=${item.img})}">
+                                    </div>
+                                    <div class="top-visitor-user-data" th:data-iuser="${item.iuser}">
+                                        <p th:text="${item.nm}"></p>
+                                        <p th:text="${item.email}"></p>
+                                        <div>
+                                            <span>일촌 수 : </span>
+                                            <span th:text="${item.cnt}"></span>
+                                        </div>
+                                        <p class="go-home-visitor cur-pointer">미니홈피방문</p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
         </div>
 
     </div>
-
-</div>
 </th:block>
 
 <script src="../../static/js/main/main.js"></script>

@@ -23,12 +23,17 @@ import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.user.model.UserEntity;
 
+import com.example.CyProject.home.model.visitor.VisitorEntity;
+import com.example.CyProject.home.model.visitor.VisitorPk;
+import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.home.model.visitor.VisitorService;
 
 import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
 import com.example.CyProject.shopping.model.item.ItemCategory;
 import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.friends.FriendsEntity;
+import com.example.CyProject.user.model.friends.FriendsRepository;
+import com.example.CyProject.user.model.friends.FriendsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,15 +41,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalInt;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.logging.SimpleFormatter;
 
 @Controller
 @RequiredArgsConstructor
@@ -69,6 +83,9 @@ public class HomeController {
     @Autowired private MiniroomRepository miniroomRepository;
     @Autowired private PhotoImgRepository photoImgRepository;
     @Autowired private BoardListRepository boardListRepository;
+
+    @Autowired private FriendsRepository friendsRepository;
+    @Autowired private FriendsService friendsService;
 
     @GetMapping
     public String home(HomeEntity entity, Model model) {
@@ -105,6 +122,39 @@ public class HomeController {
         }
 
         return "home/home";
+    }
+
+    @GetMapping("/friend")
+    public String addFriend(int iuser, String nickname, Model model) {
+        int loginUserPk = auth.getLoginUserPk();
+        boolean status = false;
+
+        UserEntity user = new UserEntity();
+        if(loginUserPk > 0) {
+            FriendsEntity friend = new FriendsEntity();
+            user.setIuser(iuser);
+            friend.setIuser(loginUserPk);
+            friend.setFuser(user);
+            friend.setNickname(nickname);
+            friend.setStatus(0);
+
+            if(friendsService.isFriend(loginUserPk, iuser)) {
+                friendsRepository.save(friend);
+            }
+
+            user = userRepository.findByIuser(iuser);
+            user.setUpw(null);
+            user.setProvider(null);
+            user.setEmail(null);
+            user.setRole(null);
+
+            status = true;
+        }
+
+
+        model.addAttribute("status", status);
+        model.addAttribute("user", user);
+        return "home/error";
     }
 // ======================= 방명록, 다이어리, 주크박스 =====================================================================================
 
@@ -194,6 +244,17 @@ public class HomeController {
         model.addAttribute("pageData", pageEntity);
 
         return "home/visit/visit";
+    }
+
+    @GetMapping("/visit/mod")
+    public String modVisit(int iuser, int writer, int iboard, Model model) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        if(writer != loginUserPk) {
+            return "redirect:/";
+        }
+        model.addAttribute("modData", visitRepository.findByIvisit(iboard));
+        model.addAttribute("loginUserPk", loginUserPk);
+        return "home/visit/write";
     }
 
     @PostMapping("/visit/write")
