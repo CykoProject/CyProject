@@ -13,15 +13,22 @@
     <div class="shopHistory">
         <table>
             <tr>
-                <th class="history-id">상품번호</th>
+                <th class="history-id">분류</th>
+                <th class="history-id">번호</th>
                 <th class="history-nm">상품명</th>
                 <th class="history-file">상품사진</th>
                 <th class="history-rdt">구매일시</th>
             </tr>
             <tr th:each="item : ${purchase}">
+                <td th:switch="${item.icategory}">
+                    <span th:case="1">BGM</span>
+                    <span th:case="2">폰트</span>
+                    <span th:case="3">스킨</span>
+                    <span th:case="4">미니미</span>
+                </td>
                 <td th:text="${item.item_id}"></td>
                 <td th:text="${item.nm}"></td>
-                <td><img th:src="${item.file}"></td>
+                <td><img class="history-file" th:src="${item.file}"></td>
                 <td class="history-rdt" th:text="${item.rdt}"></td>
             </tr>
         </table>

@@ -44,7 +44,7 @@
                 </div>
                 <div class="profile-info-main">
                     <div class="profile-info-img">
-                        <img width="120px" height="140px" th:if="${#strings.isEmpty(userData.img)}" th:src="@{/pic/user/default/defaultProfileImg.jpeg}">
+                        <img width="120px" height="140px" th:if="${#strings.isEmpty(userData.img)}" th:src="@{/img/defaultProfileImg.jpeg}">
                         <img width="120px" height="140px" th:unless="${#strings.isEmpty(userData.img)}" th:src="@{/pic/user/{iuser}/{img} (iuser=${userData.iuser}, img=${userData.img})}">
                     </div>
                     <div class="profile-info-count">

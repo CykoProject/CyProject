@@ -10,6 +10,7 @@ import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepo
 import com.example.CyProject.user.model.UserDto;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
+import com.example.CyProject.user.model.friends.FriendsRepository;
 import com.example.CyProject.user.model.points.PointHistoryEntity;
 import com.example.CyProject.user.model.points.PointHistoryRepository;
 import org.apache.catalina.User;
@@ -39,6 +40,7 @@ public class UserController {
     @Autowired private PurchaseHistoryRepository purchaseHistoryRepository;
     @Autowired private AuthenticationFacade auth;
     @Autowired private UserService service;
+
 
     @GetMapping("/join")
     public String join() {
