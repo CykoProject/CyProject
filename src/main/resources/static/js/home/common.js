@@ -206,6 +206,11 @@ fetch(`/ajax/home/profile?iuser=${iuser}`)
     console.log(e);
 })
 
+function getFee(data) {
+    return (data.profile_ctnt === undefined ? '0' : '1');
+}
+
+
 const makeElem = (data) => {
     const profileCont = document.querySelector('.profile-container');
 
@@ -213,14 +218,12 @@ const makeElem = (data) => {
     const profileCtnt = document.querySelector('.profile-ctnt');
     const profileName = document.querySelector('.profile-name');
 
-
         profileImg.innerHTML = `
             <img src="/pic/profile/${data.iuser}/${data.profile_img}" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'"></img>
         `;
 
-        profileCtnt.innerHTML = `
-            <span>${data.profile_ctnt}</span>
-        `;
+        profileCtnt.innerHTML =
+            getFee(data) == '0' ? `<span>''</span>` : `<span>${data.profile_ctnt}</span>`;
 
         profileName.innerHTML = `
             <span>${data.nm}</span>

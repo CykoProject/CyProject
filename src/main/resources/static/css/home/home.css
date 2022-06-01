@@ -2,7 +2,7 @@
 .profile-img {
     width: 100%;
     height: 10rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 .profile-img img {
@@ -11,9 +11,15 @@
 
 .profile-ctnt {
     width: 100%;
-    height: 10rem;
+    height: 9rem;
     margin-bottom: 0.5rem;
     overflow: scroll;
+}
+
+.profile-ctnt span {
+    font-family: 'EliceDigitalBaeum';
+    font-size: 0.85rem;
+    line-height: 1.15rem;
 }
 
 .profile-history {
@@ -94,6 +100,11 @@
     font-size: 0.8625rem;
 }
 
+.home-container .board .update-list .news .news-list .news-item a {
+    display: flex;
+    flex-direction: row;
+}
+
 .home-container .board .update-list .news .news-list .news-item span {
     color: #54a2be;
     font-weight: bold;
@@ -159,6 +170,12 @@
     background-color: #848a84;
     position: absolute;
     bottom: 0;
+}
+
+.home-container .miniroom .miniroom-cont > div,
+.home-container .miniroom .miniroom-cont > div img {
+    width: 100%;
+    height: 14.5rem;
 }
 
 /* 일촌평 write */

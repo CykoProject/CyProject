@@ -24,7 +24,9 @@
                         <div class="news-list" th:if="${!news.isEmpty()}">
                             <div class="news-item" th:each="item, index : ${news}">
                                 <div th:if="${index.index} < 4">
-                                    <span>•</span><div th:text="${item.scrap} ? '[스크랩] ' + ${item.iphoto.title} : ${item.iphoto.title}"></div>
+                                    <a th:href="@{/home/photo(iuser=${item.iuser.iuser})}">
+                                        <span>•</span><div th:text="${item.scrap} ? '[스크랩] ' + ${item.iphoto.title} : ${item.iphoto.title}"></div>
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -45,10 +45,109 @@
 }
 
 .profile-history-container .profile-content {
+    text-align: center;
     padding: 0.5rem 0;
 }
 
 .profile-history-container .profile-content span {
     font-family: 'EliceDigitalBaeum';
     font-size: 0.8rem;
+}
+
+
+
+/* profile write */
+#profile-form .write-cont {
+    background-color: #f2f2f2;
+    color: #343434;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+#profile-form .write-cont label {
+    padding: 0.3rem 0;
+}
+
+#profile-form .write-cont label:first-child {
+    border-top: 0.1rem solid #dcdcdc;
+}
+
+#profile-form .write-cont label:last-child {
+    border-bottom: 0.1rem solid #dcdcdc;
+}
+
+#profile-form .write-cont label.imgs {
+    padding: 0.3rem 0.5rem;
+}
+
+#profile-form .write-cont label input[name='title'] {
+    width: 100%;
+    border: 0.0625rem solid #848a84;
+    padding: 0.1rem 0.5rem;
+}
+
+#profile-form .write-cont label input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+#profile-form .write-cont label input.img-name {
+    background-color: #fff;
+    border: 0.0625rem solid #848a84;
+    padding: 0.1rem;
+    margin-left: 0.5rem;
+}
+
+#profile-form .write-cont label textarea {
+    width: 100%;
+    min-height: 15rem;
+    resize: none;
+    padding: 0.5rem;
+}
+
+#profile-form .write-cont .board-btn {
+    width: 2.3rem;
+    background-color: #fff;
+    font-family: 'DOSGothic';
+    font-size: 0.75rem;
+    text-align: center;
+    padding: 0.1rem;
+}
+
+
+/* profile tab */
+.profile-container h2 {
+    width: 100%;
+    color: #54a2be;
+    font-size: 0.8rem;
+    font-weight: 800;
+    line-height: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.profile-container h2::after {
+    content: "";
+    width: 100%;
+    border-bottom: 0.0625rem solid #dcdcdc;
+    display: block;
+}
+
+.profile-container .profile-image img {
+    max-width: 100%;
+}
+
+.profile-container .profile-content {
+    padding: 0.5rem;
+    line-height: 1.1rem;
+    font-size: 0.85rem;
+}
+
+.profile-container .profile-content span {
+    font-family: 'EliceDigitalBaeum';
 }

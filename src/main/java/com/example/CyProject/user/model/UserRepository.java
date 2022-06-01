@@ -19,6 +19,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     UserEntity findByIuser(int iuser);
     UserEntity findByCellphone(String cellphone);
 
+    int countByIuser(int iuser);
+
     @Query("SELECT u.iuser FROM UserEntity u")
     List<Integer> findAllIuser();
 

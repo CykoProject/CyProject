@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/home/profile.css}">
-    <script th:src="@{/js/home/profile.js}"></script>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script th:src="@{/js/home/profile.js}" defer></script>
     <title>Title</title>
 </head>
 <body>
@@ -18,16 +19,20 @@
     <div>
         <form id="profile-form" th:method="post" th:action="@{/home/profile/write}" enctype="multipart/form-data">
             <input type="hidden" name="ihost" th:value="${param.iuser}">
-            <div>
+            <div class="write-cont">
+                <label class="imgs" for="file">
+                    이미지 <input id="file" type="file" name="profileImg" accept="image/*" multiple>
+                    <input class="img-name" type="text" disabled>
+                    <div class="board-btn">첨부</div>
+                </label>
                 <label>
                     <textarea name="ctnt" placeholder="내용"></textarea>
                 </label>
-                <label>
-                    <input type="file" name="profileImg" accept="image/*" multiple>
-                </label>
             </div>
-            <div>
-                <input type="submit" value="save">
+            <div class="btn-cont">
+                <div class="board-btn">
+                    <input class="save-btn" type="submit" value="save" th:value="확인">
+                </div>
             </div>
         </form>
     </div>
