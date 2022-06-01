@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/home/profile.css}">
+    <script th:src="@{/js/home/profile.js}" defer></script>
+    <title>Title</title>
+</head>
+<body>
+    <div class="profile-history-container">
+        <h2>Profile History</h2>
+        <div th:each="item : ${data}">
+            <div class="profile-info">
+                <div th:text="${'no.' + itemStat.count}"></div>
+                <div class="stretch"></div>
+                <div th:text="${item.rdt}"></div>
+            </div>
+            <div class="profile-image">
+                <img th:src="@{'/pic/profile/' + ${item.ihost} +'/' + ${item.img}}" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'">
+            </div>
+            <div class="profile-content">
+                <span th:text="${item.ctnt}"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

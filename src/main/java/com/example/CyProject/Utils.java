@@ -31,6 +31,8 @@ public class Utils {
             case "visit":
                 result = HomeCategory.VISIT.getCategory();
                 break;
+            case "photo":
+                result = HomeCategory.PHOTOS.getCategory();
         }
 
         return result;

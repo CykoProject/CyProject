@@ -4,7 +4,8 @@ public enum ItemCategory {
     BGM(1),
     FONT(2),
     SKiN(3),
-    MINIME(4);
+    MINIME(4),
+    MINIROOM(5);
 
     private final int category;
 

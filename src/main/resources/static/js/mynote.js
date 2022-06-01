@@ -52,7 +52,8 @@ const mynoteObj = {
         const tabDiv = document.createElement('div');
         tabDiv.style.display = 'flex';
         tabDiv.style.padding = '10px';
-        tabDiv.style.background = 'gray';
+        tabDiv.style.background = '#f2f2f2';
+        tabDiv.style.borderTop = '2px solid gray';
 
         const select = document.createElement('select');
         select.style.width = '100%';

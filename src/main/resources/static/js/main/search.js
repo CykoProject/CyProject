@@ -94,13 +94,31 @@ searchTypeElem.value = searchType;
 console.log(searchTxt);
 console.log(searchType);
 
+const photos = document.querySelectorAll('.photo-img');
+if(photos.length > 0) {
+    photos.forEach(item => {
+        const iphoto = parseInt(item.dataset.iphoto);
+        fetch(`/ajax/home/photo?iphoto=${iphoto}`)
+            .then(res => res.json())
+            .then(data => {
+                data.forEach(item2 => {
+                    const img = item.querySelector('.photo-img-each');
+                    img.src = `/pic/photos/${iphoto}/${item2.img}`;
+                });
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    });
+}
+
 //게시물 사진 없을 때 기본 사진
 let photoImgElem = document.querySelectorAll(".photo-img > img");
 let diaryImgElem = document.querySelectorAll(".diary-img > img");
 let profileImgElem = document.querySelectorAll(".profile-img > img");
 
 photoImgElem.forEach((item)=> {
-    if(item.getAttribute("src") == null || 1) {
+    if(item.getAttribute("src") == null || undefined) {
         item.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT01d4OBfsfcn3i82usjadKKTPbAtKGIkgRcA&usqp=CAU"
     }
     let userId = item.parentNode.parentNode.querySelector(".userId").textContent;

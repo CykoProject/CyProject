@@ -98,6 +98,14 @@
     flex-direction: column;
 }
 
+.left-menus {
+    margin-bottom: 10px;
+}
+
+.left-menus > a:hover {
+    color: lightslategray;
+}
+
 .left-menus > a {
     text-decoration: none;
     color: black;

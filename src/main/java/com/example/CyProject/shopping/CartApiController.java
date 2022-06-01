@@ -3,6 +3,9 @@ package com.example.CyProject.shopping;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.jukebox.JukeBoxEntity;
 import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
+import com.example.CyProject.home.model.miniroom.MiniroomEntity;
+import com.example.CyProject.home.model.miniroom.MiniroomRepository;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseInterface;
 import com.example.CyProject.shopping.model.order.OrderItemsDto;
 import com.example.CyProject.shopping.model.cart.CartDto;
 import com.example.CyProject.shopping.model.cart.CartRepository;
@@ -43,6 +46,8 @@ public class CartApiController {
     PointHistoryRepository pointHistoryRepository;
     @Autowired
     JukeBoxRepository jukeBoxRepository;
+    @Autowired
+    MiniroomRepository miniroomRepository;
 
     @PostMapping("/add")
     public int saveItem(@RequestBody CartDto dto) {
@@ -202,14 +207,30 @@ public class CartApiController {
 
         System.out.println("성공시 itemid : " + itemIdList);
 
-        for(ItemEntity item : itemIdList) {
-//            ItemEntity itemEntity = new ItemEntity();
-//            itemEntity.setItem_id(itemEntity.getItem_id());
+        List<PurchaseInterface> bgmIdList = new ArrayList<>();
+        bgmIdList.addAll(purchaseHistoryRepository.purchaseBgmIdList(userEntity));
+
+        for (PurchaseInterface item : bgmIdList) {
             JukeBoxEntity entity = new JukeBoxEntity();
             entity.setIhost(authenticationFacade.getLoginUserPk());
-            entity.setImusic(item);
-            System.out.println(entity);
+            ItemEntity itemEntity = new ItemEntity();
+            itemEntity.setItem_id(item.getItem_id());
+            entity.setImusic(itemEntity);
             jukeBoxRepository.save(entity);
+        }
+
+        for(ItemEntity item : itemIdList) {
+            if (item.getIcategory() == 5) {
+                MiniroomEntity miniroomEntity = new MiniroomEntity();
+                miniroomEntity.setIhost(authenticationFacade.getLoginUserPk());
+                miniroomEntity.setMyroom(item);
+                if (miniroomRepository.countByIhostAndMyroom(miniroomEntity.getIhost(), miniroomEntity.getMyroom()) == 0) {
+                    miniroomRepository.save(miniroomEntity);
+                }
+            }
+
+//            ItemEntity itemEntity = new ItemEntity();
+//            itemEntity.setItem_id(itemEntity.getItem_id());
             cartRepository.deleteByIuserAndItemid(userEntity, item);
         }
         System.out.println("구매 아이템 카트 삭제");

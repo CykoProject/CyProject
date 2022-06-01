@@ -307,6 +307,16 @@ body {
     margin-bottom: 0.5rem;
 }
 
+.profile-history button {
+    border: none;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.profile-history p {
+    font-size: 0.7rem;
+}
+
 .profile-history p span {
     color: var(--main-color-default);
     font-size: 0.6rem;

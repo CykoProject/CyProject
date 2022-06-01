@@ -14,6 +14,40 @@
     </th:block>
     <th:block layout:fragment="content_right">
         <div class="miniroom-container">
+            <div class="current">
+                <div class="room-name">
+                    <p th:if="${isRoom == 0}" th:text="default"></p>
+                    <p th:if="${isRoom == 1}" th:text="${myRoom.myroom.nm}"></p>
+                </div>
+                <div th:if="${isRoom == 0}">
+                    <img th:src="@{/img/miniroom/miniroom_gray.jpg}">
+                </div>
+                <div th:unless="${isRoom == 0}">
+                    <img th:src="@{${myRoom.myroom.file}}" onerror="this.onerror=null; this.src='/img/miniroom/miniroom_blue.jpg'">
+                </div>
+            </div>
+            <div class="select-room" th:if="${#strings.equals(loginUserPk, param.iuser)}">
+                <h2>&nbsp;미니룸 설정</h2>
+                <form id="room-select-form" th:action="@{/home/miniroom}" th:method="post">
+                    <input type="hidden" name="iuser" th:value="${param.iuser}">
+                    <div class="select-cont">
+                        <div th:each="item : ${miniroomList}" class="room-cont">
+                            <div>
+                                <img th:src="@{${item.myroom.file}}">
+                            </div>
+                            <div th:text="${item.myroom.nm}"></div>
+                            <label>
+                                <input th:type="radio" th:name="myroom" th:value="${item.myroom.item_id}">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="btn-cont" th:if="${!miniroomList.isEmpty()}">
+                        <div class="board-btn">
+                            <input type="submit" name="save" th:value="변경">
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </th:block>
 </body>

@@ -684,7 +684,7 @@ body {
     align-items: center;
 }
 
-.top-visitor {
+.top-friend {
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
@@ -696,18 +696,40 @@ body {
     margin-bottom: 10px;
     align-items: center;
 }
+
+.right-container > h3 {
+    background-color: orange;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: medium;
+}
+
+.top-visitor {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 300px;
+    border: solid 1px #b2b2b2;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
 .top-visitor-wrap{
     display: flex;
     flex-direction: row;
     margin-bottom: 20px;
 }
 .top-visitor-img-wrap{
-    width: 100px;
-    height: 120px;
+    width: 80px;
+    height: 100px;
     overflow: hidden;
 }
 .top-visitor-img {
-    width: 100px;
+    width: 80px;
     height: auto;
     object-fit: cover;
 }
