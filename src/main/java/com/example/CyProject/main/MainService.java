@@ -1,8 +1,7 @@
 package com.example.CyProject.main;
 
 import com.example.CyProject.home.model.diary.DiaryRepository;
-import com.example.CyProject.home.model.photo.PhotoInterface;
-import com.example.CyProject.home.model.photo.PhotoRepository;
+import com.example.CyProject.home.model.photo.*;
 import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.main.model.SearchEntity;
 import com.example.CyProject.main.model.top.TopVo;
@@ -26,6 +25,8 @@ public class MainService {
     PhotoRepository photoRepository;
     @Autowired
     ProfileRepository profileRepository;
+
+    @Autowired private PhotoImgRepository photoImgRepository;
 
     public List<UserEntity> searchUsers(String search, Pageable pageable) {
         return userRepository.findByNmContains(search, pageable);

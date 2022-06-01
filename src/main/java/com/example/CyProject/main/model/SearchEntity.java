@@ -2,6 +2,7 @@ package com.example.CyProject.main.model;
 
 import com.example.CyProject.home.model.diary.DiaryEntity;
 import com.example.CyProject.home.model.photo.PhotoEntity;
+import com.example.CyProject.home.model.photo.PhotoImgEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
 import lombok.Data;
 

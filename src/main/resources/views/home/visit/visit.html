@@ -72,7 +72,7 @@
                                     <img th:data-iminime="0" class="visit-minime" th:if="${item.iminime == null}" th:src="@{/static/img/defaultProfileImg.jpeg}">
                                     <img th:data-iminime="${item.iminime.item_id}" class="visit-minime" th:if="${item.iminime != null}" th:src="@{/pic/minime/{iminime} (iminime=${item.iminime.file})}">
                                     <div>
-                                        <div th:classappend="${item.ifont != null ? item.ifont.file : ''}" class="visit-mod-data" th:utext="${item.ctnt}"></div>
+                                        <div class="visit-mod-data" th:utext="${item.ctnt}"></div>
                                         <div class="visit-mod-wrap"></div>
                                     </div>
                                 </th:block>
@@ -176,10 +176,12 @@
                             <input type="hidden" name="iuser" th:value="${loginUserPk}">
                             <input type="hidden" name="ihost" th:value="${param.iuser}">
                             <input type="hidden" name="ivisit" th:if="${modData != null}" th:value="${modData.get().getIvisit()}">
-                            <div>
-                                <span>비밀로하기</span>
-                                <input type="checkbox" name="secret" th:value="true" th:if="${modData != null}" th:checked="${modData.get().isSecret() == true}">
-                                <input type="checkbox" name="secret" th:value="true" th:if="${modData == null}">
+                            <div class="modal-secret-wrap">
+                                <label for="modal-secret">
+                                    <span>비밀로하기</span>
+                                    <input type="checkbox" id="modal-secret" name="secret" th:value="true" th:if="${modData != null}" th:checked="${modData.get().isSecret() == true}">
+                                    <input type="checkbox" id="modal-secret" name="secret" th:value="true" th:if="${modData == null}">
+                                </label>
                             </div>
                             <div class="mb20">
                                 <textarea name="ctnt" class="visit-textarea my-note" placeholder="내용" th:if="${modData != null}" th:text="${modData.get().getCtnt()}"></textarea>

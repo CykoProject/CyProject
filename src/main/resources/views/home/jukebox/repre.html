@@ -32,10 +32,16 @@
         <div>
             <div class="frow justify-space home-jukebox">
                 <div>
-                    <button id="play">듣기</button>
+                    <div class="board-btn cur-pointer">
+                        <a id="play">듣기</a>
+                    </div>
+                    <div class="board-btn cur-pointer" th:if="${#strings.equals(loginUserPk, param.iuser)}">
+                        <a class="repre-btn">배경음악 제거</a>
+                    </div>
                 </div>
-                <div th:if="${#strings.equals(loginUserPk, param.iuser)}">
-                    <button class="repre-btn">배경음악 제거</button>
+
+                <div class="board-btn cur-pointer">
+                    <a th:href="@{/home/jukebox(iuser=${param.iuser})}">주크박스가기</a>
                 </div>
             </div>
             <div>
