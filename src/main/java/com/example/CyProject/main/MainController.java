@@ -141,6 +141,7 @@ public class MainController {
             }
 
             model.addAttribute("select",findSearch);
+
         }
         List<FriendsEntity> selectFuser = friendsRepository.selecSenderList(authenticationFacade.getLoginUserPk());
         List<UserEntity> senderData = new ArrayList<>();
@@ -155,10 +156,12 @@ public class MainController {
         }
         model.addAttribute("receiver", receiverData);
         model.addAttribute("selectfuser",senderData);
+
         System.out.println(selectFuser);
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "main/friendfind";
     }
+
 
     @PostMapping("/friendfind")
     public String findselect(String search, int category) throws Exception{
@@ -192,3 +195,5 @@ public class MainController {
         return vo;
     }
 }
+
+
