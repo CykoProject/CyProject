@@ -22,6 +22,7 @@ public class ItemEntity {
     private int price;
     private int icategory;
     private String file;
+    private String img;
 
     @Column(insertable = false)
     @ColumnDefault("CURRENT_TIMESTAMP()")

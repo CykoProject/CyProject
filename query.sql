@@ -234,6 +234,7 @@ CREATE OR REPLACE TABLE item (
                                  price INT UNSIGNED NOT NULL,
                                  icategory INT UNSIGNED,
                                  `file` VARCHAR(200),
+                                 img TEXT,
                                  rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
                                  CHECK(icategory <= 5)
 );

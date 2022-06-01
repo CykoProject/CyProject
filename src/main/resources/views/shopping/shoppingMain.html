@@ -37,7 +37,7 @@
             <div class="shopping-items">
                 <th:block th:each="item : ${items}">
                     <div class="item">
-                        <img class="item-img" th:src="${item.file}">
+                        <img class="item-img" th:src="@{/pic/shopping/{img} (img=${item.img})}">
                         <div class="item_id" style="display: none" th:text="${item.item_id}"></div>
                         <span class="item-nm" th:text="${item.nm}"></span>
                         <span class="dotori-span">
