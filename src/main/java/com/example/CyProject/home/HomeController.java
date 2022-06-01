@@ -423,6 +423,7 @@ public class HomeController {
                 homeService.writePhoto(imgs, imgEntity);
             }
             photoRepository.save(entity);
+
         } else {
             // 새글 작성
             entity.setIhost(userRepository.findByIuser(auth.getLoginUserPk()));
