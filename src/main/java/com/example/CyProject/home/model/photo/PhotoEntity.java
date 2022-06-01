@@ -1,6 +1,8 @@
 package com.example.CyProject.home.model.photo;
 
 import com.example.CyProject.user.model.UserEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.example.CyProject.user.model.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,13 +21,16 @@ public class PhotoEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int iphoto;
 
-    private int ihost;
+    @OneToOne
+    @JoinColumn(name = "ihost")
+    private UserEntity ihost;
 
     private int ifile;
     private String title;
     private String ctnt;
 
-    @Column(insertable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    @Column(insertable = false, updatable = false)
     private LocalDateTime rdt;
 
     @Column(insertable = false)

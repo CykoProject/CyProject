@@ -34,32 +34,45 @@ import java.util.List;
 @RequestMapping("/")
 public class MainController {
 
-    @Autowired private AuthenticationFacade authenticationFacade;
-    @Autowired private MainService mainService;
-    @Autowired private MessageRepository messageRepository;
-    @Autowired private FriendsRepository friendsRepository;
-    @Autowired private FriendsService friendsService;
-    @Autowired private VisitorRepository visitorRepository;
-    @Autowired private VisitRepository visitRepository;
-    @Autowired private Utils utils;
-    @Autowired private CmtRepository cmtRepository;
-    @Autowired private UserRepository userRepository;
-    @Autowired private VisitorService visitorService;
-    @Autowired private TopService topService;
-    @Autowired private PhotoRepository photoRepository;
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
+    @Autowired
+    private MainService mainService;
+    @Autowired
+    private MessageRepository messageRepository;
+    @Autowired
+    private FriendsRepository friendsRepository;
+    @Autowired
+    private FriendsService friendsService;
+    @Autowired
+    private VisitorRepository visitorRepository;
+    @Autowired
+    private VisitRepository visitRepository;
+    @Autowired
+    private Utils utils;
+    @Autowired
+    private CmtRepository cmtRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private VisitorService visitorService;
+    @Autowired
+    private TopService topService;
+    @Autowired
+    private PhotoRepository photoRepository;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String main(Model model, @RequestParam(required = false) String error, @PageableDefault(size=10) Pageable pageable) {
-        if(!"true".equals(error) || error == null) {
+    public String main(Model model, @RequestParam(required = false) String error, @PageableDefault(size = 10) Pageable pageable) {
+        if (!"true".equals(error) || error == null) {
             model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
             model.addAttribute("loginUser", authenticationFacade.getLoginUser());
         }
 
-        if(utils.findHomePk(authenticationFacade.getLoginUserPk()) != 0){
-            LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(0), LocalTime.of(0,0,0));
-            LocalDateTime endDate = LocalDateTime.of(LocalDate.now(),LocalTime.of(23,59,59));
-            model.addAttribute("visit",visitRepository.countByIhostAndRdtBetween(authenticationFacade.getLoginUserPk(),startDate,endDate));
+        if (utils.findHomePk(authenticationFacade.getLoginUserPk()) != 0) {
+            LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(0), LocalTime.of(0, 0, 0));
+            LocalDateTime endDate = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59));
+            model.addAttribute("visit", visitRepository.countByIhostAndRdtBetween(authenticationFacade.getLoginUserPk(), startDate, endDate));
         }
 
         model.addAttribute("bestFriends", topService.toTopFiveList(friendsRepository.getBestFriends()));
@@ -78,12 +91,12 @@ public class MainController {
     }
 
     @PostMapping("/profile")
-    public int profile(){
+    public int profile() {
         return 0;
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam int type, String search, Model model, @PageableDefault(size=5) Pageable pageable) {
+    public String search(@RequestParam int type, String search, Model model, @PageableDefault(size = 5) Pageable pageable) {
         if (type == 0) {
             model.addAttribute("searchProfile", mainService.search(search).getProfile());
             model.addAttribute("searchPhoto", mainService.search(search).getPhoto());
@@ -105,23 +118,24 @@ public class MainController {
     }
 
     @GetMapping("/friendfind")
-    public String friendfind(Model model, @RequestParam(required = false) String search){
-        if(search != null) {
-            List<UserEntity> findSearch = userRepository.findByEmailOrNmOrCellphoneContaining(search, search,search);
-            for(UserEntity item : findSearch) {
+    public String friendfind(Model model, @RequestParam(required = false) String search) {
+        if (search != null) {
+            List<UserEntity> findSearch = userRepository.findByEmailOrNmOrCellphoneContaining(search, search, search);
+            for (UserEntity item : findSearch) {
                 String cellPhone = item.getCellphone();
                 String regex = FriendsService.convertTelNo(cellPhone);
                 item.setCellphone(regex);
             }
-            model.addAttribute("select",findSearch);
+            model.addAttribute("select", findSearch);
         }
         List<FriendsEntity> selectFuser = friendsRepository.selectfuserFriends(authenticationFacade.getLoginUserPk());
         List<UserEntity> senderData = new ArrayList<>();
-        for(FriendsEntity item : selectFuser) {
+        for (FriendsEntity item : selectFuser) {
             senderData.add(friendsService.getUserData(item.getIuser()));
         }
-        model.addAttribute("selectfuser",senderData);
+        model.addAttribute("selectfuser", senderData);
         System.out.println(selectFuser);
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "main/friendfind";
     }
+}
