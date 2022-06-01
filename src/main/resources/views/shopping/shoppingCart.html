@@ -23,7 +23,7 @@
                         <div class="cart-item-select">
 
                             <input type="checkbox" class="cart-item-check">
-                            <img class="cart-item-img" th:src="${item.itemid.file}" alt="">
+                            <img class="cart-item-img" th:src="@{/pic/shopping/{img} (img=${item.itemid.getImg()})}" alt="">
                         </div>
                         <div class="item_id" style="display: none" th:text="${item.itemid.item_id}"></div>
                         <div class="cart-item-info">
