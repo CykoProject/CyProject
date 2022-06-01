@@ -250,6 +250,7 @@ CREATE OR REPLACE TABLE sell_history (
                                          rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
                                          FOREIGN KEY (iuser) REFERENCES user(iuser),
                                          FOREIGN KEY (item_id) REFERENCES item(item_id)
+);
 CREATE OR REPLACE TABLE purchase_history (
     ihistory INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     iuser INT UNSIGNED NOT null,
@@ -274,4 +275,4 @@ CREATE OR REPLACE table order_info(
                                       quantity INT UNSIGNED,
                                       rdt DATETIME DEFAULT CURRENT_TIMESTAMP(),
                                       FOREIGN KEY (iuser) REFERENCES user(iuser)
-)
+);
