@@ -12,6 +12,8 @@ import com.example.CyProject.main.model.CmtRepository;
 import com.example.CyProject.main.model.top.TopHelper;
 import com.example.CyProject.main.model.top.TopService;
 import com.example.CyProject.message.model.MessageRepository;
+import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
+import com.example.CyProject.shopping.model.item.ItemCategory;
 import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.friends.FriendsEntity;
@@ -62,6 +64,8 @@ public class MainController {
     private TopService topService;
     @Autowired
     private PhotoRepository photoRepository;
+
+    @Autowired private PurchaseHistoryRepository purchaseHistoryRepository;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
@@ -141,9 +145,10 @@ public class MainController {
         }
         List<FriendsEntity> selectFuser = friendsRepository.selecSenderList(authenticationFacade.getLoginUserPk());
         List<UserEntity> senderData = new ArrayList<>();
-        for (FriendsEntity item : selectFuser) {
+        for(FriendsEntity item : selectFuser) {
             senderData.add(friendsService.getUserData(item.getIuser()));
         }
+
         List<UserEntity> receiverData = new ArrayList<>();
         List<FriendsEntity> receiverList = friendsRepository.selectfuserFriends(authenticationFacade.getLoginUserPk());
         for(FriendsEntity item : receiverList) {
@@ -191,5 +196,4 @@ public class MainController {
     }
 }
 
-}
 
