@@ -20,7 +20,8 @@ import java.util.Map;
 @Component
 public class Utils {
 
-    @Autowired private HomeRepository homeRepository;
+    @Autowired
+    private HomeRepository homeRepository;
 
     public int getCommentCategory(String category) {
         int result = 0;
@@ -59,6 +60,83 @@ public class Utils {
         return idx;
     }
 
+    // 프로필 용도
+    public Map<String, Object> makeStringNewLine(Object entity) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            for (Field field : entity.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                String nm = field.getName();
+                Object value = field.get(entity);
+                if ("profile_ctnt".equals(nm)) {
+                    value = value.toString().replaceAll("\r\n", "<br>");
+                }
+                result.put(nm, value);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+//         =============== 작동 테스트 용 =============
+//        for(Object list : objList) {
+//            System.out.println(list.toString());
+//        }
+//         ==========================================
+
+        return result;
+    }
+
+    // 사진첩 리스트
+    public List<Object> makeStringNewLineForPhoto(List<?> entity) {
+        /*
+         * 리턴 값 List<Object>
+         */
+        ArrayList<Object> objList = new ArrayList<>();
+        Map<String, Object> result = null;
+        Map<String, Object> result2 = null;
+        for (Object list : entity) {
+            result = new HashMap<>();
+            try {
+                for (Field field : list.getClass().getDeclaredFields()) {
+                    field.setAccessible(true);
+                    String nm = field.getName();
+                    Object value = field.get(list);
+
+                    result2 = new HashMap<>();
+                    for (Field inField : value.getClass().getDeclaredFields()) {
+                        inField.setAccessible(true);
+                        String fieldNm = inField.getName();
+                        Object fieldValue = inField.get(value);
+
+                        if ("ctnt".equals(fieldNm)) {
+                            fieldValue = fieldValue.toString().replaceAll("\r\n", "<br>");
+                        }
+                        result2.put(fieldNm, fieldValue);
+                    }
+
+                    if ("scrap".equals(nm)) {
+                        result.put(nm, value);
+                    } else {
+                        result.put(nm, result2);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println(objList);
+            objList.add(result);
+        }
+//         =============== 작동 테스트 용 =============
+//        for(Object list : objList) {
+//            System.out.println(list.toString());
+//        }
+//         ==========================================
+
+        return objList;
+    }
+
     public List<Object> makeStringNewLine(List<?> entity) {
         /*
          * 리턴 값 List<Object>
@@ -72,7 +150,7 @@ public class Utils {
                     field.setAccessible(true);
                     String nm = field.getName();
                     Object value = field.get(list);
-                    if("ctnt".equals(nm)) {
+                    if ("ctnt".equals(nm)) {
                         value = value.toString().replaceAll("\r\n", "<br>");
                     }
                     result.put(nm, value);
@@ -104,7 +182,7 @@ public class Utils {
                     field.setAccessible(true);
                     String nm = field.getName();
                     Object value = field.get(list);
-                    if("ctnt".equals(nm)) {
+                    if ("ctnt".equals(nm)) {
                         value = value.toString().replaceAll("\r\n", "<br>");
                     }
                     result.put(nm, value);

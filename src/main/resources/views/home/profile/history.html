@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -23,7 +23,7 @@
                 <img th:src="@{'/pic/profile/' + ${item.ihost} +'/' + ${item.img}}" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'">
             </div>
             <div class="profile-content">
-                <span th:text="${item.ctnt}"></span>
+                <span th:utext="${item.ctnt}"></span>
             </div>
         </div>
     </div>

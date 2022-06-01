@@ -18,4 +18,6 @@ public interface BoardListRepository extends JpaRepository<BoardListEntity, Boar
 
     @Query("SELECT b FROM BoardListEntity b WHERE b.iuser = ?1 AND b.iphoto.rdt BETWEEN ?2 AND ?3 ORDER BY b.iphoto.rdt DESC")
     List<BoardListEntity> newPhotos(UserEntity ihost, LocalDateTime start, LocalDateTime end);
+
+    BoardListEntity findByIphotoAndIuser(PhotoEntity iphoto, UserEntity iuser);
 }

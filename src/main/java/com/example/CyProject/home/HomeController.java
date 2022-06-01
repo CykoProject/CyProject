@@ -103,9 +103,9 @@ public class HomeController {
         model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
 
         UserEntity user = userRepository.findByIuser(entity.getIuser());
-        List<PhotoEntity> news = photoRepository.findTop4ByIhostAndRdtBetweenOrderByRdtDesc(user, LocalDateTime.now().minusWeeks(1), LocalDateTime.now());
-        List<BoardListEntity> news2 = boardListRepository.newPhotos(user, LocalDateTime.now().minusWeeks(1), LocalDateTime.now());
-        model.addAttribute("news", news2);
+//        List<PhotoEntity> news = photoRepository.findTop4ByIhostAndRdtBetweenOrderByRdtDesc(user, LocalDateTime.now().minusWeeks(1), LocalDateTime.now());
+        List<BoardListEntity> news = boardListRepository.newPhotos(user, LocalDateTime.now().minusWeeks(1), LocalDateTime.now());
+        model.addAttribute("news", news);
 
         if (miniroomRepository.countByIhostAndRepre(entity.getIuser(), true) > 0) {
             model.addAttribute("isRoom", 1);
@@ -339,7 +339,15 @@ public class HomeController {
     public String profile(HomeEntity entity, Model model) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
         model.addAttribute("loginUserPk", loginUserPk);
-        model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
+
+        UserEntity list = userRepository.findByIuser(entity.getIuser());
+
+//        model.addAttribute("user", userRepository.findByIuser(entity.getIuser()));
+        if (list.getProfile_ctnt() == null) {
+            model.addAttribute("user", list);
+        } else {
+            model.addAttribute("user", utils.makeStringNewLine(list));
+        }
         return "home/profile/profile";
     }
 
@@ -365,7 +373,8 @@ public class HomeController {
     @GetMapping("/profile/history")
     public String profileHistory(@RequestParam int ihost, Model model) {
         List<ProfileEntity> entity = profileRepository.findByIhostOrderByRdtDesc(ihost);
-        model.addAttribute("data", entity);
+        List<Object> list = utils.makeStringNewLine(entity);
+        model.addAttribute("data", list);
         return "home/profile/history";
     }
 
@@ -374,7 +383,10 @@ public class HomeController {
         int loginUserPk = authenticationFacade.getLoginUserPk();
 
         List<BoardListEntity> scrapList = boardListRepository.findAllByIuserOrderByIphotoDesc(userRepository.findByIuser(entity.getIuser()));
-        model.addAttribute("list", scrapList);
+        System.out.println("sl : " + scrapList);
+//        model.addAttribute("list", utils.makeStringNewLine(scrapList));
+        System.out.println("line : " + utils.makeStringNewLineForPhoto(scrapList));
+        model.addAttribute("list", utils.makeStringNewLineForPhoto(scrapList));
 
 //        List<PhotoEntity> list = photoRepository.findByIhostOrderByRdtDesc(userRepository.findByIuser(entity.getIuser()));
 //        model.addAttribute("list", list);
@@ -424,6 +436,7 @@ public class HomeController {
                 homeService.writePhoto(imgs, imgEntity);
             }
             photoRepository.save(entity);
+
         } else {
             // 새글 작성
             entity.setIhost(userRepository.findByIuser(auth.getLoginUserPk()));
