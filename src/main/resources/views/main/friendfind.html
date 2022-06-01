@@ -16,7 +16,7 @@
         <h1 class="hd-1"><a style="text-decoration: none" href="/friendfind">친구찾기</a></h1>
         <div>
             <form action="/friendfind" method="POST" role="search">
-                <div>
+                <div class="label-1-1">
                     <label class="label-1">친구 검색하기</label>
                     <label class="label-2">ex)이름,이메일,휴대폰번호</label>
                 </div>
@@ -34,55 +34,64 @@
                 </div>
             </form>
             <div class="table-container" th:if="${#strings.equals(param.category, 1)}">
-                <div class="friend-modal">
-                    <div>
-                        <label for="nickname">
-                            닉네임:
-                            <input type="text" id="nickname">
-                        </label>
-                    </div>
-                </div>
                 <table>
                     <tbody>
                     <tr th:each="item : ${select}">
-                        <div th:data-fuser="${item.iuser}" id="fuser"></div>
                         <td class="each-nm" th:text="${item.nm}"></td>
                         <td class="each-email" th:text="|(${item.email})|"></td>
                         <td class="each-cellphone" th:text="${item.cellphone}"></td>
-                        <td><button id="add-friend">신청</button></td>
+                        <td class="each-bth"><button id="add-friend" th:data-fuser="${item.iuser}">친구추가</button></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div th:if="${#strings.equals(param.category, 2)}">
-            <div>
-                <div>
-                    <h3>친구받기</h3>
+            <div class="friend-list-wrap">
+                <div class="friend-add-wrap">
+                    <label class="label-1">신청상태</label>
                     <table>
                         <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>이름</th>
-                            <th>이메일</th>
-                            <th>휴대폰번호</th>
-                            <th>닉네임</th>
-                            <th>친구요청</th>
-                        </tr>
                         </thead>
                         <tbody>
                         <tr th:each="item : ${selectfuser}">
-                            <td th:text="${item.iuser}"></td>
-                            <td th:text="${item.nm}"></td>
-                            <td th:text="${item.email}"></td>
-                            <td th:text="${item.cellphone}"></td>
-                            <td>
-                                <button>수락</button>
-                            </td>
+                            <td class="each-nm-1" th:text="${item.nm}"></td>
+                            <td class="each-email-1" th:text="|(${item.email})|"></td>
+                            <td class="each-cellphone-1" th:text="${item.cellphone}"></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
+                <div class="friend-push-wrap">
+                    <label class="label-1">수락요청</label>
+                    <table>
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${receiver}">
+                                <td class="each-nm-1" th:text="${item.nm}"></td>
+                                <td class="each-email-1" th:text="|(${item.email})|"></td>
+                                <td class="each-cellphone-1" th:text="${item.cellphone}"></td>
+                                <td>
+                                    <button th:data-fuser="${item.iuser}" id="accept-btn">친구수락</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="friend-modal">
+        <div class="modal_background"></div>
+        <div class="modal_wrap">
+            <div class="modal_close"></div>
+            <div for="nickname" class="nickname-wrap">
+                <label class="label-3">닉네임(별명)</label>
+                <div class="nickname-input-wrap" id="nickname-input-frm">
+                    <input type="text" id="nickname" placeholder="입력해주세요.">
+                </div>
+                <button id="nickname_bth">확인</button>
             </div>
         </div>
     </div>

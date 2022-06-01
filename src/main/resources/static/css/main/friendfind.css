@@ -6,6 +6,7 @@
 .input-container{
     display: flex;
     height: 50px;
+    padding-left: 7px;
 }
 .f-header{
     margin-top: auto;
@@ -32,7 +33,7 @@
 .find-input-header {
     width: 250px;
     height: 40px;
-    font-size: 15px;
+    font-suize: 15px;
     font-family: 'Noto Sans KR', sans-serif;
     border-radius: 5px; border-width: thin; border: 1px solid gray;
     margin-top: 5px;
@@ -55,6 +56,9 @@
     font-family: 'Noto Sans KR', sans-serif;
     border: 1px solid orange;
 }
+.label-1-1{
+    padding-left: 7px;
+}
 
 .label-1{
     font-family: 'Noto Sans KR', sans-serif;
@@ -66,21 +70,47 @@
     font-size: 12px;
 }
 .each-nm{
+    width: 70px;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
     text-align: right;
+    padding-left: 10px;
+}
+.each-nm-1{
+    width: 50px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    text-align: right;
+    padding-left: 10px;
 }
 
 .each-email{
+    width: 150px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    text-align: left;
+}
+.each-email-1{
+    width: 150px;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 13px;
     text-align: left;
 }
 
 .each-cellphone{
+    width: 100px;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 13px;
-    text-align: left;
+    text-align: center;
+}
+.each-cellphone-1{
+    width: 100px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    text-align: center;
+}
+.each-bth{
+    padding-left: 3px;
 }
 
 .table-container{
@@ -88,16 +118,122 @@
     height: 64%;
     border-radius: 5px; border-width: thin; border: 1px solid gray;
 }
+.table-container > table{
+    border-collapse: separate;
+    border-spacing: 0 7px;
+}
+
 
 #add-friend{
     background-color: orange;
     color: white;
-    width: 50px;
+    width: 80px;
     height: 30px;
+    font-size: 16px;
     border-radius: 7px;
     font-family: 'Noto Sans KR', sans-serif;
     border: 1px solid orange;
 }
+
+.modal_wrap{
+    display: none;
+    width: 300px;
+    height: 120px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    background: white;
+    padding: 10px;
+}
+
+.modal_background{
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.modal_close{
+    width: 20px;
+    height: 26px;
+    position: absolute;
+}
+
+.nickname-wrap{
+    display: flex;
+    flex-direction: column;
+}
+
+#nickname_bth{
+    width: 50%;
+    background-color: orange;
+    color: white;
+    height: 30px;
+    font-size: 16px;
+    border-radius: 7px;
+    font-family: 'Noto Sans KR', sans-serif;
+    border: 1px solid orange;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.nickname-input-wrap{
+    margin-top: 5px;
+    height: 30px;
+    font-family: 'Noto Sans KR', sans-serif;
+    border-radius: 5px; border-width: thin; border: 1px solid gray;
+}
+
+.label-3{
+    padding-top: 10px;
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+#nickname{
+    width: 250px;
+    height: 25px;
+    padding-left: 10px;
+    margin-top: 3px;
+    border: 0 solid black;
+    outline: none;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.friend-list-wrap{
+    width: 97%;
+    height: 65%;
+    padding-left: 7px;
+    border-radius: 5px; border-width: thin; border: 1px solid gray;
+}
+
+.friend-add-wrap{
+    padding-top: 10px;
+    width: 100%;
+    height: 45%;
+}
+.friend-push-wrap{
+    width: 100%;
+    height: 45%;
+    width: 100%;
+    height: 64%;
+}
+
+#accept-btn{
+    background-color: orange;
+    color: white;
+    height: 30px;
+    font-size: 16px;
+    border-radius: 7px;
+    font-family: 'Noto Sans KR', sans-serif;
+    border: 1px solid orange;
+}
+
 
 
 
