@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface PhotoImgRepository extends JpaRepository<PhotoImgEntity, Integer> {
     List<PhotoImgEntity> findAllByIphoto(int iphoto);
+    PhotoImgEntity findByIphoto(int iphoto);
 
     @Transactional
     void deleteAllByIphoto(int iphoto);
