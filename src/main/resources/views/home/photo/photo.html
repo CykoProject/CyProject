@@ -2,55 +2,88 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="home/index" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/home/photo.css}">
+    <script defer th:src="@{/js/home/commentObj.js}"></script>
     <script th:src="@{/js/home/photo.js}" defer></script>
     <title></title>
 </head>
 <body>
-    <th:block layout:fragment="content_right">
-        <div class="photo-container">
-            <div class="btn-cont" th:if="${#strings.equals(loginUserPk, param.iuser)}">
-                <div class="board-btn write-btn">
-                    <a th:href="@{/home/photo/write(iuser=${param.iuser})}">사진 등록</a>
-                </div>
+<th:block layout:fragment="content_right">
+    <div class="photo-container home-container">
+        <div class="btn-cont" th:if="${#strings.equals(loginUserPk, param.iuser)}">
+            <div class="board-btn write-btn">
+                <a th:href="@{/home/photo/write(iuser=${param.iuser})}">사진 등록</a>
             </div>
-            <div class="photo-detail">
-                <div th:each="item : ${list}">
-                    <div class="detail-cont">
-                        <div class="data-iphoto" th:data-iphoto="${item.iphoto}" hidden></div>
-                        <div class="title" th:text="${item.title}"></div>
-                        <div class="info">
-                            <div class="writer" th:text="${item.ihost.nm}"></div>
-                            <div class="stretch"></div>
-                            <div class="rdt" th:text="${item.rdt}"></div>
-                            <div>스크랩 <span th:text="${item.scrap}"></span></div>
+        </div>
+        <div class="photo-detail">
+            <div th:each="item : ${list}">
+                <div class="photo-data">
+                    <div id="data-iboard" th:data-iboard="${item.iphoto.iphoto}"></div>
+                    <div id="data-ihost" th:data-ihost="${item.iuser.iuser}"></div>
+                    <div>
+                        <div class="detail-cont">
+                            <div class="data-iphoto" th:data-iphoto="${item.iphoto.iphoto}" hidden></div>
+                            <div class="title"
+                                 th:text="${item.scrap} ? '[스크랩] ' + ${item.iphoto.title} : ${item.iphoto.title}"></div>
+                            <div class="info">
+                                <div class="writer" th:text="${item.iphoto.ihost.nm}"></div>
+                                <div class="stretch"></div>
+                                <div class="rdt" th:text="${item.iphoto.rdt}"></div>
+                                <div>스크랩 <span th:text="${item.iphoto.scrap}"></span></div>
+                            </div>
+                            <div class="content">
+                                <div class="imgCont"></div>
+                                <div th:text="${item.iphoto.ctnt}"></div>
+                            </div>
                         </div>
-                        <div class="content">
-                            <div class="imgCont"></div>
-                            <div th:text="${item.ctnt}"></div>
+                        <div class="btn-cont input-btn">
+                            <div th:if="${#strings.equals(loginUserPk, param.iuser)}">
+                                <label class="board-btn" th:if="${!item.scrap}">
+                                    <input class="mod-btn" type="button"
+                                           th:data-iphoto="${item.iphoto.iphoto}">수정</input>
+                                </label>
+                                <label class="board-btn">
+                                    <input class="del-btn" type="button"
+                                           th:data-iphoto="${item.iphoto.iphoto}">삭제</input>
+                                </label>
+                            </div>
+                            <div th:if="${isFriend == 1}">
+                                <label class="board-btn scrap">
+                                    <input class="scrap-btn" type="button" th:data-iphoto="${item.iphoto.iphoto}"
+                                           th:data-iuser="${loginUserPk}">스크랩</input>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                    <div class="btn-cont input-btn">
-                        <div th:if="${#strings.equals(loginUserPk, param.iuser)}">
-                            <label class="board-btn">
-                                <input class="mod-btn" type="button" th:data-iphoto="${item.iphoto}">수정</input>
-                            </label>
-                            <label class="board-btn">
-                                <input class="del-btn" type="button" th:data-iphoto="${item.iphoto}">삭제</input>
-                            </label>
-                        </div>
-                        <div th:if="${isFriend == 1}">
-                            <label class="board-btn">
-                                <input class="scrap-btn" type="button" th:data-iphoto="${item.iphoto}">스크랩</input>
-                            </label>
+                    <div class="comment-container">
+                        <div>
+                            <div class="input-cmt" sec:authorize="isAuthenticated()">
+                                <textarea name="ctnt" placeholder="댓글쓰기" class="ctnt"></textarea>
+
+                                <button class="ctnt-btn">댓글쓰기</button>
+                            </div>
+
+                            <div class="comment-cnt-wrap">
+                                <span class="comment-cnt"></span>
+                            </div>
+                            <div class="hidden-ctnt">
+                                <div>
+                                    <span class="comment-ctnt"></span>
+                                </div>
+                                <div class="pagination">
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </th:block>
+    </div>
+</th:block>
 </body>
 </html>

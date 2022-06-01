@@ -2,7 +2,6 @@ package com.example.CyProject.home;
 
 import com.example.CyProject.PageEntity;
 import com.example.CyProject.Utils;
-import com.example.CyProject.common.MyFileUtils;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.comment.CommentRepository;
 import com.example.CyProject.home.model.home.HomeEntity;
@@ -16,15 +15,14 @@ import com.example.CyProject.home.model.photo.PhotoImgEntity;
 import com.example.CyProject.home.model.photo.PhotoImgRepository;
 import com.example.CyProject.home.model.photo.PhotoRepository;
 import com.example.CyProject.home.model.jukebox.JukeBoxRepository;
+import com.example.CyProject.home.model.scrap.BoardListEntity;
+import com.example.CyProject.home.model.scrap.BoardListRepository;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.profile.ProfileEntity;
 import com.example.CyProject.home.model.profile.ProfileRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.user.model.UserEntity;
 
-import com.example.CyProject.home.model.visitor.VisitorEntity;
-import com.example.CyProject.home.model.visitor.VisitorPk;
-import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.home.model.visitor.VisitorService;
 
 import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
@@ -38,25 +36,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalInt;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.logging.SimpleFormatter;
 
 @Controller
 @RequiredArgsConstructor
@@ -80,6 +68,7 @@ public class HomeController {
     @Autowired private PhotoRepository photoRepository;
     @Autowired private MiniroomRepository miniroomRepository;
     @Autowired private PhotoImgRepository photoImgRepository;
+    @Autowired private BoardListRepository boardListRepository;
 
     @GetMapping
     public String home(HomeEntity entity, Model model) {
@@ -98,7 +87,8 @@ public class HomeController {
 
         UserEntity user = userRepository.findByIuser(entity.getIuser());
         List<PhotoEntity> news = photoRepository.findTop4ByIhostAndRdtBetweenOrderByRdtDesc(user, LocalDateTime.now().minusWeeks(1), LocalDateTime.now());
-        model.addAttribute("news", news);
+        List<BoardListEntity> news2 = boardListRepository.newPhotos(user, LocalDateTime.now().minusWeeks(1), LocalDateTime.now());
+        model.addAttribute("news", news2);
 
         if (miniroomRepository.countByIhostAndRepre(entity.getIuser(), true) > 0) {
             model.addAttribute("isRoom", 1);
@@ -110,8 +100,9 @@ public class HomeController {
         FriendsEntity friendsEntity = new FriendsEntity();
         friendsEntity.setIuser(entity.getIuser());
         friendsEntity.setFuser(userRepository.findByIuser(auth.getLoginUserPk()));
-
-        model.addAttribute("isFriend", homeService.selFriends(friendsEntity));
+        if (authenticationFacade.getLoginUserPk() != 0) {
+            model.addAttribute("isFriend", homeService.selFriends(friendsEntity));
+        }
 
         return "home/home";
     }
@@ -309,19 +300,32 @@ public class HomeController {
         return "redirect:/home/profile?iuser=" + entity.getIhost();
     }
 
+    @GetMapping("/profile/history")
+    public String profileHistory(@RequestParam int ihost, Model model) {
+        List<ProfileEntity> entity = profileRepository.findByIhostOrderByRdtDesc(ihost);
+        model.addAttribute("data", entity);
+        return "home/profile/history";
+    }
+
     @GetMapping("/photo")
     public String photo(HomeEntity entity, Model model) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
-        List<PhotoEntity> list = photoRepository.findByIhostOrderByRdtDesc(userRepository.findByIuser(entity.getIuser()));
+
+        List<BoardListEntity> scrapList = boardListRepository.findAllByIuserOrderByIphotoDesc(userRepository.findByIuser(entity.getIuser()));
+        model.addAttribute("list", scrapList);
+
+//        List<PhotoEntity> list = photoRepository.findByIhostOrderByRdtDesc(userRepository.findByIuser(entity.getIuser()));
+//        model.addAttribute("list", list);
 
         model.addAttribute("loginUserPk", loginUserPk);
-        model.addAttribute("list", list);
 
         FriendsEntity friendsEntity = new FriendsEntity();
         friendsEntity.setIuser(entity.getIuser());
         friendsEntity.setFuser(userRepository.findByIuser(auth.getLoginUserPk()));
 
-        model.addAttribute("isFriend", homeService.selFriends(friendsEntity));
+        if (authenticationFacade.getLoginUserPk() != 0) {
+            model.addAttribute("isFriend", homeService.selFriends(friendsEntity));
+        }
 
         return "home/photo/photo";
     }
@@ -367,6 +371,14 @@ public class HomeController {
             imgEntity.setIphoto(resultEntity.getIphoto());
 
             homeService.writePhoto(imgs, imgEntity);
+
+            PhotoEntity photoEntity = photoRepository.findByIphoto(entity.getIphoto());
+
+            BoardListEntity scrapEntity = new BoardListEntity();
+            scrapEntity.setIuser(entity.getIhost());
+            scrapEntity.setIphoto(photoEntity);
+            scrapEntity.setScrap(false);
+            boardListRepository.save(scrapEntity);
         }
 
         return "redirect:/home/photo?iuser=" + entity.getIhost().getIuser();
@@ -407,7 +419,6 @@ public class HomeController {
 
         return "redirect:/home/miniroom?iuser=" + entity.getIuser();
     }
-
 
 
 }

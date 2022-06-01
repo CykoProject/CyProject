@@ -22,8 +22,10 @@
                             <p>소식이 뜸한 친구에게 마음의 한마디를 남겨주세요.</p>
                         </div>
                         <div class="news-list" th:if="${!news.isEmpty()}">
-                            <div class="news-item" th:each="item : ${news}">
-                                <div th:text="${item.getTitle()}"></div>
+                            <div class="news-item" th:each="item, index : ${news}">
+                                <div th:if="${index.index} < 4">
+                                    <span>•</span><div th:text="${item.scrap} ? '[스크랩] ' + ${item.iphoto.title} : ${item.iphoto.title}"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

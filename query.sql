@@ -289,6 +289,32 @@ CREATE OR REPLACE table order_info(
                                       FOREIGN KEY (iuser) REFERENCES user(iuser)
 );
 
+-- 2022-05-31 테이블 추가 --
+CREATE OR REPLACE table `cyworld`.`board_list`
+(
+  iuser INT UNSIGNED NOT NULL,
+  iphoto BIGINT UNSIGNED NOT NULL,
+  scrap BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+
+/*
+
+    2022-05-31 수정 내용
+
+    - home_mini_room 테이블에 컬럼 수정
+    my_room -> myroom 이름 수정
+
+    - Item 테이블에 컬럼 수정
+    CHECK(itemcategory <= 5) 로 수정
+
+    - board_list 테이블 생성
+
+    - item_category 테이블에 데이터 추가
+    (5, ‘미니룸’) 데이터 추가
+
+
+ */
 
 
 /* item 테이블에 미니룸 상품 테스트 데이터로 쓰면 됩니다 */
