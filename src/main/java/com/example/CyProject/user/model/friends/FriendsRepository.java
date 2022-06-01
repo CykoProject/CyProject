@@ -25,5 +25,9 @@ public interface FriendsRepository extends JpaRepository<FriendsEntity, Integer>
     @Query("SELECT f FROM FriendsEntity f WHERE f.fuser.iuser = ?1 AND f.status = 0")
     List<FriendsEntity> selectfuserFriends(int iuser);
 
+    @Query("SELECT f FROM FriendsEntity f WHERE f.iuser = ?1 AND f.status = 0")
+    List<FriendsEntity> selecSenderList(int iuser);
 
+    @Query("SELECT f FROM FriendsEntity f WHERE f.iuser = ?1 AND f.fuser.iuser = ?2")
+    FriendsEntity hasFriendsByIuserAndFuser(int iuser, int fuser);
 }

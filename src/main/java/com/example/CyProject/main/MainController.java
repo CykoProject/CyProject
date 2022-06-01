@@ -1,5 +1,6 @@
 package com.example.CyProject.main;
 
+import com.example.CyProject.ResultVo;
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.home.model.visit.VisitRepository;
@@ -13,6 +14,7 @@ import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.friends.FriendsEntity;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import com.example.CyProject.user.model.friends.FriendsService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -102,19 +104,33 @@ public class MainController {
     @GetMapping("/friendfind")
     public String friendfind(Model model, @RequestParam(required = false) String search){
         if(search != null) {
-            List<UserEntity> findSearch = userRepository.findByEmailOrNmOrCellphoneContaining(search, search,search);
-            for(UserEntity item : findSearch) {
-                String cellPhone = item.getCellphone();
-                String regex = FriendsService.convertTelNo(cellPhone);
-                item.setCellphone(regex);
+            List<UserEntity> findSearch = userRepository.findByEmailOrNmOrCellphoneContaining(search, search ,search);
+
+            for(int i=0; i<findSearch.size(); i++) {
+                UserEntity item = findSearch.get(i);
+                if(item.getIuser() == authenticationFacade.getLoginUserPk()) {
+                    findSearch.remove(i);
+                    --i;
+                } else {
+                    String cellPhone = item.getCellphone();
+                    String regex = FriendsService.convertTelNo(cellPhone);
+                    item.setCellphone(regex);
+                }
             }
+
             model.addAttribute("select",findSearch);
         }
-        List<FriendsEntity> selectFuser = friendsRepository.selectfuserFriends(authenticationFacade.getLoginUserPk());
+        List<FriendsEntity> selectFuser = friendsRepository.selecSenderList(authenticationFacade.getLoginUserPk());
         List<UserEntity> senderData = new ArrayList<>();
         for(FriendsEntity item : selectFuser) {
             senderData.add(friendsService.getUserData(item.getIuser()));
         }
+        List<UserEntity> receiverData = new ArrayList<>();
+        List<FriendsEntity> receiverList = friendsRepository.selectfuserFriends(authenticationFacade.getLoginUserPk());
+        for(FriendsEntity item : receiverList) {
+            receiverData.add(friendsService.getUserData(item.getIuser()));
+        }
+        model.addAttribute("receiver", receiverData);
         model.addAttribute("selectfuser",senderData);
         System.out.println(selectFuser);
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
@@ -125,5 +141,31 @@ public class MainController {
     public String findselect(String search, int category) throws Exception{
         search = URLEncoder.encode(search, "UTF-8");
         return "redirect:/friendfind?search=" + search + "&category=" + category;
+    }
+
+    @ResponseBody
+    @GetMapping("/accept/friend")
+    public ResultVo acceptFriend(@RequestParam int receiver, @RequestParam String nickname) {
+        int iuser = authenticationFacade.getLoginUserPk();
+        ResultVo vo = new ResultVo();
+        vo.setResult(1);
+
+        FriendsEntity sendData =  friendsRepository.hasFriendsByIuserAndFuser(receiver, iuser);
+        sendData.setStatus(1);
+        friendsRepository.save(sendData);
+
+        if(friendsService.isFriend(iuser, receiver)) {
+            FriendsEntity receiverData = new FriendsEntity();
+            UserEntity user = new UserEntity();
+            user.setIuser(receiver);
+            receiverData.setStatus(1);
+            receiverData.setIuser(iuser);
+            receiverData.setFuser(user);
+            receiverData.setNickname(nickname);
+            System.out.println(receiverData);
+            friendsRepository.save(receiverData);
+        }
+
+        return vo;
     }
 }
