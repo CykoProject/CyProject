@@ -26,7 +26,7 @@
                     <div class="results-data">
                         <div class="userId" style="display: none" th:text="${data.getIuser()}"></div>
                         <div class="user-img">
-                            <img th:src="${data.img}"
+                            <img th:src="${data.getProfile_img()}"
                                  alt="">
                         </div>
                         <div class="user-name" th:text="${data.nm}"></div>
