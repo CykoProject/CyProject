@@ -9,7 +9,7 @@
     margin-bottom: 5px;
 }
 
-.join_main_page{ width: 700px; margin: auto; padding-left: 200px;}
+.join_main_page{ width: 700px; margin: auto; padding-left: 200px; min-height: 80vh;}
 
 .join_main_page div ul{ display: flex; flex-direction: column; }
 

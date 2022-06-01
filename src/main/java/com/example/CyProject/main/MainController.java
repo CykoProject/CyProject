@@ -3,10 +3,13 @@ package com.example.CyProject.main;
 import com.example.CyProject.ResultVo;
 import com.example.CyProject.Utils;
 import com.example.CyProject.config.AuthenticationFacade;
+import com.example.CyProject.home.model.photo.PhotoInterface;
+import com.example.CyProject.home.model.photo.PhotoRepository;
 import com.example.CyProject.home.model.visit.VisitRepository;
 import com.example.CyProject.home.model.visitor.VisitorRepository;
 import com.example.CyProject.home.model.visitor.VisitorService;
 import com.example.CyProject.main.model.CmtRepository;
+import com.example.CyProject.main.model.top.TopHelper;
 import com.example.CyProject.main.model.top.TopService;
 import com.example.CyProject.message.model.MessageRepository;
 import com.example.CyProject.user.model.UserEntity;
@@ -28,59 +31,74 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/")
 public class MainController {
 
-    @Autowired private AuthenticationFacade authenticationFacade;
-    @Autowired private MainService mainService;
-    @Autowired private MessageRepository messageRepository;
-    @Autowired private FriendsRepository friendsRepository;
-    @Autowired private FriendsService friendsService;
-    @Autowired private VisitorRepository visitorRepository;
-    @Autowired private VisitRepository visitRepository;
-    @Autowired private Utils utils;
-    @Autowired private CmtRepository cmtRepository;
-    @Autowired private UserRepository userRepository;
-    @Autowired private VisitorService visitorService;
-    @Autowired private TopService topService;
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
+    @Autowired
+    private MainService mainService;
+    @Autowired
+    private MessageRepository messageRepository;
+    @Autowired
+    private FriendsRepository friendsRepository;
+    @Autowired
+    private FriendsService friendsService;
+    @Autowired
+    private VisitorRepository visitorRepository;
+    @Autowired
+    private VisitRepository visitRepository;
+    @Autowired
+    private Utils utils;
+    @Autowired
+    private CmtRepository cmtRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private VisitorService visitorService;
+    @Autowired
+    private TopService topService;
+    @Autowired
+    private PhotoRepository photoRepository;
 
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String main(Model model, @RequestParam(required = false) String error, @PageableDefault(size=10) Pageable pageable) {
-        if(!"true".equals(error) || error == null) {
+    public String main(Model model, @RequestParam(required = false) String error, @PageableDefault(size = 10) Pageable pageable) {
+        if (!"true".equals(error) || error == null) {
             model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
             model.addAttribute("loginUser", authenticationFacade.getLoginUser());
         }
 
-        if(utils.findHomePk(authenticationFacade.getLoginUserPk()) != 0){
-            LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(0), LocalTime.of(0,0,0));
-            LocalDateTime endDate = LocalDateTime.of(LocalDate.now(),LocalTime.of(23,59,59));
-            model.addAttribute("visit",visitRepository.countByIhostAndRdtBetween(authenticationFacade.getLoginUserPk(),startDate,endDate));
+        if (utils.findHomePk(authenticationFacade.getLoginUserPk()) != 0) {
+            LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(0), LocalTime.of(0, 0, 0));
+            LocalDateTime endDate = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59));
+            model.addAttribute("visit", visitRepository.countByIhostAndRdtBetween(authenticationFacade.getLoginUserPk(), startDate, endDate));
         }
 
-
-        model.addAttribute("bestVisitor", topService.toListVisitorVo(visitorRepository.getBestVisitor()));
+        model.addAttribute("bestFriends", topService.toTopFiveList(friendsRepository.getBestFriends()));
+        model.addAttribute("bestVisitor", topService.toTopFiveList(visitorRepository.getBestVisitor()));
         model.addAttribute("cmt", cmtRepository.findAllByOrderByRdtDesc(pageable));
         model.addAttribute("visitor", visitorRepository.todayCount(utils.findHomePk(authenticationFacade.getLoginUserPk())));
         model.addAttribute("friend", friendsService.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("data", friendsRepository.selectFriendsList(authenticationFacade.getLoginUserPk()));
         model.addAttribute("msgCnt", messageRepository.beforeReadMsgCnt(authenticationFacade.getLoginUserPk()));
         model.addAttribute("userData", mainService.userRepository.findByIuser(authenticationFacade.getLoginUserPk()));
+        model.addAttribute("photoTop", mainService.photoTop());
+        model.addAttribute("diaryTop", mainService.diaryTop());
+        model.addAttribute("sumTop", mainService.sumTop());
 
         return "main/main";
     }
 
     @PostMapping("/profile")
-    public int profile(){
+    public int profile() {
         return 0;
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam int type, String search, Model model, @PageableDefault(size=5) Pageable pageable) {
+    public String search(@RequestParam int type, String search, Model model, @PageableDefault(size = 5) Pageable pageable) {
         if (type == 0) {
             model.addAttribute("searchProfile", mainService.search(search).getProfile());
             model.addAttribute("searchPhoto", mainService.search(search).getPhoto());
@@ -119,10 +137,11 @@ public class MainController {
             }
 
             model.addAttribute("select",findSearch);
+
         }
         List<FriendsEntity> selectFuser = friendsRepository.selecSenderList(authenticationFacade.getLoginUserPk());
         List<UserEntity> senderData = new ArrayList<>();
-        for(FriendsEntity item : selectFuser) {
+        for (FriendsEntity item : selectFuser) {
             senderData.add(friendsService.getUserData(item.getIuser()));
         }
         List<UserEntity> receiverData = new ArrayList<>();
@@ -132,10 +151,12 @@ public class MainController {
         }
         model.addAttribute("receiver", receiverData);
         model.addAttribute("selectfuser",senderData);
+
         System.out.println(selectFuser);
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         return "main/friendfind";
     }
+
 
     @PostMapping("/friendfind")
     public String findselect(String search, int category) throws Exception{
@@ -169,3 +190,6 @@ public class MainController {
         return vo;
     }
 }
+
+}
+

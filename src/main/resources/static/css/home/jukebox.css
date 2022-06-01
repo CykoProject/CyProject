@@ -34,3 +34,9 @@ th {
     margin-top: 10px;
     transition: all 0.2s;
 }
+
+.jukebox-wrap {
+    overflow-y: scroll;
+    min-height: 270px;
+    max-height: 270px;
+}

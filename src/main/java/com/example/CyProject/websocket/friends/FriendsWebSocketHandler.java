@@ -2,6 +2,7 @@ package com.example.CyProject.websocket.friends;
 
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.user.model.UserEntity;
+import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.friends.FriendsEntity;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import com.example.CyProject.user.model.friends.FriendsService;
@@ -19,6 +20,7 @@ public class FriendsWebSocketHandler extends TextWebSocketHandler {
 
     @Autowired private FriendsRepository friendsRepository;
     @Autowired private FriendsService friendsService;
+    @Autowired private UserRepository userRepository;
 
     private static List<WebSocketSession> list = new ArrayList<>();
     private static Map<String, Integer> mappingId = new HashMap<>();
@@ -32,6 +34,8 @@ public class FriendsWebSocketHandler extends TextWebSocketHandler {
             case "fopen" :
                 int loginUser = Integer.parseInt(strArr[1]);
                 mappingId.put(session.getId(), loginUser);
+
+
                 break;
 
             case "add" :

@@ -627,7 +627,7 @@ if(mainContainerElem) {
             })
 
     }
-
+callPageInfo(pagingNum);
     pagingCount();
 
     mainCmtBtn.addEventListener('click', () => {
