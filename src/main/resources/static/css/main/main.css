@@ -244,6 +244,16 @@ body {
     cursor: pointer;
 }
 
+.find-go-to{
+    width: 100%;
+    display: flex;
+    background-color: white;
+    border: 0;
+    outline: 0;
+    margin-bottom: 11px;
+    cursor: pointer;
+}
+
 .profile-info-bottom {
     display: flex;
     flex-direction: column;
@@ -674,17 +684,70 @@ body {
     align-items: center;
 }
 
-.top-visitor {
+.top-friend {
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
-    width: 180px;
+    width: 300px;
     height: 300px;
     border: solid 1px #b2b2b2;
     padding: 5px;
-    justify-content: space-between;
     margin-top: 10px;
     margin-bottom: 10px;
     align-items: center;
+}
+
+.right-container > h3 {
+    background-color: orange;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: medium;
+}
+
+.top-visitor {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 300px;
+    border: solid 1px #b2b2b2;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+.top-visitor-wrap{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+.top-visitor-img-wrap{
+    width: 80px;
+    height: 100px;
+    overflow: hidden;
+}
+.top-visitor-img {
+    width: 80px;
+    height: auto;
+    object-fit: cover;
+}
+.top-visitor-user-data {
+    text-align: left;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.go-home-visitor {
+    color: #00aaff;
+    font-weight: bold;
+}
+
+table {
+    border-collapse: collapse;
+    text-align: center;
 }
 
 .top-content {
@@ -703,11 +766,10 @@ body {
 .top-friend {
     display: flex;
     flex-direction: column;
-    width: 180px;
+    width: 300px;
     height: 300px;
     border: solid 1px #b2b2b2;
     padding: 5px;
-    justify-content: space-between;
     margin-top: 10px;
     margin-bottom: 10px;
     align-items: center;

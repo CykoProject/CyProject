@@ -20,8 +20,14 @@ if(visitElem) {
         });
 
         modalCancelBtn.addEventListener('click', () => {
+            const ctnt = document.querySelector('.my-note');
+            const ctntDiv = document.querySelector('.my-note-div');
+            ctnt.value = '';
+            ctntDiv.innerHTML = '';
             visitWriteElem.style.display = 'none';
+
         });
+
     }
 
     if(loginUserPk) {

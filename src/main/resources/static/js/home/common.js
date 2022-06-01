@@ -227,3 +227,32 @@ const makeElem = (data) => {
         `;
 
 }
+
+
+/* 프로필 history */
+const openUp = (iuser) => {
+    const popupWidth = 300;
+    const popupHeight = 400;
+    const popX = 20;
+    const popY = (window.screen.height / 2) - (popupHeight / 2) - 100;
+    const option = `width = ${popupWidth}px
+        , height = ${popupHeight}px
+        , left = ${popX}
+        , top = ${popY}
+        , scrollbars = no
+        `;
+
+    if(iuser > 0) {
+        popup = window.open(`/home/profile/history?ihost=${iuser}`, '', option);
+    } else {
+        location.href = '/user/login';
+    }
+}
+
+const historyBtn = document.querySelector('.history-btn');
+if (historyBtn) {
+    historyBtn.addEventListener('click', () => {
+        openUp(iuser);
+    });
+
+}

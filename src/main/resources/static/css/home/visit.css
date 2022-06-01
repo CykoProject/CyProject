@@ -87,6 +87,18 @@
     transform: translate(-50%, -50%);
     box-shadow: 10px 5px 5px black;
     border: 1px solid;
+    max-width: 456px;
+    max-height: 247px;
+}
+
+.modal-secret-wrap {
+    margin-bottom: 10px;
+}
+
+.select-minime {
+    width: 115px;
+    max-width: 115px;
+    min-width: 115px;
 }
 
 @font-face {

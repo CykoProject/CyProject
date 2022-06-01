@@ -56,3 +56,7 @@ html, body {
     padding: 100px;
     background: white;
 }
+
+.cur-pointer:hover {
+    cursor: pointer;
+}

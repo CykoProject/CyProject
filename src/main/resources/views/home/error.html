@@ -11,7 +11,7 @@
 <div class="background">
     <div class="box" th:if="${#strings.isEmpty(status)}">
         <div class="friend" th:if="${#strings.equals(err, '일촌공개 홈피입니다.')}">
-            <a class="friend-a">일촌신청</a>
+            <a class="friend-a cur-pointer">일촌신청</a>
         </div>
         <div class="img-box">
             <img th:src="@{/img/error.png}">

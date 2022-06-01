@@ -61,6 +61,16 @@ if (goFriendHome.length > 0) {
     });
 }
 
+const visitorGoHomeElemArr = document.querySelectorAll('.go-home-visitor');
+if(visitorGoHomeElemArr.length > 0) {
+    visitorGoHomeElemArr.forEach(item => {
+        item.addEventListener('click', (e) => {
+            const iuser = parseInt(e.target.closest('.top-visitor-user-data').dataset.iuser);
+            openUp(iuser);
+        });
+    });
+}
+
 // WebSocket with Stomp ==================================
 const loginUserElem = document.querySelector('#loginUserPk');
 if (loginUserElem) {
@@ -617,7 +627,7 @@ if(mainContainerElem) {
             })
 
     }
-
+callPageInfo(pagingNum);
     pagingCount();
 
     mainCmtBtn.addEventListener('click', () => {

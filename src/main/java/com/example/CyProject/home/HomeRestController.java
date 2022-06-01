@@ -21,6 +21,8 @@ import com.example.CyProject.home.model.photo.PhotoEntity;
 import com.example.CyProject.home.model.photo.PhotoImgEntity;
 import com.example.CyProject.home.model.photo.PhotoImgRepository;
 import com.example.CyProject.home.model.photo.PhotoRepository;
+import com.example.CyProject.home.model.scrap.BoardListEntity;
+import com.example.CyProject.home.model.scrap.BoardListRepository;
 import com.example.CyProject.home.model.visit.VisitDto;
 import com.example.CyProject.home.model.visit.VisitEntity;
 import com.example.CyProject.home.model.visit.VisitRepository;
@@ -28,28 +30,18 @@ import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryEnti
 import com.example.CyProject.shopping.model.history.purchase.PurchaseHistoryRepository;
 import com.example.CyProject.shopping.model.item.ItemCategory;
 import com.example.CyProject.user.model.UserEntity;
-import com.example.CyProject.user.model.UserEntity;
 import com.example.CyProject.user.model.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
-import javax.management.Query;
-import javax.persistence.EntityManager;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.Result;
-import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -70,6 +62,8 @@ public class HomeRestController {
     @Autowired private HomeMessageRepository homeMessageRepository;
     @Autowired private PhotoImgRepository photoImgRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private PhotoRepository photoRepository;
+    @Autowired private BoardListRepository boardListRepository;
 
     @GetMapping
     public HomeEntity home(HomeEntity entity) {
@@ -88,7 +82,6 @@ public class HomeRestController {
 
     @PutMapping("/nm/mod")
     public ResultVo modHomeNm(@RequestBody HomeEntity entity) {
-        // TODO : home 테이블 `home_nm` 추가
         ResultVo vo = new ResultVo();
         vo.setResult(0);
 
@@ -291,6 +284,52 @@ public class HomeRestController {
         return photoList;
     }
 
+    @DeleteMapping("/photo/del")
+    public ResultVo delPhoto(PhotoEntity entity) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(0);
+
+//        PhotoEntity delEntity = photoRepository.getById(entity.getIhost().getIuser());
+        UserEntity userEntity = userRepository.getById(entity.getIhost().getIuser());
+        PhotoEntity delEntity = photoRepository.getById(entity.getIphoto());
+
+        if (authenticationFacade.getLoginUserPk() == userEntity.getIuser()) {
+            boardListRepository.deleteByIphotoAndIuser(delEntity, entity.getIhost());
+
+            photoRepository.deleteById(entity.getIphoto());
+            photoImgRepository.deleteAllByIphoto(entity.getIphoto());
+
+            vo.setResult(1);
+        }
+
+        return vo;
+    }
+
+    @PostMapping("/photo/scrap")
+    public ResultVo scrapPhoto(@RequestParam int iuser, @RequestParam int iphoto) {
+        ResultVo vo = new ResultVo();
+        vo.setResult(0);
+
+        BoardListEntity entity = new BoardListEntity();
+        UserEntity user = userRepository.findByIuser(iuser);
+        PhotoEntity photo = photoRepository.findByIphoto(iphoto);
+
+        if (iuser == photo.getIhost().getIuser()) {
+            return vo;
+        }
+
+        entity.setIuser(user);
+        entity.setIphoto(photo);
+        entity.setScrap(true);
+
+        boardListRepository.save(entity);
+        photoRepository.plusScrap(iphoto);
+
+        vo.setResult(1);
+
+        return vo;
+    }
+
     @GetMapping("profile")
     public UserEntity getProfile(@RequestParam int iuser) {
         return userRepository.findByIuser(iuser);
@@ -304,8 +343,6 @@ public class HomeRestController {
 
     @PostMapping("/friendComment/write")
     public ResultVo writeFriendComment(@RequestBody HomeMessageEntity entity) {
-        // TODO : home_message 테이블 `rdt` 추가
-
         entity.setWriter(authenticationFacade.getLoginUserPk());
 
         System.out.println("success!! : " + entity);

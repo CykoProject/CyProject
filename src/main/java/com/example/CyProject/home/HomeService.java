@@ -64,8 +64,6 @@ public class HomeService {
         }
         profileRepository.save(entity);
 
-        // user 테이블에 프로필 추가
-        // TODO : user 테이블 수정
         Optional<UserEntity> userOptional = userRepository.findById(loginUser.getIuser());
 
         userOptional.ifPresent(user -> {
@@ -78,7 +76,6 @@ public class HomeService {
     }
 
 //    public int writePhoto(MultipartFile[] imgs, PhotoEntity entity) {
-//        // TODO : database photos, home_photos 테이블 수정
 //        if (imgs == null) {
 //            return 0;
 //        }
@@ -101,7 +98,6 @@ public class HomeService {
 //    }
 
     public int writePhoto(MultipartFile imgs, PhotoImgEntity imgEntity) {
-        // TODO : database photos, home_photos 테이블 수정
         if (imgs == null) {
             return 0;
         }
@@ -123,10 +119,10 @@ public class HomeService {
     }
 
     public boolean insPhoto(PhotoEntity entity) {
-        entity.setIhost(auth.getLoginUserPk());
+        entity.setIhost(userRepository.findByIuser(auth.getLoginUserPk()));
         PhotoEntity result = photoRepository.save(entity);
 
-        return result.getIhost() != 0;
+        return result.getIhost().getIuser() != 0;
     }
 
     public boolean insPhoto(PhotoEntity entity, List<MultipartFile> files) {

@@ -80,6 +80,26 @@
     margin-top: 0.2rem;
 }
 
+.home-container .board .update-list .news .news-list {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    padding: 0.3rem;
+}
+
+.home-container .board .update-list .news .news-list .news-item > div {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.2rem;
+    font-size: 0.8625rem;
+}
+
+.home-container .board .update-list .news .news-list .news-item span {
+    color: #54a2be;
+    font-weight: bold;
+    margin-right: 0.2rem;
+}
+
 .home-container .board .update-list .news .default-message {
     width: 100%;
     height: 100%;

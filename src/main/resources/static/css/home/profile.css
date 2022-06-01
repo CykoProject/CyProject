@@ -1,0 +1,54 @@
+/* profile history */
+.profile-history-container {
+    width: 100%;
+    padding: 1rem;
+}
+
+.profile-history-container h2 {
+    width: 100%;
+    color: #54a2be;
+    font-size: 0.8rem;
+    font-weight: 800;
+    line-height: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.profile-history-container h2::after {
+    content: "";
+    width: 100%;
+    border-bottom: 0.0625rem solid #dcdcdc;
+    display: block;
+}
+
+.profile-history-container > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.profile-history-container .profile-info {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    font-size: 0.8rem;
+}
+
+.profile-history-container .profile-info .stretch {
+    flex: 1;
+}
+
+.profile-history-container .profile-image,
+.profile-history-container .profile-image img {
+    width: 100%;
+}
+
+.profile-history-container .profile-content {
+    padding: 0.5rem 0;
+}
+
+.profile-history-container .profile-content span {
+    font-family: 'EliceDigitalBaeum';
+    font-size: 0.8rem;
+}

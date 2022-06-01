@@ -2,6 +2,7 @@ package com.example.CyProject.websocket.friends;
 
 import com.example.CyProject.config.AuthenticationFacade;
 import com.example.CyProject.user.model.UserEntity;
+import com.example.CyProject.user.model.UserRepository;
 import com.example.CyProject.user.model.friends.FriendsEntity;
 import com.example.CyProject.user.model.friends.FriendsRepository;
 import com.example.CyProject.user.model.friends.FriendsService;
@@ -19,6 +20,7 @@ public class FriendsWebSocketHandler extends TextWebSocketHandler {
 
     @Autowired private FriendsRepository friendsRepository;
     @Autowired private FriendsService friendsService;
+    @Autowired private UserRepository userRepository;
 
     private static List<WebSocketSession> list = new ArrayList<>();
     private static Map<String, Integer> mappingId = new HashMap<>();
@@ -32,22 +34,22 @@ public class FriendsWebSocketHandler extends TextWebSocketHandler {
             case "fopen" :
                 int loginUser = Integer.parseInt(strArr[1]);
                 mappingId.put(session.getId(), loginUser);
+
+
                 break;
 
             case "add" :
                 String[] userArr = strArr[1].split(",");
                 int sender = Integer.parseInt(userArr[0]);
                 int receiver = Integer.parseInt(userArr[1]);
-//                String nickname = userArr[2];
+                String nickname = userArr[2];
 
                 FriendsEntity entity = new FriendsEntity();
                 UserEntity userEntity = new UserEntity();
                 entity.setIuser(sender);
-
                 userEntity.setIuser(receiver);
                 entity.setFuser(userEntity);
-                
-                entity.setNickname("아무거나");
+                entity.setNickname(nickname);
 
                 if(friendsService.isFriend(sender, receiver)) {
                     friendsRepository.save(entity);

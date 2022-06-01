@@ -9,29 +9,29 @@
     margin-bottom: 0.5rem;
 }
 
-label {
+.photo-write-container label {
     padding: 0.3rem 0;
 }
 
-label:first-child {
+.photo-write-container label:first-child {
     border-top: 0.1rem solid #dcdcdc;
 }
 
-label:last-child {
+.photo-write-container label:last-child {
     border-bottom: 0.1rem solid #dcdcdc;
 }
 
-label.imgs {
+.photo-write-container label.imgs {
     padding: 0.3rem 0.5rem;
 }
 
-label input[name='title'] {
+.photo-write-container label input[name='title'] {
     width: 100%;
     border: 0.0625rem solid #848a84;
     padding: 0.1rem 0.5rem;
 }
 
-label input[type="file"] {
+.photo-write-container label input[type="file"] {
     position: absolute;
     width: 0;
     height: 0;
@@ -40,14 +40,14 @@ label input[type="file"] {
     border: 0;
 }
 
-label input.img-name {
+.photo-write-container label input.img-name {
     background-color: #fff;
     border: 0.0625rem solid #848a84;
     padding: 0.1rem;
     margin-left: 0.5rem;
 }
 
-label textarea {
+.photo-write-container label textarea {
     width: 100%;
     min-height: 15rem;
     resize: none;
@@ -86,13 +86,25 @@ label #editor {
 
 
 /* list */
+.photo-container.home-container {
+    overflow: inherit;
+    overflow-x: inherit;
+    height: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .photo-detail {
     width: 100%;
     height: 90%;
 }
 
+.photo-detail > div {
+    margin-bottom: 5rem;
+}
+
 .photo-detail .detail-cont {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .photo-detail .title {
@@ -131,4 +143,23 @@ label #editor {
     width: 100%;
     border: none;
     padding: 0.5rem 0 !important;
+}
+
+.photo-detail .imgCont img {
+    min-width: 100%;
+    max-width: 100%;
+}
+
+.photo-detail .btn-cont .board-btn {
+    width: 2rem;
+    background-color: #fff;
+    cursor: pointer;
+    font-family: 'DOSGothic';
+    font-size: 0.625rem;
+    text-align: center;
+    padding: 0.1rem;
+}
+
+.photo-detail .btn-cont .board-btn.scrap {
+    width: 2.5rem;
 }
