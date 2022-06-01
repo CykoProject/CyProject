@@ -55,8 +55,6 @@
 
 #### 기타 주요 라이브러리
 - Lombok
-- SummerNote
-- Chart.js
 
 <br>
 
@@ -66,6 +64,7 @@
 <br>
 
 ## 프로젝트 목적
+
 
 
 
