@@ -270,6 +270,7 @@ public class HomeController {
     // 주크박스 ============================================================================================================
     @GetMapping("/jukebox")
     public String jukeBox(@RequestParam(value = "iuser") int iuser, Model model) {
+
         model.addAttribute("folder", "jukebox");
         model.addAttribute("loginUserPk", authenticationFacade.getLoginUserPk());
         model.addAttribute("data", jukeBoxRepository.findAllByIhost(iuser));
