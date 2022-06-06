@@ -18,14 +18,17 @@
                 </div>
             </div>
             <div>
+                <h2>My Profile</h2>
+            </div>
+            <div>
                 <div>
                     <div class="profile-image">
                         <img th:src="@{'/pic/profile/' + ${user.iuser} +'/' + ${user.profile_img}}" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'">
                     </div>
                 </div>
                 <div>
-                    <div class="profile-content">
-                        <span th:text="${user.profile_ctnt}"></span>
+                    <div th:if="${not #strings.isEmpty(user.profile_ctnt)}" class="profile-content">
+                        <span th:utext="${user.profile_ctnt}"></span>
                     </div>
                 </div>
             </div>

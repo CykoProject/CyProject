@@ -279,7 +279,7 @@
                             <td>
                                 <div class="top-visitor-wrap">
                                     <div class="top-visitor-img-wrap">
-                                        <img class="top-visitor-img" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'" th:src="${item.img}">
+                                        <img class="top-visitor-img" onerror="this.onerror=null; this.src='/img/defaultProfileImg.jpeg'" th:src="@{/pic/profile/{iuser}/{img} (iuser=${item.iuser}, img=${item.img})}">
                                     </div>
                                     <div class="top-visitor-user-data" th:data-iuser="${item.iuser}">
                                         <p th:text="${item.nm}"></p>

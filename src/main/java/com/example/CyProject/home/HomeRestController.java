@@ -293,11 +293,16 @@ public class HomeRestController {
         UserEntity userEntity = userRepository.getById(entity.getIhost().getIuser());
         PhotoEntity delEntity = photoRepository.getById(entity.getIphoto());
 
-        if (authenticationFacade.getLoginUserPk() == userEntity.getIuser()) {
-            boardListRepository.deleteByIphotoAndIuser(delEntity, entity.getIhost());
+        if (authenticationFacade.getLoginUserPk() == entity.getIhost().getIuser()) {
+            BoardListEntity scrap = boardListRepository.findByIphotoAndIuser(delEntity, userEntity);
+            if (scrap.isScrap()) {
+                boardListRepository.deleteByIphotoAndIuser(delEntity, entity.getIhost());
+            } else {
+                boardListRepository.deleteByIphotoAndIuser(delEntity, entity.getIhost());
 
-            photoRepository.deleteById(entity.getIphoto());
-            photoImgRepository.deleteAllByIphoto(entity.getIphoto());
+                photoRepository.deleteById(entity.getIphoto());
+                photoImgRepository.deleteAllByIphoto(entity.getIphoto());
+            }
 
             vo.setResult(1);
         }
@@ -330,9 +335,11 @@ public class HomeRestController {
         return vo;
     }
 
-    @GetMapping("profile")
-    public UserEntity getProfile(@RequestParam int iuser) {
-        return userRepository.findByIuser(iuser);
+    @GetMapping("/profile")
+    public Map<String, Object> getProfile(@RequestParam int iuser) {
+        UserEntity list = userRepository.findByIuser(iuser);
+
+        return utils.makeStringNewLine(list);
     }
 
     @GetMapping("/friendComment")

@@ -223,6 +223,7 @@ public class CartApiController {
             if (item.getIcategory() == 5) {
                 MiniroomEntity miniroomEntity = new MiniroomEntity();
                 miniroomEntity.setIhost(authenticationFacade.getLoginUserPk());
+                miniroomEntity.setRepre(false);
                 miniroomEntity.setMyroom(item);
                 if (miniroomRepository.countByIhostAndMyroom(miniroomEntity.getIhost(), miniroomEntity.getMyroom()) == 0) {
                     miniroomRepository.save(miniroomEntity);

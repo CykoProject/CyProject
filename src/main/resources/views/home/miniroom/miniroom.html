@@ -20,10 +20,10 @@
                     <p th:if="${isRoom == 1}" th:text="${myRoom.myroom.nm}"></p>
                 </div>
                 <div th:if="${isRoom == 0}">
-                    <img th:src="@{/img/miniroom/miniroom_gray.jpg}">
+                    <img th:src="@{/img/miniroom_default.jpg}">
                 </div>
                 <div th:unless="${isRoom == 0}">
-                    <img th:src="@{${myRoom.myroom.file}}" onerror="this.onerror=null; this.src='/img/miniroom/miniroom_blue.jpg'">
+                    <img th:src="@{/pic/shopping/{img} (img=${myRoom.myroom.img})}" onerror="this.onerror=null; this.src='/img/miniroom_default.jpg'">
                 </div>
             </div>
             <div class="select-room" th:if="${#strings.equals(loginUserPk, param.iuser)}">
@@ -33,7 +33,7 @@
                     <div class="select-cont">
                         <div th:each="item : ${miniroomList}" class="room-cont">
                             <div>
-                                <img th:src="@{${item.myroom.file}}">
+                                <img th:src="@{/pic/shopping/{img} (img=${item.myroom.img})}">
                             </div>
                             <div th:text="${item.myroom.nm}"></div>
                             <label>

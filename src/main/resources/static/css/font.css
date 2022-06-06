@@ -1,10 +1,22 @@
 @import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
 @import url(//fonts.googleapis.com/earlyaccess/jejumyeongjo.css);
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
 
-.font-1 {
-    font-family: 'Jeju Hallasan', cursive;
-}
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gugi&family=Hi+Melody&family=Single+Day&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&family=Jua&family=Sunflower:wght@300;500;700&display=swap');
 
-.font-2 {
-    font-family: 'Jeju Myeongjo', serif;
-}
+.hallasan { font-family: 'Jeju Hallasan', cursive; }
+.myeongjo { font-family: 'Jeju Myeongjo', serif; }
+.hanna { font-family: 'Hanna', sans-serif; }
+.jeju-gothic { font-family: 'Jeju Gothic', sans-serif; }
+.han-sans { font-family: 'Black Han Sans', sans-serif; }
+
+
+.hi-melody { font-family: 'Hi Melody', cursive; }
+.gugi { font-family: 'Gugi', cursive; }
+.single-day { font-family: 'Single Day', cursive; }
+.sunflower { font-family: 'Sunflower', sans-serif; }
+.jua { font-family: 'Jua', sans-serif; }
+.dongle { font-family: 'Dongle', sans-serif; }
