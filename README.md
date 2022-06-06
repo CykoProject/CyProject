@@ -58,7 +58,7 @@
 <br>
 
 ## E-R 다이어그램
-![image](https://github.com/songbiz0/fitBook/blob/master/img/fitbook-1.png?raw=true)
+![cyworld](https://user-images.githubusercontent.com/83940731/172143415-733cb2e9-276f-4788-abb3-74c929d306f0.png)
 
 <br>
 
@@ -73,7 +73,6 @@
 하지만 서비스를 모바일 버전으로만 제공한다는 이야기를 듣고, 소위 말하는 '그 시절 싸이월드 감성'을 잃게 되는 것이 아쉬웠습니다.
 
 그래서 아쉬운 마음과 직접 보여주고 싶은 마음을 안고 이 프로젝트를 기획하게 되었습니다.
-
 
 ## 역할 분담
 
