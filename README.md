@@ -1,6 +1,8 @@
 # CyProject
 싸이월드 프로젝트
 
+[![Video Label](http://img.youtube.com/vi/9ghjtH_Q4n4/0.jpg)](https://youtu.be/9ghjtH_Q4n4)
+
 <br>
 
 # 목차
@@ -105,7 +107,7 @@ JPA 오픈 소스인 Hibernate를 사용했습니다. 객체 관계 매핑(ORM)�
 
 서유영 (403467@naver.com) : 마이페이지 담당. 회원 관리 기능, 포인트 충전 기능 등
 
-손주영 () : 메인 페이지 담당. 검색 기능, 실시간 순위, 상품 구매 기능 등
+손주영 (terranzz01@gmail.com) : 메인 페이지 담당. 검색 기능, 실시간 순위, 상품 구매 기능 등
 
 유언수 (yueonsu@gmail.com) : 미니홈피 담당. 에디터 구현 및 댓글 기능, 쪽지 기능 등
 
