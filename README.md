@@ -1,7 +1,8 @@
 # CyProject
 싸이월드 프로젝트
 
-[![Video Label](http://img.youtube.com/vi/9ghjtH_Q4n4/0.jpg)](https://youtu.be/9ghjtH_Q4n4)<
+[![Video Label](http://img.youtube.com/vi/9ghjtH_Q4n4/0.jpg)](https://youtu.be/9ghjtH_Q4n4)
+</br>
 <유튜브 영상>
 
 <br>
