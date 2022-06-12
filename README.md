@@ -64,8 +64,7 @@
 <br>
 
 ## E-R 다이어그램
-![cyworld](https://user-images.githubusercontent.com/83940731/172143415-733cb2e9-276f-4788-abb3-74c929d306f0.png)
-
+![cyworld](/img/erd.png)
 <br>
 
 ## 프로젝트 기획 이유
@@ -86,7 +85,7 @@
 ### JPA 활용
 JPA 오픈 소스인 Hibernate를 사용했습니다. 객체 관계 매핑(ORM)을 이용해 SQL에 의존적인 개발을 피하고 CRUD 작업, 유저 관리, 검색, 일촌평, 페이징, 장바구니 시스템 등을 구현하였습니다. 그리고 JavaScript를 이용해 AJAX 통신, 정규식, 포인트 충전 기능 등 웹페이지가 좀 더 유연하고 부드럽게 동작할 수 있도록 작업했습니다.
 
-<img width="49%" align="left" alt="main" src="https://user-images.githubusercontent.com/83940731/173243216-d02835e7-4ad7-4967-89db-cad4885cb47d.png"> <img width="49%" align="right" alt="minihome" src="https://user-images.githubusercontent.com/83940731/173243239-2378d573-2003-410f-89d0-7a8996258002.png">
+<img width="49%" alt="main" src="/img/main.png"> <img width="49%" align="right" alt="minihome" src="/img/minihome.png">
 [JPA를 활용한 메인 페이지, 미니홈피]
 
 <br>
