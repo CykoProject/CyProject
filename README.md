@@ -86,20 +86,35 @@
 ### JPA 활용
 JPA 오픈 소스인 Hibernate를 사용했습니다. 객체 관계 매핑(ORM)을 이용해 SQL에 의존적인 개발을 피하고 CRUD 작업, 유저 관리, 검색, 일촌평, 페이징, 장바구니 시스템 등을 구현하였습니다. 그리고 JavaScript를 이용해 AJAX 통신, 정규식, 포인트 충전 기능 등 웹페이지가 좀 더 유연하고 부드럽게 동작할 수 있도록 작업했습니다.
 
+<img width="49%" alt="main" src="https://user-images.githubusercontent.com/83940731/173243216-d02835e7-4ad7-4967-89db-cad4885cb47d.png"><img width="49%"  align="right" alt="minihome" src="https://user-images.githubusercontent.com/83940731/173243239-2378d573-2003-410f-89d0-7a8996258002.png">
+[JPA를 활용한 메인 페이지, 미니홈피]
+
 <br>
 
 ### API 활용
 아임포트(iamport) API를 이용해 도토리 충전 기능을 구현했습니다. 그리고 카카오 제공 API를 이용해 카카오페이 결제 기능을 작업하고 상품 구매 시스템을 구현했습니다. 또한 메인 페이지 구현에 필요한 데이터를 Jsoup 라이브러리를 사용해 크롤링하였는데, 이때 지도, 뉴스, 웹툰, 영화의 외부 API를 적극적으로 활용하였습니다.
 
+<img width="49%" alt="point" src="https://user-images.githubusercontent.com/83940731/173244284-b1abc463-7128-49eb-ab9d-5845975f4d4e.png"><img width="49%" align="right" alt="cart" src="https://user-images.githubusercontent.com/83940731/173243317-d1e76956-de5f-4d65-a71e-ec63bed3f330.png">
+[포인트 충전 및 장바구니 결제]
+
 <br>
 
 ### 웹소켓 활용
-로그인되어 있는 클라이언트의 일촌이 몇 명이나 온라인 되어 있는지, 쪽지가 오고 가는 것을 실시간으로 표시해주기 위해 기존 http 단방향통신보다 실시간으로 양방향통신을 하는 방식인 웹소켓이 잘 어울릴 것 같아 웹소켓을 활용했습니다. sessionId와 유저의 pk 값을 Map을 이용해 저장해두고 다른 유저가 로그인 했을 때 해당 유저와 기존에 저장되어 있던 pk들 중에 일촌으로 등록된 유저들에게 로그인 표시를 해주었고 같은 Map을 활용해서 쪽지 또한 보내는 상대의 sessionId와 매핑되어 있는 유저 pk를 활용해 해당 유저에게 쪽지를 전송, 수신하도록 작업했습니다.
+온라인 상태인 일촌을 나타내는 기능과 쪽지를 실시간으로 주고 받는 기능을 작업했습니다. 기존 http 단방향통신보다 실시간으로 양방향통신을 하는 웹소켓이 더 적합하다 생각하여 웹소켓 방식을 적용했습니다. 우선 sessionId와 유저 pk값을 Map으로 저장하였습니다. 다른 유저가 로그인했을 때, 해당 유저와 기존에 저장되어 있던 pk들 중 일촌으로 등록된 유저들에게 로그인 표시를 해주었습니다. 마찬가지로 쪽지를 보내는 상대의 sessionId와 매핑되어 있는 유저 pk를 활용해 해당 유저에게 쪽지를 전송, 수신하도록 작업했습니다.
+
+<img width="1792" alt="massage" src="https://user-images.githubusercontent.com/83940731/173244287-a233fb52-5aac-44a5-943d-0f84d2acb928.png">
+[웹소켓을 활용한 쪽지 기능]
+
+<br>
 
 <br>
 
 ### 스크랩 기능 구현
-한 사용자가 여러 게시글을 스크랩하고, 한 게시글이 여러 사용자로부터 스크랩되는 로직을 구현하기 위해 사용자(user)와 게시글(photo-board)의 M:N 관계 (다대다 관계)를 이용해 작업했습니다. 관계형 데이터베이스는 두 테이블 간에 직접적인 다대다 관계를 구현할 수 없습니다. 해당 문제를 해결하기 위해 연결 테이블(조인 테이블)을 추가해 일대다, 다대일 관계로 풀어냈습니다.
+한 사용자가 여러 게시글을 스크랩하고, 한 게시글이 여러 사용자로부터 스크랩되는 로직을 구현하기 위해 사용자(user)와 게시글(photo-board)의 M:N 관계 (다대다 관계)를 이용해 작업했습니다. 관계형 데이터베이스는 두 테이블 간에 직접적인 다대다 관계를 구현할 수 없습니다. 해당 문제를 해결하기 위해 연결 테이블(조인 테이블)을 추가해 일대다, 다대일 관계로 풀어냈습니다. 연결 테이블 안에 Id(pk)가 2개이기 때문에 Id 클래스를 추가로 생성한 후 Repository에 Id 자료형을 설정하여 작업했습니다.
+
+[Many To One을 활용한 연결 테이블 Entity](https://github.com/CykoProject/CyProject/blob/4ce999d34dc24f2d044f7c15f2f9d544699ad933/src/main/java/com/example/CyProject/home/model/scrap/BoardListEntity.java#L1-L31)
+
+[연결 테이블의 Id Class](https://github.com/CykoProject/CyProject/blob/4ce999d34dc24f2d044f7c15f2f9d544699ad933/src/main/java/com/example/CyProject/home/model/scrap/BoardListId.java#L1-L15)
 
 <br>
 
