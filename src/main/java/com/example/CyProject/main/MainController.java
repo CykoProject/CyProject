@@ -146,7 +146,8 @@ public class MainController {
         List<FriendsEntity> selectFuser = friendsRepository.selecSenderList(authenticationFacade.getLoginUserPk());
         List<UserEntity> senderData = new ArrayList<>();
         for(FriendsEntity item : selectFuser) {
-            senderData.add(friendsService.getUserData(item.getIuser()));
+            senderData.add(item.getFuser());
+            System.out.println(item.getFuser());
         }
 
         List<UserEntity> receiverData = new ArrayList<>();

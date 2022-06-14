@@ -68,7 +68,6 @@
                             <button class="find-go-to">
                                 <p>일촌 <div id="friend-cnt"></div>확인</p>
                             </button>
-
                         </div>
                     </div>
                 </div>
@@ -123,20 +122,18 @@
         </div>
 
         <div th:if="${loginUserPk > 0}" class="on-friends">
-            <div class="f-1"><h3>접속 중인 친구</h3></div>
+            <div class="f-1"><h3>친구목록</h3></div>
             <div style="overflow-y: scroll" class="t-s">
                 <table class="f-2">
                     <thead>
                     <tr>
                         <th class="t-n">이름</th>
-                        <th class="t-login">접속</th>
                         <th class="t-h">미니홈피</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="list : ${friend}">
                         <td th:text="${list.nm}"></td>
-                        <td th:text="'ㅇ'"></td>
                         <td><button class="profile-go-to-friend-home" th:data-iuser="${list.fuser}">바로가기</button></td>
                     </tr>
                     </tbody>
